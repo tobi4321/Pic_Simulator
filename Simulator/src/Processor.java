@@ -20,7 +20,8 @@ public class Processor extends Thread{
     			ctr.setCodeViewCounter(this.oldProgrammCounter, ctr.programmCounter);
     			this.oldProgrammCounter = ctr.programmCounter;
     			ctr.setTextActive(ctr.programmCounter);
-    			ctr.splitter(ctr.code[ctr.programmCounter]);
+    			//ctr.splitter(ctr.code[ctr.programmCounter]);
+    			ctr.executeCommand(ctr.hexCode[ctr.programmCounter]);
                 sleep(500);
                 if(ctr.programmCounter == ctr.lineCount-1) 
                 {

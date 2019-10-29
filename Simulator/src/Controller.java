@@ -12,16 +12,19 @@ public class Controller {
 	String[] numbers = new String[256];
 	String[] jumpers = new String[1024];
 	String[] lines;
+	String[] hexCode;
 	private int jumpersCount = 0;
 	int programmCounter;
 	String[] code;
 	int lineCount;
 	Processor proc;
+	protected Memory memory;
 	
 
 	public Controller(Simulator_Window pGui) 
 	{
 		this.gui = pGui;
+		memory = new Memory(this);
 	}
 	//initialice the memory table with the initiale tabledata
 	public void inizializeMemory() 
@@ -37,6 +40,10 @@ public class Controller {
 			tableData[i][0] = Integer.toHexString(i*8);
 			this.gui.tbl_memory.addRow(new Object[] {tableData[i][0],"0","0","0","0","0","0","0","0"});
 		}
+	}
+	protected void updateMemoryTable(String value,int x, int y) 
+	{
+		gui.table_Memory.setValueAt(value, x, y+1);
 	}
 	public void startSimu() {
 		System.out.println("Simulation started...");
@@ -114,12 +121,13 @@ public class Controller {
 	{
 		System.out.println("The Command is: "+Command+" with Params: "+param1+" AND "+ param2);
 		this.outputToConsole("The Command is: "+Command+" with Params: "+param1+" AND "+ param2);
-		if(Command.equals("mov")) 
+		if(Command.equals("MOVF")) 
 		{
 			int adress = Integer.decode(param1);
 			String[] p = param2.split(";");
 			this.gui.table_Memory.setValueAt(p[0], (adress/8), (adress%8)+1);
 			this.data[adress/8][adress%8] = Integer.parseInt(p[0]);
+			this.memory.set_SRAM(adress,Integer.parseInt(p[0]));
 		}
 	}
 	//perform Commands with one parameters
@@ -187,6 +195,7 @@ public class Controller {
 		{
 			lineCount = this.gui.txtrMovxe.getLineCount();
 			lines = this.gui.txtrMovxe.getText().split("\\n");
+			hexCode = new String[lineCount];
 			this.code = new String[this.lineCount];
 			for(int i = 0; i<this.lineCount ; i++) 
 			{
@@ -199,6 +208,7 @@ public class Controller {
 			{
 				//gui.tbl_code.addRow(this.fromMnemToHex(this.code[j], j));
 				Object[] val = this.fromMnemToHex(this.code[j], j);
+				hexCode[j] = (String) val[3];
 				gui.tbl_code.setValueAt(j, j, 0);
 				gui.tbl_code.setValueAt(val[1], j, 1);
 				gui.tbl_code.setValueAt(val[2], j, 2);
@@ -270,43 +280,16 @@ public class Controller {
 				hexCode = "000111";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;	// bin besteht nur aus 7 Bit obwohl die Register eine 8 Bit Adresse haben. Grund hierfür ist die Bank Adresierung erstes Bit wählt die Bank
 				break;
 			case "ANDWF":
 				hexCode = "000101";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;	// bin besteht nur aus 7 Bit obwohl die Register eine 8 Bit Adresse haben. Grund hierfür ist die Bank Adresierung erstes Bit wählt die Bank
 				break;
 			case "CLRF":
 				hexCode = "000001";
 				p = params[0].split(";");
 				bin = this.hexToBinary(p[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;	// bin besteht nur aus 7 Bit obwohl die Register eine 8 Bit Adresse haben. Grund hierfür ist die Bank Adresierung erstes Bit wählt die Bank
 				break;
 			case "CLRW":
 				hexCode = "00000100000000";
@@ -315,112 +298,40 @@ public class Controller {
 				hexCode = "001001";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;	// bin besteht nur aus 7 Bit obwohl die Register eine 8 Bit Adresse haben. Grund hierfür ist die Bank Adresierung erstes Bit wählt die Bank
 				break;
 			case "DECF":
 				hexCode = "000011";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;	// bin besteht nur aus 7 Bit obwohl die Register eine 8 Bit Adresse haben. Grund hierfür ist die Bank Adresierung erstes Bit wählt die Bank
 				break;
 			case "DECFSZ":
 				hexCode = "001011";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "INCF":
 				hexCode = "001010";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "INCFSZ":
 				hexCode = "001111";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "IORWF":
 				hexCode = "000100";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "MOVF":
 				hexCode = "001000";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "MOVWF":
 				hexCode = "0000001";
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "NOP":
 				hexCode = "00000000000000";
@@ -429,71 +340,26 @@ public class Controller {
 				hexCode = "001101";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "RRF":
 				hexCode = "001100";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "SUBWF":
 				hexCode = "000010";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "SWAPF":
 				hexCode = "001110";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "XORWF":
 				hexCode = "000110";
 				hexCode = hexCode + param2[0].replace(";", "");
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "BCF":
 				hexCode = "0100";
@@ -504,15 +370,6 @@ public class Controller {
 				}
 				hexCode = hexCode + b;
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "BSF":
 				hexCode = "0101";
@@ -523,15 +380,6 @@ public class Controller {
 				}
 				hexCode = hexCode + b;
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "BTFSC":
 				hexCode = "0110";
@@ -543,14 +391,6 @@ public class Controller {
 				hexCode = hexCode + b;
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
 				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "BTFSS":
 				hexCode = "0111";
@@ -561,42 +401,15 @@ public class Controller {
 				}
 				hexCode = hexCode + b;
 				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "ADDLW":
 				// Bit 7 ist X wird aber als 0 gewertet
 				hexCode = "111110";
 				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "ANDLW":
 				hexCode = "111001";
 				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "CALL":
 				hexCode = "100";
@@ -609,17 +422,6 @@ public class Controller {
 						bin = Integer.toBinaryString(Integer.parseInt(j[1]));
 					}
 				}
-				
-				System.out.println("Binary: "+bin);
-				if(bin.length() < 11) 
-				{
-					for(int i = bin.length(); i < 11; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				System.out.println("Binary: "+bin);
-				hexCode = hexCode + bin;
 				break;
 			case "CLRWDT":
 				hexCode = "00000001100100";
@@ -635,59 +437,21 @@ public class Controller {
 						bin = Integer.toBinaryString(Integer.parseInt(j[1]));
 					}
 				}
-				
-				System.out.println("Binary: "+bin);
-				if(bin.length() < 11) 
-				{
-					for(int i = bin.length(); i < 11; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				System.out.println("Binary: "+bin);
-				hexCode = hexCode + bin;
 				break;
 			case "IORLW":
 				hexCode = "111000";
 				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;
 				break;
 			case "MOVLW":
 				hexCode = "110000";
-				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;				
+				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));			
 				break;
 			case "RETFIE":
 				hexCode = "00000000001001";
 				break;
 			case "RETLW":
 				hexCode = "110100";
-				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;	
+				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));	
 				break;
 			case "RETURN":
 				hexCode = "00000000001000";
@@ -697,32 +461,24 @@ public class Controller {
 				break;
 			case "SUBLW":
 				hexCode = "111100";
-				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;	
+				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));	
 				break;
 			case "XORLW":
 				hexCode = "111010";
-				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				if(bin.length() < 7) 
-				{
-					for(int i = bin.length(); i < 7; i++) 
-					{
-						bin = "0"+bin;
-					}
-				}
-				hexCode = hexCode + bin;	
+				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));	
 				break;
 			default:
 				System.out.println("Error in Line "+line+" while assembling to Bin-Code");
+		}
+		hexCode = hexCode.replaceAll("\r", "");
+		if(hexCode.length() < 14) 
+		{
+			int count = 14 - hexCode.length() - bin.length();
+			for(int i = 0; i < count; i++) 
+			{
+				bin = "0"+bin;
+			}
+			hexCode = hexCode + bin;
 		}
 		
 		String[] value = new String[4];
@@ -747,107 +503,106 @@ public class Controller {
 			this.addwf(command.substring(6, 7),command.substring(7));
 		}else if(command.substring(0, 6).equals("000101")) 
 		{
-			// execute ANDWF
-			this.andwf(command.substring(6, 7),command.substring(7));
+			this.andwf(command.substring(6, 7),command.substring(7)); // execute ANDWF
 		}else if(command.substring(0, 7).equals("0000011")) 
 		{
-			// execute CLRF
+			this.clrf(command.substring(7)); // execute CLRF
 		}else if(command.substring(0, 7).equals("0000010")) 
 		{
-			// execute CLRW
+			this.clrw(); // execute CLRW
 		}else if(command.substring(0, 6).equals("001001")) 
 		{
-			// execute COMF
+			this.comf(command.substring(6, 7),command.substring(7)); // execute COMF
 		}else if(command.substring(0, 6).equals("000011")) 
 		{
-			// execute DECF
+			this.decf(); // execute DECF
 		}else if(command.substring(0, 6).equals("001011")) 
 		{
-			// execute DECFSZ
+			this.decfsz(); // execute DECFSZ
 		}else if(command.substring(0, 6).equals("001010")) 
 		{
-			// execute INCF
+			this.incf(); // execute INCF
 		}else if(command.substring(0, 6).equals("001111")) 
 		{
-			// execute INCFSZ
+			this.incfsz(); // execute INCFSZ
 		}else if(command.substring(0, 6).equals("000100")) 
 		{
-			// execute IORWF
+			this.iorwf(); // execute IORWF
 		}else if(command.substring(0, 6).equals("001000")) 
 		{
-			// execute MOVF
+			this.movf(command.substring(6, 7),command.substring(7)); // execute MOVF
 		}else if(command.substring(0, 7).equals("0000001")) 
 		{
-			// execute MOVWF
+			this.movwf(); // execute MOVWF
 		}else if(command.substring(0, 7).equals("00000000000000")) 
 		{
-			// execute NOP
+			this.nop(); // execute NOP
 		}else if(command.substring(0, 6).equals("001101")) 
 		{
-			// execute RLF
+			this.rlf(); // execute RLF
 		}else if(command.substring(0, 6).equals("001100")) 
 		{
-			// execute RRF
+			this.rrf(); // execute RRF
 		}else if(command.substring(0, 6).equals("000010")) 
 		{
-			// execute SUBWF
+			this.subwf(); // execute SUBWF
 		}else if(command.substring(0, 6).equals("001110")) 
 		{
-			// execute SWAPF
+			this.swapf(); // execute SWAPF
 		}else if(command.substring(0, 6).equals("000110")) 
 		{
-			// execute XORWF
+			this.xorwf(); // execute XORWF
 		}else if(command.substring(0, 4).equals("0100")) 
 		{
-			// execute BCF
+			this.bcf(); // execute BCF
 		}else if(command.substring(0, 4).equals("0101")) 
 		{
-			// execute BSF
+			this.bsf(); // execute BSF
 		}else if(command.substring(0, 4).equals("0110")) 
 		{
-			// execute BTFSC
+			this.btfsc(); // execute BTFSC
 		}else if(command.substring(0, 4).equals("0111")) 
 		{
-			// execute BTFSS
+			this.btfss(); // execute BTFSS
 		}else if(command.substring(0, 6).equals("111110")) 
 		{
-			// execute ADDLW
+			this.addlw(); // execute ADDLW
 		}else if(command.substring(0, 6).equals("111001")) 
 		{
-			// execute ANDLW
+			this.andlw(); // execute ANDLW
 		}else if(command.substring(0, 3).equals("100")) 
 		{
-			// execute CALL
+			this.call(); // execute CALL
 		}else if(command.equals("00000001100100")) 
 		{
-			// execute CLRWDT
+			this.clrwdt(); // execute CLRWDT
 		}else if(command.substring(0, 3).equals("101")) 
 		{
-			// execute GOTO
+			this._goto();// execute GOTO
 		}else if(command.substring(0, 6).equals("111000")) 
 		{
-			// execute IORLW
+			this.iorlw(); // execute IORLW
 		}else if(command.substring(0, 6).equals("110000")) 
 		{
-			// execute MOVLW
+			this.movlw(command.substring(6)); // execute MOVLW
 		}else if(command.equals("00000000001001")) 
 		{
-			// execute RETFIE
+			this.retfie(); // execute RETFIE
 		}else if(command.substring(0, 6).equals("110100")) 
 		{
-			// execute RETLW
+			this.retlw(); // execute RETLW
 		}else if(command.equals("00000000001000")) 
 		{
-			// execute RETURN
+			this._return(); // execute RETURN
 		}else if(command.equals("00000001100011")) 
 		{
-			// execute SLEEP
+			this.sleep(); // execute SLEEP
 		}else if(command.substring(0, 6).equals("111100")) 
 		{
-			// execute SUBLW
+			this.sublw(); // execute SUBLW
 		}else if(command.substring(0, 6).equals("111010")) 
 		{
-			// execute XORLW
+			this.xorlw(); // execute XORLW
 		}else {
 			System.out.println("There is no command for the inserted string: "+command);
 		}
@@ -863,7 +618,7 @@ public class Controller {
 	{
 		
 	}
-	private void clrf() 
+	private void clrf(String f) 
 	{
 		
 	}
@@ -871,7 +626,7 @@ public class Controller {
 	{
 		
 	}
-	private void comf() 
+	private void comf(String d, String f) 
 	{
 		
 	}
@@ -895,9 +650,17 @@ public class Controller {
 	{
 		
 	}
-	private void movf() 
+	private void movf(String d, String f) 
 	{
-		
+		if(d.equals("0"))
+		{
+			int f_in =this.memory.get_Memory(Integer.parseInt(f,2));
+			memory.set_WREGISTER(f_in);
+		}else if(d.equals("1")) 
+		{
+			int w_in = memory.get_WREGISTER();
+			memory.set_SRAM(Integer.parseInt(f,2), w_in);
+		}
 	}
 	private void movwf() 
 	{
@@ -972,9 +735,9 @@ public class Controller {
 	{
 		
 	}
-	private void movlw() 
+	private void movlw(String l) 
 	{
-		
+		memory.set_WREGISTER(Integer.parseInt(l, 2));
 	}
 	private void retfie() 
 	{
