@@ -22,7 +22,7 @@ public class Processor extends Thread{
     			ctr.setTextActive(ctr.programmCounter);
     			//ctr.splitter(ctr.code[ctr.programmCounter]);
     			ctr.executeCommand(ctr.hexCode[ctr.programmCounter]);
-                sleep(500);
+                sleep(1000);
                 if(ctr.programmCounter == ctr.lineCount-1) 
                 {
                 	stopThread();

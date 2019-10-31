@@ -126,9 +126,9 @@ public class Memory {
 		String c = "";
 		for(int i = 0; i < 8; i++) 
 		{
-			c = memory[fileaddress][i] + c;
+			c = c+ memory[fileaddress][i];
 		}
-		return Integer.parseInt(c);
+		return Integer.parseInt(c,2);
 	}
 	
 	// Getter and Setter for programmcounter
@@ -156,6 +156,8 @@ public class Memory {
 		{
 			w_register[i] = Integer.parseInt(""+c.charAt(i));
 		}
+		ctr.updateWRegTable(Integer.toHexString(this.get_WREGISTER()), 0, 1);
+		ctr.updateWRegTable(Integer.toBinaryString(this.get_WREGISTER()), 0, 2);
 	}
 	protected int get_WREGISTER(int bit) 
 	{

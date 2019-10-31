@@ -154,7 +154,7 @@ public class Simulator_Window {
 		txtrMovxe = new JTextArea();
 		panel_Mnemonic.add(txtrMovxe, BorderLayout.CENTER);
 		txtrMovxe.setFont(new Font("Monospaced", Font.PLAIN, 18));
-		txtrMovxe.setText("             MOVF 0x1e,0;\r\n             GOTO m2;\r\nm1:          ADDWF 0x3e,1;\r\nm2:          NOP;\r\n             BCF 0x1e,5;");
+		txtrMovxe.setText("             MOVLW 0x1f;\r\n             MOVF 0x1e,1;\r\n             MOVLW 0x05;\r\nm1:          ADDWF 0x1e,1;\r\nm2:          NOP;\r\n             GOTO m1;");
 		
 		Box verticalBox_4 = Box.createVerticalBox();
 		horizontalBox.add(verticalBox_4);

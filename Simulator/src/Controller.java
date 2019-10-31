@@ -45,6 +45,11 @@ public class Controller {
 	{
 		gui.table_Memory.setValueAt(value, x, y+1);
 	}
+	protected void updateWRegTable(String value, int x, int y) 
+	{
+		gui.table_special_regs.setValueAt(value, x, y);
+	}
+
 	public void startSimu() {
 		System.out.println("Simulation started...");
 		this.outputToConsole("Simulation started...");
@@ -470,7 +475,8 @@ public class Controller {
 			default:
 				System.out.println("Error in Line "+line+" while assembling to Bin-Code");
 		}
-		hexCode = hexCode.replaceAll("\r", "");
+		bin = bin.replaceAll("\\r", "");
+		hexCode = hexCode.replaceAll("\\r", "");
 		if(hexCode.length() < 14) 
 		{
 			int count = 14 - hexCode.length() - bin.length();
@@ -491,7 +497,7 @@ public class Controller {
 	}
 	// Converter from hex to bin string
 	public String hexToBinary(String hex) {
-	    int i = Integer.parseInt(hex, 16);
+	    int i = Integer.parseInt(hex.replaceAll("\r", ""), 16);
 	    String bin = Integer.toBinaryString(i);
 	    return bin;
 	}
@@ -515,73 +521,73 @@ public class Controller {
 			this.comf(command.substring(6, 7),command.substring(7)); // execute COMF
 		}else if(command.substring(0, 6).equals("000011")) 
 		{
-			this.decf(); // execute DECF
+			this.decf(command.substring(6, 7),command.substring(7)); // execute DECF
 		}else if(command.substring(0, 6).equals("001011")) 
 		{
-			this.decfsz(); // execute DECFSZ
+			this.decfsz(command.substring(6, 7),command.substring(7)); // execute DECFSZ
 		}else if(command.substring(0, 6).equals("001010")) 
 		{
-			this.incf(); // execute INCF
+			this.incf(command.substring(6, 7),command.substring(7)); // execute INCF
 		}else if(command.substring(0, 6).equals("001111")) 
 		{
-			this.incfsz(); // execute INCFSZ
+			this.incfsz(command.substring(6, 7),command.substring(7)); // execute INCFSZ
 		}else if(command.substring(0, 6).equals("000100")) 
 		{
-			this.iorwf(); // execute IORWF
+			this.iorwf(command.substring(6, 7),command.substring(7)); // execute IORWF
 		}else if(command.substring(0, 6).equals("001000")) 
 		{
 			this.movf(command.substring(6, 7),command.substring(7)); // execute MOVF
 		}else if(command.substring(0, 7).equals("0000001")) 
 		{
-			this.movwf(); // execute MOVWF
-		}else if(command.substring(0, 7).equals("00000000000000")) 
+			this.movwf(command.substring(7)); // execute MOVWF
+		}else if(command.equals("00000000000000")) 
 		{
 			this.nop(); // execute NOP
 		}else if(command.substring(0, 6).equals("001101")) 
 		{
-			this.rlf(); // execute RLF
+			this.rlf(command.substring(6, 7),command.substring(7)); // execute RLF
 		}else if(command.substring(0, 6).equals("001100")) 
 		{
-			this.rrf(); // execute RRF
+			this.rrf(command.substring(6, 7),command.substring(7)); // execute RRF
 		}else if(command.substring(0, 6).equals("000010")) 
 		{
-			this.subwf(); // execute SUBWF
+			this.subwf(command.substring(6, 7),command.substring(7)); // execute SUBWF
 		}else if(command.substring(0, 6).equals("001110")) 
 		{
-			this.swapf(); // execute SWAPF
+			this.swapf(command.substring(6, 7),command.substring(7)); // execute SWAPF
 		}else if(command.substring(0, 6).equals("000110")) 
 		{
-			this.xorwf(); // execute XORWF
+			this.xorwf(command.substring(6, 7),command.substring(7)); // execute XORWF
 		}else if(command.substring(0, 4).equals("0100")) 
 		{
-			this.bcf(); // execute BCF
+			this.bcf(command.substring(4, 7),command.substring(7)); // execute BCF
 		}else if(command.substring(0, 4).equals("0101")) 
 		{
-			this.bsf(); // execute BSF
+			this.bsf(command.substring(4, 7),command.substring(7)); // execute BSF
 		}else if(command.substring(0, 4).equals("0110")) 
 		{
-			this.btfsc(); // execute BTFSC
+			this.btfsc(command.substring(4, 7),command.substring(7)); // execute BTFSC
 		}else if(command.substring(0, 4).equals("0111")) 
 		{
-			this.btfss(); // execute BTFSS
+			this.btfss(command.substring(4, 7),command.substring(7)); // execute BTFSS
 		}else if(command.substring(0, 6).equals("111110")) 
 		{
-			this.addlw(); // execute ADDLW
+			this.addlw(command.substring(6)); // execute ADDLW
 		}else if(command.substring(0, 6).equals("111001")) 
 		{
-			this.andlw(); // execute ANDLW
+			this.andlw(command.substring(6)); // execute ANDLW
 		}else if(command.substring(0, 3).equals("100")) 
 		{
-			this.call(); // execute CALL
+			this.call(command.substring(3)); // execute CALL
 		}else if(command.equals("00000001100100")) 
 		{
 			this.clrwdt(); // execute CLRWDT
 		}else if(command.substring(0, 3).equals("101")) 
 		{
-			this._goto();// execute GOTO
+			this._goto(command.substring(3));// execute GOTO
 		}else if(command.substring(0, 6).equals("111000")) 
 		{
-			this.iorlw(); // execute IORLW
+			this.iorlw(command.substring(6)); // execute IORLW
 		}else if(command.substring(0, 6).equals("110000")) 
 		{
 			this.movlw(command.substring(6)); // execute MOVLW
@@ -590,7 +596,7 @@ public class Controller {
 			this.retfie(); // execute RETFIE
 		}else if(command.substring(0, 6).equals("110100")) 
 		{
-			this.retlw(); // execute RETLW
+			this.retlw(command.substring(6)); // execute RETLW
 		}else if(command.equals("00000000001000")) 
 		{
 			this._return(); // execute RETURN
@@ -599,10 +605,10 @@ public class Controller {
 			this.sleep(); // execute SLEEP
 		}else if(command.substring(0, 6).equals("111100")) 
 		{
-			this.sublw(); // execute SUBLW
+			this.sublw(command.substring(6)); // execute SUBLW
 		}else if(command.substring(0, 6).equals("111010")) 
 		{
-			this.xorlw(); // execute XORLW
+			this.xorlw(command.substring(6)); // execute XORLW
 		}else {
 			System.out.println("There is no command for the inserted string: "+command);
 		}
@@ -612,41 +618,73 @@ public class Controller {
 	//BYTE-ORIENTED FILE REGISTER OPERATIONS
 	private void addwf(String d,String f) 
 	{
-		
+		int w_in = memory.get_WREGISTER();
+		int f_in = memory.get_Memory(Integer.parseInt(f,2));
+		if(d.equals("0"))
+		{
+			memory.set_WREGISTER(f_in+w_in);
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f,2), w_in+f_in);
+		}
 	}
 	private void andwf(String d, String f) 
 	{
-		
+		int w_in = memory.get_WREGISTER();
+		int f_in = memory.get_Memory(Integer.parseInt(f,2));
+		String w_bin = Integer.toBinaryString(w_in);
+		String f_bin = Integer.toBinaryString(f_in);
+		String out = "";
+		for(int i = 0; i< 8 ;i++) 
+		{
+			if(w_bin.charAt(7-i) == f_bin.charAt(7-i)) 
+			{
+				if(w_bin.charAt(7-i) == '1') 
+				{
+					out = "1" + out;
+				}else { out = "0" + out;}
+			}else {
+				out = "0" + out;
+			}
+		}
+		if(d.equals("0"))
+		{
+			System.out.println("And "+w_in+" with "+f_in+" to "+out);
+			memory.set_WREGISTER(Integer.parseInt(out, 2));
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f,2), w_in+f_in);
+		}
 	}
 	private void clrf(String f) 
 	{
-		
+		memory.set_SRAM(Integer.parseInt(f, 2), 0);
 	}
 	private void clrw() 
 	{
-		
+		memory.set_WREGISTER(0);
 	}
 	private void comf(String d, String f) 
 	{
 		
 	}
-	private void decf() 
+	private void decf(String d, String f) 
 	{
 		
 	}
-	private void decfsz() 
+	private void decfsz(String d, String f) 
 	{
 		
 	}
-	private void incf() 
+	private void incf(String d, String f) 
 	{
 		
 	}
-	private void incfsz() 
+	private void incfsz(String d, String f) 
 	{
 		
 	}
-	private void iorwf() 
+	private void iorwf(String d, String f) 
 	{
 		
 	}
@@ -662,63 +700,63 @@ public class Controller {
 			memory.set_SRAM(Integer.parseInt(f,2), w_in);
 		}
 	}
-	private void movwf() 
+	private void movwf(String f) 
 	{
 		
 	}
 	private void nop() 
 	{
-		
+		// do nothing
 	}
-	private void rlf() 
+	private void rlf(String d, String f) 
 	{
 		
 	}
-	private void rrf() 
+	private void rrf(String d, String f) 
 	{
 		
 	}
-	private void subwf() 
+	private void subwf(String d, String f) 
 	{
 		
 	}
-	private void swapf() 
+	private void swapf(String d, String f) 
 	{
 		
 	}
-	private void xorwf() 
+	private void xorwf(String d, String f) 
 	{
 		
 	}
 	
 	//BIT-ORIENTED FILE REGISTER OPERATIONS
-	private void bcf() 
+	private void bcf(String b, String f) 
 	{
 		
 	}
-	private void bsf() 
+	private void bsf(String b, String f) 
 	{
 		
 	}
-	private void btfsc() 
+	private void btfsc(String b, String f) 
 	{
 		
 	}
-	private void btfss() 
+	private void btfss(String b, String f) 
 	{
 		
 	}
 	
 	//LITERAL AND CONTROL OPERATIONS
-	private void addlw() 
+	private void addlw(String k) 
 	{
 		
 	}
-	private void andlw() 
+	private void andlw(String k) 
 	{
 		
 	}
-	private void call() 
+	private void call(String k) 
 	{
 		
 	}
@@ -727,11 +765,11 @@ public class Controller {
 		
 	}
 	// Attention the function goto is a basic java function
-	private void _goto() 
+	private void _goto(String k) 
 	{
-		
+		this.programmCounter = Integer.parseInt(k, 2)-1;
 	}
-	private void iorlw() 
+	private void iorlw(String k) 
 	{
 		
 	}
@@ -743,7 +781,7 @@ public class Controller {
 	{
 		
 	}
-	private void retlw() 
+	private void retlw(String k) 
 	{
 		
 	}
@@ -756,11 +794,11 @@ public class Controller {
 	{
 		
 	}
-	private void sublw() 
+	private void sublw(String k) 
 	{
 		
 	}
-	private void xorlw() 
+	private void xorlw(String k) 
 	{
 		
 	}
