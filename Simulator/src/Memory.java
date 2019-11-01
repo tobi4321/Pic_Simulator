@@ -6,6 +6,7 @@ public class Memory {
 	protected int[][] memory = new int[256][8];
 	protected int programmcounter;
 	protected int[] w_register = new int[8];
+	protected int carry_flag;
 	
 	// set Methods for BANK 0 
 	
@@ -115,6 +116,15 @@ public class Memory {
 			memory[fileaddress][i] = Integer.parseInt(""+c.charAt(i));
 		}
 		ctr.updateMemoryTable(this.tohexValue(memory[fileaddress]), fileaddress/8, fileaddress%8);
+	}
+	
+	protected void set_CARRYFLAG(int c) 
+	{
+		this.carry_flag = c;
+	}
+	protected int get_CARRYFLAG() 
+	{
+		return this.carry_flag;
 	}
 	
 	protected int get_Memory(int fileaddress, int bit) 

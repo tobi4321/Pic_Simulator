@@ -649,11 +649,10 @@ public class Controller {
 		}
 		if(d.equals("0"))
 		{
-			System.out.println("And "+w_in+" with "+f_in+" to "+out);
 			memory.set_WREGISTER(Integer.parseInt(out, 2));
 		}else if(d.equals("1")) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2), w_in+f_in);
+			memory.set_SRAM(Integer.parseInt(f,2), Integer.parseInt(out, 2));
 		}
 	}
 	private void clrf(String f) 
@@ -666,27 +665,112 @@ public class Controller {
 	}
 	private void comf(String d, String f) 
 	{
-		
+		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		int out = 255 - in;
+		if(d.equals("0")) 
+		{
+			memory.set_WREGISTER(out);
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f, 2), out);
+		}
 	}
 	private void decf(String d, String f) 
 	{
-		
+		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		if(in == 0) 
+		{
+			in = 255;
+		}else {
+			in--;
+		}
+		if(d.equals("0")) 
+		{
+			memory.set_WREGISTER(in);
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f, 2), in);
+		}
 	}
 	private void decfsz(String d, String f) 
 	{
-		
+		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		if(in == 0) 
+		{
+			in = 255;
+		}else {
+			in--;
+			if(in == 0) 
+			{
+				this.programmCounter++;
+			}
+		}
+		if(d.equals("0")) 
+		{
+			memory.set_WREGISTER(in);
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f, 2), in);
+		}
 	}
 	private void incf(String d, String f) 
 	{
-		
+		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		if(in == 255) 
+		{
+			in = 0;
+		}else {
+			in++;
+		}
+		if(d.equals("0")) 
+		{
+			memory.set_WREGISTER(in);
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f, 2), in);
+		}
 	}
 	private void incfsz(String d, String f) 
 	{
-		
+		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		if(in == 255) 
+		{
+			in = 0;
+			this.programmCounter++;
+		}else {
+			in++;
+		}
+		if(d.equals("0")) 
+		{
+			memory.set_WREGISTER(in);
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f, 2), in);
+		}
 	}
 	private void iorwf(String d, String f) 
 	{
-		
+		int w_in = memory.get_WREGISTER();
+		int f_in = memory.get_Memory(Integer.parseInt(f,2));
+		String w_bin = Integer.toBinaryString(w_in);
+		String f_bin = Integer.toBinaryString(f_in);
+		String out = "";
+		for(int i = 0; i< 8 ;i++) 
+		{
+			if(w_bin.charAt(7-i) == '1' ||  f_bin.charAt(7-i) == '1') 
+			{
+					out = "1" + out;
+			}else {
+				out = "0" + out;
+			}
+		}
+		if(d.equals("0"))
+		{
+			memory.set_WREGISTER(Integer.parseInt(out, 2));
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f,2), Integer.parseInt(out, 2));
+		}
 	}
 	private void movf(String d, String f) 
 	{
@@ -702,7 +786,8 @@ public class Controller {
 	}
 	private void movwf(String f) 
 	{
-		
+		int in = memory.get_WREGISTER();
+		memory.set_SRAM(Integer.parseInt(f, 2), in);
 	}
 	private void nop() 
 	{
@@ -710,15 +795,82 @@ public class Controller {
 	}
 	private void rlf(String d, String f) 
 	{
-		
+		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		String f_in = Integer.toBinaryString(in);
+		int carry = memory.get_CARRYFLAG();
+		String carry_in = Integer.toBinaryString(carry);
+		String out = carry_in;
+		// refill the f_in string
+		if(f_in.length() < 8) 
+		{
+			for(int i = 0; i< f_in.length(); i++) 
+			{
+				f_in = "0" + f_in;
+			}
+		}
+		for(int i = 0; i<7; i++) 
+		{
+			if(f_in.charAt(7-i) == '1') 
+			{
+				out = "1" + out;
+			}else {
+				out = "0" + out;
+			}
+		}
+		if(f_in.charAt(0) == '0') 
+		{
+			memory.set_CARRYFLAG(0);
+		}else {
+			memory.set_CARRYFLAG(1);
+		}
+		if(d.equals("0")) 
+		{
+			memory.set_WREGISTER(Integer.parseInt(out, 2));
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f, 2), Integer.parseInt(out, 2));
+		}
 	}
 	private void rrf(String d, String f) 
 	{
-		
+		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		String f_in = Integer.toBinaryString(in);
+		int carry = memory.get_CARRYFLAG();
+		String carry_in = Integer.toBinaryString(carry);
+		String out = carry_in;
+		if(f_in.length() < 8) 
+		{
+			for(int i = 0; i< f_in.length(); i++) 
+			{
+				f_in = "0" + f_in;
+			}
+		}
+		for(int i = 0; i<7; i++) 
+		{
+			if(f_in.charAt(i) == '1') 
+			{
+				out =  out + "1" ;
+			}else {
+				out =  out + "0";
+			}
+		}
+		if(f_in.charAt(7) == '0') 
+		{
+			memory.set_CARRYFLAG(0);
+		}else {
+			memory.set_CARRYFLAG(1);
+		}
+		if(d.equals("0")) 
+		{
+			memory.set_WREGISTER(Integer.parseInt(out, 2));
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f, 2), Integer.parseInt(out, 2));
+		}
 	}
 	private void subwf(String d, String f) 
 	{
-		
+		// subtrahieren abklären, wie wird negativer wert auf dauer gespeichert
 	}
 	private void swapf(String d, String f) 
 	{
