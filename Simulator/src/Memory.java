@@ -1,3 +1,4 @@
+import java.util.Stack;
 
 public class Memory {
 	
@@ -7,6 +8,7 @@ public class Memory {
 	protected int programmcounter;
 	protected int[] w_register = new int[8];
 	protected int carry_flag;
+	protected Stack<Integer> stack = new Stack<Integer>();
 	
 	// set Methods for BANK 0 
 	
@@ -187,15 +189,20 @@ public class Memory {
 	private String tohexValue(int[] in) 
 	{
 		String out = "";
-		System.out.println("IN-ARRAY: "+in.toString());
 		for(int i = 0; i < in.length; i++) 
 		{
 			out = out + in[i];
-			System.out.println("OUT String: "+out);
 		}
 		int decimal = Integer.parseInt(out, 2);
 		String hexout = Integer.toString(decimal, 16);
 		return hexout;
 	}
-	
+	protected void pushToStack(int adr) 
+	{
+		this.stack.push(adr);
+	}
+	protected int popFromStack() 
+	{
+		return this.stack.pop();
+	}
 }

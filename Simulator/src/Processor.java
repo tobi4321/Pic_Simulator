@@ -14,23 +14,22 @@ public class Processor extends Thread{
     		try {
         	  ctr.start();
         	  //ctr.compileCode();
-    		for(ctr.programmCounter = 0; ctr.programmCounter < ctr.code.length; ctr.programmCounter++) 
+    		for(ctr.programmCounter = 0; ctr.programmCounter < ctr.codeLength; ctr.programmCounter++) 
     		{
-    			ctr.setSegment(ctr.programmCounter, 15-ctr.programmCounter, ctr.programmCounter, 13-ctr.programmCounter);
+    			//ctr.setSegment(ctr.programmCounter, 15-ctr.programmCounter, ctr.programmCounter, 13-ctr.programmCounter);
     			ctr.setCodeViewCounter(this.oldProgrammCounter, ctr.programmCounter);
     			this.oldProgrammCounter = ctr.programmCounter;
-    			ctr.setTextActive(ctr.programmCounter);
     			//ctr.splitter(ctr.code[ctr.programmCounter]);
     			ctr.executeCommand(ctr.hexCode[ctr.programmCounter]);
                 sleep(1000);
-                if(ctr.programmCounter == ctr.lineCount-1) 
+                if(ctr.programmCounter == ctr.codeLength-1) 
                 {
                 	stopThread();
                 }
     		}
 
     		}
-    		catch(InterruptedException | BadLocationException e) {
+    		catch(InterruptedException e) {
     		}
     	}
     	System.out.println("Thread stopped");

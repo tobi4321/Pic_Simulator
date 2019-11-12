@@ -1,4 +1,4 @@
-import java.io.File;
+import java.io.*;
 
 import javax.swing.table.TableColumn;
 import javax.swing.text.BadLocationException;
@@ -6,18 +6,19 @@ import javax.swing.text.BadLocationException;
 public class Controller {
 
 	private Simulator_Window gui;
-	static boolean isCompiled = false ;
-	int[][] data = new int[32][8];
-	String[][] tableData = new String[32][9];
-	String[] numbers = new String[256];
-	String[] jumpers = new String[1024];
-	String[] lines;
-	String[] hexCode;
+	protected boolean isCompiled = false ;
+	protected int[][] data = new int[32][8];
+	protected String[][] tableData = new String[32][9];
+	protected String[] numbers = new String[256];
+	protected String[] jumpers = new String[512];
+	protected String[] lines;
+	protected String[] hexCode;
 	private int jumpersCount = 0;
-	int programmCounter;
-	String[] code;
-	int lineCount;
-	Processor proc;
+	protected int programmCounter;
+	protected String[] code;
+	protected int codeLength = 0;
+	protected int lineCount;
+	protected Processor proc;
 	protected Memory memory;
 	
 
@@ -58,8 +59,8 @@ public class Controller {
 	}
 	public void start() 
 	{
-		lineCount = this.gui.txtrMovxe.getLineCount();
-		lines = this.gui.txtrMovxe.getText().split("\\n");
+		lineCount = this.gui.txtArea_mnemonic.getLineCount();
+		lines = this.gui.txtArea_mnemonic.getText().split("\\n");
 	}
 	public void stopSimu() {
 		System.out.println("Simulation stopped...");
@@ -69,41 +70,11 @@ public class Controller {
 	// highlighting the text where the programmcounter points to in Mnemonic Editor 
 	public void setTextActive(int row) throws BadLocationException 
 	{
-		this.gui.txtrMovxe.setSelectionEnd(0);
-		this.gui.txtrMovxe.requestFocus();
-		this.gui.txtrMovxe.select(this.gui.txtrMovxe.getLineStartOffset(row),this.gui.txtrMovxe.getLineEndOffset(row));
+		this.gui.txtArea_mnemonic.setSelectionEnd(0);
+		this.gui.txtArea_mnemonic.requestFocus();
+		this.gui.txtArea_mnemonic.select(this.gui.txtArea_mnemonic.getLineStartOffset(row),this.gui.txtArea_mnemonic.getLineEndOffset(row));
 	}
-	//splitting a commandline into the command and the parameters !! This function is only for Mnemonic Code !!
-	public void splitter(String commandLine) 
-	{
-		String[] parts = commandLine.split (" ");
 
-		for(int i = 0; i< parts.length;i++) {
-			if(parts[i].equals("")) 
-			{	// to skip the empty ones after splitting spaces 			
-			}else {
-				if((i+1) < parts.length) 
-				{	//commands with one parameter
-					parts[i+1].replaceAll("\\s+","");
-					String[] params = parts[i+1].split(",");
-					if(params.length >1) 
-					{ //commands with two parameters
-						String[] param2 = params[1].split(";", 1);
-						performCommand(parts[i],params[0],param2[0]);
-						i = parts.length;
-					}else {
-						performCommand(parts[i],params[0]);
-						i = parts.length;}
-					
-				}else { // commands without parameters
-					parts[i] = parts[i].replace(";", "");
-					parts[i] = parts[i].replace("\r", "");
-					performCommand(parts[i]);
-					i = parts.length;
-				}
-			}
-		}
-	}
 	//check if there are any jump marks in the code, adding to jumpers list and delete from code
 	public String[] searchJumperMarks(String[] pCode) 
 	{
@@ -117,66 +88,38 @@ public class Controller {
 				jumpersCount++;
 				System.out.println("JumperMark found: "+p[0]+" at Line "+i);
 				this.outputToConsole("JumperMark found: "+p[0]+" at Line "+i);
+				this.gui.tbl_code.setValueAt(p[0], i, 4);
 			}
 		}
 		return pCode;
 	}
-	//performing Commands with two parameters
-	private void performCommand(String Command, String param1, String param2) 
-	{
-		System.out.println("The Command is: "+Command+" with Params: "+param1+" AND "+ param2);
-		this.outputToConsole("The Command is: "+Command+" with Params: "+param1+" AND "+ param2);
-		if(Command.equals("MOVF")) 
-		{
-			int adress = Integer.decode(param1);
-			String[] p = param2.split(";");
-			this.gui.table_Memory.setValueAt(p[0], (adress/8), (adress%8)+1);
-			this.data[adress/8][adress%8] = Integer.parseInt(p[0]);
-			this.memory.set_SRAM(adress,Integer.parseInt(p[0]));
-		}
-	}
-	//perform Commands with one parameters
-	private void performCommand(String Command, String param1) 
-	{
-		System.out.println("The Command is: "+Command+" with Params: "+param1);
-		this.outputToConsole("The Command is: "+Command+" with Params: "+param1);
-		if(Command.equals("goto")) 
-		{	String[] p = param1.split(";");
-			for(int i = 0; i< jumpersCount; i++) 
-			{
-				String[] j = jumpers[i].split(":");
-				if(p[0].equals(j[0])) 
-				{
-					programmCounter = Integer.parseInt(j[1])-1;
-				}
-			}
-		}else if(Command.equals("inc") || Command.equals("dec")) {
-			String[] p = param1.split(";");
-			int adress = Integer.decode(p[0]);
-			int cell = this.data[adress/8][adress%8];
-			if(Command.equals("inc")) 
-			{
-				cell++;
-			}else if(Command.equals("dec")) 
-			{
-				if(cell == 0) 
-				{
-					cell =256;
-				}
-				cell--;
-			}			
-			if(cell == 256) {cell = 0;}
 
-			this.data[adress/8][adress%8] = cell;	
 
-			this.gui.table_Memory.setValueAt(Integer.toString(cell), (adress/8), (adress%8)+1);
-		}
+	protected String getIOPort_A() 
+	{
+		String port_a = "";
+		if(gui.rb_io_1.isSelected()) {port_a = "1"+port_a;}else {port_a = "0"+port_a;}
+		if(gui.rb_io_2.isSelected()){port_a = "1"+port_a;}else {port_a = "0"+port_a;}
+		if(gui.rb_io_3.isSelected()){port_a = "1"+port_a;}else {port_a = "0"+port_a;}
+		if(gui.rb_io_4.isSelected()){port_a = "1"+port_a;}else {port_a = "0"+port_a;}
+		if(gui.rb_io_5.isSelected()){port_a = "1"+port_a;}else {port_a = "0"+port_a;}
+		if(gui.rb_io_6.isSelected()){port_a = "1"+port_a;}else {port_a = "0"+port_a;}
+		if(gui.rb_io_7.isSelected()){port_a = "1"+port_a;}else {port_a = "0"+port_a;}
+		if(gui.rb_io_8.isSelected()){port_a = "1"+port_a;}else {port_a = "0"+port_a;}
+		return "";
 	}
-	//perfrom Commands without parameters
-	private void performCommand(String command) {
+	protected String getIOPort_B() 
+	{
+		return "";
+	}
+	protected void setIOPort_A() 
+	{
 		
 	}
-	
+	protected void setIOPort_B() 
+	{
+		
+	}
 	
 	public void outputToConsole(String in) 
 	{
@@ -186,26 +129,121 @@ public class Controller {
 	{
 		this.gui.setSegment(c1, c2, c3, c4);
 	}
-	public void loadFile(File pFile) 
+	
+	public void loadFile(File pFile) throws IOException 
 	{
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(pFile));
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String st; 
+    	String label = "";
+    	String codeLine = "";
+    	for(int i = 0; i<gui.tbl_code.getRowCount(); i++) 
+    	{
+        	gui.tbl_code.removeRow(i);  		
+    	}
 
+    	gui.txtArea_mnemonic.setText("");
+    	
+		while ((st = br.readLine()) != null) { 
+		    if(st.substring(0, 4).equals("    ")) 
+		    {
+		    	//Do nothing
+		    }else {
+		    	
+		    	String code = this.hexToBinary(st.substring(5, 9));
+		    	for(int i = code.length(); i<14; i++) 
+		    	{
+		    		code = "0" + code;
+		    	}
+		    	gui.tbl_code.addRow(new Object[] {st.substring(0, 4),"",st.substring(5, 9), code});
+		    	this.codeLength = Integer.parseInt(st.substring(0, 4),16); 
+		    }
+		    if(st.charAt(27) != ' ') 
+		    { // marke erkannt
+		    	int l_index = 27;
+		    	while(st.charAt(l_index) != ' ') 
+		    	{
+		    		label = label + st.charAt(l_index);
+		    		l_index++;
+		    	}
+		    }else {
+		    	if(st.length() > 36) 
+			    {
+				    if(st.charAt(36) != ' ') 
+				    {
+				    	int l_index = 36;
+				    	while(st.length() >= l_index+1) 
+				    	{
+					    	if((st.charAt(l_index) != '\n' || st.charAt(l_index) != ';' || st.charAt(l_index) != '\r' )) 
+					    	{
+					    		if(st.charAt(l_index) != ';') 
+						    	{
+							    	codeLine = codeLine + st.charAt(l_index);
+							    	if(st.length() >= l_index+1) 
+							    	{
+								    	l_index++;					    			
+							    	}
+						    	}else { l_index = st.length()+1;}
+					    	}
+				    	}
+				    	if(label.equals("")) 
+				    	{
+				    		gui.txtArea_mnemonic.setText(gui.txtArea_mnemonic.getText()+"              "+codeLine+"\n");
+				    		label = "";
+				    		codeLine = "";		
+				    	}else {
+				    		gui.txtArea_mnemonic.append("\n");
+				    		gui.txtArea_mnemonic.setText(gui.txtArea_mnemonic.getText()+label+":         "+codeLine+"\n");
+				    		label = "";
+				    		codeLine = "";			    		
+				    	}
+
+				    }
+			    }else {
+			    	if(label.equals("end")) 
+			    	{
+			    		gui.txtArea_mnemonic.setText(gui.txtArea_mnemonic.getText()+label);
+			    		label = "";
+			    	}
+			    }
+		    }
+		    
+
+		}
+		this.setColumnWidth();
+		hexCode = new String[codeLength];
+		for(int i = 0; i< codeLength; i++) 
+		{
+			hexCode[i] = (String) gui.tbl_code.getValueAt(i, 3);
+		}
 	}
+
 	public void setCodeViewCounter(int oldC, int newC) 
 	{
 		this.gui.tbl_code.setValueAt(" ", oldC, 1);
 		this.gui.tbl_code.setValueAt("->", newC, 1);
 	}
 	public void compileCode() {
-		if(!Controller.isCompiled) 
+		if(!this.isCompiled) 
 		{
-			lineCount = this.gui.txtrMovxe.getLineCount();
-			lines = this.gui.txtrMovxe.getText().split("\\n");
+			lineCount = this.gui.txtArea_mnemonic.getLineCount();
+			lines = this.gui.txtArea_mnemonic.getText().split("\\n");
 			hexCode = new String[lineCount];
 			this.code = new String[this.lineCount];
 			for(int i = 0; i<this.lineCount ; i++) 
 			{
 				this.code[i] = this.lines[i];
-				gui.tbl_code.addRow(new Object[] {"","","",""});
+				if(i >= gui.tbl_code.getRowCount()) 
+				{
+					gui.tbl_code.addRow(new Object[] {"","","",""});
+				}
+				
 			}
 			this.setColumnWidth();
 			this.code = this.searchJumperMarks(this.code);
@@ -220,7 +258,7 @@ public class Controller {
 				gui.tbl_code.setValueAt(val[3], j, 3);
 				gui.table_Code.setModel(gui.tbl_code);
 			}
-			Controller.isCompiled = true;
+			this.isCompiled = true;
 		}else {System.out.println("Mnemonic-Code is already compiled...");}
 	}
 	public void setColumnWidth() 
@@ -870,51 +908,132 @@ public class Controller {
 	}
 	private void subwf(String d, String f) 
 	{
-		// subtrahieren abklären, wie wird negativer wert auf dauer gespeichert
+		int w_in = memory.get_WREGISTER();
+		int f_in = memory.get_Memory(Integer.parseInt(f, 2));
+		
+		int erg;
+		if(w_in > f_in) 
+		{
+			erg = 255 - (w_in-f_in);
+		}else {
+			erg = f_in - w_in;
+		}
+		
+		if(d.equals("0"))
+		{
+			memory.set_WREGISTER(erg);
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f,2), erg);
+		}
 	}
 	private void swapf(String d, String f) 
 	{
-		
+		int f_in = memory.get_Memory(Integer.parseInt(f,2));
+		String in = Integer.toBinaryString(f_in);
+		for(int i = in.length(); i< 8; i++) 
+		{
+			in = "0"+in;
+		}
+		String erg = in.substring(4, 8) + in.substring(0, 4);
+		if(d.equals("0"))
+		{
+			memory.set_WREGISTER(Integer.parseInt(erg, 2));
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f,2),Integer.parseInt(erg, 2) );
+		}
 	}
 	private void xorwf(String d, String f) 
 	{
-		
+		int w_in = memory.get_WREGISTER();
+		int f_in = memory.get_Memory(Integer.parseInt(f,2));
+		String w_bin = Integer.toBinaryString(w_in);
+		String f_bin = Integer.toBinaryString(f_in);
+		String out = "";
+		for(int i = 0; i< 8 ;i++) 
+		{
+			if(w_bin.charAt(7-i) == '1' || '1' ==  f_bin.charAt(7-i)) 
+			{
+				if(w_bin.charAt(7-i)  ==  f_bin.charAt(7-i)) 
+				{
+					out = "0" + out;
+				}else { out = "1" + out;}
+			}else {
+				out = "0" + out;
+			}
+		}
+		if(d.equals("0"))
+		{
+			memory.set_WREGISTER(Integer.parseInt(out, 2));
+		}else if(d.equals("1")) 
+		{
+			memory.set_SRAM(Integer.parseInt(f,2), Integer.parseInt(out, 2));
+		}
 	}
 	
 	//BIT-ORIENTED FILE REGISTER OPERATIONS
 	private void bcf(String b, String f) 
 	{
-		
+		memory.set_SRAM(Integer.parseInt(f, 2), Integer.parseInt(b, 2), 0);
 	}
 	private void bsf(String b, String f) 
 	{
-		
+		memory.set_SRAM(Integer.parseInt(f, 2), Integer.parseInt(b, 2), 0);
 	}
 	private void btfsc(String b, String f) 
 	{
-		
+		int in = memory.get_Memory(Integer.parseInt(f, 2), Integer.parseInt(b, 2));
+		if(in == 0) 
+		{
+			
+		}else {
+			this.programmCounter++;
+		}
 	}
 	private void btfss(String b, String f) 
 	{
-		
+		int in = memory.get_Memory(Integer.parseInt(f, 2), Integer.parseInt(b, 2));
+		if(in == 1) 
+		{
+			
+		}else {
+			this.programmCounter++;
+		}
 	}
 	
 	//LITERAL AND CONTROL OPERATIONS
 	private void addlw(String k) 
 	{
-		
+		memory.set_WREGISTER(Integer.parseInt(k, 2));
 	}
 	private void andlw(String k) 
-	{
-		
+	{    // eventuell k string mit nullen auffüllen
+		int w_in = memory.get_WREGISTER();
+		String w_bin = Integer.toBinaryString(w_in);
+		String out = "";
+		for(int i = 0; i< 8 ;i++) 
+		{
+			if(w_bin.charAt(7-i) == k.charAt(7-i)) 
+			{
+				if(w_bin.charAt(7-i) == '1') 
+				{
+					out = "1" + out;
+				}else { out = "0" + out;}
+			}else {
+				out = "0" + out;
+			}
+		}
+		memory.set_WREGISTER(Integer.parseInt(out, 2));
 	}
 	private void call(String k) 
 	{
-		
+		memory.pushToStack(this.programmCounter+1);
+		this.programmCounter = Integer.parseInt(k, 2);
 	}
 	private void clrwdt() 
 	{
-		
+		// keine ahnung was hier zu tun ist
 	}
 	// Attention the function goto is a basic java function
 	private void _goto(String k) 
@@ -922,8 +1041,22 @@ public class Controller {
 		this.programmCounter = Integer.parseInt(k, 2)-1;
 	}
 	private void iorlw(String k) 
-	{
-		
+	{   // eventuell hier mit nullen auffüllen 
+		int w_in = memory.get_WREGISTER();
+		int k_in = Integer.parseInt(k,2);
+		String w_bin = Integer.toBinaryString(w_in);
+		String k_bin = Integer.toBinaryString(k_in);
+		String out = "";
+		for(int i = 0; i< 8 ;i++) 
+		{
+			if(w_bin.charAt(7-i) == '1' ||  k_bin.charAt(7-i) == '1') 
+			{
+					out = "1" + out;
+			}else {
+				out = "0" + out;
+			}
+		}
+		memory.set_WREGISTER(Integer.parseInt(out, 2));
 	}
 	private void movlw(String l) 
 	{
@@ -931,27 +1064,54 @@ public class Controller {
 	}
 	private void retfie() 
 	{
-		
+		// keine ahnung was hier gemacht werden muss
 	}
 	private void retlw(String k) 
 	{
-		
+		memory.set_WREGISTER(Integer.parseInt(k, 2));
+		this.programmCounter = memory.popFromStack();
 	}
 	// Attention the function return is a basic java function
 	private void _return() 
 	{
-		
+		this.programmCounter = memory.popFromStack();
 	}
 	private void sleep() 
 	{
-		
+		// keine ahnung was hier gemacht werden muss
 	}
 	private void sublw(String k) 
-	{
-		
+	{  // flags müssen bei überlauf noch gesetzt werden
+		int w_in = memory.get_WREGISTER();
+		int k_in = Integer.parseInt(k, 2);		
+		int erg;
+		if(w_in > k_in) 
+		{
+			erg = 255 - (w_in-k_in);
+		}else {
+			erg = k_in - w_in;
+		}
+		memory.set_WREGISTER(erg);
 	}
 	private void xorlw(String k) 
-	{
-		
+	{   // eventuell hier noch nullen auffüllen
+		int w_in = memory.get_WREGISTER();
+		int k_in = Integer.parseInt(k,2);
+		String w_bin = Integer.toBinaryString(w_in);
+		String k_bin = Integer.toBinaryString(k_in);
+		String out = "";
+		for(int i = 0; i< 8 ;i++) 
+		{
+			if(w_bin.charAt(7-i) == '1' || '1' ==  k_bin.charAt(7-i)) 
+			{
+				if(w_bin.charAt(7-i)  ==  k_bin.charAt(7-i)) 
+				{
+					out = "0" + out;
+				}else { out = "1" + out;}
+			}else {
+				out = "0" + out;
+			}
+		}
+		memory.set_WREGISTER(Integer.parseInt(out, 2));
 	}
 }

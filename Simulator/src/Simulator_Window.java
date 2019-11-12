@@ -18,6 +18,7 @@ import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JPanel;
@@ -30,6 +31,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.SwingConstants;
@@ -44,18 +47,28 @@ public class Simulator_Window {
 
 	private JFrame frmMicrocontrollerSimulator;
 	private Controller ctr;
-    public JTextArea txtrMovxe;
-	public TableModel dataModel;
-	public MyPanel panel_4;
-	public JTable table_Code;
-	public DefaultTableModel tbl_code;
-	public DefaultTableModel tbl_memory;
-	public DefaultTableModel tbl_special;
-	public DefaultTableModel tbl_status;
-	public DefaultTableModel tbl_pcl;
-	public JTable table_Memory;
-	public JTable table_special_regs;
-	public JTextArea txtArea_Console;
+    protected JTextArea txtArea_mnemonic;
+	protected TableModel dataModel;
+	protected MyPanel panel_4;
+	protected JTable table_Code;
+	protected DefaultTableModel tbl_code;
+	protected DefaultTableModel tbl_memory;
+	protected DefaultTableModel tbl_special;
+	protected DefaultTableModel tbl_status;
+	protected DefaultTableModel tbl_pcl;
+	protected JTable table_Memory;
+	protected JTable table_special_regs;
+	protected JTextArea txtArea_Console;
+	
+	// radio buttons for the IO Panels
+	protected JRadioButton rb_io_1;
+	protected JRadioButton rb_io_2;
+	protected JRadioButton rb_io_3;
+	protected JRadioButton rb_io_4;
+	protected JRadioButton rb_io_5;
+	protected JRadioButton rb_io_6;
+	protected JRadioButton rb_io_7;
+	protected JRadioButton rb_io_8;
 	
 	/**
 	 * Launch the application.
@@ -151,10 +164,32 @@ public class Simulator_Window {
 		panel_Mnemonic.add(lblMnemonicEditor, BorderLayout.NORTH);
 		lblMnemonicEditor.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
-		txtrMovxe = new JTextArea();
-		panel_Mnemonic.add(txtrMovxe, BorderLayout.CENTER);
-		txtrMovxe.setFont(new Font("Monospaced", Font.PLAIN, 18));
-		txtrMovxe.setText("             MOVLW 0x1f;\r\n             MOVF 0x1e,1;\r\n             MOVLW 0x05;\r\nm1:          ADDWF 0x1e,1;\r\nm2:          NOP;\r\n             GOTO m1;");
+		txtArea_mnemonic = new JTextArea();
+		JScrollPane scrollPane_mnemonic = new JScrollPane(txtArea_mnemonic); 
+		panel_Mnemonic.add(scrollPane_mnemonic, BorderLayout.CENTER);
+		txtArea_mnemonic.setFont(new Font("Monospaced", Font.PLAIN, 18));
+		txtArea_mnemonic.setText("             MOVLW 0x1f;\r\n             MOVF 0x1e,1;\r\n             MOVLW 0x05;\r\nm1:          ADDWF 0x1e,1;\r\nm2:          NOP;\r\n             GOTO m1;");
+		txtArea_mnemonic.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				ctr.isCompiled = false;
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				ctr.isCompiled = false;
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				ctr.isCompiled = false;
+			}
+			
+		});
 		
 		Box verticalBox_4 = Box.createVerticalBox();
 		horizontalBox.add(verticalBox_4);
@@ -221,46 +256,46 @@ public class Simulator_Window {
 		lblAnalogOut.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_AnalogOut.add(lblAnalogOut);
 		
-		JRadioButton radioButton0 = new JRadioButton("");
-		radioButton0.setEnabled(false);
-		radioButton0.setForeground(Color.RED);
-		panel_AnalogOut.add(radioButton0);
+		rb_io_1 = new JRadioButton("");
+		rb_io_1.setEnabled(false);
+		rb_io_1.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_1);
 		
-		JRadioButton radioButton1 = new JRadioButton("");
-		radioButton1.setEnabled(false);
-		radioButton1.setForeground(Color.RED);
-		panel_AnalogOut.add(radioButton1);
+		rb_io_2 = new JRadioButton("");
+		rb_io_2.setEnabled(false);
+		rb_io_2.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_2);
 		
-		JRadioButton radioButton2 = new JRadioButton("");
-		radioButton2.setEnabled(false);
-		radioButton2.setForeground(Color.RED);
-		panel_AnalogOut.add(radioButton2);
+		rb_io_3 = new JRadioButton("");
+		rb_io_3.setEnabled(false);
+		rb_io_3.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_3);
 		
-		JRadioButton radioButton3 = new JRadioButton("");
-		radioButton3.setEnabled(false);
-		radioButton3.setForeground(Color.RED);
-		panel_AnalogOut.add(radioButton3);
+		rb_io_4 = new JRadioButton("");
+		rb_io_4.setEnabled(false);
+		rb_io_4.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_4);
 		
-		JRadioButton radioButton4 = new JRadioButton("");
-		radioButton4.setEnabled(false);
-		radioButton4.setForeground(Color.RED);
-		panel_AnalogOut.add(radioButton4);
+		rb_io_5 = new JRadioButton("");
+		rb_io_5.setEnabled(false);
+		rb_io_5.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_5);
 		
-		JRadioButton radioButton5 = new JRadioButton("");
-		radioButton5.setEnabled(false);
-		radioButton5.setForeground(Color.RED);
-		panel_AnalogOut.add(radioButton5);
+		rb_io_6 = new JRadioButton("");
+		rb_io_6.setEnabled(false);
+		rb_io_6.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_6);
 		
-		JRadioButton radioButton6 = new JRadioButton("");
-		radioButton6.setEnabled(false);
-		radioButton6.setForeground(Color.RED);
-		panel_AnalogOut.add(radioButton6);
+		rb_io_7 = new JRadioButton("");
+		rb_io_7.setEnabled(false);
+		rb_io_7.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_7);
 		
-		JRadioButton radioButton7 = new JRadioButton("");
-		radioButton7.setSelected(true);
-		radioButton7.setEnabled(false);
-		radioButton7.setForeground(Color.RED);
-		panel_AnalogOut.add(radioButton7);
+		rb_io_8 = new JRadioButton("");
+		rb_io_8.setSelected(true);
+		rb_io_8.setEnabled(false);
+		rb_io_8.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_8);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Port 1", "Port 2", "Port 3", "Port 4"}));
@@ -484,7 +519,12 @@ public class Simulator_Window {
 				int returnVal = fc.showOpenDialog(btnLoadFile);
 				 if (returnVal == JFileChooser.APPROVE_OPTION) {
 			            File file = fc.getSelectedFile();
-			            ctr.loadFile(file);
+			            try {
+							ctr.loadFile(file);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 			            //This is where a real application would open the file.
 			            System.out.println("Opening: " + file.getName());
 			        } else {
