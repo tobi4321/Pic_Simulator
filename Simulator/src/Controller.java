@@ -11,14 +11,19 @@ public class Controller {
 	protected String[][] tableData = new String[32][9];
 	protected String[] numbers = new String[256];
 	protected String[] jumpers = new String[512];
+	protected String[] equ = new String[256];
 	protected String[] lines;
 	protected String[] hexCode;
 	private int jumpersCount = 0;
+	private int equCount = 0;
 	protected int programmCounter;
 	protected String[] code;
 	protected int codeLength = 0;
 	protected int lineCount;
+	
+	// Processor object used to work each code step
 	protected Processor proc;
+	// memory object used to store the data of microprocessor
 	protected Memory memory;
 	
 
@@ -88,13 +93,58 @@ public class Controller {
 				jumpersCount++;
 				System.out.println("JumperMark found: "+p[0]+" at Line "+i);
 				this.outputToConsole("JumperMark found: "+p[0]+" at Line "+i);
-				this.gui.tbl_code.setValueAt(p[0], i, 4);
+				//this.gui.tbl_code.setValueAt(p[0], i, 4);
 			}
 		}
 		return pCode;
 	}
+	public String[] searchEQUMarks(String[] pCode) {
+		for(int i = 0; i<pCode.length; i++) 
+		{
+			if(pCode[i].contains("EQU")) 
+			{
+				String beforeToken ="";
+				String afterToken ="";
+				String[] token;
+				token = pCode[i].split(" ");
 
-
+				if(token.length > 2) 
+				{
+					for(int j = 0; j< token.length; j++) 
+					{
+						if(token[j].equals("EQU")) 
+						{  // eventuell ist es hier nötig den abstand zwischen wörtern zum token zu zählen
+							beforeToken = token[j-1];
+							afterToken = token[j+1];
+							equ[this.equCount] = beforeToken+":"+afterToken;
+							pCode[i] = "";
+							this.equCount++;
+							System.out.println("EQU found in Line "+i+" ("+pCode[i]+")");
+						}
+					}
+				}else {
+					System.out.println("No valid EQU: "+pCode[i]);
+				}
+			}
+		}
+		return pCode;
+	}
+	public String getEQUValue(String equName) 
+	{
+		String out = "";
+		for(int i = 0; i<this.equCount; i++) {
+			String[] j = equ[i].split(":");
+			if(j[0].equals(equName)) 
+			{
+				out = j[1];
+			}
+		}
+		if(out.equals("")) 
+		{
+			out = equName;
+		}
+		return out;
+	}
 	protected String getIOPort_A() 
 	{
 		String port_a = "";
@@ -203,7 +253,6 @@ public class Controller {
 				    		label = "";
 				    		codeLine = "";			    		
 				    	}
-
 				    }
 			    }else {
 			    	if(label.equals("end")) 
@@ -213,8 +262,6 @@ public class Controller {
 			    	}
 			    }
 		    }
-		    
-
 		}
 		this.setColumnWidth();
 		hexCode = new String[codeLength];
@@ -232,21 +279,40 @@ public class Controller {
 	public void compileCode() {
 		if(!this.isCompiled) 
 		{
+			//Mnemonic Code aus der TextArea kopieren
 			lineCount = this.gui.txtArea_mnemonic.getLineCount();
 			lines = this.gui.txtArea_mnemonic.getText().split("\\n");
-			hexCode = new String[lineCount];
+			// LineCount reduzieren falls eine leere Zeile vorhanden ist
+			for(int i = 0; i < this.lines.length; i++) {
+				if(this.lines[i].equals("")) 
+				{
+					lineCount--;
+				}
+			}
+			//erstellen eines Speichers der nur die anzahl an validen lines beinhaltet
 			this.code = new String[this.lineCount];
-			for(int i = 0; i<this.lineCount ; i++) 
+			int blankCount=0;
+			for(int i = 0; i< this.lines.length; i++) 
 			{
-				this.code[i] = this.lines[i];
+				if(this.lines[i].equals("")) 
+				{
+					blankCount++;
+				}else {this.code[i-blankCount] = lines[i];}
+			}
+			// suche nach jumper labels und ersetzen durch code ohne label
+			this.code = this.searchJumperMarks(this.code);
+			// suche nach variablen marken , speichern der wertpaare und entfernen der zeilen
+			this.code = this.searchEQUMarks(this.code);
+			hexCode = new String[lineCount];
+			for(int i = 0; i<this.lineCount; i++) 
+			{
 				if(i >= gui.tbl_code.getRowCount()) 
 				{
 					gui.tbl_code.addRow(new Object[] {"","","",""});
 				}
-				
 			}
 			this.setColumnWidth();
-			this.code = this.searchJumperMarks(this.code);
+
 			for(int j = 0; j <this.code.length;j++) 
 			{
 				//gui.tbl_code.addRow(this.fromMnemToHex(this.code[j], j));
@@ -267,7 +333,7 @@ public class Controller {
 		for (int i = 0; i < 3; i++) {
 		    column = gui.table_Code.getColumnModel().getColumn(i);
 		    if (i < 2 ) {
-		        column.setPreferredWidth(2); //third column is bigger
+		        column.setPreferredWidth(3); //third column is bigger
 		        column.setResizable(false);
 		    } else {
 		        column.setPreferredWidth(100);
@@ -279,6 +345,21 @@ public class Controller {
 		gui.tbl_code.setColumnIdentifiers(new Object[] {" "," ","Code", "Adress","Labels"});
 		gui.tbl_memory.setColumnIdentifiers(new Object[] {"","00","01","02","03","04","05","06","07"});
 		gui.tbl_special.setColumnIdentifiers(new  Object[]{"Register", "Hex-Wert", "Bin-Wert"});
+	}
+	//This method contains a the first parameter from Mnemonic Command and exchange the hex or equ value
+	private String setBinaryForToHex(String in) 
+	{
+		
+		if(in.contains("0x")) 
+		{
+			return this.hexToBinary(in.replaceAll("0x", ""));					
+		}else if(in.contains("h")){
+			return this.hexToBinary(in.replaceAll("h", ""));
+		}else if(in.contains("H")) {
+			return this.hexToBinary(in.replaceAll("H", ""));
+		}else {
+			return this.hexToBinary(in);
+		}
 	}
 	public Object[] fromMnemToHex(String c,int line)
 	{	
@@ -322,17 +403,17 @@ public class Controller {
 			case "ADDWF":
 				hexCode = "000111";
 				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "ANDWF":
 				hexCode = "000101";
 				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "CLRF":
 				hexCode = "000001";
 				p = params[0].split(";");
-				bin = this.hexToBinary(p[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "CLRW":
 				hexCode = "00000100000000";
@@ -340,41 +421,41 @@ public class Controller {
 			case "COMF":
 				hexCode = "001001";
 				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "DECF":
 				hexCode = "000011";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				//hexCode = hexCode + param2[0].replace(";", "");
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "DECFSZ":
 				hexCode = "001011";
 				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "INCF":
 				hexCode = "001010";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				//hexCode = hexCode + param2[0].replace(";", "");
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "INCFSZ":
 				hexCode = "001111";
 				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "IORWF":
 				hexCode = "000100";
 				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "MOVF":
 				hexCode = "001000";
 				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "MOVWF":
 				hexCode = "0000001";
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "NOP":
 				hexCode = "00000000000000";
@@ -382,77 +463,77 @@ public class Controller {
 			case "RLF":
 				hexCode = "001101";
 				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "RRF":
 				hexCode = "001100";
 				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "SUBWF":
 				hexCode = "000010";
 				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "SWAPF":
 				hexCode = "001110";
 				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "XORWF":
 				hexCode = "000110";
 				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "BCF":
 				hexCode = "0100";
-				b = Integer.toBinaryString(Integer.parseInt(param2[0].replace(";", "")));
+				b = Integer.toBinaryString(Integer.parseInt(this.getEQUValue(param2[0].replace(";", ""))));
 				for(int i = b.length(); i < 3;i++) 
 				{
 					b = "0" + b;
 				}
 				hexCode = hexCode + b;
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "BSF":
 				hexCode = "0101";
-				b = Integer.toBinaryString(Integer.parseInt(param2[0].replace(";", "")));
+				b = Integer.toBinaryString(Integer.parseInt(this.getEQUValue(param2[0].replace(";", ""))));
 				for(int i = b.length(); i < 3;i++) 
 				{
 					b = "0" + b;
 				}
 				hexCode = hexCode + b;
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0]));
 				break;
 			case "BTFSC":
 				hexCode = "0110";
-				b = Integer.toBinaryString(Integer.parseInt(param2[0].replace(";", "")));
+				b = Integer.toBinaryString(Integer.parseInt(this.getEQUValue(param2[0].replace(";", "").replaceAll(" ", ""))));
 				for(int i = b.length(); i < 3;i++) 
 				{
 					b = "0" + b;
 				}
 				hexCode = hexCode + b;
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0].replaceAll(" ", "")));
 				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
 				break;
 			case "BTFSS":
 				hexCode = "0111";
-				b = Integer.toBinaryString(Integer.parseInt(param2[0].replace(";", "")));
+				b = Integer.toBinaryString(Integer.parseInt(this.getEQUValue(param2[0].replace(";", "").replaceAll(" ", ""))));
 				for(int i = b.length(); i < 3;i++) 
 				{
 					b = "0" + b;
 				}
 				hexCode = hexCode + b;
-				bin = this.hexToBinary(params[0].replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0].replaceAll(" ", "")));
 				break;
 			case "ADDLW":
 				// Bit 7 ist X wird aber als 0 gewertet
 				hexCode = "111110";
-				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0].replace(";", "")));
 				break;
 			case "ANDLW":
 				hexCode = "111001";
-				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0].replace(";", "")));
 				break;
 			case "CALL":
 				hexCode = "100";
@@ -483,18 +564,18 @@ public class Controller {
 				break;
 			case "IORLW":
 				hexCode = "111000";
-				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0].replace(";", "")));
 				break;
 			case "MOVLW":
 				hexCode = "110000";
-				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));			
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0].replace(";", "")));			
 				break;
 			case "RETFIE":
 				hexCode = "00000000001001";
 				break;
 			case "RETLW":
 				hexCode = "110100";
-				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));	
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0].replace(";", "")));
 				break;
 			case "RETURN":
 				hexCode = "00000000001000";
@@ -504,11 +585,11 @@ public class Controller {
 				break;
 			case "SUBLW":
 				hexCode = "111100";
-				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));	
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0].replace(";", "")));	
 				break;
 			case "XORLW":
 				hexCode = "111010";
-				bin = this.hexToBinary(params[0].replace(";", "").replaceAll("0x", ""));	
+				bin = this.setBinaryForToHex(this.getEQUValue(params[0].replace(";", "")));	
 				break;
 			default:
 				System.out.println("Error in Line "+line+" while assembling to Bin-Code");

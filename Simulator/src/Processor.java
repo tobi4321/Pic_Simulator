@@ -1,14 +1,16 @@
-import javax.swing.text.BadLocationException;
+
 
 public class Processor extends Thread{
 	
 	Controller ctr;
 	Boolean exit = false;
 	int oldProgrammCounter = 0;
+	
 	public Processor(Controller pC) 
 	{
 		this.ctr = pC;
 	}
+	
     public void run() {
     	while (!exit) {  
     		try {
@@ -33,7 +35,8 @@ public class Processor extends Thread{
     		}
     	}
     	System.out.println("Thread stopped");
-      }
+    }
+    
     public void stopThread() 
     {
     	this.exit = true;
