@@ -1,4 +1,11 @@
-
+/// class Processor
+/**
+ * This class is the main computing unit.
+ * if the thread is started, the programm walks through the program memory.
+ * if there is a command to execute it will be executed and the Counter arrow is set to the next one
+ * 
+ * 
+ * */
 
 public class Processor extends Thread{
 	

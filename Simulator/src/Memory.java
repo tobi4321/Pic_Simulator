@@ -1,13 +1,37 @@
 import java.util.Stack;
-
+/// class Memory
+/**
+ *  This class is the basic implementation of the controller memory
+ *  There a various variables for w_register, carry flag or the stack
+ * 
+ * **/
 public class Memory {
 	
 	private Controller ctr;
 	
+	// this memory will store the data memory
+	// 00 to 7F is the first bank
+	// 80 to FF is the second bank
 	protected int[][] memory = new int[256][8];
+	
+	// this is the storage for the program code
+	// 0000 is the reset and 0004 is the interrupt value
+	protected int[] programMemory = new int[1024];
+	
+	// counter on which line the processor is
+	// default es 0 to indicate a reset
 	protected int programmcounter;
+	
+	// w_register storage for operations
 	protected int[] w_register = new int[8];
+	
+	// flag to indicate a overflow
 	protected int carry_flag;
+	
+	//
+	protected int zero_flag;
+	
+	/// the stack is used to store the pushed adresses by a call command
 	protected Stack<Integer> stack = new Stack<Integer>();
 	
 	// set Methods for BANK 0 

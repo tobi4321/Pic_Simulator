@@ -2,7 +2,12 @@ import java.io.*;
 
 import javax.swing.table.TableColumn;
 import javax.swing.text.BadLocationException;
-
+/// class Controller
+/**
+*  This class is the heart of this Simulator.
+*  It is the Connection to the GUI. Each interaction by a user on the GUI is executed in Controller class.
+*  Here are objects of Procesor, memory, timer, interupt and watchdog
+* **/
 public class Controller {
 
 	private Simulator_Window gui;
@@ -21,9 +26,9 @@ public class Controller {
 	protected int codeLength = 0;
 	protected int lineCount;
 	
-	// Processor object used to work each code step
+	/// Processor object used to work each code step
 	protected Processor proc;
-	// memory object used to store the data of microprocessor
+	/// memory object used to store the data of microprocessor
 	protected Memory memory;
 	
 
@@ -32,7 +37,7 @@ public class Controller {
 		this.gui = pGui;
 		memory = new Memory(this);
 	}
-	//initialice the memory table with the initiale tabledata
+	///initialice the memory table with the initiale tabledata
 	public void inizializeMemory() 
 	{
 		for(int i = 0; i< 256; i++) {
@@ -90,6 +95,7 @@ public class Controller {
 			{
 				jumpers[this.jumpersCount] = p[0]+":"+i;
 				pCode[i] = p[1];
+				this.setCodeViewLabel(i, p[0]);
 				jumpersCount++;
 				System.out.println("JumperMark found: "+p[0]+" at Line "+i);
 				this.outputToConsole("JumperMark found: "+p[0]+" at Line "+i);
@@ -276,12 +282,24 @@ public class Controller {
 		this.gui.tbl_code.setValueAt(" ", oldC, 1);
 		this.gui.tbl_code.setValueAt("->", newC, 1);
 	}
+	
+	public void setCodeViewLabel(int line,String label) 
+	{
+		this.gui.tbl_code.setValueAt(label, line, 4);
+	}
+	
+	public void setCodeViewAdress(int line,int adress) 
+	{
+		this.gui.tbl_code.setValueAt(Integer.toHexString(adress), line, 2);
+	}
+	
 	public void compileCode() {
 		if(!this.isCompiled) 
 		{
 			//Mnemonic Code aus der TextArea kopieren
 			lineCount = this.gui.txtArea_mnemonic.getLineCount();
 			lines = this.gui.txtArea_mnemonic.getText().split("\\n");
+			
 			// LineCount reduzieren falls eine leere Zeile vorhanden ist
 			for(int i = 0; i < this.lines.length; i++) {
 				if(this.lines[i].equals("")) 
@@ -289,20 +307,6 @@ public class Controller {
 					lineCount--;
 				}
 			}
-			//erstellen eines Speichers der nur die anzahl an validen lines beinhaltet
-			this.code = new String[this.lineCount];
-			int blankCount=0;
-			for(int i = 0; i< this.lines.length; i++) 
-			{
-				if(this.lines[i].equals("")) 
-				{
-					blankCount++;
-				}else {this.code[i-blankCount] = lines[i];}
-			}
-			// suche nach jumper labels und ersetzen durch code ohne label
-			this.code = this.searchJumperMarks(this.code);
-			// suche nach variablen marken , speichern der wertpaare und entfernen der zeilen
-			this.code = this.searchEQUMarks(this.code);
 			hexCode = new String[lineCount];
 			for(int i = 0; i<this.lineCount; i++) 
 			{
@@ -312,6 +316,26 @@ public class Controller {
 				}
 			}
 			this.setColumnWidth();
+			//erstellen eines Speichers der nur die anzahl an validen lines beinhaltet
+			this.code = new String[this.lineCount];
+			int blankCount=0;
+			for(int i = 0; i< this.lines.length; i++) 
+			{
+				if(this.lines[i].equals("")) 
+				{
+					blankCount++;
+				}else {
+					this.code[i-blankCount] = lines[i];
+				}
+			}
+
+			
+			// suche nach jumper labels und ersetzen durch code ohne label
+			this.code = this.searchJumperMarks(this.code);
+			// suche nach variablen marken , speichern der wertpaare und entfernen der zeilen
+			this.code = this.searchEQUMarks(this.code);
+			
+
 
 			for(int j = 0; j <this.code.length;j++) 
 			{
@@ -325,7 +349,9 @@ public class Controller {
 				gui.table_Code.setModel(gui.tbl_code);
 			}
 			this.isCompiled = true;
-		}else {System.out.println("Mnemonic-Code is already compiled...");}
+		}else {
+			System.out.println("Mnemonic-Code is already compiled...");
+		}
 	}
 	public void setColumnWidth() 
 	{

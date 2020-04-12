@@ -42,14 +42,21 @@ import javax.swing.ListSelectionModel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-
+import javax.swing.JTextPane;
+/// class Simulator_Window
+/**
+*  Grafical user interface for Pic Simualtor.
+*  
+*  REWORK NEEDED
+* 
+* **/
 public class Simulator_Window {
 
 	private JFrame frmMicrocontrollerSimulator;
 	private Controller ctr;
     protected JTextArea txtArea_mnemonic;
 	protected TableModel dataModel;
-	protected MyPanel panel_4;
+	protected MyPanel panel_segmentCanvas;
 	protected JTable table_Code;
 	protected DefaultTableModel tbl_code;
 	protected DefaultTableModel tbl_memory;
@@ -109,15 +116,15 @@ public class Simulator_Window {
 		Box verticalBox = Box.createVerticalBox();
 		frmMicrocontrollerSimulator.getContentPane().add(verticalBox);
 		
-		Box horizontalBox = Box.createHorizontalBox();
-		horizontalBox.setAlignmentY(0.5f);
-		verticalBox.add(horizontalBox);
+		Box upperArea = Box.createHorizontalBox();
+		upperArea.setAlignmentY(0.5f);
+		verticalBox.add(upperArea);
 		
-		Box verticalBox_1 = Box.createVerticalBox();
-		horizontalBox.add(verticalBox_1);
+		Box verticalMemoryView = Box.createVerticalBox();
+		upperArea.add(verticalMemoryView);
 		
 		JPanel panel_Memeory = new JPanel();
-		verticalBox_1.add(panel_Memeory);
+		verticalMemoryView.add(panel_Memeory);
 		panel_Memeory.setLayout(new BorderLayout(0, 0));
 		
 
@@ -138,6 +145,39 @@ public class Simulator_Window {
 		table_Memory.setModel(tbl_memory);
 		scrollPane.setViewportView(table_Memory);
 		
+		JPanel panel_specialreg = new JPanel();
+		panel_specialreg.setPreferredSize(new Dimension(10, 150));
+		panel_specialreg.setMinimumSize(new Dimension(10, 150));
+		verticalMemoryView.add(panel_specialreg);
+		panel_specialreg.setBorder(new LineBorder(new Color(0, 0, 0)));
+		FlowLayout fl_panel_specialreg = new FlowLayout(FlowLayout.CENTER, 5, 5);
+		panel_specialreg.setLayout(fl_panel_specialreg);
+		
+		tbl_special = new DefaultTableModel();
+	    String[][] rowData = {
+	    	    { "W-Reg", "00","00000000" }, { "FSR", "00","00000000" }, { "PCL", "30","00110000" },
+	    	    { "PCLATH", "00","00000000" }, {"PC", "0030","00000000"} ,{ "Status", "C0","10100000" }
+	    	    };
+
+	    	    String[] columnNames =  {
+	    	      "Register", "Hex-Wert","Bin-Wert"
+	    	    };
+		
+		
+		//table_special_regs = new JTable(rowData_status,columnNames_status);
+		//table_status_reg.setModel(tbl_status);
+		//panel_specialreg.add(table_status_regs);
+		
+		JLabel lblSpecialregister = new JLabel("Special-Register");
+		lblSpecialregister.setFont(new Font("Tahoma", Font.BOLD, 15));
+		panel_specialreg.add(lblSpecialregister);
+		table_special_regs = new JTable(rowData,columnNames);
+		panel_specialreg.add(table_special_regs);
+		//table_special_regs.setModel(tbl_special);
+		table_special_regs.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		table_special_regs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table_special_regs.setCellSelectionEnabled(true);
+		
 		String header[] = new String[] { " ", " ", "Adresse","Code","Label"};	
 		tbl_code = new DefaultTableModel();
 	    tbl_code.setColumnIdentifiers(header);
@@ -152,12 +192,12 @@ public class Simulator_Window {
 		    }
 		}
 
-		Box verticalBox_2 = Box.createVerticalBox();
-		horizontalBox.add(verticalBox_2);
+		Box verticalMnemonic = Box.createVerticalBox();
+		upperArea.add(verticalMnemonic);
 		
 		JPanel panel_Mnemonic = new JPanel();
 		panel_Mnemonic.setMinimumSize(new Dimension(800,400));
-		verticalBox_2.add(panel_Mnemonic);
+		verticalMnemonic.add(panel_Mnemonic);
 		panel_Mnemonic.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblMnemonicEditor = new JLabel("Mnemonic Editor");
@@ -191,13 +231,13 @@ public class Simulator_Window {
 			
 		});
 		
-		Box verticalBox_4 = Box.createVerticalBox();
-		horizontalBox.add(verticalBox_4);
+		Box verticalCodeViewer = Box.createVerticalBox();
+		upperArea.add(verticalCodeViewer);
 		
 
 		
 		JPanel panel_Code = new JPanel();
-		verticalBox_4.add(panel_Code);
+		verticalCodeViewer.add(panel_Code);
 		panel_Code.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblCodeViewer = new JLabel("Code Viewer");
@@ -226,14 +266,14 @@ public class Simulator_Window {
 		}
 		scrollPane_3.setViewportView(table_Code);
 		
-		Box verticalBox_3 = Box.createVerticalBox();
-		horizontalBox.add(verticalBox_3);
+		Box verticalIO = Box.createVerticalBox();
+		upperArea.add(verticalIO);
 		
 
 		
 		JPanel panel_IO = new JPanel();
 		panel_IO.setBorder(new EmptyBorder(4, 4, 4, 4));
-		verticalBox_3.add(panel_IO);
+		verticalIO.add(panel_IO);
 		GridBagLayout gbl_panel_IO = new GridBagLayout();
 		gbl_panel_IO.columnWidths = new int[] {130, 0};
 		gbl_panel_IO.rowHeights = new int[] {30, 50, 30, 50, 30, 165, 30, 0, 120, 10};
@@ -358,71 +398,38 @@ public class Simulator_Window {
 		panel_7Segment.add(lblSegment, BorderLayout.NORTH);
 		lblSegment.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
-		JPanel panel_5 = new JPanel();
-		panel_7Segment.add(panel_5, BorderLayout.SOUTH);
-		panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JPanel panel_segmentOptions = new JPanel();
+		panel_7Segment.add(panel_segmentOptions, BorderLayout.SOUTH);
+		panel_segmentOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JComboBox comboBox_2 = new JComboBox();
 		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Port 1", "Port 2", "Port 3", "Port 4"}));
-		panel_5.add(comboBox_2);
+		panel_segmentOptions.add(comboBox_2);
 		
 		JComboBox comboBox_3 = new JComboBox();
 		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Port 1", "Port 2", "Port 3", "Port 4"}));
-		panel_5.add(comboBox_3);
+		panel_segmentOptions.add(comboBox_3);
 		
 		JButton btnActive = new JButton("Active");
-		panel_5.add(btnActive);
+		panel_segmentOptions.add(btnActive);
 		
-		panel_4 = new MyPanel();
-		panel_7Segment.add(panel_4, BorderLayout.CENTER);
-		panel_4.setBackground(Color.WHITE);
-		
-		JPanel panel_specialreg = new JPanel();
-		panel_specialreg.setBorder(new LineBorder(new Color(0, 0, 0)));
-		GridBagConstraints gbc_panel_specialreg = new GridBagConstraints();
-		gbc_panel_specialreg.fill = GridBagConstraints.BOTH;
-		gbc_panel_specialreg.gridx = 0;
-		gbc_panel_specialreg.gridy = 7;
-		panel_IO.add(panel_specialreg, gbc_panel_specialreg);
-		FlowLayout fl_panel_specialreg = new FlowLayout(FlowLayout.CENTER, 5, 5);
-		panel_specialreg.setLayout(fl_panel_specialreg);
+		panel_segmentCanvas = new MyPanel();
+		panel_segmentCanvas.setPreferredSize(new Dimension(180, 105));
+		panel_segmentCanvas.setMinimumSize(new Dimension(180, 105));
+		panel_7Segment.add(panel_segmentCanvas, BorderLayout.CENTER);
+		panel_segmentCanvas.setBackground(Color.WHITE);
 		
 		
-		tbl_special = new DefaultTableModel();
-	    String[][] rowData = {
-	    	    { "W-Reg", "00","00000000" }, { "FSR", "00","00000000" }, { "PCL", "30","00110000" },
-	    	    { "PCLATH", "00","00000000" }, {"PC", "0030","00000000"} ,{ "Status", "C0","10100000" }
-	    	    };
-
-	    	    String[] columnNames =  {
-	    	      "Register", "Hex-Wert","Bin-Wert"
-	    	    };
+		Box lowerArea = Box.createHorizontalBox();
+		lowerArea.setAlignmentY(Component.CENTER_ALIGNMENT);
+		verticalBox.add(lowerArea);
 		
-		JLabel lblSpecialregister = new JLabel("Special-Register");
-		lblSpecialregister.setFont(new Font("Tahoma", Font.BOLD, 15));
-		panel_specialreg.add(lblSpecialregister);
-		table_special_regs = new JTable(rowData,columnNames);
-		panel_specialreg.add(table_special_regs);
-		//table_special_regs.setModel(tbl_special);
-		table_special_regs.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		table_special_regs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table_special_regs.setCellSelectionEnabled(true);
-		
-		
-		//table_special_regs = new JTable(rowData_status,columnNames_status);
-		//table_status_reg.setModel(tbl_status);
-		//panel_specialreg.add(table_status_regs);
-		
-		Box horizontalBox_1 = Box.createHorizontalBox();
-		horizontalBox_1.setAlignmentY(Component.CENTER_ALIGNMENT);
-		verticalBox.add(horizontalBox_1);
-		
-		Box verticalBox_5 = Box.createVerticalBox();
-		horizontalBox_1.add(verticalBox_5);
+		Box verticalConsole = Box.createVerticalBox();
+		lowerArea.add(verticalConsole);
 		frmMicrocontrollerSimulator.getContentPane().setLayout(new BoxLayout(frmMicrocontrollerSimulator.getContentPane(), BoxLayout.X_AXIS));
 		
 		JPanel panel_Console = new JPanel();
-		verticalBox_5.add(panel_Console);
+		verticalConsole.add(panel_Console);
 		panel_Console.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblConsole = new JLabel("Console");
@@ -451,6 +458,46 @@ public class Simulator_Window {
 		run_menu.setMnemonic(KeyEvent.VK_A);
 		run_menu.getAccessibleContext().setAccessibleDescription(
 		        "Start and Stop Application");
+		
+		file_menu = new JMenu("File");
+		file_menu.setMnemonic(KeyEvent.VK_A);
+		file_menu.getAccessibleContext().setAccessibleDescription("Open and Saving Files");
+		menuBar.add(file_menu);
+		
+		JButton btnLoadFile = new JButton("Load File");
+		btnLoadFile.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnLoadFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Create a file chooser
+				final JFileChooser fc = new JFileChooser();
+				//In response to a button click:
+				int returnVal = fc.showOpenDialog(btnLoadFile);
+				 if (returnVal == JFileChooser.APPROVE_OPTION) {
+			            File file = fc.getSelectedFile();
+			            try {
+							ctr.loadFile(file);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			            //This is where a real application would open the file.
+			            System.out.println("Opening: " + file.getName());
+			        } else {
+			            System.out.println("Open command cancelled by user.");
+			        }
+				
+			}
+		});
+		file_menu.add(btnLoadFile);
+		
+		JButton btnSaveFile = new JButton("Save File");
+		btnSaveFile.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnSaveFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		file_menu.add(btnSaveFile);
 		menuBar.add(run_menu);
 		
 		
@@ -492,57 +539,26 @@ public class Simulator_Window {
 		btnDebuggerStarten.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		debug_menu.add(btnDebuggerStarten);
 		
-		JButton button = new JButton("->");
-		button.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		menuBar.add(button);
-		
-		JButton button_1 = new JButton("<-");
-		button_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		menuBar.add(button_1);
-		
 		JButton btnDebuggerStoppen = new JButton("Debugger stoppen");
 		btnDebuggerStoppen.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		debug_menu.add(btnDebuggerStoppen);
 		
-		file_menu = new JMenu("File");
-		file_menu.setMnemonic(KeyEvent.VK_A);
-		file_menu.getAccessibleContext().setAccessibleDescription("Open and Saving Files");
-		menuBar.add(file_menu);
+		JButton button = new JButton("->");
+		debug_menu.add(button);
+		button.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
-		JButton btnLoadFile = new JButton("Load File");
-		btnLoadFile.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnLoadFile.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//Create a file chooser
-				final JFileChooser fc = new JFileChooser();
-				//In response to a button click:
-				int returnVal = fc.showOpenDialog(btnLoadFile);
-				 if (returnVal == JFileChooser.APPROVE_OPTION) {
-			            File file = fc.getSelectedFile();
-			            try {
-							ctr.loadFile(file);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-			            //This is where a real application would open the file.
-			            System.out.println("Opening: " + file.getName());
-			        } else {
-			            System.out.println("Open command cancelled by user.");
-			        }
-				
-			}
-		});
-		file_menu.add(btnLoadFile);
+		JButton button_1 = new JButton("<-");
+		debug_menu.add(button_1);
+		button_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
-		JButton btnSaveFile = new JButton("Save File");
-		btnSaveFile.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnSaveFile.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		file_menu.add(btnSaveFile);
+		JMenu mnSimulator = new JMenu("Simulator");
+		menuBar.add(mnSimulator);
+		
+		JButton btnInfo = new JButton("Info");
+		mnSimulator.add(btnInfo);
+		
+		JButton btnHelp = new JButton("Help");
+		mnSimulator.add(btnHelp);
 		
 
 	}
@@ -559,7 +575,7 @@ public class Simulator_Window {
 	  }
 	  public void setSegment(int c1, int c2, int c3, int c4) 
 	  {
-		  this.panel_4.setChars(c1,c2,c3,c4);
-		  this.panel_4.repaint();
+		  this.panel_segmentCanvas.setChars(c1,c2,c3,c4);
+		  this.panel_segmentCanvas.repaint();
 	  }
 }
