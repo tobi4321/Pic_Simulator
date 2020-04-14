@@ -11,19 +11,35 @@ import javax.swing.text.BadLocationException;
 public class Controller {
 
 	private Simulator_Window gui;
+	
+	private MnemonicView mnemonicWindow;
+	
 	protected boolean isCompiled = false ;
+	
 	protected int[][] data = new int[32][8];
+	
 	protected String[][] tableData = new String[32][9];
+	
 	protected String[] numbers = new String[256];
+	
 	protected String[] jumpers = new String[512];
+	
 	protected String[] equ = new String[256];
+	
 	protected String[] lines;
+	
 	protected String[] hexCode;
+	protected int[] programCounterList = new int[1024];
 	private int jumpersCount = 0;
+	
 	private int equCount = 0;
+	
 	protected int programmCounter;
+	
 	protected String[] code;
+	
 	protected int codeLength = 0;
+	
 	protected int lineCount;
 	
 	/// Processor object used to work each code step
@@ -54,11 +70,21 @@ public class Controller {
 	}
 	protected void updateMemoryTable(String value,int x, int y) 
 	{
-		gui.table_Memory.setValueAt(value, x, y+1);
+		gui.SetData(value, x, y+1);
 	}
 	protected void updateWRegTable(String value, int x, int y) 
 	{
-		gui.table_special_regs.setValueAt(value, x, y);
+		gui.setSpecialData(value, x, y);
+	}
+	
+	public void openMnemonicView() 
+	{
+		try {
+			mnemonicWindow = new MnemonicView(this);
+			mnemonicWindow.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void startSimu() {
@@ -69,20 +95,30 @@ public class Controller {
 	}
 	public void start() 
 	{
-		lineCount = this.gui.txtArea_mnemonic.getLineCount();
-		lines = this.gui.txtArea_mnemonic.getText().split("\\n");
+		lineCount = this.mnemonicWindow.txtArea_mnemonic.getLineCount();
+		lines = this.mnemonicWindow.txtArea_mnemonic.getText().split("\\n");
 	}
 	public void stopSimu() {
 		System.out.println("Simulation stopped...");
 		this.outputToConsole("Simulation stopped...");
 		proc.stopThread();
 	}
+	/**
+	 * 
+	 * 
+	 * have to be changed to codeTable
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * ***/
 	// highlighting the text where the programmcounter points to in Mnemonic Editor 
 	public void setTextActive(int row) throws BadLocationException 
 	{
-		this.gui.txtArea_mnemonic.setSelectionEnd(0);
-		this.gui.txtArea_mnemonic.requestFocus();
-		this.gui.txtArea_mnemonic.select(this.gui.txtArea_mnemonic.getLineStartOffset(row),this.gui.txtArea_mnemonic.getLineEndOffset(row));
+		this.mnemonicWindow.txtArea_mnemonic.setSelectionEnd(0);
+		this.mnemonicWindow.txtArea_mnemonic.requestFocus();
+		this.mnemonicWindow.txtArea_mnemonic.select(this.mnemonicWindow.txtArea_mnemonic.getLineStartOffset(row),this.mnemonicWindow.txtArea_mnemonic.getLineEndOffset(row));
 	}
 
 	//check if there are any jump marks in the code, adding to jumpers list and delete from code
@@ -197,90 +233,50 @@ public class Controller {
 			e.printStackTrace();
 		}
 		String st; 
-    	String label = "";
-    	String codeLine = "";
+
+    	
+    	// initialisieren der grafischen Elemente
     	for(int i = 0; i<gui.tbl_code.getRowCount(); i++) 
     	{
         	gui.tbl_code.removeRow(i);  		
     	}
 
-    	gui.txtArea_mnemonic.setText("");
-    	
+    	// einlesen der einzelnen Zeilen inklusive equ und labels
 		while ((st = br.readLine()) != null) { 
-		    if(st.substring(0, 4).equals("    ")) 
-		    {
-		    	//Do nothing
-		    }else {
-		    	
-		    	String code = this.hexToBinary(st.substring(5, 9));
-		    	for(int i = code.length(); i<14; i++) 
-		    	{
-		    		code = "0" + code;
-		    	}
-		    	gui.tbl_code.addRow(new Object[] {st.substring(0, 4),"",st.substring(5, 9), code});
-		    	this.codeLength = Integer.parseInt(st.substring(0, 4),16); 
-		    }
-		    if(st.charAt(27) != ' ') 
-		    { // marke erkannt
-		    	int l_index = 27;
-		    	while(st.charAt(l_index) != ' ') 
-		    	{
-		    		label = label + st.charAt(l_index);
-		    		l_index++;
-		    	}
-		    }else {
-		    	if(st.length() > 36) 
-			    {
-				    if(st.charAt(36) != ' ') 
-				    {
-				    	int l_index = 36;
-				    	while(st.length() >= l_index+1) 
-				    	{
-					    	if((st.charAt(l_index) != '\n' || st.charAt(l_index) != ';' || st.charAt(l_index) != '\r' )) 
-					    	{
-					    		if(st.charAt(l_index) != ';') 
-						    	{
-							    	codeLine = codeLine + st.charAt(l_index);
-							    	if(st.length() >= l_index+1) 
-							    	{
-								    	l_index++;					    			
-							    	}
-						    	}else { l_index = st.length()+1;}
-					    	}
-				    	}
-				    	if(label.equals("")) 
-				    	{
-				    		gui.txtArea_mnemonic.setText(gui.txtArea_mnemonic.getText()+"              "+codeLine+"\n");
-				    		label = "";
-				    		codeLine = "";		
-				    	}else {
-				    		gui.txtArea_mnemonic.append("\n");
-				    		gui.txtArea_mnemonic.setText(gui.txtArea_mnemonic.getText()+label+":         "+codeLine+"\n");
-				    		label = "";
-				    		codeLine = "";			    		
-				    	}
-				    }
-			    }else {
-			    	if(label.equals("end")) 
-			    	{
-			    		gui.txtArea_mnemonic.setText(gui.txtArea_mnemonic.getText()+label);
-			    		label = "";
-			    	}
-			    }
-		    }
+	    	String label = "";
+			
+			String code = this.hexToBinary(st.substring(5, 9));
+			for(int i = code.length(); i<14; i++) 
+			{
+				code = "0" + code;
+			}
+			// erkennen des Labels
+			if(st.charAt(27) != ' ') 
+			{ // marke erkannt
+				int l_index = 27;
+				while(st.charAt(l_index) != ' ') 
+				{
+					label = label + st.charAt(l_index);
+					l_index++;
+				}
+			}
+		
+			gui.tbl_code.addRow(new Object[] {" ",st.substring(0, 4),st.substring(5, 9),st.substring(20, 25),label, st.substring(36)});
+			if(!st.substring(0, 4).equals("    ")) 
+			{
+				this.codeLength = Integer.parseInt(st.substring(0, 4),16);
+				memory.programMemory[codeLength] = Integer.parseInt(st.substring(5, 9), 16);
+				programCounterList[codeLength] = Integer.parseInt(st.substring(20, 25));
+			}
+
 		}
 		this.setColumnWidth();
-		hexCode = new String[codeLength];
-		for(int i = 0; i< codeLength; i++) 
-		{
-			hexCode[i] = (String) gui.tbl_code.getValueAt(i, 3);
-		}
 	}
 
 	public void setCodeViewCounter(int oldC, int newC) 
 	{
-		this.gui.tbl_code.setValueAt(" ", oldC, 1);
-		this.gui.tbl_code.setValueAt("->", newC, 1);
+		this.gui.tbl_code.setValueAt(" ", oldC, 0);
+		this.gui.tbl_code.setValueAt("->", newC, 0);
 	}
 	
 	public void setCodeViewLabel(int line,String label) 
@@ -293,12 +289,14 @@ public class Controller {
 		this.gui.tbl_code.setValueAt(Integer.toHexString(adress), line, 2);
 	}
 	
+	
+	// needs to be reworked
 	public void compileCode() {
 		if(!this.isCompiled) 
 		{
 			//Mnemonic Code aus der TextArea kopieren
-			lineCount = this.gui.txtArea_mnemonic.getLineCount();
-			lines = this.gui.txtArea_mnemonic.getText().split("\\n");
+			lineCount = this.mnemonicWindow.txtArea_mnemonic.getLineCount();
+			lines = this.mnemonicWindow.txtArea_mnemonic.getText().split("\\n");
 			
 			// LineCount reduzieren falls eine leere Zeile vorhanden ist
 			for(int i = 0; i < this.lines.length; i++) {
@@ -368,7 +366,7 @@ public class Controller {
 	}
 	public void inizializeTables() 
 	{
-		gui.tbl_code.setColumnIdentifiers(new Object[] {" "," ","Code", "Adress","Labels"});
+		gui.tbl_code.setColumnIdentifiers(new Object[] {" ", "ProgramCounter", "ProgramCode", "LineCount","Label","MnemonicCode"});
 		gui.tbl_memory.setColumnIdentifiers(new Object[] {"","00","01","02","03","04","05","06","07"});
 		gui.tbl_special.setColumnIdentifiers(new  Object[]{"Register", "Hex-Wert", "Bin-Wert"});
 	}
@@ -642,9 +640,16 @@ public class Controller {
 	}
 	// Converter from hex to bin string
 	public String hexToBinary(String hex) {
-	    int i = Integer.parseInt(hex.replaceAll("\r", ""), 16);
-	    String bin = Integer.toBinaryString(i);
-	    return bin;
+	    if(hex.equals("    ")) 
+	    {
+	    	return "0";
+	    }else 
+	    {
+			int i = Integer.parseInt(hex.replaceAll("\r", ""), 16);
+		    String bin = Integer.toBinaryString(i);
+		    return bin;
+	    }
+
 	}
 	// This function selects the command which must executed
 	public void executeCommand(String command) 
@@ -1056,7 +1061,15 @@ public class Controller {
 		int w_in = memory.get_WREGISTER();
 		int f_in = memory.get_Memory(Integer.parseInt(f,2));
 		String w_bin = Integer.toBinaryString(w_in);
+		while(w_bin.length() < 9) 
+		{
+			w_bin = "0"+w_bin;
+		}
 		String f_bin = Integer.toBinaryString(f_in);
+		while(f_bin.length() < 9) 
+		{
+			f_bin = "0"+f_bin;
+		}
 		String out = "";
 		for(int i = 0; i< 8 ;i++) 
 		{
@@ -1116,8 +1129,19 @@ public class Controller {
 	}
 	private void andlw(String k) 
 	{    // eventuell k string mit nullen auffüllen
+		while(k.length() < 9) 
+		{
+			k = "0"+k;
+		}
+		
 		int w_in = memory.get_WREGISTER();
 		String w_bin = Integer.toBinaryString(w_in);
+		
+		while(w_bin.length() < 9) 
+		{
+			w_bin = "0"+w_bin;
+		}
+		
 		String out = "";
 		for(int i = 0; i< 8 ;i++) 
 		{

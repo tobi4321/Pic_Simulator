@@ -12,7 +12,7 @@ public class Memory {
 	// this memory will store the data memory
 	// 00 to 7F is the first bank
 	// 80 to FF is the second bank
-	protected int[][] memory = new int[256][8];
+	protected int[][] dataMemory = new int[256][8];
 	
 	// this is the storage for the program code
 	// 0000 is the reset and 0004 is the interrupt value
@@ -46,69 +46,73 @@ public class Memory {
 	
 	protected void set_INDF(int bit, int value) 
 	{
-		memory[0][bit] = value;
+		dataMemory[0][bit] = value;
 		// eventuell Bereich aus Bank 1 hier rein
-		ctr.updateMemoryTable(this.tohexValue(memory[0]), 0, 0);
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[0]), 0, 0);
 	}
 	
 	protected void set_TMR0(int bit, int value) 
 	{
-		memory[1][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[1]), 0, 1);
+		dataMemory[1][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[1]), 0, 1);
 	}
 	
 	protected void set_PCL(int bit, int value) 
 	{
-		memory[2][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[2]), 0, 2);
+		dataMemory[2][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[2]), 0, 2);
 	}
 	
 	protected void set_STATUS(int bit, int value) 
 	{
-		memory[3][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[3]), 0, 3);
+		dataMemory[3][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[3]), 0, 3);
+		ctr.updateWRegTable(this.tohexValue(dataMemory[3]), 1, 5);
+		ctr.updateWRegTable(Integer.toBinaryString(value), 2, 5);
 	}
 	
 	protected void set_FSR(int bit, int value) 
 	{
-		memory[4][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[4]), 0, 4);
+		dataMemory[4][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[4]), 0, 4);
+		ctr.updateWRegTable(this.tohexValue(dataMemory[4]), 1, 1);
+		ctr.updateWRegTable(Integer.toBinaryString(value), 2, 1);
 	}
 	
 	protected void set_PORTA(int bit, int value) 
 	{
-		memory[5][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[5]), 0, 5);
+		dataMemory[5][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[5]), 0, 5);
 	}
 	
 	protected void set_PORTB(int bit, int value) 
 	{
-		memory[6][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[6]), 0, 6);
+		dataMemory[6][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[6]), 0, 6);
 	}
 	
 	protected void set_EEDATA(int bit, int value) 
 	{
-		memory[8][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[8]), 1, 0);
+		dataMemory[8][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[8]), 1, 0);
 	}
 	
 	protected void set_EEADR(int bit, int value) 
 	{
-		memory[9][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[9]), 1, 1);
+		dataMemory[9][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[9]), 1, 1);
 	}
 	
 	protected void set_PCLATH(int bit, int value) 
 	{
-		memory[10][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[10]), 1, 2);
+		dataMemory[10][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[10]), 1, 2);
 	}
 	
 	protected void set_INTCON(int bit, int value) 
 	{
-		memory[11][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[11]), 1, 3);
+		dataMemory[11][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[11]), 1, 3);
 	}
 	
 	
@@ -116,39 +120,47 @@ public class Memory {
 	
 	protected void set_OPTION_REG(int bit, int value) 
 	{
-		memory[129][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[129]), 8, 1);
+		dataMemory[129][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[129]), 8, 1);
 	}
 	
 	protected void set_TRISA(int bit, int value) 
 	{
-		memory[133][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[133]), 8, 5);
+		dataMemory[133][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[133]), 8, 5);
 	}
 	
 	protected void set_TRISB(int bit, int value) 
 	{
-		memory[134][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[134]), 8, 6);
+		dataMemory[134][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[134]), 8, 6);
 	}
 	
 	protected void set_EECON1(int bit, int value) 
 	{
-		memory[136][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[136]), 9, 0);
+		dataMemory[136][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[136]), 9, 0);
 	}
 	
 	protected void set_EECON2(int bit, int value) 
 	{
-		memory[137][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[137]), 9, 1);
+		dataMemory[137][bit] = value;
+		ctr.updateMemoryTable(this.tohexValue(dataMemory[137]), 9, 1);
 	}
 	
 	//set General Purpose registers SRAM
 	protected void set_SRAM(int fileaddress, int bit, int value) 
 	{
-		memory[fileaddress][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(memory[fileaddress]), fileaddress/8, fileaddress%8);
+		if(dataMemory[3][5] == 0) 
+		{
+			dataMemory[fileaddress][bit] = value;
+			ctr.updateMemoryTable(this.tohexValue(dataMemory[fileaddress]), fileaddress/8, fileaddress%8);
+		}else if(dataMemory[3][5] == 1) 
+		{
+			dataMemory[fileaddress+128][bit] = value;
+			ctr.updateMemoryTable(this.tohexValue(dataMemory[fileaddress]), fileaddress/8, fileaddress%8);
+		}
+
 	}
 	
 	protected void set_SRAM(int fileaddress, int value) 
@@ -160,9 +172,18 @@ public class Memory {
 		}
 		for(int i = 7; i >= 0; i-- ) 
 		{
-			memory[fileaddress][i] = Integer.parseInt(""+c.charAt(i));
+			if(dataMemory[3][5] == 0) 
+			{
+				dataMemory[fileaddress][i] = Integer.parseInt(""+c.charAt(i));
+				ctr.updateMemoryTable(this.tohexValue(dataMemory[fileaddress]), fileaddress/8, fileaddress%8);
+			}else if(dataMemory[3][5] == 1) 
+			{
+				dataMemory[fileaddress+128][i] = Integer.parseInt(""+c.charAt(i));
+				ctr.updateMemoryTable(this.tohexValue(dataMemory[fileaddress]), fileaddress/8, fileaddress%8);
+			}
+			
 		}
-		ctr.updateMemoryTable(this.tohexValue(memory[fileaddress]), fileaddress/8, fileaddress%8);
+
 	}
 	
 	protected void set_CARRYFLAG(int c) 
@@ -177,7 +198,7 @@ public class Memory {
 	
 	protected int get_Memory(int fileaddress, int bit) 
 	{
-		return memory[fileaddress][bit];
+		return dataMemory[fileaddress][bit];
 	}
 	
 	protected int get_Memory(int fileaddress) 
@@ -185,7 +206,14 @@ public class Memory {
 		String c = "";
 		for(int i = 0; i < 8; i++) 
 		{
-			c = c+ memory[fileaddress][i];
+			if(dataMemory[3][5] == 0) 
+			{
+				c = c+ dataMemory[fileaddress][i];
+			}else if(dataMemory[3][5] == 1) 
+			{
+				c = c+ dataMemory[fileaddress+128][i];
+			}
+			
 		}
 		return Integer.parseInt(c,2);
 	}
@@ -204,6 +232,8 @@ public class Memory {
 	protected void set_WREGISTER(int bit, int value) 
 	{
 		w_register[bit] = value;
+		ctr.updateWRegTable(this.tohexValue(w_register), 0, 1);
+		ctr.updateWRegTable(this.tohexValue(w_register), 0, 2);
 	}
 	
 	protected void set_WREGISTER(int value) 

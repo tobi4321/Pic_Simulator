@@ -33,6 +33,7 @@ import java.awt.Dimension;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListDataEvent;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.SwingConstants;
@@ -43,6 +44,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextPane;
+import javax.swing.JTextField;
+import java.awt.ComponentOrientation;
 /// class Simulator_Window
 /**
 *  Grafical user interface for Pic Simualtor.
@@ -54,7 +57,6 @@ public class Simulator_Window {
 
 	private JFrame frmMicrocontrollerSimulator;
 	private Controller ctr;
-    protected JTextArea txtArea_mnemonic;
 	protected TableModel dataModel;
 	protected MyPanel panel_segmentCanvas;
 	protected JTable table_Code;
@@ -66,6 +68,7 @@ public class Simulator_Window {
 	protected JTable table_Memory;
 	protected JTable table_special_regs;
 	protected JTextArea txtArea_Console;
+
 	
 	// radio buttons for the IO Panels
 	protected JRadioButton rb_io_1;
@@ -76,6 +79,11 @@ public class Simulator_Window {
 	protected JRadioButton rb_io_6;
 	protected JRadioButton rb_io_7;
 	protected JRadioButton rb_io_8;
+	// members to input values into register memory
+	private JTextField txtField_input;
+	private JButton btn_InputRegister;
+	private JComboBox comboBox_File;
+	private JComboBox comboBox_SubFile;
 	
 	/**
 	 * Launch the application.
@@ -121,7 +129,47 @@ public class Simulator_Window {
 		verticalBox.add(upperArea);
 		
 		Box verticalMemoryView = Box.createVerticalBox();
+		verticalMemoryView.setMinimumSize(new Dimension(320, 700));
+		verticalMemoryView.setPreferredSize(new Dimension(350, 700));
+		verticalMemoryView.setMaximumSize(new Dimension(350, 1000));
 		upperArea.add(verticalMemoryView);
+		
+		JPanel inputPanel = new JPanel();
+		verticalMemoryView.add(inputPanel);
+		FlowLayout flowLayout = (FlowLayout) inputPanel.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		
+		btn_InputRegister = new JButton("Input");
+		btn_InputRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String input = txtField_input.getText();
+				
+				int fileNumber = Integer.parseInt(comboBox_File.getSelectedItem().toString(), 16);
+				int subFileNumber = Integer.parseInt(comboBox_SubFile.getSelectedItem().toString(),16);
+				
+				ctr.memory.set_SRAM(fileNumber+subFileNumber, Integer.parseInt(input));
+			}
+		});
+		btn_InputRegister.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		inputPanel.add(btn_InputRegister);
+		
+		txtField_input = new JTextField();
+		txtField_input.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtField_input.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		txtField_input.setSize(new Dimension(40, 39));
+		txtField_input.setMaximumSize(new Dimension(40, 39));
+		inputPanel.add(txtField_input);
+		txtField_input.setColumns(8);
+		
+		comboBox_File = new JComboBox();
+		comboBox_File.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		comboBox_File.setModel(new DefaultComboBoxModel(new String[] {"00", "08", "10", "18", "20", "28", "30", "38", "40", "48", "50", "58", "60", "68", "70", "78", "80", "88", "90", "98", "A0", "A8", "B0", "B8", "C0", "C8", "D0", "D8", "E0", "E8", "F0", "F8"}));
+		inputPanel.add(comboBox_File);
+		
+		comboBox_SubFile = new JComboBox();
+		comboBox_SubFile.setModel(new DefaultComboBoxModel(new String[] {"00", "01", "02", "03", "04", "05", "06", "07"}));
+		comboBox_SubFile.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		inputPanel.add(comboBox_SubFile);
 		
 		JPanel panel_Memeory = new JPanel();
 		verticalMemoryView.add(panel_Memeory);
@@ -134,6 +182,7 @@ public class Simulator_Window {
 		panel_Memeory.add(lblMemoryView, BorderLayout.NORTH);
 		lblMemoryView.setFont(new Font("Tahoma", Font.BOLD, 15));
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setMinimumSize(new Dimension(200, 49));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		panel_Memeory.add(scrollPane, BorderLayout.CENTER);
@@ -145,9 +194,20 @@ public class Simulator_Window {
 		table_Memory.setModel(tbl_memory);
 		scrollPane.setViewportView(table_Memory);
 		
+		TableColumn column = null;
+		for (int i = 0; i < 9; i++) {
+		    column = table_Memory.getColumnModel().getColumn(i);
+		    if (i < 9 ) {
+		        column.setPreferredWidth(32);
+		        column.setMaxWidth(32);
+		        column.setResizable(false);
+		    }
+		}
+		
+		
 		JPanel panel_specialreg = new JPanel();
 		panel_specialreg.setPreferredSize(new Dimension(10, 150));
-		panel_specialreg.setMinimumSize(new Dimension(10, 150));
+		panel_specialreg.setMinimumSize(new Dimension(200, 150));
 		verticalMemoryView.add(panel_specialreg);
 		panel_specialreg.setBorder(new LineBorder(new Color(0, 0, 0)));
 		FlowLayout fl_panel_specialreg = new FlowLayout(FlowLayout.CENTER, 5, 5);
@@ -178,60 +238,14 @@ public class Simulator_Window {
 		table_special_regs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table_special_regs.setCellSelectionEnabled(true);
 		
-		String header[] = new String[] { " ", " ", "Adresse","Code","Label"};	
+		String header[] = new String[] { " ", "ProgramCounter", "ProgramCode", "LineCount","Label","MnemonicCode"};	
 		tbl_code = new DefaultTableModel();
 	    tbl_code.setColumnIdentifiers(header);
 
-		TableColumn column = null;
-		for (int i = 0; i < 9; i++) {
-		    column = table_Memory.getColumnModel().getColumn(i);
-		    if (i < 9 ) {
-		        column.setPreferredWidth(32);
-		        column.setMaxWidth(32);
-		        column.setResizable(false);
-		    }
-		}
 
-		Box verticalMnemonic = Box.createVerticalBox();
-		upperArea.add(verticalMnemonic);
-		
-		JPanel panel_Mnemonic = new JPanel();
-		panel_Mnemonic.setMinimumSize(new Dimension(800,400));
-		verticalMnemonic.add(panel_Mnemonic);
-		panel_Mnemonic.setLayout(new BorderLayout(0, 0));
-		
-		JLabel lblMnemonicEditor = new JLabel("Mnemonic Editor");
-		panel_Mnemonic.add(lblMnemonicEditor, BorderLayout.NORTH);
-		lblMnemonicEditor.setFont(new Font("Tahoma", Font.BOLD, 15));
-		
-		txtArea_mnemonic = new JTextArea();
-		JScrollPane scrollPane_mnemonic = new JScrollPane(txtArea_mnemonic); 
-		panel_Mnemonic.add(scrollPane_mnemonic, BorderLayout.CENTER);
-		txtArea_mnemonic.setFont(new Font("Monospaced", Font.PLAIN, 18));
-		txtArea_mnemonic.setText("             MOVLW 0x1f;\r\n             MOVF 0x1e,1;\r\n             MOVLW 0x05;\r\nm1:          ADDWF 0x1e,1;\r\nm2:          NOP;\r\n             GOTO m1;");
-		txtArea_mnemonic.getDocument().addDocumentListener(new DocumentListener() {
-
-			@Override
-			public void changedUpdate(DocumentEvent arg0) {
-				// TODO Auto-generated method stub
-				ctr.isCompiled = false;
-			}
-
-			@Override
-			public void insertUpdate(DocumentEvent arg0) {
-				// TODO Auto-generated method stub
-				ctr.isCompiled = false;
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent arg0) {
-				// TODO Auto-generated method stub
-				ctr.isCompiled = false;
-			}
-			
-		});
 		
 		Box verticalCodeViewer = Box.createVerticalBox();
+		verticalCodeViewer.setMinimumSize(new Dimension(500, 800));
 		upperArea.add(verticalCodeViewer);
 		
 
@@ -250,33 +264,36 @@ public class Simulator_Window {
 		scrollPane_3.setViewportBorder(UIManager.getBorder("TableHeader.cellBorder"));
 		table_Code = new JTable();
 		table_Code.setModel(tbl_code);
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 5; i++) {
 		    column = table_Code.getColumnModel().getColumn(i);
-		    if (i < 2 ) {
-		        column.setPreferredWidth(32);
-		        column.setMaxWidth(32);
-		        column.setMinWidth(32);
+		    if (i == 0) {
+		        column.setPreferredWidth(30);
+		        column.setMaxWidth(30);
+		        column.setMinWidth(30);
 		        column.setResizable(false);
-		    }else if(i == 2) 
-		    {
-		        column.setPreferredWidth(60);
-		        column.setMaxWidth(60);
+		    }else if(i > 0 && i < 4 ) {
+		        column.setPreferredWidth(80);
+		        column.setMaxWidth(80);
+		        column.setMinWidth(60);
+		    }else if(i == 4) {
+		        column.setPreferredWidth(80);
+		        column.setMaxWidth(90);
 		        column.setResizable(false);
 		    }
 		}
 		scrollPane_3.setViewportView(table_Code);
 		
 		Box verticalIO = Box.createVerticalBox();
+		verticalIO.setMaximumSize(new Dimension(350, 800));
 		upperArea.add(verticalIO);
 		
-
 		
 		JPanel panel_IO = new JPanel();
 		panel_IO.setBorder(new EmptyBorder(4, 4, 4, 4));
 		verticalIO.add(panel_IO);
 		GridBagLayout gbl_panel_IO = new GridBagLayout();
 		gbl_panel_IO.columnWidths = new int[] {130, 0};
-		gbl_panel_IO.rowHeights = new int[] {30, 50, 30, 50, 30, 165, 30, 0, 120, 10};
+		gbl_panel_IO.rowHeights = new int[] {10, 10, 10, 10, 10, 10, 10, 30, 120, 30, 30, 30,30};
 		gbl_panel_IO.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_panel_IO.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		panel_IO.setLayout(gbl_panel_IO);
@@ -289,7 +306,7 @@ public class Simulator_Window {
 		gbc_panel_AnalogOut.fill = GridBagConstraints.BOTH;
 		gbc_panel_AnalogOut.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_AnalogOut.gridx = 0;
-		gbc_panel_AnalogOut.gridy = 1;
+		gbc_panel_AnalogOut.gridy = 0;
 		panel_IO.add(panel_AnalogOut, gbc_panel_AnalogOut);
 		
 		JLabel lblAnalogOut = new JLabel("Analog OUT   ");
@@ -349,7 +366,7 @@ public class Simulator_Window {
 		gbc_panel_AnalogIn.fill = GridBagConstraints.BOTH;
 		gbc_panel_AnalogIn.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_AnalogIn.gridx = 0;
-		gbc_panel_AnalogIn.gridy = 3;
+		gbc_panel_AnalogIn.gridy = 2;
 		panel_IO.add(panel_AnalogIn, gbc_panel_AnalogIn);
 		
 		JLabel lblAnalogIn = new JLabel("Analog IN      ");
@@ -390,7 +407,7 @@ public class Simulator_Window {
 		gbc_panel_7Segment.fill = GridBagConstraints.BOTH;
 		gbc_panel_7Segment.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_7Segment.gridx = 0;
-		gbc_panel_7Segment.gridy = 5;
+		gbc_panel_7Segment.gridy = 4;
 		panel_IO.add(panel_7Segment, gbc_panel_7Segment);
 		panel_7Segment.setLayout(new BorderLayout(0, 0));
 		
@@ -554,6 +571,14 @@ public class Simulator_Window {
 		JMenu mnSimulator = new JMenu("Simulator");
 		menuBar.add(mnSimulator);
 		
+		JButton btnOpenMnemonic = new JButton("Open Mnemonic");
+		btnOpenMnemonic.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctr.openMnemonicView();
+			}
+		});
+		mnSimulator.add(btnOpenMnemonic);
+		
 		JButton btnInfo = new JButton("Info");
 		mnSimulator.add(btnInfo);
 		
@@ -577,5 +602,9 @@ public class Simulator_Window {
 	  {
 		  this.panel_segmentCanvas.setChars(c1,c2,c3,c4);
 		  this.panel_segmentCanvas.repaint();
+	  }
+	  public void setSpecialData(Object obj,int row_index,int col_index) 
+	  {
+		  this.table_special_regs.getModel().setValueAt(obj, row_index, col_index);
 	  }
 }
