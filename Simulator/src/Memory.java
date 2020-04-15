@@ -18,6 +18,7 @@ public class Memory {
 	// 0000 is the reset and 0004 is the interrupt value
 	protected int[] programMemory = new int[1024];
 	
+	
 	// counter on which line the processor is
 	// default es 0 to indicate a reset
 	protected int programmcounter;
