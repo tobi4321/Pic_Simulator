@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JMenu;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class MnemonicView extends JFrame {
@@ -43,7 +44,7 @@ public class MnemonicView extends JFrame {
 		
 		txtArea_mnemonic = new JTextArea();
 		scrollPane.setViewportView(txtArea_mnemonic);
-		txtArea_mnemonic.setText("             MOVLW 0x1f;\r\n             MOVF 0x1e,1;\r\n             MOVLW 0x05;\r\nm1:          ADDWF 0x1e,1;\r\nm2:          NOP;\r\n             GOTO m1;");
+		txtArea_mnemonic.setText("             MOVLW 0x1f;\r\n             MOVF 0x1e,1;\r\n             MOVLW 0x05;\r\nm1\r\n          ADDWF 0x1e,1;\r\nm2\r\n          NOP;\r\n             GOTO m1;");
 		txtArea_mnemonic.setFont(new Font("Monospaced", Font.PLAIN, 18));
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -56,6 +57,7 @@ public class MnemonicView extends JFrame {
 		btnSaveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ctr.saveMnemonicCode(txtArea_mnemonic.getText());
+				ctr.closeMnemonicWindow();
 			}
 		});
 		mnFile.add(btnSaveChanges);

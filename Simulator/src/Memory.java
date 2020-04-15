@@ -288,4 +288,12 @@ public class Memory {
 	{
 		return this.stack.pop();
 	}
+
+	public void clearProgMem() {
+		// TODO Auto-generated method stub
+		for(int i = 0; i< this.programMemory.length; i++) 
+		{
+			this.programMemory[i] = 0;
+		}
+	}
 }

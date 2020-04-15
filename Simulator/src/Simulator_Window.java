@@ -585,7 +585,7 @@ public class Simulator_Window {
 	}
 	  public void SetData(Object obj, int row_index, int col_index){
 		  table_Memory.getModel().setValueAt(obj,row_index,col_index);
-		  System.out.println("Value is added");
+		  System.out.println("Value is added :"+obj+" to mem table: "+row_index+" , "+col_index);
 		  table_Memory.setModel(tbl_memory);
 		  frmMicrocontrollerSimulator.repaint();
 	  }

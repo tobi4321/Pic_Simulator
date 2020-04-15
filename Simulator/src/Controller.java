@@ -157,17 +157,15 @@ public class Controller {
 	{
 		for(int i = 0; i<pCode.length;i++) 
 		{
-			String[] p = pCode[i].split(":");
 			if((pCode[i].charAt(0) != ' ') && (pCode[i].contains("EQU") == false))
 			{
-				jumpers[this.jumpersCount] = p[0]+":"+(i+1);
+				jumpers[this.jumpersCount] = pCode[i]+":"+(i+1);
 				// kann eventuell weg gelassen werden
-				this.setCodeViewLabel(i, p[0]);
 				
 				jumpersCount++;
 				
-				System.out.println("JumperMark found: "+p[0]+" at Line "+i);
-				this.outputToConsole("JumperMark found: "+p[0]+" at Line "+i);
+				System.out.println("JumperMark found: "+pCode[i]+" at Line "+i);
+				this.outputToConsole("JumperMark found: "+pCode[i]+" at Line "+i);
 			}
 		}
 		return pCode;
@@ -313,9 +311,10 @@ public class Controller {
 	}
 	
 	public void saveMnemonicCode(String text) {
-		String[] splittedMnemonic = text.split("\\n");
+		String[] splittedMnemonic = text.replaceAll("\\r", "").split("\\n");
 		mnemonicLines = new String[splittedMnemonic.length];
 		mnemonicLines = splittedMnemonic;
+		this.isCompiled = false;
 	}
 	
 	public void setCodeViewCounter(int oldC, int newC) 
@@ -326,12 +325,12 @@ public class Controller {
 	
 	public void setCodeViewLabel(int line,String label) 
 	{
-		this.gui.tbl_code.setValueAt(label, line, 4);
+		//this.gui.tbl_code.setValueAt(label, line, 4);
 	}
 	
 	public void setCodeViewAdress(int line,int adress) 
 	{
-		this.gui.tbl_code.setValueAt(Integer.toHexString(adress), line, 2);
+		//this.gui.tbl_code.setValueAt(Integer.toHexString(adress), line, 2);
 	}
 	
 	protected int getJumpersCount() 
@@ -341,60 +340,71 @@ public class Controller {
 	
 	// needs to be reworked
 	public void compileCode() {
+		// local program counter variable 
+		int pc = 0;
+		
 		if(!this.isCompiled) 
 		{
-			//Mnemonic Code aus der TextArea kopieren
-			lineCount = this.mnemonicWindow.txtArea_mnemonic.getLineCount();
-			lines = this.mnemonicWindow.txtArea_mnemonic.getText().split("\\n");
+			// delete all memory from last code
+			this.memory.clearProgMem();
 			
-			// LineCount reduzieren falls eine leere Zeile vorhanden ist
-			for(int i = 0; i < this.lines.length; i++) {
-				if(this.lines[i].equals("")) 
-				{
-					lineCount--;
-				}
-			}
-			// eventuell weg lassen
-			hexCode = new String[lineCount];
-			for(int i = 0; i<this.lineCount; i++) 
-			{
-				if(i >= gui.tbl_code.getRowCount()) 
-				{
-					gui.tbl_code.addRow(new Object[] {"","","",""});
-				}
-			}
-			this.setColumnWidth();
-			//erstellen eines Speichers der nur die anzahl an validen lines beinhaltet
-			this.code = new String[this.lineCount];
-			int blankCount=0;
-			for(int i = 0; i< this.lines.length; i++) 
-			{
-				if(this.lines[i].equals("")) 
-				{
-					blankCount++;
-				}else {
-					this.code[i-blankCount] = lines[i];
-				}
-			}
-
+	    	// initialisieren der grafischen Elemente
+	    	for(int i = 0; i<gui.tbl_code.getRowCount(); i++) 
+	    	{
+	        	gui.tbl_code.removeRow(i);  		
+	    	}
 			
-			// suche nach jumper labels und ersetzen durch code ohne label
-			this.code = this.searchJumperMarks(this.code);
-			// suche nach variablen marken , speichern der wertpaare und entfernen der zeilen
-			this.code = this.searchEQUMarks(this.code);
+			// suche nach variablen marken , speichern der wertpaare
+			this.mnemonicLines = this.searchEQUMarks(this.mnemonicLines);
 			
-
-
-			for(int j = 0; j <this.code.length;j++) 
+			for(int j = 0; j <this.mnemonicLines.length;j++) 
 			{
 				//gui.tbl_code.addRow(this.fromMnemToHex(this.code[j], j));
-				Object[] val = parser.fromMnemToHex(this.code[j], j);
-				hexCode[j] = (String) val[3];
-				gui.tbl_code.setValueAt(j, j, 0);
-				gui.tbl_code.setValueAt(val[1], j, 1);
-				gui.tbl_code.setValueAt(val[2], j, 2);
-				gui.tbl_code.setValueAt(val[3], j, 3);
-				gui.table_Code.setModel(gui.tbl_code);
+				
+				if(this.mnemonicLines[j].isEmpty()) 
+				{
+					// empty line 
+					gui.tbl_code.addRow(new Object[]{"","", "", j , "",""});
+				}else if(this.mnemonicLines[j].contains("org")) 
+				{
+					// org statement should change the pc
+					String[] tmp = this.mnemonicLines[j].split(" ");
+					for(int i = 0; i < tmp.length;i++) 
+					{
+						if(tmp[i].equals("org")) 
+						{
+							if(i+1 < tmp.length) 
+							{
+								int newPC = Integer.parseInt(tmp[i+1]);
+								pc = newPC;
+							}
+						}
+					}
+					gui.tbl_code.addRow(new Object[]{"","", "", j , "",mnemonicLines[j]});
+				}else if(this.mnemonicLines[j].contains("EQU")) 
+				{
+					// EQU should not affect any variable
+					gui.tbl_code.addRow(new Object[]{"","", "", j , "",mnemonicLines[j]});
+				}else if(this.mnemonicLines[j].charAt(0) != ' ') 
+				{
+					// if the first char in a line is unequal to space it is a label
+					// pay attention that the EQU is checked before, because EQU has unequal first character too
+					
+					// save that jumper mark with the correct program counter
+					jumpers[this.jumpersCount] = this.mnemonicLines[j]+":"+(pc);
+					jumpersCount++;
+					
+					gui.tbl_code.addRow(new Object[]{"","", "", j , mnemonicLines[j],""});
+				}else if(this.mnemonicLines[j].charAt(0) == ' ') 
+				{
+					// normal code line, executed by parser 
+					String binaryCode = parser.fromMnemToHex(this.mnemonicLines[j], j)[3].toString();
+					
+					gui.tbl_code.addRow(new Object[]{"",Integer.toHexString(pc), Integer.toHexString(Integer.parseInt(binaryCode, 2)), j , "",mnemonicLines[j]});
+					this.memory.programMemory[pc] = Integer.parseInt(binaryCode, 2);
+					// pc needs to be incremented
+					pc++;
+				}
 			}
 			this.isCompiled = true;
 		}else {
@@ -896,7 +906,8 @@ public class Controller {
 	//LITERAL AND CONTROL OPERATIONS
 	private void addlw(String k) 
 	{
-		memory.set_WREGISTER(Integer.parseInt(k, 2));
+		int in = memory.get_WREGISTER();
+		memory.set_WREGISTER(in+Integer.parseInt(k, 2));
 	}
 	private void andlw(String k) 
 	{    // eventuell k string mit nullen auffüllen
@@ -1015,6 +1026,10 @@ public class Controller {
 			}
 		}
 		memory.set_WREGISTER(Integer.parseInt(out, 2));
+	}
+	public void closeMnemonicWindow() {
+		// TODO Auto-generated method stub
+		this.mnemonicWindow.dispose();
 	}
 
 }

@@ -11,16 +11,6 @@ public class MnemonicParser {
 
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public Object[] fromMnemToHex(String c,int line)
 	{	
 		c.replaceAll("\r", "");
