@@ -13,6 +13,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JButton;
 import javax.swing.JMenu;
 import java.awt.Dialog.ModalExclusionType;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MnemonicView extends JFrame {
 
@@ -51,6 +53,11 @@ public class MnemonicView extends JFrame {
 		menuBar.add(mnFile);
 		
 		JButton btnSaveChanges = new JButton("Save Changes");
+		btnSaveChanges.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctr.saveMnemonicCode(txtArea_mnemonic.getText());
+			}
+		});
 		mnFile.add(btnSaveChanges);
 	}
 
