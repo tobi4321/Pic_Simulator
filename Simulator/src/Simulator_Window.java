@@ -224,10 +224,6 @@ public class Simulator_Window {
 	    	    };
 		
 		
-		//table_special_regs = new JTable(rowData_status,columnNames_status);
-		//table_status_reg.setModel(tbl_status);
-		//panel_specialreg.add(table_status_regs);
-		
 		JLabel lblSpecialregister = new JLabel("Special-Register");
 		lblSpecialregister.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_specialreg.add(lblSpecialregister);
@@ -276,8 +272,8 @@ public class Simulator_Window {
 		        column.setMaxWidth(80);
 		        column.setMinWidth(60);
 		    }else if(i == 4) {
-		        column.setPreferredWidth(80);
-		        column.setMaxWidth(90);
+		        column.setPreferredWidth(100);
+		        column.setMaxWidth(110);
 		        column.setResizable(false);
 		    }
 		}
