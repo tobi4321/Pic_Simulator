@@ -42,7 +42,7 @@ public class Processor extends Thread{
     				commandToExecute = "0"+commandToExecute;
     			}
     			ctr.executeCommand(commandToExecute);
-                
+                ctr.showError("Test", "This is a test for the error dialog");
     			sleep(1000);
                 
     			if(ctr.programmCounter == ctr.codeLength-1) 

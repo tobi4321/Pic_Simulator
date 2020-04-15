@@ -9,10 +9,14 @@ import javax.swing.text.BadLocationException;
 *  Here are objects of Procesor, memory, timer, interupt and watchdog
 * **/
 public class Controller {
-
-	private Simulator_Window gui;
 	
+	/// object of main gui
+	private Simulator_Window gui;
+	/// object of mnemonic editor gui
 	private MnemonicView mnemonicWindow;
+	/// object of a error dialog
+	private ErrorDialog errorView;
+	
 	
 	protected boolean isCompiled = false ;
 	
@@ -92,6 +96,15 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
+	
+	public void showError(String title,String text) 
+	{
+		errorView = new ErrorDialog();
+		errorView.setVisible(true);
+		errorView.lbl_ErrorTitle.setText(title);
+		errorView.lbl_ErrorText.setText(text);
+	}
+	
 	protected void loadMnemonicFromTable() 
 	{
 		String mnemonic = "";

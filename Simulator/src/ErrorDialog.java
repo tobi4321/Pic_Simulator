@@ -13,6 +13,8 @@ public class ErrorDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 
+	protected JLabel lbl_ErrorTitle;
+	protected JLabel lbl_ErrorText;
 	/**
 	 * Launch the application.
 	 */
@@ -37,14 +39,14 @@ public class ErrorDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.NORTH);
 		contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		{
-			JLabel lbl_ErrorTitle = new JLabel("\u00DCberschrift");
+			 lbl_ErrorTitle = new JLabel("\u00DCberschrift");
 			contentPanel.add(lbl_ErrorTitle);
 		}
 		{
 			JPanel panel = new JPanel();
 			getContentPane().add(panel, BorderLayout.CENTER);
 			{
-				JLabel lbl_ErrorText = new JLabel("Text");
+				lbl_ErrorText = new JLabel("Text");
 				panel.add(lbl_ErrorText);
 				lbl_ErrorText.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			}
