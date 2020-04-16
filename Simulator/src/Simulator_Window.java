@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
+import javax.swing.JEditorPane;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.BoxLayout;
 import java.awt.Component;
@@ -46,6 +47,7 @@ import java.awt.Insets;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import java.awt.ComponentOrientation;
+import java.awt.Desktop;
 /// class Simulator_Window
 /**
 *  Grafical user interface for Pic Simualtor.
@@ -579,6 +581,11 @@ public class Simulator_Window {
 		mnSimulator.add(btnInfo);
 		
 		JButton btnHelp = new JButton("Help");
+		btnHelp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openHelp();
+			}
+		});
 		mnSimulator.add(btnHelp);
 		
 
@@ -602,5 +609,16 @@ public class Simulator_Window {
 	  public void setSpecialData(Object obj,int row_index,int col_index) 
 	  {
 		  this.table_special_regs.getModel().setValueAt(obj, row_index, col_index);
+	  }
+	  public void openHelp() {
+			// TODO Auto-generated method stub
+
+			try {
+			  File helpFile = new File("out/html/index.html");
+			  Desktop.getDesktop().browse(helpFile.toURI());
+			  //help.setPage(helpFile.toURI().toURL());
+			}catch (IOException e) {
+				ctr.showError("File Open Error", e.getMessage());
+			} 
 	  }
 }

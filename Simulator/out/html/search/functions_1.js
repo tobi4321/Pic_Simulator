@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['simulator_5fwindow_19',['Simulator_Window',['../class_simulator___window.html#a3acace296d8d44ff2693068bb2657252',1,'Simulator_Window']]]
+  ['errordialog_169',['ErrorDialog',['../class_error_dialog.html#afee132b57a796f05a412cbc93929e8fb',1,'ErrorDialog']]],
+  ['executecommand_170',['executeCommand',['../class_controller.html#a17f16382f4023710699af26f7d29cb7d',1,'Controller']]]
 ];
