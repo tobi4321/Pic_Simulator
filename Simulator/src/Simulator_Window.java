@@ -295,9 +295,9 @@ public class Simulator_Window {
 		verticalIO.add(panel_IO);
 		GridBagLayout gbl_panel_IO = new GridBagLayout();
 		gbl_panel_IO.columnWidths = new int[] {130, 0};
-		gbl_panel_IO.rowHeights = new int[] {10, 10, 10, 10, 10, 10, 10, 30, 120, 30, 30, 30,30};
-		gbl_panel_IO.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panel_IO.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gbl_panel_IO.rowHeights = new int[] {30, 30, 30, 130, 30, 30, 300};
+		gbl_panel_IO.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_IO.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		panel_IO.setLayout(gbl_panel_IO);
 		
 		JPanel panel_AnalogOut = new JPanel();
@@ -308,7 +308,7 @@ public class Simulator_Window {
 		gbc_panel_AnalogOut.fill = GridBagConstraints.BOTH;
 		gbc_panel_AnalogOut.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_AnalogOut.gridx = 0;
-		gbc_panel_AnalogOut.gridy = 0;
+		gbc_panel_AnalogOut.gridy = 1;
 		panel_IO.add(panel_AnalogOut, gbc_panel_AnalogOut);
 		
 		JLabel lblAnalogOut = new JLabel("Analog OUT   ");
@@ -360,6 +360,24 @@ public class Simulator_Window {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Port 1", "Port 2", "Port 3", "Port 4"}));
 		panel_AnalogOut.add(comboBox);
 		
+		JPanel panel_Quarzfrequenz = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panel_Quarzfrequenz.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.LEFT);
+		GridBagConstraints gbc_panel_Quarzfrequenz = new GridBagConstraints();
+		gbc_panel_Quarzfrequenz.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_Quarzfrequenz.fill = GridBagConstraints.BOTH;
+		gbc_panel_Quarzfrequenz.gridx = 0;
+		gbc_panel_Quarzfrequenz.gridy = 0;
+		panel_IO.add(panel_Quarzfrequenz, gbc_panel_Quarzfrequenz);
+		
+		JLabel lblQuarzFrequenz = new JLabel("Quarz Freq");
+		lblQuarzFrequenz.setFont(new Font("Tahoma", Font.BOLD, 15));
+		panel_Quarzfrequenz.add(lblQuarzFrequenz);
+		
+		JComboBox comboBox_4 = new JComboBox();
+		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"500kHz", "1MHz", "2MHz", "3MHz", "4MHz"}));
+		panel_Quarzfrequenz.add(comboBox_4);
+		
 		JPanel panel_AnalogIn = new JPanel();
 		panel_AnalogIn.setBorder(new LineBorder(new Color(0, 0, 0)));
 		FlowLayout fl_panel_AnalogIn = (FlowLayout) panel_AnalogIn.getLayout();
@@ -406,10 +424,10 @@ public class Simulator_Window {
 		JPanel panel_7Segment = new JPanel();
 		panel_7Segment.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_panel_7Segment = new GridBagConstraints();
-		gbc_panel_7Segment.fill = GridBagConstraints.BOTH;
+		gbc_panel_7Segment.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel_7Segment.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_7Segment.gridx = 0;
-		gbc_panel_7Segment.gridy = 4;
+		gbc_panel_7Segment.gridy = 3;
 		panel_IO.add(panel_7Segment, gbc_panel_7Segment);
 		panel_7Segment.setLayout(new BorderLayout(0, 0));
 		
@@ -433,6 +451,7 @@ public class Simulator_Window {
 		panel_segmentOptions.add(btnActive);
 		
 		panel_segmentCanvas = new MyPanel();
+		panel_segmentCanvas.setMaximumSize(new Dimension(180, 105));
 		panel_segmentCanvas.setPreferredSize(new Dimension(180, 105));
 		panel_segmentCanvas.setMinimumSize(new Dimension(180, 105));
 		panel_7Segment.add(panel_segmentCanvas, BorderLayout.CENTER);
