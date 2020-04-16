@@ -383,7 +383,7 @@ public class Controller {
 				if(this.mnemonicLines[j].isEmpty() || (this.mnemonicLines[j].length() < 5 &&  this.mnemonicLines[j].startsWith(" "))) 
 				{
 					// empty line 
-					gui.tbl_code.addRow(new Object[]{"","", "", j+1 , "",""});
+					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",""});
 				}else if(this.mnemonicLines[j].contains("org") || this.mnemonicLines[j].contains("device 16")) 
 				{
 					// org statement should change the pc
@@ -399,11 +399,11 @@ public class Controller {
 							}
 						}
 					}
-					gui.tbl_code.addRow(new Object[]{"","", "", j+1 , "",mnemonicLines[j]});
+					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
 				}else if(this.mnemonicLines[j].contains("EQU")) 
 				{
 					// EQU should not affect any variable
-					gui.tbl_code.addRow(new Object[]{"","", "", j+1 , "",mnemonicLines[j]});
+					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
 				}else if(this.mnemonicLines[j].charAt(0) != ' ') 
 				{
 					// if the first char in a line is unequal to space it is a label
@@ -413,7 +413,7 @@ public class Controller {
 					jumpers[this.jumpersCount] = this.mnemonicLines[j]+":"+(pc);
 					jumpersCount++;
 					
-					gui.tbl_code.addRow(new Object[]{"","", "", j+1 , mnemonicLines[j],""});
+					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , mnemonicLines[j],""});
 				}else if(this.mnemonicLines[j].charAt(0) == ' ') 
 				{
 					// normal code line, executed by parser 
@@ -1091,7 +1091,7 @@ public class Controller {
 				break;
 		}
 	}
-	public void saveFile(File fileToSave) {
+	public void saveSRCFile(File fileToSave) {
 		File savingFile;
 		try {
 		      savingFile = new File(fileToSave.getAbsolutePath());
@@ -1099,31 +1099,13 @@ public class Controller {
 		        System.out.println("File created: " + savingFile.getName());
 		        try {
 		            FileWriter myWriter = new FileWriter(savingFile.getAbsolutePath());
+		           
 		            
-		    		String mnemonic = "";
-		    		for(int i = 0; i < 		gui.tbl_code.getRowCount(); i++) 
-		    		{
-		    			// check for Labels
-		    			String label = gui.tbl_code.getValueAt(i, 4).toString();
-		    			if(!label.isEmpty()) 
-		    			{
-		    				mnemonic = mnemonic + label + "\n";
-		    			}else 
-		    			{
-		    				String code = gui.tbl_code.getValueAt(i, 5).toString();
-		    				if(code.contains("EQU")) 
-		    				{
-		    					mnemonic = mnemonic + code + "\n";
-		    				}else 
-		    				{
-		    					mnemonic = mnemonic + "  " + code + "\n";
-		    				}
-		    			}
-		    		}
-		            
-		            myWriter.write(mnemonic);
+		            myWriter.write(this.mnemonicWindow.txtArea_mnemonic.getText());
 		            myWriter.close();
+		            
 		            System.out.println("Successfully wrote to the file.");
+		            
 		          } catch (IOException e) {
 		            System.out.println("An error occurred.");
 		            e.printStackTrace();
@@ -1170,6 +1152,61 @@ public class Controller {
 			e.printStackTrace();
 		}
 		
+	}
+	// saving current code to a selected or new lst file
+	public void saveLSTFile(File fileToSave) {
+		File savingFile;
+		try {
+		      savingFile = new File(fileToSave.getAbsolutePath());
+		      if (savingFile.createNewFile()) {
+		        System.out.println("File created: " + savingFile.getName());
+		        try {
+		            FileWriter fileWriter = new FileWriter(savingFile.getAbsolutePath());
+		            
+		    		String code = "";
+		    		for(int i = 0; i < 		gui.tbl_code.getRowCount(); i++) 
+		    		{
+		    			// get the data of specific line
+		    			String progCounter = gui.tbl_code.getValueAt(i, 1).toString();
+		    			while(progCounter.length() < 4) 
+		    			{
+		    				progCounter = "0"+progCounter;
+		    			}
+		    			String progCode = gui.tbl_code.getValueAt(i, 2).toString();
+		    			while(progCode.length() < 4) 
+		    			{
+		    				progCode = "0"+progCode;
+		    			}
+		    			String lineCount = gui.tbl_code.getValueAt(i, 3).toString();
+		    			while(lineCount.length() < 5) 
+		    			{
+		    				lineCount = "0"+lineCount;
+		    			}
+		    			String label = gui.tbl_code.getValueAt(i, 4).toString();
+		    			while(label.length() < 4) 
+		    			{
+		    				label = " "+label;
+		    			}
+		    			String mnemonic = gui.tbl_code.getValueAt(i, 5).toString();
+		    			
+		    			// attention to the correct space count between each variable
+		    			code = code + progCounter + " " + progCode + "           " + lineCount + "  " + label + "     " + mnemonic + "\n";
+		    		}
+		            
+		            fileWriter.write(code);
+		            fileWriter.close();
+		            System.out.println("Successfully wrote to the file.");
+		          } catch (IOException e) {
+		            System.out.println("An error occurred.");
+		            e.printStackTrace();
+		          }
+		      } else {
+		        System.out.println("File already exists.");
+		      }
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
 	}
 
 }

@@ -522,7 +522,7 @@ public class Simulator_Window {
 		file_menu.getAccessibleContext().setAccessibleDescription("Open and Saving Files");
 		menuBar.add(file_menu);
 		
-		JButton btnLoadFile = new JButton("Load File");
+		JButton btnLoadFile = new JButton("Load LST File");
 		btnLoadFile.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnLoadFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -551,18 +551,24 @@ public class Simulator_Window {
 		});
 		file_menu.add(btnLoadFile);
 		
-		JButton btnSaveFile = new JButton("Save File");
+		JButton btnSaveFile = new JButton("Save LST File");
 		btnSaveFile.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnSaveFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc_save = new JFileChooser();
+				fc_save.setAcceptAllFileFilterUsed(false);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("LST File","lst");
+				fc_save.addChoosableFileFilter(filter);
 				fc_save.setDialogTitle("Specify a file to save");   
 				File fileToSave; 
 				int userSelection = fc_save.showSaveDialog(btnSaveFile);
 				 
 				if (userSelection == JFileChooser.APPROVE_OPTION) {
 				    fileToSave = fc_save.getSelectedFile();
-				    ctr.saveFile(fileToSave);
+				    
+				    ctr.saveLSTFile(fileToSave);
+				    
+				    //ctr.saveSRCFile(fileToSave);
 				    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
 				}
 				

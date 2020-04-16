@@ -57,7 +57,7 @@ public class MnemonicView extends JFrame {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
-		JButton btnSaveChanges = new JButton("Save Changes");
+		JButton btnSaveChanges = new JButton("Compile Changes");
 		btnSaveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ctr.saveMnemonicCode(txtArea_mnemonic.getText());
@@ -88,6 +88,29 @@ public class MnemonicView extends JFrame {
 			}
 		});
 		mnFile.add(btnLoadSrcFile);
+		
+		JButton btnSaveSrcFile = new JButton("Save SRC File");
+		btnSaveSrcFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc_save = new JFileChooser();
+				fc_save.setAcceptAllFileFilterUsed(false);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("SRC File","src");
+				fc_save.addChoosableFileFilter(filter);
+				fc_save.setDialogTitle("Specify a file to save");   
+				File fileToSave; 
+				int userSelection = fc_save.showSaveDialog(btnSaveSrcFile);
+				 
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+				    fileToSave = fc_save.getSelectedFile();
+				    
+				    ctr.saveSRCFile(fileToSave);
+				    
+				    //ctr.saveSRCFile(fileToSave);
+				    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+				}
+			}
+		});
+		mnFile.add(btnSaveSrcFile);
 	}
 
 }
