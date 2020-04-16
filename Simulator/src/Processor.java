@@ -12,6 +12,7 @@ public class Processor extends Thread{
 	Controller ctr;
 	Boolean exit = false;
 	int oldProgrammCounter = 0;
+
 	
 	public Processor(Controller pC) 
 	{
@@ -44,7 +45,7 @@ public class Processor extends Thread{
     			ctr.executeCommand(commandToExecute);
     			
     			ctr.refreshIO();
-    			sleep(1000);
+    			sleep(ctr.frequency);
                 
     			if(ctr.programmCounter >= ctr.memory.programMemory.length) 
                 {

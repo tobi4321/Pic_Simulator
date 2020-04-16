@@ -50,6 +50,7 @@ import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import java.awt.ComponentOrientation;
 import java.awt.Desktop;
+import java.awt.GridLayout;
 /// class Simulator_Window
 /**
 *  Grafical user interface for Pic Simualtor.
@@ -83,12 +84,15 @@ public class Simulator_Window {
 	protected JRadioButton rb_io_6;
 	protected JRadioButton rb_io_7;
 	protected JRadioButton rb_io_8;
+	
 	// members to input values into register memory
 	private JTextField txtField_input;
 	private JButton btn_InputRegister;
 	private JComboBox comboBox_File;
 	private JComboBox comboBox_SubFile;
 	
+	// member to set the Quarz Frequency
+	protected JComboBox comboBox_quarzFrequency;
 	/**
 	 * Launch the application.
 	 */
@@ -295,7 +299,7 @@ public class Simulator_Window {
 		verticalIO.add(panel_IO);
 		GridBagLayout gbl_panel_IO = new GridBagLayout();
 		gbl_panel_IO.columnWidths = new int[] {130, 0};
-		gbl_panel_IO.rowHeights = new int[] {30, 30, 30, 130, 30, 30, 300};
+		gbl_panel_IO.rowHeights = new int[] {30, 30, 30, 180, 30, 30, 300};
 		gbl_panel_IO.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gbl_panel_IO.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		panel_IO.setLayout(gbl_panel_IO);
@@ -361,22 +365,37 @@ public class Simulator_Window {
 		panel_AnalogOut.add(comboBox);
 		
 		JPanel panel_Quarzfrequenz = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) panel_Quarzfrequenz.getLayout();
-		flowLayout_1.setAlignment(FlowLayout.LEFT);
+		panel_Quarzfrequenz.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_panel_Quarzfrequenz = new GridBagConstraints();
+		gbc_panel_Quarzfrequenz.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel_Quarzfrequenz.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_Quarzfrequenz.fill = GridBagConstraints.BOTH;
 		gbc_panel_Quarzfrequenz.gridx = 0;
 		gbc_panel_Quarzfrequenz.gridy = 0;
 		panel_IO.add(panel_Quarzfrequenz, gbc_panel_Quarzfrequenz);
+		panel_Quarzfrequenz.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
 		JLabel lblQuarzFrequenz = new JLabel("Quarz Freq");
+		lblQuarzFrequenz.setHorizontalAlignment(SwingConstants.LEFT);
+		lblQuarzFrequenz.setPreferredSize(new Dimension(172, 20));
+		lblQuarzFrequenz.setMinimumSize(new Dimension(64, 14));
+		lblQuarzFrequenz.setMaximumSize(new Dimension(64, 14));
 		lblQuarzFrequenz.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_Quarzfrequenz.add(lblQuarzFrequenz);
 		
-		JComboBox comboBox_4 = new JComboBox();
-		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"500kHz", "1MHz", "2MHz", "3MHz", "4MHz"}));
-		panel_Quarzfrequenz.add(comboBox_4);
+		comboBox_quarzFrequency = new JComboBox();
+		comboBox_quarzFrequency.setPreferredSize(new Dimension(80, 20));
+		comboBox_quarzFrequency.setMinimumSize(new Dimension(80, 20));
+		comboBox_quarzFrequency.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		comboBox_quarzFrequency.setModel(new DefaultComboBoxModel(new String[] {"500kHz", "1MHz", "2MHz", "3MHz", "4MHz"}));
+		panel_Quarzfrequenz.add(comboBox_quarzFrequency);
+		
+		JButton btnSetFrequency = new JButton("Set Frequency");
+		btnSetFrequency.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctr.updateFrequency(comboBox_quarzFrequency.getSelectedItem().toString());
+			}
+		});
+		panel_Quarzfrequenz.add(btnSetFrequency);
 		
 		JPanel panel_AnalogIn = new JPanel();
 		panel_AnalogIn.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -435,6 +454,14 @@ public class Simulator_Window {
 		panel_7Segment.add(lblSegment, BorderLayout.NORTH);
 		lblSegment.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
+		panel_segmentCanvas = new MyPanel();
+		panel_segmentCanvas.setMaximumSize(new Dimension(310, 105));
+		panel_segmentCanvas.setPreferredSize(new Dimension(310, 105));
+		panel_7Segment.add(panel_segmentCanvas, BorderLayout.CENTER);
+		panel_segmentCanvas.setOpaque(false);
+		panel_segmentCanvas.setBackground(Color.WHITE);
+		panel_segmentCanvas.setLayout(null);
+		
 		JPanel panel_segmentOptions = new JPanel();
 		panel_7Segment.add(panel_segmentOptions, BorderLayout.SOUTH);
 		panel_segmentOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -449,13 +476,6 @@ public class Simulator_Window {
 		
 		JButton btnActive = new JButton("Active");
 		panel_segmentOptions.add(btnActive);
-		
-		panel_segmentCanvas = new MyPanel();
-		panel_segmentCanvas.setMaximumSize(new Dimension(180, 105));
-		panel_segmentCanvas.setPreferredSize(new Dimension(180, 105));
-		panel_segmentCanvas.setMinimumSize(new Dimension(180, 105));
-		panel_7Segment.add(panel_segmentCanvas, BorderLayout.CENTER);
-		panel_segmentCanvas.setBackground(Color.WHITE);
 		
 		
 		Box lowerArea = Box.createHorizontalBox();

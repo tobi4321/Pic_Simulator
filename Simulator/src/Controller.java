@@ -48,6 +48,8 @@ public class Controller {
 	
 	protected int lineCount;
 	
+	protected int frequency = 1000;
+	
 	/// Processor object used to work each code step
 	protected Processor proc;
 	/// memory object used to store the data of microprocessor
@@ -1068,6 +1070,26 @@ public class Controller {
 	public void refreshIO() {
 		// TODO Auto-generated method stub
 
+	}
+	public void updateFrequency(String selectedItem) {
+		switch(selectedItem) 
+		{
+			case "500kHz":
+				this.frequency = 1500;
+				break;
+			case "1MHz":
+				this.frequency = 1200;
+				break;
+			case "2MHz":
+				this.frequency = 900;
+				break;
+			case "3MHz":
+				this.frequency = 600;
+				break;
+			case "4MHz":
+				this.frequency = 300;
+				break;
+		}
 	}
 
 }
