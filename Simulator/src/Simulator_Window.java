@@ -35,6 +35,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListDataEvent;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.SwingConstants;
@@ -124,6 +126,7 @@ public class Simulator_Window {
 
 		
 		Box verticalBox = Box.createVerticalBox();
+		verticalBox.setBorder(UIManager.getBorder("InternalFrame.border"));
 		frmMicrocontrollerSimulator.getContentPane().add(verticalBox);
 		
 		Box upperArea = Box.createHorizontalBox();
@@ -486,6 +489,9 @@ public class Simulator_Window {
 			public void actionPerformed(ActionEvent arg0) {
 				//Create a file chooser
 				final JFileChooser fc = new JFileChooser();
+				fc.setAcceptAllFileFilterUsed(false);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("LST File","lst");
+				fc.addChoosableFileFilter(filter);
 				//In response to a button click:
 				int returnVal = fc.showOpenDialog(btnLoadFile);
 				 if (returnVal == JFileChooser.APPROVE_OPTION) {

@@ -1065,5 +1065,9 @@ public class Controller {
 			this.programCounterList[i] = 0;
 		}
 	}
+	public void refreshIO() {
+		// TODO Auto-generated method stub
+
+	}
 
 }

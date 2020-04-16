@@ -42,7 +42,8 @@ public class Processor extends Thread{
     				commandToExecute = "0"+commandToExecute;
     			}
     			ctr.executeCommand(commandToExecute);
-                //ctr.showError("Test", "This is a test for the error dialog");
+    			
+    			ctr.refreshIO();
     			sleep(1000);
                 
     			if(ctr.programmCounter >= ctr.memory.programMemory.length) 
