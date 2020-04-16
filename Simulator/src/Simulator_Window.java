@@ -558,7 +558,7 @@ public class Simulator_Window {
 				JFileChooser fc_save = new JFileChooser();
 				fc_save.setDialogTitle("Specify a file to save");   
 				File fileToSave; 
-				int userSelection = fc_save.showSaveDialog(btnLoadFile);
+				int userSelection = fc_save.showSaveDialog(btnSaveFile);
 				 
 				if (userSelection == JFileChooser.APPROVE_OPTION) {
 				    fileToSave = fc_save.getSelectedFile();

@@ -1136,8 +1136,39 @@ public class Controller {
 		      e.printStackTrace();
 		    }
 	}
-	public void loadSRCFile() {
+	
+	// loading a src file into the mnemonic view editor
+	public void loadSRCFile(File file) {
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(file));
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String st; 
+
+    	
+    	// initialisieren der grafischen Elemente
+		this.mnemonicWindow.txtArea_mnemonic.setText("");
 		
+		String output = "";
+		
+    	// einlesen der einzelnen Zeilen inklusive equ und labels
+		try {
+			while ((st = br.readLine()) != null) { 
+				
+				output = output + st + '\n';
+				
+			}
+			
+			this.mnemonicWindow.txtArea_mnemonic.setText(output);
+			
+		} catch (NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

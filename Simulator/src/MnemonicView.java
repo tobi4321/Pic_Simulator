@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JScrollPane;
 import java.awt.Component;
 import javax.swing.JTextArea;
@@ -11,10 +12,13 @@ import java.awt.Font;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class MnemonicView extends JFrame {
@@ -65,7 +69,22 @@ public class MnemonicView extends JFrame {
 		JButton btnLoadSrcFile = new JButton("Load SRC File");
 		btnLoadSrcFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctr.loadSRCFile();
+				
+				final JFileChooser fc = new JFileChooser();
+				fc.setAcceptAllFileFilterUsed(false);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("SRC File","src");
+				fc.addChoosableFileFilter(filter);
+				//In response to a button click:
+				int returnVal = fc.showOpenDialog(btnLoadSrcFile);
+				 if (returnVal == JFileChooser.APPROVE_OPTION) {
+			            File file = fc.getSelectedFile();
+			            ctr.loadSRCFile(file);
+			            //This is where a real application would open the file.
+			            System.out.println("Opening: " + file.getName());
+			        } else {
+			            System.out.println("Open command cancelled by user.");
+			        }
+
 			}
 		});
 		mnFile.add(btnLoadSrcFile);
