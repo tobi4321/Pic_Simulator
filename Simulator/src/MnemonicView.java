@@ -61,6 +61,14 @@ public class MnemonicView extends JFrame {
 			}
 		});
 		mnFile.add(btnSaveChanges);
+		
+		JButton btnLoadSrcFile = new JButton("Load SRC File");
+		btnLoadSrcFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctr.loadSRCFile();
+			}
+		});
+		mnFile.add(btnLoadSrcFile);
 	}
 
 }
