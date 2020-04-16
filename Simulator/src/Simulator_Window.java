@@ -262,6 +262,7 @@ public class Simulator_Window {
 		scrollPane_3.setViewportBorder(UIManager.getBorder("TableHeader.cellBorder"));
 		table_Code = new JTable();
 		table_Code.setModel(tbl_code);
+		table_Code.setEnabled(false);
 		for (int i = 0; i < 5; i++) {
 		    column = table_Code.getColumnModel().getColumn(i);
 		    if (i == 0) {

@@ -134,8 +134,15 @@ public class Controller {
 	public void startSimu() {
 		System.out.println("Simulation started...");
 		this.outputToConsole("Simulation started...");
-		proc = new Processor(this);
-		proc.start();	
+		if(this.isCompiled) 
+		{
+			proc = new Processor(this);
+			proc.start();	
+		}else 
+		{
+			this.showError("Start Simulation Error", "Code isnt compiled. Please compile first and try it again.");
+		}
+
 	}
 	public void start() 
 	{
@@ -281,6 +288,7 @@ public class Controller {
     	
     	// initialisieren der grafischen Elemente
 		clearCodeTable();
+		clearProgramCounterList();
 
     	// einlesen der einzelnen Zeilen inklusive equ und labels
 		while ((st = br.readLine()) != null) { 
@@ -318,6 +326,7 @@ public class Controller {
 
 		}
 		this.setColumnWidth();
+		this.isCompiled = true;
 	}
 	
 	public void saveMnemonicCode(String text) {
@@ -325,12 +334,13 @@ public class Controller {
 		mnemonicLines = new String[splittedMnemonic.length];
 		mnemonicLines = splittedMnemonic;
 		this.isCompiled = false;
+		this.compileCode();
 	}
 	
 	public void setCodeViewCounter(int oldC, int newC) 
 	{
-		this.gui.tbl_code.setValueAt(" ", oldC, 0);
-		this.gui.tbl_code.setValueAt("->", newC, 0);
+		this.gui.tbl_code.setValueAt(" ", oldC-1, 0);
+		this.gui.tbl_code.setValueAt("->", newC-1, 0);
 	}
 	
 	public void setCodeViewLabel(int line,String label) 
@@ -360,18 +370,18 @@ public class Controller {
 			
 	    	// initialisieren der grafischen Elemente
 			clearCodeTable();
+			clearProgramCounterList();
 			
 			// suche nach variablen marken , speichern der wertpaare
 			this.mnemonicLines = this.searchEQUMarks(this.mnemonicLines);
 			
 			for(int j = 0; j <this.mnemonicLines.length;j++) 
 			{
-				//gui.tbl_code.addRow(this.fromMnemToHex(this.code[j], j));
-				
+				// needs check if empty lines with multiple spaces exist and delete these spaces 
 				if(this.mnemonicLines[j].isEmpty() || (this.mnemonicLines[j].length() < 5 &&  this.mnemonicLines[j].startsWith(" "))) 
 				{
 					// empty line 
-					gui.tbl_code.addRow(new Object[]{"","", "", j , "",""});
+					gui.tbl_code.addRow(new Object[]{"","", "", j+1 , "",""});
 				}else if(this.mnemonicLines[j].contains("org") || this.mnemonicLines[j].contains("device 16")) 
 				{
 					// org statement should change the pc
@@ -387,11 +397,11 @@ public class Controller {
 							}
 						}
 					}
-					gui.tbl_code.addRow(new Object[]{"","", "", j , "",mnemonicLines[j]});
+					gui.tbl_code.addRow(new Object[]{"","", "", j+1 , "",mnemonicLines[j]});
 				}else if(this.mnemonicLines[j].contains("EQU")) 
 				{
 					// EQU should not affect any variable
-					gui.tbl_code.addRow(new Object[]{"","", "", j , "",mnemonicLines[j]});
+					gui.tbl_code.addRow(new Object[]{"","", "", j+1 , "",mnemonicLines[j]});
 				}else if(this.mnemonicLines[j].charAt(0) != ' ') 
 				{
 					// if the first char in a line is unequal to space it is a label
@@ -401,14 +411,16 @@ public class Controller {
 					jumpers[this.jumpersCount] = this.mnemonicLines[j]+":"+(pc);
 					jumpersCount++;
 					
-					gui.tbl_code.addRow(new Object[]{"","", "", j , mnemonicLines[j],""});
+					gui.tbl_code.addRow(new Object[]{"","", "", j+1 , mnemonicLines[j],""});
 				}else if(this.mnemonicLines[j].charAt(0) == ' ') 
 				{
 					// normal code line, executed by parser 
 					String binaryCode = parser.fromMnemToHex(this.mnemonicLines[j], j)[3].toString();
 					
-					gui.tbl_code.addRow(new Object[]{"",Integer.toHexString(pc), Integer.toHexString(Integer.parseInt(binaryCode, 2)), j , "",mnemonicLines[j]});
+					gui.tbl_code.addRow(new Object[]{"",Integer.toHexString(pc), Integer.toHexString(Integer.parseInt(binaryCode, 2)), j+1 , "",mnemonicLines[j]});
 					this.memory.programMemory[pc] = Integer.parseInt(binaryCode, 2);
+					
+					programCounterList[pc] = j+1;
 					// pc needs to be incremented
 					pc++;
 				}
@@ -1045,6 +1057,13 @@ public class Controller {
     	{
         	gui.tbl_code.removeRow(0);  		
     	}
+	}
+	private void clearProgramCounterList() 
+	{
+		for(int i = 0; i< this.programCounterList.length; i++) 
+		{
+			this.programCounterList[i] = 0;
+		}
 	}
 
 }

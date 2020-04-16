@@ -27,7 +27,7 @@ public class Processor extends Thread{
     		{
     			//ctr.setSegment(ctr.programmCounter, 15-ctr.programmCounter, ctr.programmCounter, 13-ctr.programmCounter);
     			
-    			//ctr.setCodeViewCounter(ctr.programCounterList[this.oldProgrammCounter]-1, ctr.programCounterList[ctr.programmCounter]-1);
+    			ctr.setCodeViewCounter(ctr.programCounterList[this.oldProgrammCounter], ctr.programCounterList[ctr.programmCounter]);
     			this.oldProgrammCounter = ctr.programmCounter;
     			
     			//ctr.splitter(ctr.code[ctr.programmCounter]);
