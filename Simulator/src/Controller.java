@@ -280,10 +280,7 @@ public class Controller {
 
     	
     	// initialisieren der grafischen Elemente
-    	for(int i = 0; i<gui.tbl_code.getRowCount(); i++) 
-    	{
-        	gui.tbl_code.removeRow(i);  		
-    	}
+		clearCodeTable();
 
     	// einlesen der einzelnen Zeilen inklusive equ und labels
 		while ((st = br.readLine()) != null) { 
@@ -362,10 +359,7 @@ public class Controller {
 			this.memory.clearProgMem();
 			
 	    	// initialisieren der grafischen Elemente
-	    	for(int i = 0; i<gui.tbl_code.getRowCount(); i++) 
-	    	{
-	        	gui.tbl_code.removeRow(i);  		
-	    	}
+			clearCodeTable();
 			
 			// suche nach variablen marken , speichern der wertpaare
 			this.mnemonicLines = this.searchEQUMarks(this.mnemonicLines);
@@ -374,11 +368,11 @@ public class Controller {
 			{
 				//gui.tbl_code.addRow(this.fromMnemToHex(this.code[j], j));
 				
-				if(this.mnemonicLines[j].isEmpty()) 
+				if(this.mnemonicLines[j].isEmpty() || (this.mnemonicLines[j].length() < 5 &&  this.mnemonicLines[j].startsWith(" "))) 
 				{
 					// empty line 
 					gui.tbl_code.addRow(new Object[]{"","", "", j , "",""});
-				}else if(this.mnemonicLines[j].contains("org")) 
+				}else if(this.mnemonicLines[j].contains("org") || this.mnemonicLines[j].contains("device 16")) 
 				{
 					// org statement should change the pc
 					String[] tmp = this.mnemonicLines[j].split(" ");
@@ -1044,6 +1038,13 @@ public class Controller {
 		// TODO Auto-generated method stub
 		this.mnemonicWindow.dispose();
 	}
-
+	public void clearCodeTable() 
+	{
+		int rows = gui.tbl_code.getRowCount();
+    	for(int i = 0; i<rows; i++) 
+    	{
+        	gui.tbl_code.removeRow(0);  		
+    	}
+	}
 
 }
