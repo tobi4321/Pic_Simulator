@@ -22,8 +22,6 @@ Thumbs.db
 *.html
 *.css
 *.js
-**/out/
-**/html/
 **/latex/
 [Bb]in
 [Dd]ebug*/
