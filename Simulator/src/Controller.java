@@ -1103,16 +1103,21 @@ public class Controller {
 				}
 				break;
 			case 2:
-				writeNumber = 6;
+				for(int i = 0; i < 8; i++) {
+					memory.set_PORTB(7 - i, Integer.parseInt((String) portInValues.subSequence(i, i + 1)));
+				}
 				break;
 			case 3:
-				writeNumber = 6;
+				for(int i = 0; i < 8; i++) {
+					memory.set_TRISA(7 - i, Integer.parseInt((String) portInValues.subSequence(i, i + 1)));
+				}
 				break;
 			case 4:
-				writeNumber = 6;
+				for(int i = 0; i < 8; i++) {
+					memory.set_TRISB(7 - i, Integer.parseInt((String) portInValues.subSequence(i, i + 1)));
+				}
 				break;
 			}
-			
 			
 		}
 		if (portOUT > 0) {
@@ -1125,10 +1130,10 @@ public class Controller {
 				writeNumber = memory.get_Memory((int)6);
 				break;
 			case 3:
-				writeNumber = memory.get_Memory((int)6);
+				writeNumber = memory.get_Memory((int)0x85);
 				break;
 			case 4:
-				writeNumber = memory.get_Memory((int)6);
+				writeNumber = memory.get_Memory((int)0x86);
 				break;
 			}
 			this.setIOAnalog_OUT(writeNumber);
