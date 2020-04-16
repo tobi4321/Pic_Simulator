@@ -75,16 +75,26 @@ public class Simulator_Window {
 	protected JTextArea txtArea_Console;
 
 	
-	// radio buttons for the IO Panels
-	protected JRadioButton rb_io_1;
-	protected JRadioButton rb_io_2;
-	protected JRadioButton rb_io_3;
-	protected JRadioButton rb_io_4;
-	protected JRadioButton rb_io_5;
-	protected JRadioButton rb_io_6;
-	protected JRadioButton rb_io_7;
-	protected JRadioButton rb_io_8;
-	
+	// radio buttons for the IO Panels output
+	protected JComboBox comboBox_AnalogIn_PortSelector;
+	protected JRadioButton rb_io_out_1;
+	protected JRadioButton rb_io_out_2;
+	protected JRadioButton rb_io_out_3;
+	protected JRadioButton rb_io_out_4;
+	protected JRadioButton rb_io_out_5;
+	protected JRadioButton rb_io_out_6;
+	protected JRadioButton rb_io_out_7;
+	protected JRadioButton rb_io_out_8;
+	// radio buttons for the IO Panels input
+	protected JComboBox comboBox_AnalogOUT_PortSelector;
+	protected JRadioButton rb_io_in_1;
+	protected JRadioButton rb_io_in_2;
+	protected JRadioButton rb_io_in_3;
+	protected JRadioButton rb_io_in_4;
+	protected JRadioButton rb_io_in_5;
+	protected JRadioButton rb_io_in_6;
+	protected JRadioButton rb_io_in_7;
+	protected JRadioButton rb_io_in_8;
 	// members to input values into register memory
 	private JTextField txtField_input;
 	private JButton btn_InputRegister;
@@ -319,56 +329,58 @@ public class Simulator_Window {
 		lblAnalogOut.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_AnalogOut.add(lblAnalogOut);
 		
-		rb_io_1 = new JRadioButton("");
-		rb_io_1.setEnabled(false);
-		rb_io_1.setForeground(Color.RED);
-		panel_AnalogOut.add(rb_io_1);
+		rb_io_out_1 = new JRadioButton("");
+		rb_io_out_1.setEnabled(false);
+		rb_io_out_1.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_out_1);
 		
-		rb_io_2 = new JRadioButton("");
-		rb_io_2.setEnabled(false);
-		rb_io_2.setForeground(Color.RED);
-		panel_AnalogOut.add(rb_io_2);
+		rb_io_out_2 = new JRadioButton("");
+		rb_io_out_2.setEnabled(false);
+		rb_io_out_2.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_out_2);
 		
-		rb_io_3 = new JRadioButton("");
-		rb_io_3.setEnabled(false);
-		rb_io_3.setForeground(Color.RED);
-		panel_AnalogOut.add(rb_io_3);
+		rb_io_out_3 = new JRadioButton("");
+		rb_io_out_3.setEnabled(false);
+		rb_io_out_3.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_out_3);
 		
-		rb_io_4 = new JRadioButton("");
-		rb_io_4.setEnabled(false);
-		rb_io_4.setForeground(Color.RED);
-		panel_AnalogOut.add(rb_io_4);
+		rb_io_out_4 = new JRadioButton("");
+		rb_io_out_4.setEnabled(false);
+		rb_io_out_4.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_out_4);
 		
-		rb_io_5 = new JRadioButton("");
-		rb_io_5.setEnabled(false);
-		rb_io_5.setForeground(Color.RED);
-		panel_AnalogOut.add(rb_io_5);
+		rb_io_out_5 = new JRadioButton("");
+		rb_io_out_5.setEnabled(false);
+		rb_io_out_5.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_out_5);
 		
-		rb_io_6 = new JRadioButton("");
-		rb_io_6.setEnabled(false);
-		rb_io_6.setForeground(Color.RED);
-		panel_AnalogOut.add(rb_io_6);
+		rb_io_out_6 = new JRadioButton("");
+		rb_io_out_6.setEnabled(false);
+		rb_io_out_6.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_out_6);
 		
-		rb_io_7 = new JRadioButton("");
-		rb_io_7.setEnabled(false);
-		rb_io_7.setForeground(Color.RED);
-		panel_AnalogOut.add(rb_io_7);
+		rb_io_out_7 = new JRadioButton("");
+		rb_io_out_7.setEnabled(false);
+		rb_io_out_7.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_out_7);
 		
-		rb_io_8 = new JRadioButton("");
-		rb_io_8.setSelected(true);
-		rb_io_8.setEnabled(false);
-		rb_io_8.setForeground(Color.RED);
-		panel_AnalogOut.add(rb_io_8);
+		rb_io_out_8 = new JRadioButton("");
+		rb_io_out_8.setSelected(true);
+		rb_io_out_8.setEnabled(false);
+		rb_io_out_8.setForeground(Color.RED);
+		panel_AnalogOut.add(rb_io_out_8);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Port 1", "Port 2", "Port 3", "Port 4"}));
-		panel_AnalogOut.add(comboBox);
+		comboBox_AnalogOUT_PortSelector = new JComboBox();
+		comboBox_AnalogOUT_PortSelector.setModel(new DefaultComboBoxModel(new String[] {"-", "Port 1", "Port 2", "Port 3", "Port 4"}));
+		panel_AnalogOut.add(comboBox_AnalogOUT_PortSelector);
 		
 		JPanel panel_Quarzfrequenz = new JPanel();
-		panel_Quarzfrequenz.setBorder(new LineBorder(new Color(0, 0, 0)));
+		FlowLayout flowLayout_1 = (FlowLayout) panel_Quarzfrequenz.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.LEFT);
 		GridBagConstraints gbc_panel_Quarzfrequenz = new GridBagConstraints();
 		gbc_panel_Quarzfrequenz.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel_Quarzfrequenz.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_Quarzfrequenz.fill = GridBagConstraints.BOTH;
 		gbc_panel_Quarzfrequenz.gridx = 0;
 		gbc_panel_Quarzfrequenz.gridy = 0;
 		panel_IO.add(panel_Quarzfrequenz, gbc_panel_Quarzfrequenz);
@@ -412,33 +424,49 @@ public class Simulator_Window {
 		lblAnalogIn.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_AnalogIn.add(lblAnalogIn);
 		
-		JRadioButton radioButton = new JRadioButton("");
-		panel_AnalogIn.add(radioButton);
+		rb_io_in_1 = new JRadioButton("");
+		rb_io_in_1.setEnabled(true);
+		rb_io_in_1.setForeground(Color.RED);
+		panel_AnalogIn.add(rb_io_in_1);
 		
-		JRadioButton radioButton_1 = new JRadioButton("");
-		panel_AnalogIn.add(radioButton_1);
+		rb_io_in_2 = new JRadioButton("");
+		rb_io_in_2.setEnabled(true);
+		rb_io_in_2.setForeground(Color.RED);
+		panel_AnalogIn.add(rb_io_in_2);
 		
-		JRadioButton radioButton_2 = new JRadioButton("");
-		panel_AnalogIn.add(radioButton_2);
+		rb_io_in_3 = new JRadioButton("");
+		rb_io_in_3.setEnabled(true);
+		rb_io_in_3.setForeground(Color.RED);
+		panel_AnalogIn.add(rb_io_in_3);
 		
-		JRadioButton radioButton_3 = new JRadioButton("");
-		panel_AnalogIn.add(radioButton_3);
+		rb_io_in_4 = new JRadioButton("");
+		rb_io_in_4.setEnabled(true);
+		rb_io_in_4.setForeground(Color.RED);
+		panel_AnalogIn.add(rb_io_in_4);
 		
-		JRadioButton radioButton_4 = new JRadioButton("");
-		panel_AnalogIn.add(radioButton_4);
+		rb_io_in_5 = new JRadioButton("");
+		rb_io_in_5.setEnabled(true);
+		rb_io_in_5.setForeground(Color.RED);
+		panel_AnalogIn.add(rb_io_in_5);
 		
-		JRadioButton radioButton_5 = new JRadioButton("");
-		panel_AnalogIn.add(radioButton_5);
+		rb_io_in_6 = new JRadioButton("");
+		rb_io_in_6.setEnabled(true);
+		rb_io_in_6.setForeground(Color.RED);
+		panel_AnalogIn.add(rb_io_in_6);
 		
-		JRadioButton radioButton_6 = new JRadioButton("");
-		panel_AnalogIn.add(radioButton_6);
+		rb_io_in_7 = new JRadioButton("");
+		rb_io_in_7.setEnabled(true);
+		rb_io_in_7.setForeground(Color.RED);
+		panel_AnalogIn.add(rb_io_in_7);
 		
-		JRadioButton radioButton_7 = new JRadioButton("");
-		panel_AnalogIn.add(radioButton_7);
+		rb_io_in_8 = new JRadioButton("");
+		rb_io_in_8.setEnabled(true);
+		rb_io_in_8.setForeground(Color.RED);
+		panel_AnalogIn.add(rb_io_in_8);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Port 1", "Port 2", "Port 3", "Port 4"}));
-		panel_AnalogIn.add(comboBox_1);
+		comboBox_AnalogIn_PortSelector = new JComboBox();
+		comboBox_AnalogIn_PortSelector.setModel(new DefaultComboBoxModel(new String[] {"-", "Port 1", "Port 2", "Port 3", "Port 4"}));
+		panel_AnalogIn.add(comboBox_AnalogIn_PortSelector);
 		
 		JPanel panel_7Segment = new JPanel();
 		panel_7Segment.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -476,6 +504,8 @@ public class Simulator_Window {
 		
 		JButton btnActive = new JButton("Active");
 		panel_segmentOptions.add(btnActive);
+		
+
 		
 		
 		Box lowerArea = Box.createHorizontalBox();
