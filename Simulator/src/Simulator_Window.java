@@ -555,6 +555,16 @@ public class Simulator_Window {
 		btnSaveFile.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnSaveFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc_save = new JFileChooser();
+				fc_save.setDialogTitle("Specify a file to save");   
+				File fileToSave; 
+				int userSelection = fc_save.showSaveDialog(btnLoadFile);
+				 
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+				    fileToSave = fc_save.getSelectedFile();
+				    ctr.saveFile(fileToSave);
+				    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+				}
 				
 			}
 		});

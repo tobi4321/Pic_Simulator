@@ -1091,5 +1091,50 @@ public class Controller {
 				break;
 		}
 	}
+	public void saveFile(File fileToSave) {
+		File savingFile;
+		try {
+		      savingFile = new File(fileToSave.getAbsolutePath());
+		      if (savingFile.createNewFile()) {
+		        System.out.println("File created: " + savingFile.getName());
+		        try {
+		            FileWriter myWriter = new FileWriter(savingFile.getAbsolutePath());
+		            
+		    		String mnemonic = "";
+		    		for(int i = 0; i < 		gui.tbl_code.getRowCount(); i++) 
+		    		{
+		    			// check for Labels
+		    			String label = gui.tbl_code.getValueAt(i, 4).toString();
+		    			if(!label.isEmpty()) 
+		    			{
+		    				mnemonic = mnemonic + label + "\n";
+		    			}else 
+		    			{
+		    				String code = gui.tbl_code.getValueAt(i, 5).toString();
+		    				if(code.contains("EQU")) 
+		    				{
+		    					mnemonic = mnemonic + code + "\n";
+		    				}else 
+		    				{
+		    					mnemonic = mnemonic + "  " + code + "\n";
+		    				}
+		    			}
+		    		}
+		            
+		            myWriter.write(mnemonic);
+		            myWriter.close();
+		            System.out.println("Successfully wrote to the file.");
+		          } catch (IOException e) {
+		            System.out.println("An error occurred.");
+		            e.printStackTrace();
+		          }
+		      } else {
+		        System.out.println("File already exists.");
+		      }
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+	}
 
 }
