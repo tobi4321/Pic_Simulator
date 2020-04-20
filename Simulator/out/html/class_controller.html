@@ -239,6 +239,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to clear the code view Table. </p>
 
 </div>
 </div>
@@ -256,6 +257,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to close the Window of the Mnemonic editor. </p>
 
 </div>
 </div>
@@ -273,6 +275,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to compile the code needs to be reworked </p>
 
 </div>
 </div>
@@ -291,6 +294,12 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This method selects the command which must be executed </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">command</td><td>the command to execute as a String </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -309,6 +318,13 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to get the EQU value. When no matching EQU is found an empty string will be returned. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">equName</td><td>is the name of the EQU as a String. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The EQU equivilant as a String. </dd></dl>
 
 </div>
 </div>
@@ -334,6 +350,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to get the values of the analog IO input pins. For every active pin a 1 will be appended to a string, for every inactive a 0. </p><dl class="section return"><dt>Returns</dt><dd>the 8 pin values as a String </dd></dl>
 
 </div>
 </div>
@@ -359,6 +376,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to get the values of the analog IO output pins. For every active pin a 1 will be appended to a string, for every inactive a 0. </p><dl class="section return"><dt>Returns</dt><dd>the 8 pin values as a String </dd></dl>
 
 </div>
 </div>
@@ -384,6 +402,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to get get the amount of jumpers. </p><dl class="section return"><dt>Returns</dt><dd>The number of jump marks as integer </dd></dl>
 
 </div>
 </div>
@@ -419,6 +438,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to initialize the labels of all tables. </p>
 
 </div>
 </div>
@@ -437,6 +457,12 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to load a file. The code table and program counter list will be cleared. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pFile</td><td>is the File to be loaded. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -462,6 +488,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to </p>
 
 </div>
 </div>
@@ -480,6 +507,12 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to load a SRC File into the mnemonic view editor. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file</td><td>The File to load. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -497,6 +530,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to open the mnemonic editor <a class="el" href="class_mnemonic_view.html">MnemonicView</a> </p>
 
 </div>
 </div>
@@ -515,6 +549,12 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to set the values of the analog IO input pins. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">in</td><td>is a String </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -532,6 +572,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to refresh the Analog IOs. The selected Port of the analog output is read and written to the digital output. The analog input is read and written to the selected Port. </p>
 
 </div>
 </div>
@@ -550,6 +591,12 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to save the current code to a selected or new lst file. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileToSave</td><td>The File to save. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -568,6 +615,12 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to save the mnemonic code of the opened editor. If the code is not compiled, <a class="el" href="class_controller.html#a7552ba10b2d88701e8b1ca7dc9057542">compileCode</a> will be called. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>is the File to be loaded. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -586,6 +639,12 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to save a SRC File. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileToSave</td><td>the File to save. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -604,6 +663,13 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to search the EQU marks in the code. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pCode</td><td>is a String array which holds the program code </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the given program code </dd></dl>
 
 </div>
 </div>
@@ -622,6 +688,13 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to check if there are any jump marks in the code, adding to jumpers list and delete from code </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pCode</td><td>is a String array which holds the program code </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the given program code </dd></dl>
 
 </div>
 </div>
@@ -650,6 +723,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>?????????? </dd></dl>
 
 </div>
 </div>
@@ -678,6 +752,13 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to set the arrow which displays the active step to a new row. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">oldC</td><td>the old Counter row </td></tr>
+    <tr><td class="paramname">newC</td><td>the new Counter row </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -706,6 +787,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>?????????? </dd></dl>
 
 </div>
 </div>
@@ -723,6 +805,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to set the column width of the code view table </p>
 
 </div>
 </div>
@@ -749,6 +832,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the values of the analog IO input pins. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">number</td><td>is the integer (0-255) to set </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -775,6 +864,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the values of the analog IO output pins. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">number</td><td>is the integer (0-255) to set </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -815,6 +910,15 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to set the 4 values of the 7-Segment display. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c1</td><td>is the first integer number (most left). </td></tr>
+    <tr><td class="paramname">c2</td><td>is the second integer number. </td></tr>
+    <tr><td class="paramname">c3</td><td>is the third integer number. </td></tr>
+    <tr><td class="paramname">c4</td><td>is the fourth integer number (most right). </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -833,6 +937,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to highlight the text where the programmcounter points to in Mnemonic Editor</p>
 <p>have to be changed to codeTable </p>
 
 </div>
@@ -862,6 +967,13 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to create a new <a class="el" href="class_error_dialog.html">ErrorDialog</a> and display it. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">title</td><td>is a String and the title of the dialog </td></tr>
+    <tr><td class="paramname">text</td><td>is a String and the text of the dialog </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -896,6 +1008,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to start the simulation. A new <a class="el" href="class_processor.html">Processor</a> will be created and started. </p>
 
 </div>
 </div>
@@ -913,6 +1026,7 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to stop the Simulation. The active processor will be stopped via <a class="el" href="">stopThread</a>. </p>
 
 </div>
 </div>
@@ -931,6 +1045,12 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to update the selected quarz frequency. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">selectedItem</td><td>The selected Item from the drop down menu. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

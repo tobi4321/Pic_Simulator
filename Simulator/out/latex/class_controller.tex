@@ -152,48 +152,70 @@ The Constructor, creating a new \mbox{\hyperlink{class_memory}{Memory}} and \mbo
 \doxysubsubsection{\texorpdfstring{clearCodeTable()}{clearCodeTable()}}
 {\footnotesize\ttfamily void Controller.\+clear\+Code\+Table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_controller_a2d5953f2ec782d0db0c15275f64aec44}\label{class_controller_a2d5953f2ec782d0db0c15275f64aec44}} 
+Method to clear the code view Table. \mbox{\Hypertarget{class_controller_a2d5953f2ec782d0db0c15275f64aec44}\label{class_controller_a2d5953f2ec782d0db0c15275f64aec44}} 
 \index{Controller@{Controller}!closeMnemonicWindow@{closeMnemonicWindow}}
 \index{closeMnemonicWindow@{closeMnemonicWindow}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{closeMnemonicWindow()}{closeMnemonicWindow()}}
 {\footnotesize\ttfamily void Controller.\+close\+Mnemonic\+Window (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_controller_a7552ba10b2d88701e8b1ca7dc9057542}\label{class_controller_a7552ba10b2d88701e8b1ca7dc9057542}} 
+Method to close the Window of the Mnemonic editor. \mbox{\Hypertarget{class_controller_a7552ba10b2d88701e8b1ca7dc9057542}\label{class_controller_a7552ba10b2d88701e8b1ca7dc9057542}} 
 \index{Controller@{Controller}!compileCode@{compileCode}}
 \index{compileCode@{compileCode}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{compileCode()}{compileCode()}}
 {\footnotesize\ttfamily void Controller.\+compile\+Code (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_controller_a17f16382f4023710699af26f7d29cb7d}\label{class_controller_a17f16382f4023710699af26f7d29cb7d}} 
+Method to compile the code needs to be reworked \mbox{\Hypertarget{class_controller_a17f16382f4023710699af26f7d29cb7d}\label{class_controller_a17f16382f4023710699af26f7d29cb7d}} 
 \index{Controller@{Controller}!executeCommand@{executeCommand}}
 \index{executeCommand@{executeCommand}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{executeCommand()}{executeCommand()}}
 {\footnotesize\ttfamily void Controller.\+execute\+Command (\begin{DoxyParamCaption}\item[{String}]{command }\end{DoxyParamCaption})}
 
+This method selects the command which must be executed 
+\begin{DoxyParams}{Parameters}
+{\em command} & the command to execute as a String \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_a38060eb07960145564d5f3d4bac82f46}\label{class_controller_a38060eb07960145564d5f3d4bac82f46}} 
 \index{Controller@{Controller}!getEQUValue@{getEQUValue}}
 \index{getEQUValue@{getEQUValue}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{getEQUValue()}{getEQUValue()}}
 {\footnotesize\ttfamily String Controller.\+get\+E\+Q\+U\+Value (\begin{DoxyParamCaption}\item[{String}]{equ\+Name }\end{DoxyParamCaption})}
 
+Method to get the E\+QU value. When no matching E\+QU is found an empty string will be returned. 
+\begin{DoxyParams}{Parameters}
+{\em equ\+Name} & is the name of the E\+QU as a String. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The E\+QU equivilant as a String. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_controller_a5f3b81cb4a7021da020b8952fb8cd2cc}\label{class_controller_a5f3b81cb4a7021da020b8952fb8cd2cc}} 
 \index{Controller@{Controller}!getIOAnalog\_IN@{getIOAnalog\_IN}}
 \index{getIOAnalog\_IN@{getIOAnalog\_IN}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{getIOAnalog\_IN()}{getIOAnalog\_IN()}}
 {\footnotesize\ttfamily String Controller.\+get\+I\+O\+Analog\+\_\+\+IN (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
+Method to get the values of the analog IO input pins. For every active pin a 1 will be appended to a string, for every inactive a 0. \begin{DoxyReturn}{Returns}
+the 8 pin values as a String 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_controller_a7be4526b684e807b0df5166cfcfcf2a3}\label{class_controller_a7be4526b684e807b0df5166cfcfcf2a3}} 
 \index{Controller@{Controller}!getIOAnalog\_OUT@{getIOAnalog\_OUT}}
 \index{getIOAnalog\_OUT@{getIOAnalog\_OUT}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{getIOAnalog\_OUT()}{getIOAnalog\_OUT()}}
 {\footnotesize\ttfamily String Controller.\+get\+I\+O\+Analog\+\_\+\+O\+UT (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
+Method to get the values of the analog IO output pins. For every active pin a 1 will be appended to a string, for every inactive a 0. \begin{DoxyReturn}{Returns}
+the 8 pin values as a String 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_controller_aecc41b8f3a329bfa4e4e0c824a070f08}\label{class_controller_aecc41b8f3a329bfa4e4e0c824a070f08}} 
 \index{Controller@{Controller}!getJumpersCount@{getJumpersCount}}
 \index{getJumpersCount@{getJumpersCount}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{getJumpersCount()}{getJumpersCount()}}
 {\footnotesize\ttfamily int Controller.\+get\+Jumpers\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
+Method to get get the amount of jumpers. \begin{DoxyReturn}{Returns}
+The number of jump marks as integer 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_controller_a825d465248273d6135b633dd5f0e013b}\label{class_controller_a825d465248273d6135b633dd5f0e013b}} 
 \index{Controller@{Controller}!inizializeMemory@{inizializeMemory}}
 \index{inizializeMemory@{inizializeMemory}!Controller@{Controller}}
@@ -206,119 +228,199 @@ Method to initialize the \mbox{\hyperlink{class_memory}{Memory}} \mbox{\Hypertar
 \doxysubsubsection{\texorpdfstring{inizializeTables()}{inizializeTables()}}
 {\footnotesize\ttfamily void Controller.\+inizialize\+Tables (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_controller_a22381b02721f3ca13f2f6a437067cd93}\label{class_controller_a22381b02721f3ca13f2f6a437067cd93}} 
+Method to initialize the labels of all tables. \mbox{\Hypertarget{class_controller_a22381b02721f3ca13f2f6a437067cd93}\label{class_controller_a22381b02721f3ca13f2f6a437067cd93}} 
 \index{Controller@{Controller}!loadFile@{loadFile}}
 \index{loadFile@{loadFile}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{loadFile()}{loadFile()}}
 {\footnotesize\ttfamily void Controller.\+load\+File (\begin{DoxyParamCaption}\item[{File}]{p\+File }\end{DoxyParamCaption}) throws I\+O\+Exception}
 
+Method to load a file. The code table and program counter list will be cleared. 
+\begin{DoxyParams}{Parameters}
+{\em p\+File} & is the File to be loaded. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_a028a87c129f70989d3ac91ec9c3349f4}\label{class_controller_a028a87c129f70989d3ac91ec9c3349f4}} 
 \index{Controller@{Controller}!loadMnemonicFromTable@{loadMnemonicFromTable}}
 \index{loadMnemonicFromTable@{loadMnemonicFromTable}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{loadMnemonicFromTable()}{loadMnemonicFromTable()}}
 {\footnotesize\ttfamily void Controller.\+load\+Mnemonic\+From\+Table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_controller_ab8dfd7b056e5c707ee8e9c200f8d911f}\label{class_controller_ab8dfd7b056e5c707ee8e9c200f8d911f}} 
+Method to \mbox{\Hypertarget{class_controller_ab8dfd7b056e5c707ee8e9c200f8d911f}\label{class_controller_ab8dfd7b056e5c707ee8e9c200f8d911f}} 
 \index{Controller@{Controller}!loadSRCFile@{loadSRCFile}}
 \index{loadSRCFile@{loadSRCFile}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{loadSRCFile()}{loadSRCFile()}}
 {\footnotesize\ttfamily void Controller.\+load\+S\+R\+C\+File (\begin{DoxyParamCaption}\item[{File}]{file }\end{DoxyParamCaption})}
 
+Method to load a S\+RC File into the mnemonic view editor. 
+\begin{DoxyParams}{Parameters}
+{\em file} & The File to load. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_a0c822ba856e2ba6c00a431641bbd89de}\label{class_controller_a0c822ba856e2ba6c00a431641bbd89de}} 
 \index{Controller@{Controller}!openMnemonicView@{openMnemonicView}}
 \index{openMnemonicView@{openMnemonicView}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{openMnemonicView()}{openMnemonicView()}}
 {\footnotesize\ttfamily void Controller.\+open\+Mnemonic\+View (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_controller_a8660738c3323dd10e05410e458c308ac}\label{class_controller_a8660738c3323dd10e05410e458c308ac}} 
+Method to open the mnemonic editor \mbox{\hyperlink{class_mnemonic_view}{Mnemonic\+View}} \mbox{\Hypertarget{class_controller_a8660738c3323dd10e05410e458c308ac}\label{class_controller_a8660738c3323dd10e05410e458c308ac}} 
 \index{Controller@{Controller}!outputToConsole@{outputToConsole}}
 \index{outputToConsole@{outputToConsole}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{outputToConsole()}{outputToConsole()}}
 {\footnotesize\ttfamily void Controller.\+output\+To\+Console (\begin{DoxyParamCaption}\item[{String}]{in }\end{DoxyParamCaption})}
 
+Method to set the values of the analog IO input pins. 
+\begin{DoxyParams}{Parameters}
+{\em in} & is a String \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_a3b871358010afaff305ff1a33b5af670}\label{class_controller_a3b871358010afaff305ff1a33b5af670}} 
 \index{Controller@{Controller}!refreshIO@{refreshIO}}
 \index{refreshIO@{refreshIO}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{refreshIO()}{refreshIO()}}
 {\footnotesize\ttfamily void Controller.\+refresh\+IO (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_controller_a86f028ef23f89ef8d3c1a9d4584b3016}\label{class_controller_a86f028ef23f89ef8d3c1a9d4584b3016}} 
+Method to refresh the Analog I\+Os. The selected Port of the analog output is read and written to the digital output. The analog input is read and written to the selected Port. \mbox{\Hypertarget{class_controller_a86f028ef23f89ef8d3c1a9d4584b3016}\label{class_controller_a86f028ef23f89ef8d3c1a9d4584b3016}} 
 \index{Controller@{Controller}!saveLSTFile@{saveLSTFile}}
 \index{saveLSTFile@{saveLSTFile}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{saveLSTFile()}{saveLSTFile()}}
 {\footnotesize\ttfamily void Controller.\+save\+L\+S\+T\+File (\begin{DoxyParamCaption}\item[{File}]{file\+To\+Save }\end{DoxyParamCaption})}
 
+Method to save the current code to a selected or new lst file. 
+\begin{DoxyParams}{Parameters}
+{\em file\+To\+Save} & The File to save. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_a6348cdb3c5ce1c4288970bcb56141e4a}\label{class_controller_a6348cdb3c5ce1c4288970bcb56141e4a}} 
 \index{Controller@{Controller}!saveMnemonicCode@{saveMnemonicCode}}
 \index{saveMnemonicCode@{saveMnemonicCode}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{saveMnemonicCode()}{saveMnemonicCode()}}
 {\footnotesize\ttfamily void Controller.\+save\+Mnemonic\+Code (\begin{DoxyParamCaption}\item[{String}]{text }\end{DoxyParamCaption})}
 
+Method to save the mnemonic code of the opened editor. If the code is not compiled, \mbox{\hyperlink{class_controller_a7552ba10b2d88701e8b1ca7dc9057542}{compile\+Code}} will be called. 
+\begin{DoxyParams}{Parameters}
+{\em text} & is the File to be loaded. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_aa185178b952be785514b5b890a6f5bbb}\label{class_controller_aa185178b952be785514b5b890a6f5bbb}} 
 \index{Controller@{Controller}!saveSRCFile@{saveSRCFile}}
 \index{saveSRCFile@{saveSRCFile}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{saveSRCFile()}{saveSRCFile()}}
 {\footnotesize\ttfamily void Controller.\+save\+S\+R\+C\+File (\begin{DoxyParamCaption}\item[{File}]{file\+To\+Save }\end{DoxyParamCaption})}
 
+Method to save a S\+RC File. 
+\begin{DoxyParams}{Parameters}
+{\em file\+To\+Save} & the File to save. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_a3c693ab0973e79b0857fbf2ffd6aaead}\label{class_controller_a3c693ab0973e79b0857fbf2ffd6aaead}} 
 \index{Controller@{Controller}!searchEQUMarks@{searchEQUMarks}}
 \index{searchEQUMarks@{searchEQUMarks}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{searchEQUMarks()}{searchEQUMarks()}}
 {\footnotesize\ttfamily String \mbox{[}$\,$\mbox{]} Controller.\+search\+E\+Q\+U\+Marks (\begin{DoxyParamCaption}\item[{String\mbox{[}$\,$\mbox{]}}]{p\+Code }\end{DoxyParamCaption})}
 
+Method to search the E\+QU marks in the code. 
+\begin{DoxyParams}{Parameters}
+{\em p\+Code} & is a String array which holds the program code \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the given program code 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_controller_a2e493b3c202cca7e9cd92164c3f5a9fb}\label{class_controller_a2e493b3c202cca7e9cd92164c3f5a9fb}} 
 \index{Controller@{Controller}!searchJumperMarks@{searchJumperMarks}}
 \index{searchJumperMarks@{searchJumperMarks}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{searchJumperMarks()}{searchJumperMarks()}}
 {\footnotesize\ttfamily String \mbox{[}$\,$\mbox{]} Controller.\+search\+Jumper\+Marks (\begin{DoxyParamCaption}\item[{String\mbox{[}$\,$\mbox{]}}]{p\+Code }\end{DoxyParamCaption})}
 
+Method to check if there are any jump marks in the code, adding to jumpers list and delete from code 
+\begin{DoxyParams}{Parameters}
+{\em p\+Code} & is a String array which holds the program code \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the given program code 
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_controller_a64d492c31ed3689921a4ba1192246d6a}\label{class_controller_a64d492c31ed3689921a4ba1192246d6a}} 
 \index{Controller@{Controller}!setCodeViewAdress@{setCodeViewAdress}}
 \index{setCodeViewAdress@{setCodeViewAdress}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{setCodeViewAdress()}{setCodeViewAdress()}}
 {\footnotesize\ttfamily void Controller.\+set\+Code\+View\+Adress (\begin{DoxyParamCaption}\item[{int}]{line,  }\item[{int}]{adress }\end{DoxyParamCaption})}
 
+\begin{DoxyRefDesc}{Deprecated}
+\item[\mbox{\hyperlink{deprecated__deprecated000002}{Deprecated}}]?????????? \end{DoxyRefDesc}
 \mbox{\Hypertarget{class_controller_a87949ab5363284ca4d6f152a2518ddc2}\label{class_controller_a87949ab5363284ca4d6f152a2518ddc2}} 
 \index{Controller@{Controller}!setCodeViewCounter@{setCodeViewCounter}}
 \index{setCodeViewCounter@{setCodeViewCounter}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{setCodeViewCounter()}{setCodeViewCounter()}}
 {\footnotesize\ttfamily void Controller.\+set\+Code\+View\+Counter (\begin{DoxyParamCaption}\item[{int}]{oldC,  }\item[{int}]{newC }\end{DoxyParamCaption})}
 
+Method to set the arrow which displays the active step to a new row. 
+\begin{DoxyParams}{Parameters}
+{\em oldC} & the old Counter row \\
+\hline
+{\em newC} & the new Counter row \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_ac2573f75ac40905570977ffae3b660d8}\label{class_controller_ac2573f75ac40905570977ffae3b660d8}} 
 \index{Controller@{Controller}!setCodeViewLabel@{setCodeViewLabel}}
 \index{setCodeViewLabel@{setCodeViewLabel}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{setCodeViewLabel()}{setCodeViewLabel()}}
 {\footnotesize\ttfamily void Controller.\+set\+Code\+View\+Label (\begin{DoxyParamCaption}\item[{int}]{line,  }\item[{String}]{label }\end{DoxyParamCaption})}
 
+\begin{DoxyRefDesc}{Deprecated}
+\item[\mbox{\hyperlink{deprecated__deprecated000001}{Deprecated}}]?????????? \end{DoxyRefDesc}
 \mbox{\Hypertarget{class_controller_a83ec97ea2f1d39416dfc16c5d0c0df1c}\label{class_controller_a83ec97ea2f1d39416dfc16c5d0c0df1c}} 
 \index{Controller@{Controller}!setColumnWidth@{setColumnWidth}}
 \index{setColumnWidth@{setColumnWidth}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{setColumnWidth()}{setColumnWidth()}}
 {\footnotesize\ttfamily void Controller.\+set\+Column\+Width (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_controller_ad95815ed3ed478415179c0ccb883f18f}\label{class_controller_ad95815ed3ed478415179c0ccb883f18f}} 
+Method to set the column width of the code view table \mbox{\Hypertarget{class_controller_ad95815ed3ed478415179c0ccb883f18f}\label{class_controller_ad95815ed3ed478415179c0ccb883f18f}} 
 \index{Controller@{Controller}!setIOAnalog\_IN@{setIOAnalog\_IN}}
 \index{setIOAnalog\_IN@{setIOAnalog\_IN}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{setIOAnalog\_IN()}{setIOAnalog\_IN()}}
 {\footnotesize\ttfamily void Controller.\+set\+I\+O\+Analog\+\_\+\+IN (\begin{DoxyParamCaption}\item[{int}]{number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
+Method to set the values of the analog IO input pins. 
+\begin{DoxyParams}{Parameters}
+{\em number} & is the integer (0-\/255) to set \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_aae3b4bf3915f5888b2370746d9a7aaea}\label{class_controller_aae3b4bf3915f5888b2370746d9a7aaea}} 
 \index{Controller@{Controller}!setIOAnalog\_OUT@{setIOAnalog\_OUT}}
 \index{setIOAnalog\_OUT@{setIOAnalog\_OUT}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{setIOAnalog\_OUT()}{setIOAnalog\_OUT()}}
 {\footnotesize\ttfamily void Controller.\+set\+I\+O\+Analog\+\_\+\+O\+UT (\begin{DoxyParamCaption}\item[{int}]{number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
+Method to set the values of the analog IO output pins. 
+\begin{DoxyParams}{Parameters}
+{\em number} & is the integer (0-\/255) to set \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_aef176a515257d5dc4461b7cf3a4477b6}\label{class_controller_aef176a515257d5dc4461b7cf3a4477b6}} 
 \index{Controller@{Controller}!setSegment@{setSegment}}
 \index{setSegment@{setSegment}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{setSegment()}{setSegment()}}
 {\footnotesize\ttfamily void Controller.\+set\+Segment (\begin{DoxyParamCaption}\item[{int}]{c1,  }\item[{int}]{c2,  }\item[{int}]{c3,  }\item[{int}]{c4 }\end{DoxyParamCaption})}
 
+Method to set the 4 values of the 7-\/Segment display. 
+\begin{DoxyParams}{Parameters}
+{\em c1} & is the first integer number (most left). \\
+\hline
+{\em c2} & is the second integer number. \\
+\hline
+{\em c3} & is the third integer number. \\
+\hline
+{\em c4} & is the fourth integer number (most right). \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_a376cca4c483ebf169d3e69a3c981fcca}\label{class_controller_a376cca4c483ebf169d3e69a3c981fcca}} 
 \index{Controller@{Controller}!setTextActive@{setTextActive}}
 \index{setTextActive@{setTextActive}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{setTextActive()}{setTextActive()}}
 {\footnotesize\ttfamily void Controller.\+set\+Text\+Active (\begin{DoxyParamCaption}\item[{int}]{row }\end{DoxyParamCaption}) throws Bad\+Location\+Exception}
+
+Method to highlight the text where the programmcounter points to in Mnemonic Editor
 
 have to be changed to code\+Table \mbox{\Hypertarget{class_controller_ab71cc972e55e8ec21564e08bb78cc258}\label{class_controller_ab71cc972e55e8ec21564e08bb78cc258}} 
 \index{Controller@{Controller}!showError@{showError}}
@@ -326,6 +428,13 @@ have to be changed to code\+Table \mbox{\Hypertarget{class_controller_ab71cc972e
 \doxysubsubsection{\texorpdfstring{showError()}{showError()}}
 {\footnotesize\ttfamily void Controller.\+show\+Error (\begin{DoxyParamCaption}\item[{String}]{title,  }\item[{String}]{text }\end{DoxyParamCaption})}
 
+Method to create a new \mbox{\hyperlink{class_error_dialog}{Error\+Dialog}} and display it. 
+\begin{DoxyParams}{Parameters}
+{\em title} & is a String and the title of the dialog \\
+\hline
+{\em text} & is a String and the text of the dialog \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_ab6c8aba92ab613713c7439b8504222de}\label{class_controller_ab6c8aba92ab613713c7439b8504222de}} 
 \index{Controller@{Controller}!start@{start}}
 \index{start@{start}!Controller@{Controller}}
@@ -338,18 +447,23 @@ have to be changed to code\+Table \mbox{\Hypertarget{class_controller_ab71cc972e
 \doxysubsubsection{\texorpdfstring{startSimu()}{startSimu()}}
 {\footnotesize\ttfamily void Controller.\+start\+Simu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_controller_a63b9b136e406d7000a614c4ddccd4023}\label{class_controller_a63b9b136e406d7000a614c4ddccd4023}} 
+Method to start the simulation. A new \mbox{\hyperlink{class_processor}{Processor}} will be created and started. \mbox{\Hypertarget{class_controller_a63b9b136e406d7000a614c4ddccd4023}\label{class_controller_a63b9b136e406d7000a614c4ddccd4023}} 
 \index{Controller@{Controller}!stopSimu@{stopSimu}}
 \index{stopSimu@{stopSimu}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{stopSimu()}{stopSimu()}}
 {\footnotesize\ttfamily void Controller.\+stop\+Simu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_controller_ad5804b7397a75da8ba103f8184703575}\label{class_controller_ad5804b7397a75da8ba103f8184703575}} 
+Method to stop the Simulation. The active processor will be stopped via \mbox{\hyperlink{}{stop\+Thread}}. \mbox{\Hypertarget{class_controller_ad5804b7397a75da8ba103f8184703575}\label{class_controller_ad5804b7397a75da8ba103f8184703575}} 
 \index{Controller@{Controller}!updateFrequency@{updateFrequency}}
 \index{updateFrequency@{updateFrequency}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{updateFrequency()}{updateFrequency()}}
 {\footnotesize\ttfamily void Controller.\+update\+Frequency (\begin{DoxyParamCaption}\item[{String}]{selected\+Item }\end{DoxyParamCaption})}
 
+Method to update the selected quarz frequency. 
+\begin{DoxyParams}{Parameters}
+{\em selected\+Item} & The selected Item from the drop down menu. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_controller_adf8e0c138ab800bb09a4eb6a87931cea}\label{class_controller_adf8e0c138ab800bb09a4eb6a87931cea}} 
 \index{Controller@{Controller}!updateMemoryTable@{updateMemoryTable}}
 \index{updateMemoryTable@{updateMemoryTable}!Controller@{Controller}}
