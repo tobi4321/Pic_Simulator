@@ -288,7 +288,7 @@ public class MnemonicParser {
 	    	return "0";
 	    }else 
 	    {
-			int i = Integer.parseInt(hex.replaceAll("\r", ""), 16);
+			int i = Integer.parseInt(hex.replaceAll("\r", "").replaceAll(";", ""), 16);
 		    String bin = Integer.toBinaryString(i);
 		    return bin;
 	    }
