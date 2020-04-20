@@ -1,16 +1,34 @@
-
+/// class MnemonicParser
+/**
+ *  This class is used to parse mnemonic code into binary assembler code
+ * 
+ * 
+ * */
 public class MnemonicParser {
 	
+	
+	/// obejct of main Controller
 	Controller ctr;
 	
+	
+	/// constructor 
+	/**
+	 * The constructor is used to set the parameter given by Controller class with creation to the local Controller object
+	 *  @param pCtr temporary object of Controller
+	 * 
+	 * */
 	public MnemonicParser(Controller pCtr) 
 	{
 		ctr = pCtr;
 	}
 	
 
-	
-	
+	/**
+	 *  function to parse a line of mnemonic assembler code into binary code
+	 * @param c the line to parse
+	 * @param line to display the line where an error occured
+	 * @return the binary string of c
+	 * */
 	public String fromMnemToHex(String c,int line)
 	{	
 		String proceed = "";
@@ -277,7 +295,13 @@ public class MnemonicParser {
 		return hexCode;
 	}
 	
-	//This method contains a the first parameter from Mnemonic Command and exchange the hex or equ value
+	
+	/**
+	 * *This function converts a hex string into a binary string with the underlaying function hexToBinary
+	 * *deletion of 0x or h or H is needed for convertion
+	 * @param in the string to be converted
+	 * @return the binary string result of converted hex string 
+	 */
 	private String setBinaryForToHex(String in) 
 	{
 		
@@ -293,7 +317,11 @@ public class MnemonicParser {
 		}
 	}
 	
-	// Converter from hex to bin string
+	/**
+	 * * Converter from hex to bin string
+	 * @param hex
+	 * @return
+	 */
 	public String hexToBinary(String hex) {
 	    if(hex.equals("    ")) 
 	    {
