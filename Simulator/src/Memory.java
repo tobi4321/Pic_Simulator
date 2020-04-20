@@ -5,7 +5,7 @@ import java.util.Stack;
  *  There a various variables for w_register, carry flag or the stack
  * 
  * **/
-public class Memory {
+public class Memory extends Thread{
 	
 	private Controller ctr;
 	
@@ -26,12 +26,6 @@ public class Memory {
 	/// w_register storage for operations
 	protected int[] w_register = new int[8];
 	
-	/// flag to indicate a overflow
-	protected int carry_flag;
-	
-	//
-	protected int zero_flag;
-	
 	/// the stack is used to store the pushed adresses by a call command
 	protected Stack<Integer> stack = new Stack<Integer>();
 	
@@ -43,77 +37,117 @@ public class Memory {
 		// initialization of memory
 		// correct start values in memory
 		// needed ...
+		
+		// Status Register
+		// PD
+		this.dataMemory[3][3] = 1;
+		this.dataMemory[128+3][3] = 1;
+		// TO
+		this.dataMemory[3][4] = 1;
+		this.dataMemory[128+3][4] = 1;
+		
+		
+		// Option_Reg
+		// PS0
+		this.dataMemory[129][0] = 1;
+		// PS1
+		this.dataMemory[129][1] = 1;
+		//PS2
+		this.dataMemory[129][2] = 1;
+		//PSA
+		this.dataMemory[129][3] = 1;
+		//T0SE
+		this.dataMemory[129][4] = 1;
+		//T0CS
+		this.dataMemory[129][5] = 1;
+		//INTEDG
+		this.dataMemory[129][6] = 1;
+		//RBPU
+		this.dataMemory[129][7] = 1;
+		
+		
+		
 	}
+	
+	public void cyclicMemoryUpdate() 
+	{
+		
+	}
+	public void run() {
+		while(true) 
+		{
+			for(int i = 0; i < 256; i++) 
+	    	{
+	    		ctr.updateMemoryTable(this.tohexValue(dataMemory[i]), i/8, i%8);
+	    	}
+	    	try {
+				sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+    }
 	
 	protected void set_INDF(int bit, int value) 
 	{
 		dataMemory[0][bit] = value;
 		// eventuell Bereich aus Bank 1 hier rein
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[0]), 0, 0);
+
 	}
 	
 	protected void set_TMR0(int bit, int value) 
 	{
 		dataMemory[1][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[1]), 0, 1);
 	}
 	
 	protected void set_PCL(int bit, int value) 
 	{
 		dataMemory[2][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[2]), 0, 2);
 	}
 	
 	protected void set_STATUS(int bit, int value) 
 	{
 		dataMemory[3][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[3]), 0, 3);
-		ctr.updateWRegTable(this.tohexValue(dataMemory[3]), 1, 5);
-		ctr.updateWRegTable(Integer.toBinaryString(value), 2, 5);
+		ctr.updateSpecialRegTable(this.tohexValue(dataMemory[3]), 1, 5);
+		ctr.updateSpecialRegTable(Integer.toBinaryString(value), 2, 5);
 	}
 	
 	protected void set_FSR(int bit, int value) 
 	{
 		dataMemory[4][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[4]), 0, 4);
-		ctr.updateWRegTable(this.tohexValue(dataMemory[4]), 1, 1);
-		ctr.updateWRegTable(Integer.toBinaryString(value), 2, 1);
+		ctr.updateSpecialRegTable(this.tohexValue(dataMemory[4]), 1, 1);
+		ctr.updateSpecialRegTable(Integer.toBinaryString(value), 2, 1);
 	}
 	
 	protected void set_PORTA(int bit, int value) 
 	{
 		dataMemory[5][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[5]), 0, 5);
 	}
 	
 	protected void set_PORTB(int bit, int value) 
 	{
 		dataMemory[6][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[6]), 0, 6);
 	}
 	
 	protected void set_EEDATA(int bit, int value) 
 	{
 		dataMemory[8][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[8]), 1, 0);
 	}
 	
 	protected void set_EEADR(int bit, int value) 
 	{
 		dataMemory[9][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[9]), 1, 1);
 	}
 	
 	protected void set_PCLATH(int bit, int value) 
 	{
 		dataMemory[10][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[10]), 1, 2);
 	}
 	
 	protected void set_INTCON(int bit, int value) 
 	{
 		dataMemory[11][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[11]), 1, 3);
 	}
 	
 	
@@ -122,31 +156,26 @@ public class Memory {
 	protected void set_OPTION_REG(int bit, int value) 
 	{
 		dataMemory[129][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[129]), 8, 1);
 	}
 	
 	protected void set_TRISA(int bit, int value) 
 	{
 		dataMemory[133][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[133]), 8, 5);
 	}
 	
 	protected void set_TRISB(int bit, int value) 
 	{
 		dataMemory[134][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[134]), 8, 6);
 	}
 	
 	protected void set_EECON1(int bit, int value) 
 	{
 		dataMemory[136][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[136]), 9, 0);
 	}
 	
 	protected void set_EECON2(int bit, int value) 
 	{
 		dataMemory[137][bit] = value;
-		ctr.updateMemoryTable(this.tohexValue(dataMemory[137]), 9, 1);
 	}
 	
 	//set General Purpose registers SRAM
@@ -155,17 +184,16 @@ public class Memory {
 		if(dataMemory[3][5] == 0) 
 		{
 			dataMemory[fileaddress][bit] = value;
-			ctr.updateMemoryTable(this.tohexValue(dataMemory[fileaddress]), fileaddress/8, fileaddress%8);
 		}else if(dataMemory[3][5] == 1) 
 		{
 			dataMemory[fileaddress+128][bit] = value;
-			ctr.updateMemoryTable(this.tohexValue(dataMemory[fileaddress]), fileaddress/8, fileaddress%8);
 		}
 
 	}
 	
 	protected void set_SRAM(int fileaddress, int value) 
 	{
+		System.out.println("Memory Incoming: "+value);
 		String c = Integer.toBinaryString(value);
 		for(int l = c.length(); l < 8; l++) 
 		{
@@ -173,34 +201,40 @@ public class Memory {
 		}
 		for(int i = 7; i >= 0; i-- ) 
 		{
-			System.out.println("RP0 Bit:"+dataMemory[3][5]);
 			if(dataMemory[3][5] == 0) 
 			{
-				dataMemory[fileaddress][i] = Integer.parseInt(""+c.charAt(i));
-				ctr.updateMemoryTable(this.tohexValue(dataMemory[fileaddress]), fileaddress/8, fileaddress%8);
+				dataMemory[fileaddress][7-i] = Integer.parseInt(""+c.charAt(i));
+				System.out.println("Added Value "+value+" to Register "+fileaddress);
 			}else if(dataMemory[3][5] == 1) 
 			{
-				dataMemory[fileaddress+128][i] = Integer.parseInt(""+c.charAt(i));
-				ctr.updateMemoryTable(this.tohexValue(dataMemory[fileaddress+128]), (fileaddress/8)+16, fileaddress%8);
+				dataMemory[fileaddress+128][7-i] = Integer.parseInt(""+c.charAt(i));
+				System.out.println("Added Value "+value+" to Register "+(fileaddress+128));
 			}
-			
 		}
-
 	}
 	
 	protected void set_CARRYFLAG(int c) 
 	{
-		this.carry_flag = c;
+		this.dataMemory[3][0] = c;
 	}
 	
 	protected int get_CARRYFLAG() 
 	{
-		return this.carry_flag;
+		return this.dataMemory[3][0];
 	}
 	
 	protected int get_Memory(int fileaddress, int bit) 
 	{
-		return dataMemory[fileaddress][bit];
+		if(dataMemory[3][5] == 0) 
+		{
+			return dataMemory[fileaddress][bit];
+		}else  if(dataMemory[3][5] == 1)
+		{
+			return dataMemory[fileaddress+128][bit];
+		}else 
+		{
+			return 0;
+		}
 	}
 	
 	protected int get_Memory(int fileaddress) 
@@ -234,8 +268,8 @@ public class Memory {
 	protected void set_WREGISTER(int bit, int value) 
 	{
 		w_register[bit] = value;
-		ctr.updateWRegTable(this.tohexValue(w_register), 0, 1);
-		ctr.updateWRegTable(this.tohexValue(w_register), 0, 2);
+		ctr.updateSpecialRegTable(this.tohexValue(w_register), 0, 1);
+		ctr.updateSpecialRegTable(this.tohexValue(w_register), 0, 2);
 	}
 	
 	protected void set_WREGISTER(int value) 
@@ -247,10 +281,10 @@ public class Memory {
 		}
 		for(int i = 7; i>=0; i--) 
 		{
-			w_register[i] = Integer.parseInt(""+c.charAt(i));
+			w_register[7-i] = Integer.parseInt(""+c.charAt(i));
 		}
-		ctr.updateWRegTable(Integer.toHexString(this.get_WREGISTER()), 0, 1);
-		ctr.updateWRegTable(Integer.toBinaryString(this.get_WREGISTER()), 0, 2);
+		ctr.updateSpecialRegTable(Integer.toHexString(this.get_WREGISTER()), 0, 1);
+		ctr.updateSpecialRegTable(Integer.toBinaryString(this.get_WREGISTER()), 0, 2);
 	}
 	
 	protected int get_WREGISTER(int bit) 
@@ -274,28 +308,39 @@ public class Memory {
 		String out = "";
 		for(int i = 0; i < in.length; i++) 
 		{
-			out = out + in[i];
+			out = in[i] +out;
 		}
 		int decimal = Integer.parseInt(out, 2);
 		String hexout = Integer.toString(decimal, 16);
 		return hexout;
 	}
 	
+	/**
+	 * * used to push the current programmcounter+1 on the stack
+	 * @param adr is the adress to push
+	 */
 	protected void pushToStack(int adr) 
 	{
 		this.stack.push(adr);
 	}
 	
+	/**
+	 * * used to pop the needed programm counter from stack
+	 * @return is the popped adress
+	 */
 	protected int popFromStack() 
 	{
 		return this.stack.pop();
 	}
 
+	/**
+	 * * used to clear the programMemory
+	 *   reset value is ff
+	 */
 	public void clearProgMem() {
-		// TODO Auto-generated method stub
 		for(int i = 0; i< this.programMemory.length; i++) 
 		{
-			this.programMemory[i] = 0;
+			this.programMemory[i] = 255;
 		}
 	}
 }

@@ -22,8 +22,7 @@ public class Processor extends Thread{
     public void run() {
     	while (!exit) {  
     		try {
-        	  //ctr.start();
-        	  //ctr.compileCode();
+
     		for(ctr.programmCounter = 0; ctr.programmCounter < ctr.memory.programMemory.length; ctr.programmCounter++) 
     		{
     			//ctr.setSegment(ctr.programmCounter, 15-ctr.programmCounter, ctr.programmCounter, 13-ctr.programmCounter);
@@ -32,8 +31,8 @@ public class Processor extends Thread{
     			this.oldProgrammCounter = ctr.programmCounter;
     			
     			//ctr.splitter(ctr.code[ctr.programmCounter]);
-    			ctr.updateWRegTable(Integer.toHexString(ctr.programmCounter), 4, 1);
-    			ctr.updateWRegTable(Integer.toBinaryString(ctr.programmCounter), 4, 2);
+    			ctr.updateSpecialRegTable(Integer.toHexString(ctr.programmCounter), 4, 1);
+    			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.programmCounter), 4, 2);
     			
     			// get the current code line as string
     			int codeLine = ctr.memory.programMemory[ctr.programmCounter];

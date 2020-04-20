@@ -63,13 +63,13 @@ public class Controller {
 		this.gui = pGui;
 		memory = new Memory(this);
 		parser = new MnemonicParser(this);
+
 	}
 	///initialice the memory table with the initiale tabledata
 	public void inizializeMemory() 
 	{
 		for(int i = 0; i< 256; i++) {
 			numbers[i] = Integer.toHexString(i);
-			System.out.println(i/8+" R:"+i%8);
 			data[i/8][i%8] = 0;
 			tableData[i/8][i%8+1] = Integer.toString( data[i/8][i%8]);
 		}
@@ -79,11 +79,16 @@ public class Controller {
 			this.gui.tbl_memory.addRow(new Object[] {tableData[i][0],"0","0","0","0","0","0","0","0"});
 		}
 	}
+	// starts a thread to cyclic update the memory table
+	public void startMemoryUpdateThread() {
+		memory.start();
+	}
+	
 	protected void updateMemoryTable(String value,int x, int y) 
 	{
 		gui.SetData(value, x, y+1);
 	}
-	protected void updateWRegTable(String value, int x, int y) 
+	protected void updateSpecialRegTable(String value, int x, int y) 
 	{
 		gui.setSpecialData(value, x, y);
 	}
@@ -152,23 +157,7 @@ public class Controller {
 		this.outputToConsole("Simulation stopped...");
 		proc.stopThread();
 	}
-	/**
-	 * 
-	 * 
-	 * have to be changed to codeTable
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * ***/
-	// highlighting the text where the programmcounter points to in Mnemonic Editor 
-	public void setTextActive(int row) throws BadLocationException 
-	{
-		this.mnemonicWindow.txtArea_mnemonic.setSelectionEnd(0);
-		this.mnemonicWindow.txtArea_mnemonic.requestFocus();
-		this.mnemonicWindow.txtArea_mnemonic.select(this.mnemonicWindow.txtArea_mnemonic.getLineStartOffset(row),this.mnemonicWindow.txtArea_mnemonic.getLineEndOffset(row));
-	}
+
 
 	//check if there are any jump marks in the code, adding to jumpers list and delete from code
 	public String[] searchJumperMarks(String[] pCode) 
@@ -1062,8 +1051,9 @@ public class Controller {
 	{   // eventuell hier noch nullen auffüllen
 		int w_in = memory.get_WREGISTER();
 		int k_in = Integer.parseInt(k,2);
-		String w_bin = Integer.toBinaryString(w_in);
-		String k_bin = Integer.toBinaryString(k_in);
+		String w_bin = fillUpBinString(Integer.toBinaryString(w_in));
+		String k_bin = fillUpBinString(Integer.toBinaryString(k_in));
+		
 		String out = "";
 		for(int i = 0; i< 8 ;i++) 
 		{
@@ -1079,6 +1069,12 @@ public class Controller {
 		}
 		memory.set_WREGISTER(Integer.parseInt(out, 2));
 	}
+	
+	// end of commands
+	
+	
+	
+	
 	public void closeMnemonicWindow() {
 		// TODO Auto-generated method stub
 		this.mnemonicWindow.dispose();
@@ -1286,5 +1282,15 @@ public class Controller {
 		      e.printStackTrace();
 		    }
 	}
+	private String fillUpBinString(String in) 
+	{
+		String out = in;
+		while(out.length() < 8) 
+		{
+			out = "0"+ out;
+		}
+		return out;
+	}
+
 
 }
