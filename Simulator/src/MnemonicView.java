@@ -20,7 +20,12 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
-
+/// class MnemonicView
+/**
+*  
+*  The Viewer to Display and edit Mnemonic Text
+* 
+* **/
 public class MnemonicView extends JFrame {
 
 	private JPanel contentPane;

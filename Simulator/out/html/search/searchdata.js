@@ -4,7 +4,7 @@ var indexSectionsWithContent =
   1: "ceimpstw",
   2: "ceimpstw",
   3: "cefghilmoprsu",
-  4: "cdehijlmnprstwz"
+  4: "cdefhijlmnprstwz"
 };
 
 var indexSectionNames =
@@ -18,10 +18,10 @@ var indexSectionNames =
 
 var indexSectionLabels =
 {
-  0: "Alle",
-  1: "Klassen",
-  2: "Dateien",
-  3: "Funktionen",
-  4: "Variablen"
+  0: "All",
+  1: "Classes",
+  2: "Files",
+  3: "Functions",
+  4: "Variables"
 };
 

@@ -8,7 +8,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-
+/// class ErrorDialog
+/**
+*  
+*  An Error Window
+* 
+* **/
 public class ErrorDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();

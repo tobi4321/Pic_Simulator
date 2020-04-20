@@ -57,14 +57,21 @@ public class Controller {
 	/// Parser Object to parse Mnemonic Code into Binary Code
 	protected MnemonicParser parser;
 	
-
+	/**
+	*  The Constructor, creating a new Memory and MnemonicParser
+	*  @param pGui is an Object of {@link Simulator_Window}
+	* **/
 	public Controller(Simulator_Window pGui) 
 	{
 		this.gui = pGui;
 		memory = new Memory(this);
 		parser = new MnemonicParser(this);
 	}
-	///initialice the memory table with the initiale tabledata
+	
+	/**
+	*  Method to initialize the Memory
+	*  
+	* **/
 	public void inizializeMemory() 
 	{
 		for(int i = 0; i< 256; i++) {
@@ -79,10 +86,24 @@ public class Controller {
 			this.gui.tbl_memory.addRow(new Object[] {tableData[i][0],"0","0","0","0","0","0","0","0"});
 		}
 	}
+	
+	/**
+	*  Method to update the memory table
+	*  @param value is an String which is put in the cell
+	*  @param x is an integer referencing to the column
+	*  @param y is an integer referencing to the row
+	* **/
 	protected void updateMemoryTable(String value,int x, int y) 
 	{
 		gui.SetData(value, x, y+1);
 	}
+	
+	/**
+	*  Method to update the special register table
+	*  @param value is an String which is put in the cell
+	*  @param x is an integer referencing to the column
+	*  @param y is an integer referencing to the row
+	* **/
 	protected void updateWRegTable(String value, int x, int y) 
 	{
 		gui.setSpecialData(value, x, y);
