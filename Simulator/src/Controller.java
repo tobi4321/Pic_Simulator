@@ -146,11 +146,7 @@ public class Controller {
 		}
 
 	}
-	public void start() 
-	{
-		lineCount = this.mnemonicWindow.txtArea_mnemonic.getLineCount();
-		lines = this.mnemonicWindow.txtArea_mnemonic.getText().split("\\n");
-	}
+
 	public void stopSimu() {
 		System.out.println("Simulation stopped...");
 		this.outputToConsole("Simulation stopped...");
@@ -402,15 +398,25 @@ public class Controller {
 			
 			for(int j = 0; j <this.mnemonicLines.length;j++) 
 			{
+				String proceed;
+				// comments should be deleted
+				if(this.mnemonicLines[j].contains(";")) 
+				{
+					proceed = this.mnemonicLines[j].substring(0, this.mnemonicLines[j].indexOf(";"));
+				}else 
+				{
+					proceed = this.mnemonicLines[j];
+				}
+				
 				// needs check if empty lines with multiple spaces exist and delete these spaces 
-				if(this.mnemonicLines[j].isEmpty() || (this.mnemonicLines[j].length() < 5 &&  this.mnemonicLines[j].startsWith(" "))) 
+				if(proceed.isEmpty() || (proceed.length() < 5 &&  proceed.startsWith(" "))) 
 				{
 					// empty line 
 					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",""});
-				}else if(this.mnemonicLines[j].contains("org") || this.mnemonicLines[j].contains("device 16")) 
+				}else if(proceed.contains("org") || proceed.contains("device 16")) 
 				{
 					// org statement should change the pc
-					String[] tmp = this.mnemonicLines[j].split(" ");
+					String[] tmp = proceed.split(" ");
 					for(int i = 0; i < tmp.length;i++) 
 					{
 						if(tmp[i].equals("org")) 
@@ -423,24 +429,26 @@ public class Controller {
 						}
 					}
 					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
-				}else if(this.mnemonicLines[j].contains("EQU")) 
+				}else if(proceed.contains("EQU")) 
 				{
 					// EQU should not affect any variable
 					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
-				}else if(this.mnemonicLines[j].charAt(0) != ' ') 
+				}else if(proceed.charAt(0) != ' ') 
 				{
 					// if the first char in a line is unequal to space it is a label
 					// pay attention that the EQU is checked before, because EQU has unequal first character too
 					
 					// save that jumper mark with the correct program counter
-					jumpers[this.jumpersCount] = this.mnemonicLines[j]+":"+(pc);
+					jumpers[this.jumpersCount] = proceed+":"+(pc);
 					jumpersCount++;
 					
-					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , mnemonicLines[j],""});
+					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , proceed,""});
 				}else if(this.mnemonicLines[j].charAt(0) == ' ') 
 				{
+					
 					// normal code line, executed by parser 
-					String binaryCode = parser.fromMnemToHex(this.mnemonicLines[j], j)[3].toString();
+					System.out.println("Controller: "+proceed);
+					String binaryCode = parser.fromMnemToHex(proceed, j).toString();
 					
 					gui.tbl_code.addRow(new Object[]{"",Integer.toHexString(pc), Integer.toHexString(Integer.parseInt(binaryCode, 2)), j+1 , "",mnemonicLines[j]});
 					this.memory.programMemory[pc] = Integer.parseInt(binaryCode, 2);
