@@ -446,24 +446,6 @@ public class Controller {
 	}
 	
 	/**
-	 * @deprecated
-	 * ??????????
-	 * **/
-	public void setCodeViewLabel(int line,String label) 
-	{
-		//this.gui.tbl_code.setValueAt(label, line, 4);
-	}
-	
-	/**
-	 * @deprecated
-	 * ??????????
-	 * **/
-	public void setCodeViewAdress(int line,int adress) 
-	{
-		//this.gui.tbl_code.setValueAt(Integer.toHexString(adress), line, 2);
-	}
-	
-	/**
 	 * Method to get get the amount of jumpers.
 	 * @return The number of jump marks as integer
 	 * **/
