@@ -1,254 +1,284 @@
 /// class MnemonicParser
 /**
-*  
-*  The Parser to pars mnemonic Code to Hex
-* 
-* **/
+ *  This class is used to parse mnemonic code into binary assembler code
+ * 
+ * 
+ * */
 public class MnemonicParser {
 	
+	
+	/// obejct of main Controller
 	Controller ctr;
 	
+	
+	/// constructor 
+	/**
+	 * The constructor is used to set the parameter given by Controller class with creation to the local Controller object
+	 *  @param pCtr temporary object of Controller
+	 * 
+	 * */
 	public MnemonicParser(Controller pCtr) 
 	{
 		ctr = pCtr;
 	}
 	
 
-	
-	
-	public Object[] fromMnemToHex(String c,int line)
+	/**
+	 *  function to parse a line of mnemonic assembler code into binary code
+	 * @param c the line to parse
+	 * @param line to display the line where an error occured
+	 * @return the binary string of c
+	 * */
+	public String fromMnemToHex(String c,int line)
 	{	
+		String proceed = "";
+		if(c.contains(";") == true )
+		{
+			proceed = c.substring(0,c.indexOf(";"));
+		}else 
+		{
+			proceed = c;
+		}
 		c.replaceAll("\r", "");
-		String hexCode = "";
-		int akt = 0;
-		String[] parts = c.split (" ");
-		String[] params = null;
-		String[] param2 = null;
-		String[] p;
-		String b;
-		String bin ="";
-		for(int i = 0; i< parts.length;i++) {
-			if(parts[i].equals("")) 
+		
+		
+		String wordList[] = new String[4];
+		wordList[0] = "";
+		wordList[1] = "";
+		wordList[2] = "";
+		wordList[3] = "";
+		int wordListCounter = 0;
+		
+		for(int i = 0; i< proceed.length(); i++) 
+		{
+			if(proceed.charAt(i) == ' ') 
 			{
-								
-			}else {
-				if((i+1) < parts.length) 
+				if(wordList[wordListCounter].length() == 0) 
 				{
-					parts[i+1].replaceAll("\\s+","");
-					params = parts[i+1].split(",");
-					if(params.length >1) 
-					{	akt = i;
-						param2 = params[1].split(";", 1);
-						i = parts.length;
-					}else {
-						akt =i;
-						i = parts.length;
-					}
-				}else {
-					 parts[i] = parts[i].replace(";", "");
-					 parts[i] = parts[i].replace("\r", "");
-					System.out.println("NOP out: "+parts[i]);
-					akt = i;
-					i = parts.length;
+					
+				}else 
+				{
+					wordListCounter++;
 				}
+			}else if(proceed.charAt(i) == ',')
+			{
+				if(wordList[wordListCounter].length() == 0) 
+				{
+					
+				}else 
+				{
+					wordListCounter++;
+				}
+			}else
+			{
+				wordList[wordListCounter] = wordList[wordListCounter] + proceed.charAt(i); 
 			}
 		}
-		switch(parts[akt]) 
-		{
-			case "ADDWF":
-				hexCode = "000111";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "ANDWF":
-				hexCode = "000101";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "CLRF":
-				hexCode = "000001";
-				p = params[0].split(";");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "CLRW":
-				hexCode = "00000100000000";
-				break;
-			case "COMF":
-				hexCode = "001001";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "DECF":
-				hexCode = "000011";
-				//hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "DECFSZ":
-				hexCode = "001011";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "INCF":
-				hexCode = "001010";
-				//hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "INCFSZ":
-				hexCode = "001111";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "IORWF":
-				hexCode = "000100";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "MOVF":
-				hexCode = "001000";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "MOVWF":
-				hexCode = "0000001";
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "NOP":
-				hexCode = "00000000000000";
-				break;
-			case "RLF":
-				hexCode = "001101";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "RRF":
-				hexCode = "001100";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "SUBWF":
-				hexCode = "000010";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "SWAPF":
-				hexCode = "001110";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "XORWF":
-				hexCode = "000110";
-				hexCode = hexCode + param2[0].replace(";", "");
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "BCF":
-				hexCode = "0100";
-				b = Integer.toBinaryString(Integer.parseInt(ctr.getEQUValue(param2[0].replace(";", ""))));
-				for(int i = b.length(); i < 3;i++) 
-				{
-					b = "0" + b;
-				}
-				hexCode = hexCode + b;
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "BSF":
-				hexCode = "0101";
-				b = Integer.toBinaryString(Integer.parseInt(ctr.getEQUValue(param2[0].replace(";", ""))));
-				for(int i = b.length(); i < 3;i++) 
-				{
-					b = "0" + b;
-				}
-				hexCode = hexCode + b;
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0]));
-				break;
-			case "BTFSC":
-				hexCode = "0110";
-				b = Integer.toBinaryString(Integer.parseInt(ctr.getEQUValue(param2[0].replace(";", "").replaceAll(" ", ""))));
-				for(int i = b.length(); i < 3;i++) 
-				{
-					b = "0" + b;
-				}
-				hexCode = hexCode + b;
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0].replaceAll(" ", "")));
-				//System.out.println("hexCode: "+hexCode+" bin: "+bin+" d:"+param2[0]);
-				break;
-			case "BTFSS":
-				hexCode = "0111";
-				b = Integer.toBinaryString(Integer.parseInt(ctr.getEQUValue(param2[0].replace(";", "").replaceAll(" ", ""))));
-				for(int i = b.length(); i < 3;i++) 
-				{
-					b = "0" + b;
-				}
-				hexCode = hexCode + b;
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0].replaceAll(" ", "")));
-				break;
-			case "ADDLW":
-				// Bit 7 ist X wird aber als 0 gewertet
-				hexCode = "111110";
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0].replace(";", "")));
-				break;
-			case "ANDLW":
-				hexCode = "111001";
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0].replace(";", "")));
-				break;
-			case "CALL":
-				hexCode = "100";
-				for(int i = 0; i< ctr.getJumpersCount(); i++) 
-				{
-					String[] j = ctr.jumpers[i].split(":");
-					p = params[0].split(";");
-					if(p[0].equals(j[0])) 
+		System.out.println("Word[0]: "+wordList[0]);
+		System.out.println("Word[1]: "+wordList[1]);
+		System.out.println("Word[2]: "+wordList[2]);
+		System.out.println("Word[3]: "+wordList[3]);
+		
+
+		String hexCode = "";
+		String b;
+		String bin ="";
+
+			switch(wordList[0]) 
+			{
+				case "ADDWF":
+					hexCode = "000111";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "ANDWF":
+					hexCode = "000101";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "CLRF":
+					hexCode = "000001";
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "CLRW":
+					hexCode = "00000100000000";
+					break;
+				case "COMF":
+					hexCode = "001001";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "DECF":
+					hexCode = "000011";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "DECFSZ":
+					hexCode = "001011";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "INCF":
+					hexCode = "001010";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "INCFSZ":
+					hexCode = "001111";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "IORWF":
+					hexCode = "000100";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "MOVF":
+					hexCode = "001000";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "MOVWF":
+					hexCode = "0000001";
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "NOP":
+					hexCode = "00000000000000";
+					break;
+				case "RLF":
+					hexCode = "001101";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "RRF":
+					hexCode = "001100";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "SUBWF":
+					hexCode = "000010";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "SWAPF":
+					hexCode = "001110";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "XORWF":
+					hexCode = "000110";
+					hexCode = hexCode + wordList[2];
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "BCF":
+					hexCode = "0100";
+					b = Integer.toBinaryString(Integer.parseInt(ctr.getEQUValue(wordList[2])));
+					for(int i = b.length(); i < 3;i++) 
 					{
-						bin = Integer.toBinaryString(Integer.parseInt(j[1]));
+						b = "0" + b;
 					}
-				}
-				break;
-			case "CLRWDT":
-				hexCode = "00000001100100";
-				break;
-			case "GOTO":
-				hexCode = "101";
-				for(int i = 0; i< ctr.getJumpersCount(); i++) 
-				{
-					String[] j = ctr.jumpers[i].split(":");
-					p = params[0].split(";");
-					if(p[0].equals(j[0])) 
+					hexCode = hexCode + b;
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "BSF":
+					hexCode = "0101";
+					b = Integer.toBinaryString(Integer.parseInt(ctr.getEQUValue(wordList[2])));
+					for(int i = b.length(); i < 3;i++) 
 					{
-						bin = Integer.toBinaryString(Integer.parseInt(j[1]));
+						b = "0" + b;
 					}
-				}
-				break;
-			case "IORLW":
-				hexCode = "111000";
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0].replace(";", "")));
-				break;
-			case "MOVLW":
-				hexCode = "110000";
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0].replace(";", "")));			
-				break;
-			case "RETFIE":
-				hexCode = "00000000001001";
-				break;
-			case "RETLW":
-				hexCode = "110100";
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0].replace(";", "")));
-				break;
-			case "RETURN":
-				hexCode = "00000000001000";
-				break;
-			case "SLEEP":
-				hexCode = "00000001100011";
-				break;
-			case "SUBLW":
-				hexCode = "111100";
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0].replace(";", "")));	
-				break;
-			case "XORLW":
-				hexCode = "111010";
-				bin = this.setBinaryForToHex(ctr.getEQUValue(params[0].replace(";", "")));	
-				break;
-			default:
-				System.out.println("Error in Line "+line+" while assembling to Bin-Code");
-		}
+					hexCode = hexCode + b;
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "BTFSC":
+					hexCode = "0110";
+					b = Integer.toBinaryString(Integer.parseInt(ctr.getEQUValue(wordList[2])));
+					for(int i = b.length(); i < 3;i++) 
+					{
+						b = "0" + b;
+					}
+					hexCode = hexCode + b;
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "BTFSS":
+					hexCode = "0111";
+					b = Integer.toBinaryString(Integer.parseInt(ctr.getEQUValue(wordList[2])));
+					for(int i = b.length(); i < 3;i++) 
+					{
+						b = "0" + b;
+					}
+					hexCode = hexCode + b;
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "ADDLW":
+					// Bit 7 ist X wird aber als 0 gewertet
+					hexCode = "111110";
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "ANDLW":
+					hexCode = "111001";
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "CALL":
+					hexCode = "100";
+					for(int i = 0; i< ctr.getJumpersCount(); i++) 
+					{
+						String[] j = ctr.jumpers[i].split(":");
+
+						if(wordList[1].equals(j[0])) 
+						{
+							bin = Integer.toBinaryString(Integer.parseInt(j[1]));
+						}
+					}
+					break;
+				case "CLRWDT":
+					hexCode = "00000001100100";
+					break;
+				case "GOTO":
+					hexCode = "101";
+					for(int i = 0; i< ctr.getJumpersCount(); i++) 
+					{
+						String[] j = ctr.jumpers[i].split(":");
+						if(wordList[1].equals(j[0])) 
+						{
+							bin = Integer.toBinaryString(Integer.parseInt(j[1]));
+						}
+					}
+					break;
+				case "IORLW":
+					hexCode = "111000";
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "MOVLW":
+					hexCode = "110000";
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));			
+					break;
+				case "RETFIE":
+					hexCode = "00000000001001";
+					break;
+				case "RETLW":
+					hexCode = "110100";
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));
+					break;
+				case "RETURN":
+					hexCode = "00000000001000";
+					break;
+				case "SLEEP":
+					hexCode = "00000001100011";
+					break;
+				case "SUBLW":
+					hexCode = "111100";
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));	
+					break;
+				case "XORLW":
+					hexCode = "111010";
+					bin = this.setBinaryForToHex(ctr.getEQUValue(wordList[1]));	
+					break;
+				default:
+					System.out.println("Error in Line "+line+" while assembling to Bin-Code");
+			}
+		
+		
 		bin = bin.replaceAll("\\r", "");
 		hexCode = hexCode.replaceAll("\\r", "");
 		if(hexCode.length() < 14) 
@@ -261,16 +291,16 @@ public class MnemonicParser {
 			hexCode = hexCode + bin;
 		}
 		
-		String[] value = new String[4];
-		value[0]=" ";
-		value[1]=" ";
-		value[2]= "";
-		value[3]=hexCode;
-		
-		return value;
+		return hexCode;
 	}
 	
-	//This method contains a the first parameter from Mnemonic Command and exchange the hex or equ value
+	
+	/**
+	 * *This function converts a hex string into a binary string with the underlaying function hexToBinary
+	 * *deletion of 0x or h or H is needed for convertion
+	 * @param in the string to be converted
+	 * @return the binary string result of converted hex string 
+	 */
 	private String setBinaryForToHex(String in) 
 	{
 		
@@ -286,7 +316,11 @@ public class MnemonicParser {
 		}
 	}
 	
-	// Converter from hex to bin string
+	/**
+	 * * Converter from hex to bin string
+	 * @param hex
+	 * @return
+	 */
 	public String hexToBinary(String hex) {
 	    if(hex.equals("    ")) 
 	    {

@@ -1,56 +1,47 @@
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JTable;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-
-import java.awt.FlowLayout;
 import java.awt.BorderLayout;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-import javax.swing.JMenuBar;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-import javax.swing.JPanel;
-import java.awt.Color;
-import javax.swing.JRadioButton;
-import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.BoxLayout;
-import java.awt.Component;
-import java.awt.Dimension;
 
-import javax.swing.border.LineBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.ListDataEvent;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
-import javax.swing.SwingConstants;
 import javax.swing.Box;
-import javax.swing.border.EmptyBorder;
-import javax.swing.ListSelectionModel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JTextPane;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import java.awt.ComponentOrientation;
-import java.awt.Desktop;
-import java.awt.GridLayout;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 /// class Simulator_Window
 /**
 *  Grafical user interface for Pic Simualtor.
@@ -126,6 +117,7 @@ public class Simulator_Window {
 		ctr = new Controller(this);
 		initialize();
 		ctr.inizializeMemory();
+		ctr.startMemoryUpdateThread();
 	}
 
 	/**
@@ -684,7 +676,6 @@ public class Simulator_Window {
 	}
 	  public void SetData(Object obj, int row_index, int col_index){
 		  table_Memory.getModel().setValueAt(obj,row_index,col_index);
-		  System.out.println("Value is added :"+obj+" to mem table: "+row_index+" , "+col_index);
 		  table_Memory.setModel(tbl_memory);
 		  frmMicrocontrollerSimulator.repaint();
 	  }
@@ -713,4 +704,5 @@ public class Simulator_Window {
 				ctr.showError("File Open Error", e.getMessage());
 			} 
 	  }
+
 }

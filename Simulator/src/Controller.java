@@ -48,6 +48,9 @@ public class Controller {
 	
 	//protected String[] hexCode;
 	
+	protected String[] mnemonicLines;
+	
+	protected String[] hexCode;
 	protected int[] programCounterList = new int[1024];
 	/// The current position of the program in the code.
 	protected int programmCounter;
@@ -58,7 +61,9 @@ public class Controller {
 	/// The Quarz frequency 
 	protected int frequency = 1000;
 	
+	protected int lineCount;
 	
+	protected int frequency = 1000;
 	
 	/**
 	*  The Constructor, creating a new Memory and MnemonicParser
@@ -79,9 +84,8 @@ public class Controller {
 	{
 		int[][] data = new int[32][8];
 		for(int i = 0; i< 256; i++) {
-			System.out.println(i/8+" R:"+i%8);
-			
 			numbers[i] = Integer.toHexString(i);
+			System.out.println(i/8+" R:"+i%8);
 			data[i/8][i%8] = 0;
 			tableData[i/8][i%8+1] = Integer.toString( data[i/8][i%8]);
 		}
@@ -182,6 +186,7 @@ public class Controller {
 		else {
 			this.showError("Start Simulation Error", "Code isnt compiled. Please compile first and try it again.");
 		}
+
 	}
 	
 	/**
@@ -217,6 +222,7 @@ public class Controller {
 				
 				jumpers[this.jumpersCount] = pCode[i]+":"+(i+1);
 				// kann eventuell weg gelassen werden
+				
 				jumpersCount++;
 				
 				System.out.println("JumperMark found: "+pCode[i]+" at Line "+i);
@@ -507,18 +513,30 @@ public class Controller {
 			
 			// suche nach variablen marken , speichern der wertpaare
 			this.mnemonicLines = this.searchEQUMarks(this.mnemonicLines);
+			//suche nach jumper marken
+			this.mnemonicLines = this.searchJumperMarks(this.mnemonicLines);
 			
 			for(int j = 0; j <this.mnemonicLines.length;j++) 
 			{
+				String proceed;
+				// comments should be deleted
+				if(this.mnemonicLines[j].contains(";")) 
+				{
+					proceed = this.mnemonicLines[j].substring(0, this.mnemonicLines[j].indexOf(";"));
+				}else 
+				{
+					proceed = this.mnemonicLines[j];
+				}
+				
 				// needs check if empty lines with multiple spaces exist and delete these spaces 
-				if(this.mnemonicLines[j].isEmpty() || (this.mnemonicLines[j].length() < 5 &&  this.mnemonicLines[j].startsWith(" "))) 
+				if(proceed.isEmpty() || (proceed.length() < 5 &&  proceed.startsWith(" "))) 
 				{
 					// empty line 
 					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",""});
-				}else if(this.mnemonicLines[j].contains("org") || this.mnemonicLines[j].contains("device 16")) 
+				}else if(proceed.contains("org") || proceed.contains("device 16")) 
 				{
 					// org statement should change the pc
-					String[] tmp = this.mnemonicLines[j].split(" ");
+					String[] tmp = proceed.split(" ");
 					for(int i = 0; i < tmp.length;i++) 
 					{
 						if(tmp[i].equals("org")) 
@@ -531,24 +549,24 @@ public class Controller {
 						}
 					}
 					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
-				}else if(this.mnemonicLines[j].contains("EQU")) 
+				}else if(proceed.contains("EQU")) 
 				{
 					// EQU should not affect any variable
 					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
-				}else if(this.mnemonicLines[j].charAt(0) != ' ') 
+				}else if(proceed.charAt(0) != ' ') 
 				{
 					// if the first char in a line is unequal to space it is a label
 					// pay attention that the EQU is checked before, because EQU has unequal first character too
 					
-					// save that jumper mark with the correct program counter
-					jumpers[this.jumpersCount] = this.mnemonicLines[j]+":"+(pc);
-					jumpersCount++;
 					
-					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , mnemonicLines[j],""});
+					
+					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , proceed,""});
 				}else if(this.mnemonicLines[j].charAt(0) == ' ') 
 				{
+					
 					// normal code line, executed by parser 
-					String binaryCode = parser.fromMnemToHex(this.mnemonicLines[j], j)[3].toString();
+					System.out.println("Controller: "+proceed);
+					String binaryCode = parser.fromMnemToHex(proceed, j).toString();
 					
 					gui.tbl_code.addRow(new Object[]{"",Integer.toHexString(pc), Integer.toHexString(Integer.parseInt(binaryCode, 2)), j+1 , "",mnemonicLines[j]});
 					this.memory.programMemory[pc] = Integer.parseInt(binaryCode, 2);
@@ -672,7 +690,7 @@ public class Controller {
 		}else if(command.substring(0, 3).equals("100")) 				// CALL
 		{
 			this.call(command.substring(3)); 
-		}else if(command.equals("00000001100100")) 						// CLRWDT
+		}else if(command.equals("00000001100100")) 					// CLRWDT
 		{
 			this.clrwdt(); 
 		}else if(command.substring(0, 3).equals("101")) 				// GOTO
@@ -684,16 +702,16 @@ public class Controller {
 		}else if(command.substring(0, 6).equals("110000")) 				// MOVLW
 		{
 			this.movlw(command.substring(6)); 
-		}else if(command.equals("00000000001001")) 						// RETFIE
+		}else if(command.equals("00000000001001")) 					// RETFIE
 		{
 			this.retfie(); 
 		}else if(command.substring(0, 6).equals("110100")) 				// RETLW
 		{
 			this.retlw(command.substring(6)); 
-		}else if(command.equals("00000000001000")) 						// RETURN
+		}else if(command.equals("00000000001000")) 					// RETURN
 		{
 			this._return(); 
-		}else if(command.equals("00000001100011")) 						// SLEEP
+		}else if(command.equals("00000001100011")) 					// SLEEP
 		{
 			this.sleep(); 
 		}else if(command.substring(0, 6).equals("111100")) 				// SUBLW
@@ -702,9 +720,10 @@ public class Controller {
 		}else if(command.substring(0, 6).equals("111010")) 				// XORLW
 		{
 			this.xorlw(command.substring(6)); 
-		}else {															// error
+		}else {												// error
 			System.out.println("There is no command for the inserted string: "+command);
 		}
+		
 	}
 	
 	//
@@ -1314,6 +1333,7 @@ public class Controller {
 	 * **/
 	private void _goto(String k) 
 	{
+		System.out.println("k: "+k);
 		this.programmCounter = Integer.parseInt(k, 2)-1;
 	}
 	
@@ -1420,8 +1440,9 @@ public class Controller {
 	{   // eventuell hier noch nullen auffüllen
 		int w_in = memory.get_WREGISTER();
 		int k_in = Integer.parseInt(k,2);
-		String w_bin = Integer.toBinaryString(w_in);
-		String k_bin = Integer.toBinaryString(k_in);
+		String w_bin = fillUpBinString(Integer.toBinaryString(w_in));
+		String k_bin  = fillUpBinString(Integer.toBinaryString(k_in));
+		
 		String out = "";
 		for(int i = 0; i< 8 ;i++) 
 		{
@@ -1438,9 +1459,15 @@ public class Controller {
 		memory.set_WREGISTER(Integer.parseInt(out, 2));
 	}
 	
+	//
+	// end of commands
+	//
+
+
 	/**
 	 * Method to close the Window of the Mnemonic editor.
 	 * **/
+
 	public void closeMnemonicWindow() {
 		// TODO Auto-generated method stub
 		this.mnemonicWindow.dispose();
@@ -1679,4 +1706,15 @@ public class Controller {
 		      e.printStackTrace();
 		    }
 	}
+	private String fillUpBinString(String in) 
+	{
+		String out = in;
+		while(out.length() < 8) 
+		{
+			out = "0"+ out;
+		}
+		return out;
+	}
+
+
 }
