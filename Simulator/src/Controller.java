@@ -148,7 +148,6 @@ public class Controller {
 
 	public void startSimu() {
 		System.out.println("Simulation started...");
-		this.outputToConsole("Simulation started...");
 		if(this.isCompiled) 
 		{
 			proc = new Processor(this);
@@ -162,7 +161,6 @@ public class Controller {
 
 	public void stopSimu() {
 		System.out.println("Simulation stopped...");
-		this.outputToConsole("Simulation stopped...");
 		proc.stopThread();
 	}
 
@@ -281,10 +279,6 @@ public class Controller {
 		if (number >= 1) {gui.rb_io_in_8.setSelected(true);number = number - 1;}else {gui.rb_io_in_8.setSelected(false);}
 	}
 	
-	public void outputToConsole(String in) 
-	{
-		this.gui.txtArea_Console.setText(in+"\n"+this.gui.txtArea_Console.getText());
-	}
 	public void setSegment(int c1,int c2, int c3, int c4) 
 	{
 		this.gui.setSegment(c1, c2, c3, c4);

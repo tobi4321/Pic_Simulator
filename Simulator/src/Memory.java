@@ -204,14 +204,48 @@ public class Memory extends Thread{
 	//set General Purpose registers SRAM
 	protected void set_SRAM(int fileaddress, int bit, int value) 
 	{
-		if(dataMemory[3][5] == 0) 
+		switch(fileaddress) 
 		{
-			dataMemory[fileaddress][bit] = value;
-		}else if(dataMemory[3][5] == 1) 
-		{
-			dataMemory[fileaddress+128][bit] = value;
+		// INDF
+		case 0:
+			dataMemory[0][bit] = value;
+			dataMemory[128][bit] = value;
+			break;
+		// PCL
+		case 2:
+			dataMemory[2][bit] = value;
+			dataMemory[130][bit] = value;
+			break;
+		// Status
+		case 3:
+			dataMemory[3][bit] = value;
+			dataMemory[131][bit] = value;
+			break;
+		// FSR
+		case 4:
+			dataMemory[4][bit] = value;
+			dataMemory[132][bit] = value;
+			break;
+		// PCLATH
+		case 10:
+			dataMemory[10][bit] = value;
+			dataMemory[138][bit] = value;
+			break;
+		// INTCON
+		case 11:
+			dataMemory[11][bit] = value;
+			dataMemory[139][bit] = value;
+			break;
+		default:
+			if(dataMemory[3][5] == 0) 
+			{
+				dataMemory[fileaddress][bit] = value;
+			}else if(dataMemory[3][5] == 1) 
+			{
+				dataMemory[fileaddress+128][bit] = value;
+			}
+			break;	
 		}
-
 	}
 	
 	protected void set_SRAM(int fileaddress, int value) 
@@ -224,15 +258,7 @@ public class Memory extends Thread{
 		}
 		for(int i = 7; i >= 0; i-- ) 
 		{
-			if(dataMemory[3][5] == 0) 
-			{
-				dataMemory[fileaddress][7-i] = Integer.parseInt(""+c.charAt(i));
-				System.out.println("Added Value "+value+" to Register "+fileaddress);
-			}else if(dataMemory[3][5] == 1) 
-			{
-				dataMemory[fileaddress+128][7-i] = Integer.parseInt(""+c.charAt(i));
-				System.out.println("Added Value "+value+" to Register "+(fileaddress+128));
-			}
+			this.set_SRAM(fileaddress, 7-i, Integer.parseInt(""+c.charAt(i)));
 		}
 	}
 	
@@ -282,14 +308,22 @@ public class Memory extends Thread{
 	{
 		programmcounter = counter;
 		String bin = Integer.toBinaryString(counter);
-		while(bin.length() < 8) 
+		while(bin.length() < 13) 
 		{
 			bin = "0" + bin;
 		}
 		for(int i = 0; i< bin.length(); i++) 
 		{
-			
-			this.dataMemory[2][7-i] = bin.charAt(7-i);
+			if(i < 5) 
+			{
+				// setting pc lath
+				this.set_SRAM(10, 7-i,Integer.parseInt(""+bin.charAt(i)));
+			}else 
+			{
+				// setting pc low
+				this.set_SRAM(2, 7-i,Integer.parseInt(""+bin.charAt(i)));
+			}
+
 		}
 
 	}
@@ -298,12 +332,11 @@ public class Memory extends Thread{
 	{
 		return programmcounter;
 	}
+	
 	// Getter and Setter for w-register
 	protected void set_WREGISTER(int bit, int value) 
 	{
 		w_register[bit] = value;
-		ctr.updateSpecialRegTable(this.tohexValue(w_register), 0, 1);
-		ctr.updateSpecialRegTable(this.tohexValue(w_register), 0, 2);
 	}
 	
 	protected void set_WREGISTER(int value) 
@@ -317,8 +350,6 @@ public class Memory extends Thread{
 		{
 			w_register[7-i] = Integer.parseInt(""+c.charAt(i));
 		}
-		ctr.updateSpecialRegTable(Integer.toHexString(this.get_WREGISTER()), 0, 1);
-		ctr.updateSpecialRegTable(Integer.toBinaryString(this.get_WREGISTER()), 0, 2);
 	}
 	
 	
