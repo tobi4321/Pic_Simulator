@@ -856,6 +856,7 @@ public class Controller {
 			if(in == 0) 
 			{
 				this.programmCounter++;
+				// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
 			}
 		}
 		if(d.equals("0")) 
@@ -910,7 +911,7 @@ public class Controller {
 		{
 			in = 0;
 			this.programmCounter++;
-			nop();
+			// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
 		}else {
 			in++;
 		}
@@ -934,24 +935,24 @@ public class Controller {
 	{
 		int w_in = memory.get_WREGISTER();
 		int f_in = memory.get_Memory(Integer.parseInt(f,2));
-		String w_bin = Integer.toBinaryString(w_in);
-		String f_bin = Integer.toBinaryString(f_in);
-		String out = "";
-		for(int i = 0; i< 8 ;i++) 
+		
+		int result = w_in | f_in;
+
+		// Check not zeroflag
+		if(result != 0) 
 		{
-			if(w_bin.charAt(7-i) == '1' ||  f_bin.charAt(7-i) == '1') 
-			{
-					out = "1" + out;
-			}else {
-				out = "0" + out;
-			}
+			this.memory.set_ZEROFLAG(1);
+		}else 
+		{
+			this.memory.set_ZEROFLAG(0);
 		}
+		
 		if(d.equals("0"))
 		{
-			memory.set_WREGISTER(Integer.parseInt(out, 2));
+			memory.set_WREGISTER(result);
 		}else if(d.equals("1")) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2), Integer.parseInt(out, 2));
+			memory.set_SRAM(Integer.parseInt(f,2), result);
 		}
 	}
 	
@@ -965,14 +966,15 @@ public class Controller {
 	 * **/
 	private void movf(String d, String f) 
 	{
+		int f_in =this.memory.get_Memory(Integer.parseInt(f,2));
+		// TODO: Wann genau Z setzen ? So richtig?
+		this.checkZeroFlags(1);
 		if(d.equals("0"))
 		{
-			int f_in =this.memory.get_Memory(Integer.parseInt(f,2));
 			memory.set_WREGISTER(f_in);
 		}else if(d.equals("1")) 
 		{
-			int w_in = memory.get_WREGISTER();
-			memory.set_SRAM(Integer.parseInt(f,2), w_in);
+			memory.set_SRAM(Integer.parseInt(f,2), f_in);
 		}
 	}
 	
@@ -1006,39 +1008,22 @@ public class Controller {
 	private void rlf(String d, String f) 
 	{
 		int in = memory.get_Memory(Integer.parseInt(f, 2));
-		String f_in = Integer.toBinaryString(in);
 		int carry = memory.get_CARRYFLAG();
-		String carry_in = Integer.toBinaryString(carry);
-		String out = carry_in;
-		// refill the f_in string
-		if(f_in.length() < 8) 
-		{
-			for(int i = 0; i< f_in.length(); i++) 
-			{
-				f_in = "0" + f_in;
-			}
-		}
-		for(int i = 0; i<7; i++) 
-		{
-			if(f_in.charAt(7-i) == '1') 
-			{
-				out = "1" + out;
-			}else {
-				out = "0" + out;
-			}
-		}
-		if(f_in.charAt(0) == '0') 
-		{
-			memory.set_CARRYFLAG(0);
-		}else {
+		
+		if ((in & 128) == 128) {
 			memory.set_CARRYFLAG(1);
 		}
+		else {
+			memory.set_CARRYFLAG(0);
+		}
+		int result = ((in << 1) & 0xFF) | carry;
+		
 		if(d.equals("0")) 
 		{
-			memory.set_WREGISTER(Integer.parseInt(out, 2));
+			memory.set_WREGISTER(result);
 		}else if(d.equals("1")) 
 		{
-			memory.set_SRAM(Integer.parseInt(f, 2), Integer.parseInt(out, 2));
+			memory.set_SRAM(Integer.parseInt(f, 2), result);
 		}
 	}
 	
@@ -1052,38 +1037,22 @@ public class Controller {
 	private void rrf(String d, String f) 
 	{
 		int in = memory.get_Memory(Integer.parseInt(f, 2));
-		String f_in = Integer.toBinaryString(in);
 		int carry = memory.get_CARRYFLAG();
-		String carry_in = Integer.toBinaryString(carry);
-		String out = carry_in;
-		if(f_in.length() < 8) 
-		{
-			for(int i = 0; i< f_in.length(); i++) 
-			{
-				f_in = "0" + f_in;
-			}
-		}
-		for(int i = 0; i<7; i++) 
-		{
-			if(f_in.charAt(i) == '1') 
-			{
-				out =  out + "1" ;
-			}else {
-				out =  out + "0";
-			}
-		}
-		if(f_in.charAt(7) == '0') 
-		{
-			memory.set_CARRYFLAG(0);
-		}else {
+		
+		if ((in & 1) == 1) {
 			memory.set_CARRYFLAG(1);
 		}
+		else {
+			memory.set_CARRYFLAG(0);
+		}
+		int result = (in >> 1) | (carry << 7);
+		
 		if(d.equals("0")) 
 		{
-			memory.set_WREGISTER(Integer.parseInt(out, 2));
+			memory.set_WREGISTER(result);
 		}else if(d.equals("1")) 
 		{
-			memory.set_SRAM(Integer.parseInt(f, 2), Integer.parseInt(out, 2));
+			memory.set_SRAM(Integer.parseInt(f, 2), result);
 		}
 	}
 	
@@ -1099,20 +1068,24 @@ public class Controller {
 		int w_in = memory.get_WREGISTER();
 		int f_in = memory.get_Memory(Integer.parseInt(f, 2));
 		
-		int erg;
+		int result;
 		if(w_in > f_in) 
 		{
-			erg = 255 - (w_in-f_in);
+			result = 255 - (w_in-f_in);
+			this.memory.set_CARRYFLAG(1);
 		}else {
-			erg = f_in - w_in;
+			result = f_in - w_in;
+			this.memory.set_CARRYFLAG(0);
 		}
+		this.checkZeroFlags(result);
+		this.checkDCFalg(result);
 		
 		if(d.equals("0"))
 		{
-			memory.set_WREGISTER(erg);
+			memory.set_WREGISTER(result);
 		}else if(d.equals("1")) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2), erg);
+			memory.set_SRAM(Integer.parseInt(f,2), result);
 		}
 	}
 	
@@ -1126,18 +1099,14 @@ public class Controller {
 	private void swapf(String d, String f) 
 	{
 		int f_in = memory.get_Memory(Integer.parseInt(f,2));
-		String in = Integer.toBinaryString(f_in);
-		for(int i = in.length(); i< 8; i++) 
-		{
-			in = "0"+in;
-		}
-		String erg = in.substring(4, 8) + in.substring(0, 4);
+		int result = ((f_in & 0x0F) << 4) | ((f_in & 0xF0) >> 4);
+
 		if(d.equals("0"))
 		{
-			memory.set_WREGISTER(Integer.parseInt(erg, 2));
+			memory.set_WREGISTER(result);
 		}else if(d.equals("1")) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2),Integer.parseInt(erg, 2) );
+			memory.set_SRAM(Integer.parseInt(f,2), result);
 		}
 	}
 	
@@ -1152,35 +1121,17 @@ public class Controller {
 	{
 		int w_in = memory.get_WREGISTER();
 		int f_in = memory.get_Memory(Integer.parseInt(f,2));
-		String w_bin = Integer.toBinaryString(w_in);
-		while(w_bin.length() < 9) 
-		{
-			w_bin = "0"+w_bin;
-		}
-		String f_bin = Integer.toBinaryString(f_in);
-		while(f_bin.length() < 9) 
-		{
-			f_bin = "0"+f_bin;
-		}
-		String out = "";
-		for(int i = 0; i< 8 ;i++) 
-		{
-			if(w_bin.charAt(7-i) == '1' || '1' ==  f_bin.charAt(7-i)) 
-			{
-				if(w_bin.charAt(7-i)  ==  f_bin.charAt(7-i)) 
-				{
-					out = "0" + out;
-				}else { out = "1" + out;}
-			}else {
-				out = "0" + out;
-			}
-		}
+		
+		int result = f_in ^ w_in;
+		
+		this.checkZeroFlags(result);
+		
 		if(d.equals("0"))
 		{
-			memory.set_WREGISTER(Integer.parseInt(out, 2));
+			memory.set_WREGISTER(result);
 		}else if(d.equals("1")) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2), Integer.parseInt(out, 2));
+			memory.set_SRAM(Integer.parseInt(f,2), result);
 		}
 	}
 	
