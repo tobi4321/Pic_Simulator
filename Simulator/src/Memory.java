@@ -356,7 +356,7 @@ public class Memory extends Thread{
 		}
 		for(int i = 7; i>=0; i--) 
 		{
-			w_register[7-i] = Integer.parseInt(""+c.charAt(i));
+			w_register[i] = Integer.parseInt(""+c.charAt(i));
 		}
 	}
 	
