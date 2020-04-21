@@ -711,12 +711,25 @@ public class Controller {
 	{
 		int w_in = memory.get_WREGISTER();
 		int f_in = memory.get_Memory(Integer.parseInt(f,2));
+		
+		int result = f_in+w_in;
+		if(result > 255) 
+		{
+			this.memory.set_CARRYFLAG(1);
+			result = result - 256;
+		}else 
+		{
+			this.memory.set_CARRYFLAG(0);
+		}
+		this.checkZeroFlags(result);
+		this.checkDCFalg(result);
+		
 		if(d.equals("0"))
 		{
-			memory.set_WREGISTER(f_in+w_in);
+			memory.set_WREGISTER(result);
 		}else if(d.equals("1")) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2), w_in+f_in);
+			memory.set_SRAM(Integer.parseInt(f,2),result);
 		}
 	}
 	
@@ -731,27 +744,18 @@ public class Controller {
 	{
 		int w_in = memory.get_WREGISTER();
 		int f_in = memory.get_Memory(Integer.parseInt(f,2));
-		String w_bin = Integer.toBinaryString(w_in);
-		String f_bin = Integer.toBinaryString(f_in);
-		String out = "";
-		for(int i = 0; i< 8 ;i++) 
-		{
-			if(w_bin.charAt(7-i) == f_bin.charAt(7-i)) 
-			{
-				if(w_bin.charAt(7-i) == '1') 
-				{
-					out = "1" + out;
-				}else { out = "0" + out;}
-			}else {
-				out = "0" + out;
-			}
-		}
+
+		
+		int result = w_in & f_in;
+		
+		this.checkZeroFlags(result);
+
 		if(d.equals("0"))
 		{
-			memory.set_WREGISTER(Integer.parseInt(out, 2));
+			memory.set_WREGISTER(result);
 		}else if(d.equals("1")) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2), Integer.parseInt(out, 2));
+			memory.set_SRAM(Integer.parseInt(f,2), result);
 		}
 	}
 	
@@ -763,6 +767,10 @@ public class Controller {
 	private void clrf(String f) 
 	{
 		memory.set_SRAM(Integer.parseInt(f, 2), 0);
+		if(Integer.parseInt(f, 2) != 3 && Integer.parseInt(f, 2) != 131) 
+		{
+			this.checkZeroFlags(0);
+		}
 	}
 	
 	/**
@@ -772,6 +780,7 @@ public class Controller {
 	private void clrw() 
 	{
 		memory.set_WREGISTER(0);
+		this.checkZeroFlags(0);
 	}
 	
 	/**
@@ -784,7 +793,13 @@ public class Controller {
 	private void comf(String d, String f) 
 	{
 		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		
+		// write in to w reg???????????????????????
+		
 		int out = 255 - in;
+		
+		this.checkZeroFlags(out);
+		
 		if(d.equals("0")) 
 		{
 			memory.set_WREGISTER(out);
@@ -810,6 +825,9 @@ public class Controller {
 		}else {
 			in--;
 		}
+		
+		this.checkZeroFlags(in);
+		
 		if(d.equals("0")) 
 		{
 			memory.set_WREGISTER(in);
@@ -865,6 +883,9 @@ public class Controller {
 		}else {
 			in++;
 		}
+		
+		this.checkZeroFlags(in);
+		
 		if(d.equals("0")) 
 		{
 			memory.set_WREGISTER(in);
@@ -889,6 +910,7 @@ public class Controller {
 		{
 			in = 0;
 			this.programmCounter++;
+			nop();
 		}else {
 			in++;
 		}
@@ -1677,6 +1699,27 @@ public class Controller {
 			out = "0"+ out;
 		}
 		return out;
+	}
+	private void checkZeroFlags(int z) 
+	{
+		if(z == 0) 
+		{
+			this.memory.set_ZEROFLAG(1);
+		}else 
+		{
+			this.memory.set_ZEROFLAG(0);
+		}
+
+	}
+	private void checkDCFalg(int dc) 
+	{
+		if(dc >= 16) 
+		{
+			this.memory.set_DCFLAG(1);
+		}else 
+		{
+			this.memory.set_DCFLAG(0);
+		}
 	}
 
 

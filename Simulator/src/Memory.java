@@ -262,6 +262,14 @@ public class Memory extends Thread{
 		}
 	}
 	
+	public void set_ZEROFLAG(int z) {
+
+		set_SRAM(3,2,z);
+	}
+	public void set_DCFLAG(int dc) 
+	{
+		set_SRAM(3,1,dc);
+	}
 	protected void set_CARRYFLAG(int c) 
 	{
 		set_SRAM(3,0,c);
