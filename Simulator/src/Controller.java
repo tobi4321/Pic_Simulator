@@ -21,7 +21,7 @@ public class Controller {
 	protected Memory memory;
 	/// Parser Object to parse Mnemonic Code into Binary Code
 	protected MnemonicParser parser;
-	
+	protected boolean processorRunning = false;
 	/// Displaying if the code is compiled.
 	protected boolean isCompiled = false;
 	/// The data model to initialize the data table.
@@ -192,8 +192,14 @@ public class Controller {
 	public void startSimu() {
 		System.out.println("Simulation started...");
 		if (this.isCompiled) {
-			proc = new Processor(this);
-			proc.start();	
+			if (!this.processorRunning) {
+				proc = new Processor(this);
+				proc.start();	
+				this.processorRunning = true;
+			}
+			else {
+				this.showError("Start Simulation Error", "Simulation is already running.");
+			}
 		}
 		else {
 			this.showError("Start Simulation Error", "Code isnt compiled. Please compile first and try it again.");
@@ -206,7 +212,7 @@ public class Controller {
 	* **/
 	public void stopSimu() {
 		System.out.println("Simulation stopped...");
-
+		this.processorRunning = false;
 		proc.stopThread();
 	}
 
@@ -451,9 +457,11 @@ public class Controller {
 	 * @param oldC the old Counter row
 	 * @param newC the new Counter row
 	 * **/
-	public void setCodeViewCounter(int oldC, int newC) 
+	public void setCodeViewCounter(int newC) 
 	{
-		this.gui.tbl_code.setValueAt(" ", oldC-1, 0);
+		for(int i = 0; i < this.gui.tbl_code.getRowCount(); i++) {
+			this.gui.tbl_code.setValueAt(" ", i, 0);
+		}
 		this.gui.tbl_code.setValueAt("->", newC-1, 0);
 	}
 	
