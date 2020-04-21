@@ -1158,16 +1158,23 @@ public class Controller {
 	 * **/
 	private void bsf(String b, String f) 
 	{
-		memory.set_SRAM(Integer.parseInt(f, 2), Integer.parseInt(b, 2), 0);
+		memory.set_SRAM(Integer.parseInt(f, 2), Integer.parseInt(b, 2), 1);
 	}
+	
+	/**
+	 * This method executes the STFSC command.
+	 * If bit b in register f is 1 then the next instruction is executed. 
+	 * If bit b, in register f, is 0 then the next instruction is discarded, and a NOP is executed instead, making this a 2TCY instruction.
+	 * @param b The bit as String
+	 * @param f The file register location as String
+	 * **/
 	private void btfsc(String b, String f) 
 	{
 		int in = memory.get_Memory(Integer.parseInt(f, 2), Integer.parseInt(b, 2));
 		if(in == 0) 
 		{
-			
-		}else {
 			this.programmCounter++;
+			// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
 		}
 	}
 	
@@ -1183,9 +1190,8 @@ public class Controller {
 		int in = memory.get_Memory(Integer.parseInt(f, 2), Integer.parseInt(b, 2));
 		if(in == 1) 
 		{
-			
-		}else {
 			this.programmCounter++;
+			// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
 		}
 	}
 	
@@ -1201,7 +1207,20 @@ public class Controller {
 	private void addlw(String k) 
 	{
 		int in = memory.get_WREGISTER();
-		memory.set_WREGISTER(in+Integer.parseInt(k, 2));
+		int result = in + Integer.parseInt(k);
+		
+		if(result > 255) 
+		{
+			this.memory.set_CARRYFLAG(1);
+			result = result - 256;
+		}else 
+		{
+			this.memory.set_CARRYFLAG(0);
+		}
+		this.checkZeroFlags(result);
+		this.checkDCFalg(result);
+		
+		memory.set_WREGISTER(in + Integer.parseInt(k, 2));
 	}
 	
 	/**
@@ -1211,34 +1230,13 @@ public class Controller {
 	 * @param k The Literal as String.
 	 * **/
 	private void andlw(String k) 
-	{    // eventuell k string mit nullen auffüllen
-		while(k.length() < 9) 
-		{
-			k = "0"+k;
-		}
-		
+	{    
 		int w_in = memory.get_WREGISTER();
-		String w_bin = Integer.toBinaryString(w_in);
+		int result = w_in & Integer.parseInt(k);
 		
-		while(w_bin.length() < 9) 
-		{
-			w_bin = "0"+w_bin;
-		}
+		this.checkZeroFlags(result);
 		
-		String out = "";
-		for(int i = 0; i< 8 ;i++) 
-		{
-			if(w_bin.charAt(7-i) == k.charAt(7-i)) 
-			{
-				if(w_bin.charAt(7-i) == '1') 
-				{
-					out = "1" + out;
-				}else { out = "0" + out;}
-			}else {
-				out = "0" + out;
-			}
-		}
-		memory.set_WREGISTER(Integer.parseInt(out, 2));
+		memory.set_WREGISTER(result);
 	}
 	
 	/**
@@ -1258,18 +1256,18 @@ public class Controller {
 	 * **/
 	private void clrwdt() 
 	{
-		// keine ahnung was hier zu tun ist
+		// TODO: CLRWDT implementieren
 	}
 	
-	// Attention the function goto is a basic java function
 	/**
 	 * This method executes the GOTO command.
 	 * Sets the {@link programmCounter} to the new position 'k'.
+	 * The function goto is a basic java function, therefore _goto is used.
 	 * @param k the position as String
 	 * **/
 	private void _goto(String k) 
 	{
-		System.out.println("k: "+k);
+		System.out.println("k: " + k);
 		this.programmCounter = Integer.parseInt(k, 2)-1;
 	}
 	
@@ -1280,22 +1278,14 @@ public class Controller {
 	 * @param k the position as String
 	 * **/
 	private void iorlw(String k) 
-	{   // eventuell hier mit nullen auffüllen 
+	{
 		int w_in = memory.get_WREGISTER();
 		int k_in = Integer.parseInt(k,2);
-		String w_bin = Integer.toBinaryString(w_in);
-		String k_bin = Integer.toBinaryString(k_in);
-		String out = "";
-		for(int i = 0; i< 8 ;i++) 
-		{
-			if(w_bin.charAt(7-i) == '1' ||  k_bin.charAt(7-i) == '1') 
-			{
-					out = "1" + out;
-			}else {
-				out = "0" + out;
-			}
-		}
-		memory.set_WREGISTER(Integer.parseInt(out, 2));
+		int result = w_in | k_in;
+		
+		this.checkZeroFlags(result);
+
+		memory.set_WREGISTER(result);
 	}
 	
 	/**
@@ -1314,7 +1304,7 @@ public class Controller {
 	 * **/
 	private void retfie() 
 	{
-		// keine ahnung was hier gemacht werden muss
+		// TODO: RETFIE implementieren
 	}
 	
 	/**
@@ -1343,32 +1333,37 @@ public class Controller {
 	 * **/
 	private void sleep() 
 	{
-		// keine ahnung was hier gemacht werden muss
+		// TODO: Sleep implementieren.
+		// TODO: Power Down Status Bit und Time Out Statusbit setzen.
 	}
 	
 	/**
 	 * This method executes the SUBLW command.
-	 * The W register is subtracted from the literal 'k'.
+	 * The W register is subtracted from the literal k.
 	 * The result is placed in the W register.
 	 * @param k The literal as String
 	 * **/
 	private void sublw(String k) 
-	{  // flags müssen bei Überlauf noch gesetzt werden
+	{ 
 		int w_in = memory.get_WREGISTER();
 		int k_in = Integer.parseInt(k, 2);		
-		int erg;
+		int result;
 		if(w_in > k_in) 
 		{
-			erg = 255 - (w_in-k_in);
+			result = 255 - (w_in - k_in);
+			this.memory.set_CARRYFLAG(1);
 		}else {
-			erg = k_in - w_in;
+			result = k_in - w_in;
+			this.memory.set_CARRYFLAG(0);
 		}
-		memory.set_WREGISTER(erg);
+		this.checkZeroFlags(result);
+		this.checkDCFalg(result);
+		memory.set_WREGISTER(result);
 	}
 	
 	/**
 	 * This method executes the XORLW command.
-	 * The contents of the W register are XORed with the eight bit literal 'k'. 
+	 * The contents of the W register are XORed with the eight bit literal k. 
 	 * The result is placed in the W register
 	 * @param k The literal as String
 	 * **/
@@ -1376,23 +1371,11 @@ public class Controller {
 	{   // eventuell hier noch nullen auffüllen
 		int w_in = memory.get_WREGISTER();
 		int k_in = Integer.parseInt(k,2);
-		String w_bin = fillUpBinString(Integer.toBinaryString(w_in));
-		String k_bin  = fillUpBinString(Integer.toBinaryString(k_in));
+		int result = w_in ^ k_in;
 		
-		String out = "";
-		for(int i = 0; i< 8 ;i++) 
-		{
-			if(w_bin.charAt(7-i) == '1' || '1' ==  k_bin.charAt(7-i)) 
-			{
-				if(w_bin.charAt(7-i)  ==  k_bin.charAt(7-i)) 
-				{
-					out = "0" + out;
-				}else { out = "1" + out;}
-			}else {
-				out = "0" + out;
-			}
-		}
-		memory.set_WREGISTER(Integer.parseInt(out, 2));
+		this.checkZeroFlags(result);
+
+		memory.set_WREGISTER(result);
 	}
 	
 	//
@@ -1641,15 +1624,6 @@ public class Controller {
 		      System.out.println("An error occurred.");
 		      e.printStackTrace();
 		    }
-	}
-	private String fillUpBinString(String in) 
-	{
-		String out = in;
-		while(out.length() < 8) 
-		{
-			out = "0"+ out;
-		}
-		return out;
 	}
 	private void checkZeroFlags(int z) 
 	{
