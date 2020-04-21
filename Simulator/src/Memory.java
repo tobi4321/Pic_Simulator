@@ -301,10 +301,10 @@ public class Memory extends Thread{
 		{
 			if(dataMemory[3][5] == 0) 
 			{
-				c = c+ dataMemory[fileaddress][i];
+				c = c+ dataMemory[fileaddress][7-i];
 			}else if(dataMemory[3][5] == 1) 
 			{
-				c = c+ dataMemory[fileaddress+128][i];
+				c = c+ dataMemory[fileaddress+128][7-i];
 			}
 			
 		}
