@@ -94,6 +94,12 @@ public class Controller {
 			this.gui.tbl_memory.addRow(new Object[] {tableData[i][0],"0","0","0","0","0","0","0","0"});
 		}
 	}
+	/**
+	 * Starts a thread to cyclic update the memory table
+	 */
+	public void startMemoryUpdateThread() {
+		memory.start();
+	}
 	
 	/**
 	*  Method to update the memory table
