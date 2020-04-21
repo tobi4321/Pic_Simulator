@@ -7,6 +7,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
+/// class MyPanel
+/**
+*  
+*  The Panel to display the 7-segment Display.
+* 
+* **/
 public class MyPanel extends JPanel{
 
     private int First;

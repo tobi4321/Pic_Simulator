@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['zero_5fflag_291',['zero_flag',['../class_memory.html#a257b31527602e9714231cb734069161d',1,'Memory']]]
+  ['w_5fregister_327',['w_register',['../class_memory.html#a207439b226c2324ca3b612775b3e1170',1,'Memory']]]
 ];

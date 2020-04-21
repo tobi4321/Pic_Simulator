@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hexcode_254',['hexCode',['../class_controller.html#a2f39703948007f39c345589f17298295',1,'Controller']]]
+  ['frequency_283',['frequency',['../class_controller.html#a1772f966fbf1cc915e9e7def244cfeb5',1,'Controller']]]
 ];
