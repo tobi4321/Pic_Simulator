@@ -665,7 +665,7 @@ public class Simulator_Window {
 			// TODO Auto-generated method stub
 
 			try {
-			  File helpFile = new File("out/html/index.html");
+			  File helpFile = new File("out/html/annotated.html");
 			  Desktop.getDesktop().browse(helpFile.toURI());
 			  //help.setPage(helpFile.toURI().toURL());
 			}catch (IOException e) {
