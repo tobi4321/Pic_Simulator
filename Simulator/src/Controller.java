@@ -5,57 +5,60 @@ import javax.swing.text.BadLocationException;
 /// class Controller
 /**
 *  This class is the heart of this Simulator.
-*  It is the Connection to the GUI. Each interaction by a user on the GUI is executed in Controller class.
-*  Here are objects of Procesor, memory, timer, interupt and watchdog
+*  It is the connection between all classes. Each interaction by a user on the GUI is executed in the controller class.
+*  Here are objects of processor, memory, timer, interrupt and watchdog
 * **/
 public class Controller {
 	
-	/// object of main gui
+	/// Object of main gui.
 	private Simulator_Window gui;
-	/// object of mnemonic editor gui
+	/// Object of mnemonic editor gui.
 	private MnemonicView mnemonicWindow;
-	/// object of a error dialog
+	/// Object of a error dialog.
 	private ErrorDialog errorView;
-	
-	
-	protected boolean isCompiled = false ;
-	
-	protected int[][] data = new int[32][8];
-	
-	protected String[][] tableData = new String[32][9];
-	
-	protected String[] numbers = new String[256];
-	
-	protected String[] jumpers = new String[512];
-	
-	protected String[] equ = new String[256];
-	
-	protected String[] lines;
-	
-	protected String[] mnemonicLines;
-	
-	protected String[] hexCode;
-	protected int[] programCounterList = new int[1024];
-	private int jumpersCount = 0;
-	
-	private int equCount = 0;
-	
-	protected int programmCounter;
-	
-	protected String[] code;
-	
-	protected int codeLength = 0;
-	
-	protected int lineCount;
-	
-	protected int frequency = 1000;
-	
 	/// Processor object used to work each code step
 	protected Processor proc;
 	/// memory object used to store the data of microprocessor
 	protected Memory memory;
 	/// Parser Object to parse Mnemonic Code into Binary Code
 	protected MnemonicParser parser;
+	/// Displaying if the code is compiled.
+	protected boolean isCompiled = false;
+	/// The data model to initialize the data table.
+	protected String[][] tableData = new String[32][9];
+	
+	protected String[] numbers = new String[256];
+	/// An array holding the jumper line number and the mnemonic code.
+	/**
+	 * The jumpers are holding the mnemonic code line with an ':' and the program counter appended.
+	 * They are listed starting at 0.
+	 */
+	protected String[] jumpers = new String[512];
+	/// Amount of jumper marks in the code.
+	private int jumpersCount = 0;
+	/// An array holding the EQUs.
+	/**
+	 * One entry holds the "original" before the EQU, followed by an ':' appended with the value after the EQU.
+	 */
+	protected String[] equ = new String[256];
+	/// Amount of EQUs in the code.
+	private int equCount = 0;
+	/// The mnemonic code.
+	protected String[] mnemonicLines;
+	
+	//protected String[] hexCode;
+	
+	protected int[] programCounterList = new int[1024];
+	/// The current position of the program in the code.
+	protected int programmCounter;
+	/// The program code
+	protected String[] code;
+	/// The length of the compiled code
+	protected int codeLength = 0;
+	/// The Quarz frequency 
+	protected int frequency = 1000;
+	
+	
 	
 	/**
 	*  The Constructor, creating a new Memory and MnemonicParser
@@ -74,6 +77,7 @@ public class Controller {
 	* **/
 	public void inizializeMemory() 
 	{
+		int[][] data = new int[32][8];
 		for(int i = 0; i< 256; i++) {
 			System.out.println(i/8+" R:"+i%8);
 			
@@ -113,7 +117,7 @@ public class Controller {
 	*  Method to open the mnemonic editor {@link MnemonicView}
 	*  
 	* **/
-	public void openMnemonicView() 
+	public void openMnemonicView()
 	{
 		try {
 			mnemonicWindow = new MnemonicView(this);
@@ -178,15 +182,6 @@ public class Controller {
 		else {
 			this.showError("Start Simulation Error", "Code isnt compiled. Please compile first and try it again.");
 		}
-	}
-	
-	/**
-	*  
-	* **/
-	public void start() 
-	{
-		lineCount = this.mnemonicWindow.txtArea_mnemonic.getLineCount();
-		lines 	  = this.mnemonicWindow.txtArea_mnemonic.getText().split("\\n");
 	}
 	
 	/**
