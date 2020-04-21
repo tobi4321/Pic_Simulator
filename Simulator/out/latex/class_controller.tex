@@ -12,13 +12,13 @@ class \mbox{\hyperlink{class_controller}{Controller}}
 \item 
 void \mbox{\hyperlink{class_controller_a825d465248273d6135b633dd5f0e013b}{inizialize\+Memory}} ()
 \item 
+void \mbox{\hyperlink{class_controller_a7590fed338e6f8a5e5e1a5a7478c266e}{start\+Memory\+Update\+Thread}} ()
+\item 
 void \mbox{\hyperlink{class_controller_a0c822ba856e2ba6c00a431641bbd89de}{open\+Mnemonic\+View}} ()
 \item 
 void \mbox{\hyperlink{class_controller_ab71cc972e55e8ec21564e08bb78cc258}{show\+Error}} (String title, String text)
 \item 
 void \mbox{\hyperlink{class_controller_a22c22f9026332328fff88e741bac44a2}{start\+Simu}} ()
-\item 
-void \mbox{\hyperlink{class_controller_ab6c8aba92ab613713c7439b8504222de}{start}} ()
 \item 
 void \mbox{\hyperlink{class_controller_a63b9b136e406d7000a614c4ddccd4023}{stop\+Simu}} ()
 \item 
@@ -71,7 +71,7 @@ void \mbox{\hyperlink{class_controller_a86f028ef23f89ef8d3c1a9d4584b3016}{save\+
 \item 
 void \mbox{\hyperlink{class_controller_adf8e0c138ab800bb09a4eb6a87931cea}{update\+Memory\+Table}} (String value, int x, int y)
 \item 
-void \mbox{\hyperlink{class_controller_a99a0ca0f1baa20c58a63bff6247293a8}{update\+W\+Reg\+Table}} (String value, int x, int y)
+void \mbox{\hyperlink{class_controller_a264c9a7b4a918e3a7a955430a237437f}{update\+Special\+Reg\+Table}} (String value, int x, int y)
 \item 
 void \mbox{\hyperlink{class_controller_a028a87c129f70989d3ac91ec9c3349f4}{load\+Mnemonic\+From\+Table}} ()
 \item 
@@ -88,48 +88,38 @@ int \mbox{\hyperlink{class_controller_aecc41b8f3a329bfa4e4e0c824a070f08}{get\+Ju
 \doxysubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-boolean \mbox{\hyperlink{class_controller_ad01896e399edbffb4384ec5c0305ed09}{is\+Compiled}} = false
-\item 
-int\mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_abf07966a7772830a0fda7762aa3ae408}{data}} = new int\mbox{[}32\mbox{]}\mbox{[}8\mbox{]}
-\item 
-String\mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_a476647337a3f7baeeb4e3452d09c98b3}{table\+Data}} = new String\mbox{[}32\mbox{]}\mbox{[}9\mbox{]}
-\item 
-String\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_a342c3101d664196febdc900e8cab2367}{numbers}} = new String\mbox{[}256\mbox{]}
-\item 
-String\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_a0ce4412d01e5e0e9b2a5bbe47889a57e}{jumpers}} = new String\mbox{[}512\mbox{]}
-\item 
-String\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_adddfc5147f74f36bf223ed7085cf6089}{equ}} = new String\mbox{[}256\mbox{]}
-\item 
-String\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_a86323df29b2652cd9d125139190fef9c}{lines}}
-\item 
-String\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_a728afc2bb990126172fa5aba23e3ac55}{mnemonic\+Lines}}
-\item 
-String\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_a2f39703948007f39c345589f17298295}{hex\+Code}}
-\item 
-int\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_a50d25772225675d377af0b51ea43cad0}{program\+Counter\+List}} = new int\mbox{[}1024\mbox{]}
-\item 
-int \mbox{\hyperlink{class_controller_acc58f4285453cceab1f6a1e66a25b8af}{programm\+Counter}}
-\item 
-String\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_ab491ce19b258dd5578501d4fc3acdb89}{code}}
-\item 
-int \mbox{\hyperlink{class_controller_a9c015ae51d0ffe799732064b8be2bf45}{code\+Length}} = 0
-\item 
-int \mbox{\hyperlink{class_controller_ae8c9862cd0999d359a54e2a4cef95c33}{line\+Count}}
-\item 
-int \mbox{\hyperlink{class_controller_a1772f966fbf1cc915e9e7def244cfeb5}{frequency}} = 1000
-\item 
 \mbox{\hyperlink{class_processor}{Processor}} \mbox{\hyperlink{class_controller_a7efe0641a147f4c74e34739a053bbbcc}{proc}}
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_processor}{Processor}} object used to work each code step. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_memory}{Memory}} \mbox{\hyperlink{class_controller_a75c3ef0118149f5fc537d8e5e007bd61}{memory}}
 \begin{DoxyCompactList}\small\item\em memory object used to store the data of microprocessor \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_mnemonic_parser}{Mnemonic\+Parser}} \mbox{\hyperlink{class_controller_a200cfb8401b6b25d3b39dcdcea6e48bd}{parser}}
-\begin{DoxyCompactList}\small\item\em Parser Object to parse Mnemonic Code into Binary Code. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Parser Object to parse Mnemonic Code into Binary Code. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{class_controller_ad01896e399edbffb4384ec5c0305ed09}{is\+Compiled}} = false
+\begin{DoxyCompactList}\small\item\em Displaying if the code is compiled. \end{DoxyCompactList}\item 
+String\mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_a476647337a3f7baeeb4e3452d09c98b3}{table\+Data}} = new String\mbox{[}32\mbox{]}\mbox{[}9\mbox{]}
+\begin{DoxyCompactList}\small\item\em The data model to initialize the data table. \end{DoxyCompactList}\item 
+String\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_a0ce4412d01e5e0e9b2a5bbe47889a57e}{jumpers}} = new String\mbox{[}512\mbox{]}
+\begin{DoxyCompactList}\small\item\em An array holding the jumper line number and the mnemonic code. \end{DoxyCompactList}\item 
+String\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_adddfc5147f74f36bf223ed7085cf6089}{equ}} = new String\mbox{[}256\mbox{]}
+\begin{DoxyCompactList}\small\item\em An array holding the E\+Q\+Us. \end{DoxyCompactList}\item 
+String\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_a728afc2bb990126172fa5aba23e3ac55}{mnemonic\+Lines}}
+\begin{DoxyCompactList}\small\item\em The mnemonic code. \end{DoxyCompactList}\item 
+int\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_a50d25772225675d377af0b51ea43cad0}{program\+Counter\+List}} = new int\mbox{[}1024\mbox{]}
+\begin{DoxyCompactList}\small\item\em A list of the program counter as key with the dedicated code line as value. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_controller_acc58f4285453cceab1f6a1e66a25b8af}{programm\+Counter}}
+\begin{DoxyCompactList}\small\item\em The current position of the program in the code. \end{DoxyCompactList}\item 
+String\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_controller_ab491ce19b258dd5578501d4fc3acdb89}{code}}
+\begin{DoxyCompactList}\small\item\em The program code as string array. Every code line is one string. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_controller_a9c015ae51d0ffe799732064b8be2bf45}{code\+Length}} = 0
+\begin{DoxyCompactList}\small\item\em The length of the compiled code. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_controller_a1772f966fbf1cc915e9e7def244cfeb5}{frequency}} = 1000
+\begin{DoxyCompactList}\small\item\em The Quartz frequency. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 class \mbox{\hyperlink{class_controller}{Controller}} 
 
-This class is the heart of this Simulator. It is the Connection to the G\+UI. Each interaction by a user on the G\+UI is executed in \mbox{\hyperlink{class_controller}{Controller}} class. Here are objects of Procesor, memory, timer, interupt and watchdog 
+This class is the heart of this Simulator. It is the connection between all classes. Each interaction by a user on the G\+UI is executed in the controller class. Here are objects of processor, memory, timer, interrupt and watchdog 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{class_controller_a122bc55365bbb92c03428a43f5b88fd1}\label{class_controller_a122bc55365bbb92c03428a43f5b88fd1}} 
@@ -138,9 +128,9 @@ This class is the heart of this Simulator. It is the Connection to the G\+UI. Ea
 \doxysubsubsection{\texorpdfstring{Controller()}{Controller()}}
 {\footnotesize\ttfamily Controller.\+Controller (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_simulator___window}{Simulator\+\_\+\+Window}}}]{p\+Gui }\end{DoxyParamCaption})}
 
-The Constructor, creating a new \mbox{\hyperlink{class_memory}{Memory}} and \mbox{\hyperlink{class_mnemonic_parser}{Mnemonic\+Parser}} 
+The Constructor, creating a new \mbox{\hyperlink{class_memory}{Memory}} and \mbox{\hyperlink{class_mnemonic_parser}{Mnemonic\+Parser}}. 
 \begin{DoxyParams}{Parameters}
-{\em p\+Gui} & is an Object of \mbox{\hyperlink{class_simulator___window}{Simulator\+\_\+\+Window}} \\
+{\em p\+Gui} & Is an Object of \mbox{\hyperlink{class_simulator___window}{Simulator\+\_\+\+Window}} \\
 \hline
 \end{DoxyParams}
 
@@ -222,7 +212,7 @@ The number of jump marks as integer
 \doxysubsubsection{\texorpdfstring{inizializeMemory()}{inizializeMemory()}}
 {\footnotesize\ttfamily void Controller.\+inizialize\+Memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Method to initialize the \mbox{\hyperlink{class_memory}{Memory}} \mbox{\Hypertarget{class_controller_a77d20980d7bca1495be30b0e96b3de4d}\label{class_controller_a77d20980d7bca1495be30b0e96b3de4d}} 
+Method to initialize the \mbox{\hyperlink{class_memory}{Memory}}. \mbox{\Hypertarget{class_controller_a77d20980d7bca1495be30b0e96b3de4d}\label{class_controller_a77d20980d7bca1495be30b0e96b3de4d}} 
 \index{Controller@{Controller}!inizializeTables@{inizializeTables}}
 \index{inizializeTables@{inizializeTables}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{inizializeTables()}{inizializeTables()}}
@@ -245,7 +235,7 @@ Method to load a file. The code table and program counter list will be cleared.
 \doxysubsubsection{\texorpdfstring{loadMnemonicFromTable()}{loadMnemonicFromTable()}}
 {\footnotesize\ttfamily void Controller.\+load\+Mnemonic\+From\+Table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
-Method to \mbox{\Hypertarget{class_controller_ab8dfd7b056e5c707ee8e9c200f8d911f}\label{class_controller_ab8dfd7b056e5c707ee8e9c200f8d911f}} 
+Method to load the program code from the code view table. If labels are found in the 5th column they are added. Otherwise the blank mnemonic code from the 6th column is checked for E\+Q\+Us. If it contains E\+Q\+Us the line is added, otherwise the line is added with a space as prefix. Then the mnemonic code string is loaded into the mnemonic editor. \mbox{\Hypertarget{class_controller_ab8dfd7b056e5c707ee8e9c200f8d911f}\label{class_controller_ab8dfd7b056e5c707ee8e9c200f8d911f}} 
 \index{Controller@{Controller}!loadSRCFile@{loadSRCFile}}
 \index{loadSRCFile@{loadSRCFile}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{loadSRCFile()}{loadSRCFile()}}
@@ -262,7 +252,12 @@ Method to load a S\+RC File into the mnemonic view editor.
 \doxysubsubsection{\texorpdfstring{openMnemonicView()}{openMnemonicView()}}
 {\footnotesize\ttfamily void Controller.\+open\+Mnemonic\+View (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Method to open the mnemonic editor \mbox{\hyperlink{class_mnemonic_view}{Mnemonic\+View}} \mbox{\Hypertarget{class_controller_a8660738c3323dd10e05410e458c308ac}\label{class_controller_a8660738c3323dd10e05410e458c308ac}} 
+Try to open a new \mbox{\hyperlink{class_mnemonic_view}{Mnemonic\+View}} and display it. Then try to load the Mnemonic code from the code view table. 
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & Is catched and printed. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{class_controller_a8660738c3323dd10e05410e458c308ac}\label{class_controller_a8660738c3323dd10e05410e458c308ac}} 
 \index{Controller@{Controller}!outputToConsole@{outputToConsole}}
 \index{outputToConsole@{outputToConsole}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{outputToConsole()}{outputToConsole()}}
@@ -428,26 +423,29 @@ have to be changed to code\+Table \mbox{\Hypertarget{class_controller_ab71cc972e
 \doxysubsubsection{\texorpdfstring{showError()}{showError()}}
 {\footnotesize\ttfamily void Controller.\+show\+Error (\begin{DoxyParamCaption}\item[{String}]{title,  }\item[{String}]{text }\end{DoxyParamCaption})}
 
-Method to create a new \mbox{\hyperlink{class_error_dialog}{Error\+Dialog}} and display it. 
+Method to create a new \mbox{\hyperlink{class_error_dialog}{Error\+Dialog}} with variable title and text and display it. 
 \begin{DoxyParams}{Parameters}
 {\em title} & is a String and the title of the dialog \\
 \hline
 {\em text} & is a String and the text of the dialog \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{class_controller_ab6c8aba92ab613713c7439b8504222de}\label{class_controller_ab6c8aba92ab613713c7439b8504222de}} 
-\index{Controller@{Controller}!start@{start}}
-\index{start@{start}!Controller@{Controller}}
-\doxysubsubsection{\texorpdfstring{start()}{start()}}
-{\footnotesize\ttfamily void Controller.\+start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{class_controller_a7590fed338e6f8a5e5e1a5a7478c266e}\label{class_controller_a7590fed338e6f8a5e5e1a5a7478c266e}} 
+\index{Controller@{Controller}!startMemoryUpdateThread@{startMemoryUpdateThread}}
+\index{startMemoryUpdateThread@{startMemoryUpdateThread}!Controller@{Controller}}
+\doxysubsubsection{\texorpdfstring{startMemoryUpdateThread()}{startMemoryUpdateThread()}}
+{\footnotesize\ttfamily void Controller.\+start\+Memory\+Update\+Thread (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_controller_a22c22f9026332328fff88e741bac44a2}\label{class_controller_a22c22f9026332328fff88e741bac44a2}} 
+Starts a thread to cyclic update the memory table. \mbox{\Hypertarget{class_controller_a22c22f9026332328fff88e741bac44a2}\label{class_controller_a22c22f9026332328fff88e741bac44a2}} 
 \index{Controller@{Controller}!startSimu@{startSimu}}
 \index{startSimu@{startSimu}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{startSimu()}{startSimu()}}
 {\footnotesize\ttfamily void Controller.\+start\+Simu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Method to start the simulation. A new \mbox{\hyperlink{class_processor}{Processor}} will be created and started. \mbox{\Hypertarget{class_controller_a63b9b136e406d7000a614c4ddccd4023}\label{class_controller_a63b9b136e406d7000a614c4ddccd4023}} 
+Method to start the simulation. If the code is compiled (\mbox{\hyperlink{}{is\+Compiles}}) a new \mbox{\hyperlink{class_processor}{Processor}} will be created and started. Otherwise and an error window will be displayed \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{class_controller_ab71cc972e55e8ec21564e08bb78cc258}{show\+Error}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{class_controller_a63b9b136e406d7000a614c4ddccd4023}\label{class_controller_a63b9b136e406d7000a614c4ddccd4023}} 
 \index{Controller@{Controller}!stopSimu@{stopSimu}}
 \index{stopSimu@{stopSimu}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{stopSimu()}{stopSimu()}}
@@ -470,22 +468,22 @@ Method to update the selected quarz frequency.
 \doxysubsubsection{\texorpdfstring{updateMemoryTable()}{updateMemoryTable()}}
 {\footnotesize\ttfamily void Controller.\+update\+Memory\+Table (\begin{DoxyParamCaption}\item[{String}]{value,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
-Method to update the memory table 
+Method to input a value into a specific cell of the memory table. 
 \begin{DoxyParams}{Parameters}
 {\em value} & is an String which is put in the cell \\
 \hline
 {\em x} & is an integer referencing to the column \\
 \hline
-{\em y} & is an integer referencing to the row \\
+{\em y} & is an integer referencing to the row + 1, because the first row are the labels. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{class_controller_a99a0ca0f1baa20c58a63bff6247293a8}\label{class_controller_a99a0ca0f1baa20c58a63bff6247293a8}} 
-\index{Controller@{Controller}!updateWRegTable@{updateWRegTable}}
-\index{updateWRegTable@{updateWRegTable}!Controller@{Controller}}
-\doxysubsubsection{\texorpdfstring{updateWRegTable()}{updateWRegTable()}}
-{\footnotesize\ttfamily void Controller.\+update\+W\+Reg\+Table (\begin{DoxyParamCaption}\item[{String}]{value,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+\mbox{\Hypertarget{class_controller_a264c9a7b4a918e3a7a955430a237437f}\label{class_controller_a264c9a7b4a918e3a7a955430a237437f}} 
+\index{Controller@{Controller}!updateSpecialRegTable@{updateSpecialRegTable}}
+\index{updateSpecialRegTable@{updateSpecialRegTable}!Controller@{Controller}}
+\doxysubsubsection{\texorpdfstring{updateSpecialRegTable()}{updateSpecialRegTable()}}
+{\footnotesize\ttfamily void Controller.\+update\+Special\+Reg\+Table (\begin{DoxyParamCaption}\item[{String}]{value,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
-Method to update the special register table 
+Method to input a value into a specific cell of the special register table. 
 \begin{DoxyParams}{Parameters}
 {\em value} & is an String which is put in the cell \\
 \hline
@@ -503,17 +501,19 @@ Method to update the special register table
 \doxysubsubsection{\texorpdfstring{code}{code}}
 {\footnotesize\ttfamily String \mbox{[}$\,$\mbox{]} Controller.\+code\hspace{0.3cm}{\ttfamily [protected]}}
 
+
+
+The program code as string array. Every code line is one string. 
+
 \mbox{\Hypertarget{class_controller_a9c015ae51d0ffe799732064b8be2bf45}\label{class_controller_a9c015ae51d0ffe799732064b8be2bf45}} 
 \index{Controller@{Controller}!codeLength@{codeLength}}
 \index{codeLength@{codeLength}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{codeLength}{codeLength}}
 {\footnotesize\ttfamily int Controller.\+code\+Length = 0\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_controller_abf07966a7772830a0fda7762aa3ae408}\label{class_controller_abf07966a7772830a0fda7762aa3ae408}} 
-\index{Controller@{Controller}!data@{data}}
-\index{data@{data}!Controller@{Controller}}
-\doxysubsubsection{\texorpdfstring{data}{data}}
-{\footnotesize\ttfamily int \mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]} Controller.\+data = new int\mbox{[}32\mbox{]}\mbox{[}8\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+The length of the compiled code. 
 
 \mbox{\Hypertarget{class_controller_adddfc5147f74f36bf223ed7085cf6089}\label{class_controller_adddfc5147f74f36bf223ed7085cf6089}} 
 \index{Controller@{Controller}!equ@{equ}}
@@ -521,17 +521,19 @@ Method to update the special register table
 \doxysubsubsection{\texorpdfstring{equ}{equ}}
 {\footnotesize\ttfamily String \mbox{[}$\,$\mbox{]} Controller.\+equ = new String\mbox{[}256\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_controller_a1772f966fbf1cc915e9e7def244cfeb5}\label{class_controller_a1772f966fbf1cc915e9e7def244cfeb5}} 
+
+
+An array holding the E\+Q\+Us. 
+
+One entry holds the \char`\"{}original\char`\"{} before the E\+QU, followed by an \textquotesingle{}\+:\textquotesingle{} appended with the value after the E\+QU. \mbox{\Hypertarget{class_controller_a1772f966fbf1cc915e9e7def244cfeb5}\label{class_controller_a1772f966fbf1cc915e9e7def244cfeb5}} 
 \index{Controller@{Controller}!frequency@{frequency}}
 \index{frequency@{frequency}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{frequency}{frequency}}
 {\footnotesize\ttfamily int Controller.\+frequency = 1000\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_controller_a2f39703948007f39c345589f17298295}\label{class_controller_a2f39703948007f39c345589f17298295}} 
-\index{Controller@{Controller}!hexCode@{hexCode}}
-\index{hexCode@{hexCode}!Controller@{Controller}}
-\doxysubsubsection{\texorpdfstring{hexCode}{hexCode}}
-{\footnotesize\ttfamily String \mbox{[}$\,$\mbox{]} Controller.\+hex\+Code\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+The Quartz frequency. 
 
 \mbox{\Hypertarget{class_controller_ad01896e399edbffb4384ec5c0305ed09}\label{class_controller_ad01896e399edbffb4384ec5c0305ed09}} 
 \index{Controller@{Controller}!isCompiled@{isCompiled}}
@@ -539,25 +541,21 @@ Method to update the special register table
 \doxysubsubsection{\texorpdfstring{isCompiled}{isCompiled}}
 {\footnotesize\ttfamily boolean Controller.\+is\+Compiled = false\hspace{0.3cm}{\ttfamily [protected]}}
 
+
+
+Displaying if the code is compiled. 
+
 \mbox{\Hypertarget{class_controller_a0ce4412d01e5e0e9b2a5bbe47889a57e}\label{class_controller_a0ce4412d01e5e0e9b2a5bbe47889a57e}} 
 \index{Controller@{Controller}!jumpers@{jumpers}}
 \index{jumpers@{jumpers}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{jumpers}{jumpers}}
 {\footnotesize\ttfamily String \mbox{[}$\,$\mbox{]} Controller.\+jumpers = new String\mbox{[}512\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_controller_ae8c9862cd0999d359a54e2a4cef95c33}\label{class_controller_ae8c9862cd0999d359a54e2a4cef95c33}} 
-\index{Controller@{Controller}!lineCount@{lineCount}}
-\index{lineCount@{lineCount}!Controller@{Controller}}
-\doxysubsubsection{\texorpdfstring{lineCount}{lineCount}}
-{\footnotesize\ttfamily int Controller.\+line\+Count\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_controller_a86323df29b2652cd9d125139190fef9c}\label{class_controller_a86323df29b2652cd9d125139190fef9c}} 
-\index{Controller@{Controller}!lines@{lines}}
-\index{lines@{lines}!Controller@{Controller}}
-\doxysubsubsection{\texorpdfstring{lines}{lines}}
-{\footnotesize\ttfamily String \mbox{[}$\,$\mbox{]} Controller.\+lines\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_controller_a75c3ef0118149f5fc537d8e5e007bd61}\label{class_controller_a75c3ef0118149f5fc537d8e5e007bd61}} 
+An array holding the jumper line number and the mnemonic code. 
+
+The jumpers are holding the mnemonic code line with an \textquotesingle{}\+:\textquotesingle{} and the program counter appended. They are listed starting at 0. \mbox{\Hypertarget{class_controller_a75c3ef0118149f5fc537d8e5e007bd61}\label{class_controller_a75c3ef0118149f5fc537d8e5e007bd61}} 
 \index{Controller@{Controller}!memory@{memory}}
 \index{memory@{memory}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{memory}{memory}}
@@ -573,11 +571,9 @@ memory object used to store the data of microprocessor
 \doxysubsubsection{\texorpdfstring{mnemonicLines}{mnemonicLines}}
 {\footnotesize\ttfamily String \mbox{[}$\,$\mbox{]} Controller.\+mnemonic\+Lines\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_controller_a342c3101d664196febdc900e8cab2367}\label{class_controller_a342c3101d664196febdc900e8cab2367}} 
-\index{Controller@{Controller}!numbers@{numbers}}
-\index{numbers@{numbers}!Controller@{Controller}}
-\doxysubsubsection{\texorpdfstring{numbers}{numbers}}
-{\footnotesize\ttfamily String \mbox{[}$\,$\mbox{]} Controller.\+numbers = new String\mbox{[}256\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+The mnemonic code. 
 
 \mbox{\Hypertarget{class_controller_a200cfb8401b6b25d3b39dcdcea6e48bd}\label{class_controller_a200cfb8401b6b25d3b39dcdcea6e48bd}} 
 \index{Controller@{Controller}!parser@{parser}}
@@ -605,17 +601,29 @@ Parser Object to parse Mnemonic Code into Binary Code.
 \doxysubsubsection{\texorpdfstring{programCounterList}{programCounterList}}
 {\footnotesize\ttfamily int \mbox{[}$\,$\mbox{]} Controller.\+program\+Counter\+List = new int\mbox{[}1024\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}
 
+
+
+A list of the program counter as key with the dedicated code line as value. 
+
 \mbox{\Hypertarget{class_controller_acc58f4285453cceab1f6a1e66a25b8af}\label{class_controller_acc58f4285453cceab1f6a1e66a25b8af}} 
 \index{Controller@{Controller}!programmCounter@{programmCounter}}
 \index{programmCounter@{programmCounter}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{programmCounter}{programmCounter}}
 {\footnotesize\ttfamily int Controller.\+programm\+Counter\hspace{0.3cm}{\ttfamily [protected]}}
 
+
+
+The current position of the program in the code. 
+
 \mbox{\Hypertarget{class_controller_a476647337a3f7baeeb4e3452d09c98b3}\label{class_controller_a476647337a3f7baeeb4e3452d09c98b3}} 
 \index{Controller@{Controller}!tableData@{tableData}}
 \index{tableData@{tableData}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{tableData}{tableData}}
 {\footnotesize\ttfamily String \mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]} Controller.\+table\+Data = new String\mbox{[}32\mbox{]}\mbox{[}9\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The data model to initialize the data table. 
 
 
 

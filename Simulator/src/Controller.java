@@ -1,5 +1,4 @@
 import java.io.*;
-
 import javax.swing.table.TableColumn;
 import javax.swing.text.BadLocationException;
 /// class Controller
@@ -9,7 +8,6 @@ import javax.swing.text.BadLocationException;
 *  Here are objects of processor, memory, timer, interrupt and watchdog
 * **/
 public class Controller {
-	
 	/// Object of main gui.
 	private Simulator_Window gui;
 	/// Object of mnemonic editor gui.
@@ -22,12 +20,11 @@ public class Controller {
 	protected Memory memory;
 	/// Parser Object to parse Mnemonic Code into Binary Code
 	protected MnemonicParser parser;
+	
 	/// Displaying if the code is compiled.
 	protected boolean isCompiled = false;
 	/// The data model to initialize the data table.
 	protected String[][] tableData = new String[32][9];
-	
-	protected String[] numbers = new String[256];
 	/// An array holding the jumper line number and the mnemonic code.
 	/**
 	 * The jumpers are holding the mnemonic code line with an ':' and the program counter appended.
@@ -45,29 +42,20 @@ public class Controller {
 	private int equCount = 0;
 	/// The mnemonic code.
 	protected String[] mnemonicLines;
-	
-	//protected String[] hexCode;
-	
-	protected String[] mnemonicLines;
-	
-	protected String[] hexCode;
+	/// A list of the program counter as key with the dedicated code line as value
 	protected int[] programCounterList = new int[1024];
 	/// The current position of the program in the code.
 	protected int programmCounter;
-	/// The program code
+	/// The program code as string array. Every code line is one string.
 	protected String[] code;
 	/// The length of the compiled code
 	protected int codeLength = 0;
-	/// The Quarz frequency 
-	protected int frequency = 1000;
-	
-	protected int lineCount;
-	
+	/// The Quartz frequency 
 	protected int frequency = 1000;
 	
 	/**
-	*  The Constructor, creating a new Memory and MnemonicParser
-	*  @param pGui is an Object of {@link Simulator_Window}
+	*  The Constructor, creating a new Memory and MnemonicParser.
+	*  @param pGui Is an Object of {@link Simulator_Window}
 	* **/
 	public Controller(Simulator_Window pGui) 
 	{
@@ -77,11 +65,12 @@ public class Controller {
 	}
 	
 	/**
-	*  Method to initialize the Memory
+	*  Method to initialize the Memory.
 	*  
 	* **/
 	public void inizializeMemory() 
 	{
+		String[] numbers = new String[256];
 		int[][] data = new int[32][8];
 		for(int i = 0; i< 256; i++) {
 			numbers[i] = Integer.toHexString(i);
@@ -95,17 +84,17 @@ public class Controller {
 		}
 	}
 	/**
-	 * Starts a thread to cyclic update the memory table
+	 * Starts a thread to cyclic update the memory table.
 	 */
 	public void startMemoryUpdateThread() {
 		memory.start();
 	}
 	
 	/**
-	*  Method to update the memory table
+	*  Method to input a value into a specific cell of the memory table.
 	*  @param value is an String which is put in the cell
 	*  @param x is an integer referencing to the column
-	*  @param y is an integer referencing to the row
+	*  @param y is an integer referencing to the row + 1, because the first row are the labels.
 	* **/
 	protected void updateMemoryTable(String value,int x, int y) 
 	{
@@ -113,19 +102,20 @@ public class Controller {
 	}
 	
 	/**
-	*  Method to update the special register table
-	*  @param value is an String which is put in the cell
-	*  @param x is an integer referencing to the column
-	*  @param y is an integer referencing to the row
-	* **/
-	protected void updateWRegTable(String value, int x, int y) 
+	 * Method to input a value into a specific cell of the special register table.
+	 * @param value is an String which is put in the cell
+	 * @param x is an integer referencing to the column
+	 * @param y is an integer referencing to the row
+	 */
+	protected void updateSpecialRegTable(String value, int x, int y) 
 	{
 		gui.setSpecialData(value, x, y);
 	}
 	
 	/**
-	*  Method to open the mnemonic editor {@link MnemonicView}
-	*  
+	*  Try to open a new {@link MnemonicView} and display it. 
+	*  Then try to load the Mnemonic code from the code view table.
+	*  @exception Exception Is catched and printed.
 	* **/
 	public void openMnemonicView()
 	{
@@ -139,7 +129,7 @@ public class Controller {
 	}
 	
 	/**
-	*  Method to create a new {@link ErrorDialog} and display it.
+	*  Method to create a new {@link ErrorDialog} with variable title and text and display it.
 	*  @param title is a String and the title of the dialog
 	*  @param text is a String and the text of the dialog
 	* **/
@@ -152,19 +142,23 @@ public class Controller {
 	}
 	
 	/**
-	*  Method to 
-	*  
+	*  Method to load the program code from the code view table.
+	*  If labels are found in the 5th column they are added.
+	*  Otherwise the blank mnemonic code from the 6th column is checked for EQUs. If it contains EQUs the line is added, otherwise the line is added with a space as prefix.
+	*  Then the mnemonic code string is loaded into the mnemonic editor.
 	* **/
 	protected void loadMnemonicFromTable() 
 	{
 		String mnemonic = "";
+		// iterate over the code view table
 		for (int i = 0; i < gui.tbl_code.getRowCount(); i++) {
-			// check for Labels
+			// check for Labels and add if found
 			String label = gui.tbl_code.getValueAt(i, 4).toString();
 			if(!label.isEmpty()) {
 				mnemonic = mnemonic + label + "\n";
 			}
 			else {
+				// else check if line is an EQU and add it, otherwise add it with an space as prefix
 				String code = gui.tbl_code.getValueAt(i, 5).toString();
 				if (code.contains("EQU")) {
 					mnemonic = mnemonic + code + "\n";
@@ -174,17 +168,19 @@ public class Controller {
 				}
 			}
 		}
+		// add and repaint.
 		mnemonicWindow.txtArea_mnemonic.setText(mnemonic);
 		mnemonicWindow.txtArea_mnemonic.repaint();
 	}
 
 	/**
-	*  Method to start the simulation. 
-	*  A new {@link Processor} will be created and started.
+	*  Method to start the simulation.
+	*  If the code is compiled ({@link isCompiles}) a new {@link Processor} will be created and started.
+	*  Otherwise and an error window will be displayed.
+	*  @see showError
 	* **/
 	public void startSimu() {
 		System.out.println("Simulation started...");
-		this.outputToConsole("Simulation started...");
 		if (this.isCompiled) {
 			proc = new Processor(this);
 			proc.start();	
@@ -192,80 +188,64 @@ public class Controller {
 		else {
 			this.showError("Start Simulation Error", "Code isnt compiled. Please compile first and try it again.");
 		}
-
 	}
 	
 	/**
-	*  Method to stop the Simulation. The active processor will be stopped via {@link stopThread}.
+	*  Method to stop the Simulation. The active processor thread will be stopped via {@link stopThread}.
 	* **/
 	public void stopSimu() {
 		System.out.println("Simulation stopped...");
-		this.outputToConsole("Simulation stopped...");
 		proc.stopThread();
-	}
-	
-	/**
-	 * Method to highlight the text where the programmcounter points to in Mnemonic Editor 
-	 * 
-	 * have to be changed to codeTable
-	 * **/
-	public void setTextActive(int row) throws BadLocationException 
-	{
-		this.mnemonicWindow.txtArea_mnemonic.setSelectionEnd(0);
-		this.mnemonicWindow.txtArea_mnemonic.requestFocus();
-		this.mnemonicWindow.txtArea_mnemonic.select(this.mnemonicWindow.txtArea_mnemonic.getLineStartOffset(row),this.mnemonicWindow.txtArea_mnemonic.getLineEndOffset(row));
 	}
 
 	/**
-	 * Method to check if there are any jump marks in the code, adding to jumpers list and delete from code
+	 * Method to check if there are any jump marks in the uncompiled code. 
+	 * Found marks are added to jumpers list with "'label'+':'+'codeline'".
 	 * @param pCode is a String array which holds the program code
 	 * @return the given program code
 	 * **/
 	public String[] searchJumperMarks(String[] pCode) 
 	{
-		for (int i = 0; i<pCode.length;i++) {
+		// iterate over the uncompiled code.
+		for (int i = 0; i < pCode.length; i++) {
 			if ((pCode[i].charAt(0) != ' ') && (pCode[i].contains("EQU") == false)) {
-				
-				jumpers[this.jumpersCount] = pCode[i]+":"+(i+1);
-				// kann eventuell weg gelassen werden
-				
+				// add found jumper mark and increment jumper count
+				jumpers[this.jumpersCount] = pCode[i] + ":" + (i + 1);				
 				jumpersCount++;
 				
 				System.out.println("JumperMark found: "+pCode[i]+" at Line "+i);
-				this.outputToConsole("JumperMark found: "+pCode[i]+" at Line "+i);
 			}
 		}
 		return pCode;
 	}
 	
 	/**
-	 * Method to search the EQU marks in the code.
+	 * Method to search the EQU marks in the uncompiled code.
 	 * @param pCode is a String array which holds the program code
 	 * @return the given program code
 	 * **/
 	public String[] searchEQUMarks(String[] pCode) {
-		for(int i = 0; i<pCode.length; i++) 
+		// iterate over the uncompiled code
+		for(int i = 0; i < pCode.length; i++) 
 		{
 			if(pCode[i].contains("EQU")) 
 			{
-				String beforeToken ="";
-				String afterToken ="";
-				String[] token;
-				token = pCode[i].split(" ");
+				String beforeToken = ""; //value left (before) of the EQU
+				String afterToken  = ""; //value right (after) of the EQU
+				String[] tokenParts;
+				tokenParts = pCode[i].split(" ");
 
-				if(token.length > 2) 
+				if(tokenParts.length > 2) 
 				{
-					for(int j = 0; j< token.length; j++) 
+					for(int j = 0; j < tokenParts.length; j++) 
 					{
-						if(token[j].equals("EQU")) 
-						{  // eventuell ist es hier nötig den abstand zwischen wörtern zum token zu zählen
-							beforeToken = token[j-1];
-							afterToken = token[j+1];
-							equ[this.equCount] = beforeToken+":"+afterToken;
-							// zeile soll nicht mehr gelöscht werden
-							// pCode[i] = "";
+						if(tokenParts[j].equals("EQU")) 
+						{
+							beforeToken = tokenParts[j-1];
+							afterToken  = tokenParts[j+1];
+							equ[this.equCount] = beforeToken + ":" + afterToken;
 							this.equCount++;
-							System.out.println("EQU found in Line "+i+" ("+pCode[i]+")");
+							System.out.println("EQU found in Line " + i + " (" + pCode[i] + ")");
 						}
 					}
 				}else {
@@ -285,7 +265,8 @@ public class Controller {
 	public String getEQUValue(String equName) 
 	{
 		String out = "";
-		for(int i = 0; i<this.equCount; i++) {
+		// iterate over the EQU list
+		for(int i = 0; i < this.equCount; i++) {
 			String[] j = equ[i].split(":");
 			if(j[0].equals(equName)) 
 			{
@@ -305,16 +286,16 @@ public class Controller {
 	 * **/
 	protected String getIOAnalog_OUT() 
 	{
-		String analog_out = "";
-		if(gui.rb_io_out_1.isSelected()) {analog_out = "1"+analog_out;}else {analog_out = "0"+analog_out;}
-		if(gui.rb_io_out_2.isSelected()) {analog_out = "1"+analog_out;}else {analog_out = "0"+analog_out;}
-		if(gui.rb_io_out_3.isSelected()) {analog_out = "1"+analog_out;}else {analog_out = "0"+analog_out;}
-		if(gui.rb_io_out_4.isSelected()) {analog_out = "1"+analog_out;}else {analog_out = "0"+analog_out;}
-		if(gui.rb_io_out_5.isSelected()) {analog_out = "1"+analog_out;}else {analog_out = "0"+analog_out;}
-		if(gui.rb_io_out_6.isSelected()) {analog_out = "1"+analog_out;}else {analog_out = "0"+analog_out;}
-		if(gui.rb_io_out_7.isSelected()) {analog_out = "1"+analog_out;}else {analog_out = "0"+analog_out;}
-		if(gui.rb_io_out_8.isSelected()) {analog_out = "1"+analog_out;}else {analog_out = "0"+analog_out;}
-		return analog_out;
+		String value = "";
+		if(gui.rb_io_out_1.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_out_2.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_out_3.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_out_4.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_out_5.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_out_6.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_out_7.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_out_8.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		return value;
 	}
 	
 	/**
@@ -323,16 +304,16 @@ public class Controller {
 	 * **/
 	protected String getIOAnalog_IN() 
 	{
-		String analog_in = "";
-		if(gui.rb_io_in_1.isSelected()) {analog_in = "1"+analog_in;}else {analog_in = "0"+analog_in;}
-		if(gui.rb_io_in_2.isSelected()) {analog_in = "1"+analog_in;}else {analog_in = "0"+analog_in;}
-		if(gui.rb_io_in_3.isSelected()) {analog_in = "1"+analog_in;}else {analog_in = "0"+analog_in;}
-		if(gui.rb_io_in_4.isSelected()) {analog_in = "1"+analog_in;}else {analog_in = "0"+analog_in;}
-		if(gui.rb_io_in_5.isSelected()) {analog_in = "1"+analog_in;}else {analog_in = "0"+analog_in;}
-		if(gui.rb_io_in_6.isSelected()) {analog_in = "1"+analog_in;}else {analog_in = "0"+analog_in;}
-		if(gui.rb_io_in_7.isSelected()) {analog_in = "1"+analog_in;}else {analog_in = "0"+analog_in;}
-		if(gui.rb_io_in_8.isSelected()) {analog_in = "1"+analog_in;}else {analog_in = "0"+analog_in;}
-		return analog_in;
+		String value = "";
+		if(gui.rb_io_in_1.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_in_2.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_in_3.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_in_4.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_in_5.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_in_6.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_in_7.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		if(gui.rb_io_in_8.isSelected()) {value = "1" + value;}else {value = "0" + value;}
+		return value;
 	}
 	
 	/**
@@ -341,14 +322,14 @@ public class Controller {
 	 * **/
 	protected void setIOAnalog_OUT(int number) 
 	{
-		if (number >= 128) {gui.rb_io_out_1.setSelected(true);number = number - 128;}else {gui.rb_io_out_1.setSelected(false);}
-		if (number >= 64)  {gui.rb_io_out_2.setSelected(true);number = number - 64;} else {gui.rb_io_out_2.setSelected(false);}
-		if (number >= 32)  {gui.rb_io_out_3.setSelected(true);number = number - 32;} else {gui.rb_io_out_3.setSelected(false);}
-		if (number >= 16)  {gui.rb_io_out_4.setSelected(true);number = number - 16;} else {gui.rb_io_out_4.setSelected(false);}
-		if (number >= 8)   {gui.rb_io_out_5.setSelected(true);number = number - 8;}  else {gui.rb_io_out_5.setSelected(false);}
-		if (number >= 4)   {gui.rb_io_out_6.setSelected(true);number = number - 4;}  else {gui.rb_io_out_6.setSelected(false);}
-		if (number >= 2)   {gui.rb_io_out_7.setSelected(true);number = number - 2;}  else {gui.rb_io_out_7.setSelected(false);}
-		if (number >= 1)   {gui.rb_io_out_8.setSelected(true);number = number - 1;}  else {gui.rb_io_out_8.setSelected(false);}
+		if (number >= 128) {gui.rb_io_out_1.setSelected(true); number = number - 128;}else {gui.rb_io_out_1.setSelected(false);}
+		if (number >= 64)  {gui.rb_io_out_2.setSelected(true); number = number - 64;} else {gui.rb_io_out_2.setSelected(false);}
+		if (number >= 32)  {gui.rb_io_out_3.setSelected(true); number = number - 32;} else {gui.rb_io_out_3.setSelected(false);}
+		if (number >= 16)  {gui.rb_io_out_4.setSelected(true); number = number - 16;} else {gui.rb_io_out_4.setSelected(false);}
+		if (number >= 8)   {gui.rb_io_out_5.setSelected(true); number = number - 8;}  else {gui.rb_io_out_5.setSelected(false);}
+		if (number >= 4)   {gui.rb_io_out_6.setSelected(true); number = number - 4;}  else {gui.rb_io_out_6.setSelected(false);}
+		if (number >= 2)   {gui.rb_io_out_7.setSelected(true); number = number - 2;}  else {gui.rb_io_out_7.setSelected(false);}
+		if (number >= 1)   {gui.rb_io_out_8.setSelected(true); number = number - 1;}  else {gui.rb_io_out_8.setSelected(false);}
 	}
 	
 	/**
@@ -357,23 +338,14 @@ public class Controller {
 	 * **/
 	protected void setIOAnalog_IN(int number) 
 	{
-		if (number >= 128) {gui.rb_io_in_1.setSelected(true);number = number - 128;}else {gui.rb_io_in_1.setSelected(false);}
-		if (number >= 64)  {gui.rb_io_in_2.setSelected(true);number = number - 64;} else {gui.rb_io_in_2.setSelected(false);}
-		if (number >= 32)  {gui.rb_io_in_3.setSelected(true);number = number - 32;} else {gui.rb_io_in_3.setSelected(false);}
-		if (number >= 16)  {gui.rb_io_in_4.setSelected(true);number = number - 16;} else {gui.rb_io_in_4.setSelected(false);}
-		if (number >= 8)   {gui.rb_io_in_5.setSelected(true);number = number - 8;}  else {gui.rb_io_in_5.setSelected(false);}
-		if (number >= 4)   {gui.rb_io_in_6.setSelected(true);number = number - 4;}  else {gui.rb_io_in_6.setSelected(false);}
-		if (number >= 2)   {gui.rb_io_in_7.setSelected(true);number = number - 2;}  else {gui.rb_io_in_7.setSelected(false);}
-		if (number >= 1)   {gui.rb_io_in_8.setSelected(true);number = number - 1;}  else {gui.rb_io_in_8.setSelected(false);}
-	}
-	
-	/**
-	 * Method to set the values of the analog IO input pins.
-	 * @param in is a String 
-	 * **/
-	public void outputToConsole(String in) 
-	{
-		this.gui.txtArea_Console.setText(in+"\n"+this.gui.txtArea_Console.getText());
+		if (number >= 128) {gui.rb_io_in_1.setSelected(true); number = number - 128;}else {gui.rb_io_in_1.setSelected(false);}
+		if (number >= 64)  {gui.rb_io_in_2.setSelected(true); number = number - 64;} else {gui.rb_io_in_2.setSelected(false);}
+		if (number >= 32)  {gui.rb_io_in_3.setSelected(true); number = number - 32;} else {gui.rb_io_in_3.setSelected(false);}
+		if (number >= 16)  {gui.rb_io_in_4.setSelected(true); number = number - 16;} else {gui.rb_io_in_4.setSelected(false);}
+		if (number >= 8)   {gui.rb_io_in_5.setSelected(true); number = number - 8;}  else {gui.rb_io_in_5.setSelected(false);}
+		if (number >= 4)   {gui.rb_io_in_6.setSelected(true); number = number - 4;}  else {gui.rb_io_in_6.setSelected(false);}
+		if (number >= 2)   {gui.rb_io_in_7.setSelected(true); number = number - 2;}  else {gui.rb_io_in_7.setSelected(false);}
+		if (number >= 1)   {gui.rb_io_in_8.setSelected(true); number = number - 1;}  else {gui.rb_io_in_8.setSelected(false);}
 	}
 	
 	/**

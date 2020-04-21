@@ -75,15 +75,16 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa7d95c1b1af66d828df1e488fb729e42"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mnemonic_parser.html#aa7d95c1b1af66d828df1e488fb729e42">MnemonicParser</a> (<a class="el" href="class_controller.html">Controller</a> pCtr)</td></tr>
+<tr class="memdesc:aa7d95c1b1af66d828df1e488fb729e42"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor  <a href="class_mnemonic_parser.html#aa7d95c1b1af66d828df1e488fb729e42">More...</a><br /></td></tr>
 <tr class="separator:aa7d95c1b1af66d828df1e488fb729e42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc958a6a5d66638938ffed747fb1a202"><td class="memItemLeft" align="right" valign="top">Object[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mnemonic_parser.html#acc958a6a5d66638938ffed747fb1a202">fromMnemToHex</a> (String c, int line)</td></tr>
-<tr class="separator:acc958a6a5d66638938ffed747fb1a202"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5a910b2b68fe642e7925bb6777d1f54"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mnemonic_parser.html#ab5a910b2b68fe642e7925bb6777d1f54">fromMnemToHex</a> (String c, int line)</td></tr>
+<tr class="separator:ab5a910b2b68fe642e7925bb6777d1f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03e86880e8cf00c7c4b09b35aa5edc1f"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mnemonic_parser.html#a03e86880e8cf00c7c4b09b35aa5edc1f">hexToBinary</a> (String hex)</td></tr>
 <tr class="separator:a03e86880e8cf00c7c4b09b35aa5edc1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>class <a class="el" href="class_mnemonic_parser.html" title="class MnemonicParser">MnemonicParser</a> </p>
-<p>The Parser to pars mnemonic Code to Hex </p>
+<p>This class is used to parse mnemonic code into binary assembler code </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa7d95c1b1af66d828df1e488fb729e42"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa7d95c1b1af66d828df1e488fb729e42">&#9670;&nbsp;</a></span>MnemonicParser()</h2>
@@ -101,17 +102,25 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>constructor </p>
+<p>The constructor is used to set the parameter given by <a class="el" href="class_controller.html" title="class Controller">Controller</a> class with creation to the local <a class="el" href="class_controller.html" title="class Controller">Controller</a> object </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pCtr</td><td>temporary object of <a class="el" href="class_controller.html" title="class Controller">Controller</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="acc958a6a5d66638938ffed747fb1a202"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc958a6a5d66638938ffed747fb1a202">&#9670;&nbsp;</a></span>fromMnemToHex()</h2>
+<a id="ab5a910b2b68fe642e7925bb6777d1f54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5a910b2b68fe642e7925bb6777d1f54">&#9670;&nbsp;</a></span>fromMnemToHex()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Object [] MnemonicParser.fromMnemToHex </td>
+          <td class="memname">String MnemonicParser.fromMnemToHex </td>
           <td>(</td>
           <td class="paramtype">String&#160;</td>
           <td class="paramname"><em>c</em>, </td>
@@ -129,6 +138,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>function to parse a line of mnemonic assembler code into binary code </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>the line to parse </td></tr>
+    <tr><td class="paramname">line</td><td>to display the line where an error occured </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the binary string of c </dd></dl>
 
 </div>
 </div>
@@ -147,6 +164,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<ul>
+<li>Converter from hex to bin string <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hex</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+</li>
+</ul>
 
 </div>
 </div>

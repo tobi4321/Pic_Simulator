@@ -5,10 +5,18 @@
 class \mbox{\hyperlink{class_memory}{Memory}}  
 
 
+Inheritance diagram for Memory\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_memory}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{class_memory_a1b0e8310f9088bd6b81a40e7cabc29b8}{Memory}} (\mbox{\hyperlink{class_controller}{Controller}} p\+Ctr)
+\item 
+void \mbox{\hyperlink{class_memory_a76c6256f00e2260c704fda1cbd39f63e}{run}} ()
 \item 
 void \mbox{\hyperlink{class_memory_a6a2f47cccbe80d3fcfc4465468ae96e6}{clear\+Prog\+Mem}} ()
 \end{DoxyCompactItemize}
@@ -85,11 +93,7 @@ int\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_memory_a14dc64b5a0059e3e8d615365d
 int \mbox{\hyperlink{class_memory_ac1592bbc8c88ec4209db663d5577af47}{programmcounter}}
 \item 
 int\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_memory_a207439b226c2324ca3b612775b3e1170}{w\+\_\+register}} = new int\mbox{[}8\mbox{]}
-\item 
-int \mbox{\hyperlink{class_memory_a00326e8fa89af1d9ef51bec563504e78}{carry\+\_\+flag}}
-\item 
-int \mbox{\hyperlink{class_memory_a257b31527602e9714231cb734069161d}{zero\+\_\+flag}}
-\item 
+\begin{DoxyCompactList}\small\item\em w\+\_\+register storage for operations \end{DoxyCompactList}\item 
 Stack$<$ Integer $>$ \mbox{\hyperlink{class_memory_a1802ca5810162cce2c89686f06d86b64}{stack}} = new Stack$<$Integer$>$()
 \begin{DoxyCompactList}\small\item\em the stack is used to store the pushed adresses by a call command \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -115,7 +119,10 @@ This class is the basic implementation of the controller memory There a various 
 \doxysubsubsection{\texorpdfstring{clearProgMem()}{clearProgMem()}}
 {\footnotesize\ttfamily void Memory.\+clear\+Prog\+Mem (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{class_memory_a061eba28313defca66f6cf64c44f73fc}\label{class_memory_a061eba28313defca66f6cf64c44f73fc}} 
+
+\begin{DoxyItemize}
+\item used to clear the program\+Memory reset value is ff 
+\end{DoxyItemize}\mbox{\Hypertarget{class_memory_a061eba28313defca66f6cf64c44f73fc}\label{class_memory_a061eba28313defca66f6cf64c44f73fc}} 
 \index{Memory@{Memory}!get\_CARRYFLAG@{get\_CARRYFLAG}}
 \index{get\_CARRYFLAG@{get\_CARRYFLAG}!Memory@{Memory}}
 \doxysubsubsection{\texorpdfstring{get\_CARRYFLAG()}{get\_CARRYFLAG()}}
@@ -151,17 +158,48 @@ This class is the basic implementation of the controller memory There a various 
 \doxysubsubsection{\texorpdfstring{get\_WREGISTER()}{get\_WREGISTER()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily int Memory.\+get\+\_\+\+W\+R\+E\+G\+I\+S\+T\+ER (\begin{DoxyParamCaption}\item[{int}]{bit }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_memory_a67a4f69099a9ed1e4e517a34ebb20cd5}\label{class_memory_a67a4f69099a9ed1e4e517a34ebb20cd5}} 
+
+\begin{DoxyItemize}
+\item function to get ther specific bit of w register 
+\begin{DoxyParams}{Parameters}
+{\em bit} & bit index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value of the w register specific bit 
+\end{DoxyReturn}
+
+\end{DoxyItemize}\mbox{\Hypertarget{class_memory_a67a4f69099a9ed1e4e517a34ebb20cd5}\label{class_memory_a67a4f69099a9ed1e4e517a34ebb20cd5}} 
 \index{Memory@{Memory}!popFromStack@{popFromStack}}
 \index{popFromStack@{popFromStack}!Memory@{Memory}}
 \doxysubsubsection{\texorpdfstring{popFromStack()}{popFromStack()}}
 {\footnotesize\ttfamily int Memory.\+pop\+From\+Stack (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_memory_ac06ea3301688520c72652472d9056ec3}\label{class_memory_ac06ea3301688520c72652472d9056ec3}} 
+
+\begin{DoxyItemize}
+\item used to pop the needed programm counter from stack \begin{DoxyReturn}{Returns}
+is the popped adress 
+\end{DoxyReturn}
+
+\end{DoxyItemize}\mbox{\Hypertarget{class_memory_ac06ea3301688520c72652472d9056ec3}\label{class_memory_ac06ea3301688520c72652472d9056ec3}} 
 \index{Memory@{Memory}!pushToStack@{pushToStack}}
 \index{pushToStack@{pushToStack}!Memory@{Memory}}
 \doxysubsubsection{\texorpdfstring{pushToStack()}{pushToStack()}}
 {\footnotesize\ttfamily void Memory.\+push\+To\+Stack (\begin{DoxyParamCaption}\item[{int}]{adr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+\begin{DoxyItemize}
+\item used to push the current programmcounter+1 on the stack 
+\begin{DoxyParams}{Parameters}
+{\em adr} & is the adress to push \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}\mbox{\Hypertarget{class_memory_a76c6256f00e2260c704fda1cbd39f63e}\label{class_memory_a76c6256f00e2260c704fda1cbd39f63e}} 
+\index{Memory@{Memory}!run@{run}}
+\index{run@{run}!Memory@{Memory}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Memory.\+run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{class_memory_a9707cb00e9a81b352ad0c74c4d0db8a2}\label{class_memory_a9707cb00e9a81b352ad0c74c4d0db8a2}} 
 \index{Memory@{Memory}!set\_CARRYFLAG@{set\_CARRYFLAG}}
@@ -298,31 +336,25 @@ This class is the basic implementation of the controller memory There a various 
 
 
 \doxysubsection{Member Data Documentation}
-\mbox{\Hypertarget{class_memory_a00326e8fa89af1d9ef51bec563504e78}\label{class_memory_a00326e8fa89af1d9ef51bec563504e78}} 
-\index{Memory@{Memory}!carry\_flag@{carry\_flag}}
-\index{carry\_flag@{carry\_flag}!Memory@{Memory}}
-\doxysubsubsection{\texorpdfstring{carry\_flag}{carry\_flag}}
-{\footnotesize\ttfamily int Memory.\+carry\+\_\+flag\hspace{0.3cm}{\ttfamily [protected]}}
-
 \mbox{\Hypertarget{class_memory_a66806d17b9f84b70016ffa9442c5944a}\label{class_memory_a66806d17b9f84b70016ffa9442c5944a}} 
 \index{Memory@{Memory}!dataMemory@{dataMemory}}
 \index{dataMemory@{dataMemory}!Memory@{Memory}}
 \doxysubsubsection{\texorpdfstring{dataMemory}{dataMemory}}
 {\footnotesize\ttfamily int \mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]} Memory.\+data\+Memory = new int\mbox{[}256\mbox{]}\mbox{[}8\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_memory_ac1592bbc8c88ec4209db663d5577af47}\label{class_memory_ac1592bbc8c88ec4209db663d5577af47}} 
+this memory will store the data memory 00 to 7F is the first bank 80 to FF is the second bank \mbox{\Hypertarget{class_memory_ac1592bbc8c88ec4209db663d5577af47}\label{class_memory_ac1592bbc8c88ec4209db663d5577af47}} 
 \index{Memory@{Memory}!programmcounter@{programmcounter}}
 \index{programmcounter@{programmcounter}!Memory@{Memory}}
 \doxysubsubsection{\texorpdfstring{programmcounter}{programmcounter}}
 {\footnotesize\ttfamily int Memory.\+programmcounter\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_memory_a14dc64b5a0059e3e8d615365df82a0bb}\label{class_memory_a14dc64b5a0059e3e8d615365df82a0bb}} 
+counter on which line the processor is default es 0 to indicate a reset \mbox{\Hypertarget{class_memory_a14dc64b5a0059e3e8d615365df82a0bb}\label{class_memory_a14dc64b5a0059e3e8d615365df82a0bb}} 
 \index{Memory@{Memory}!programMemory@{programMemory}}
 \index{programMemory@{programMemory}!Memory@{Memory}}
 \doxysubsubsection{\texorpdfstring{programMemory}{programMemory}}
 {\footnotesize\ttfamily int \mbox{[}$\,$\mbox{]} Memory.\+program\+Memory = new int\mbox{[}1024\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_memory_a1802ca5810162cce2c89686f06d86b64}\label{class_memory_a1802ca5810162cce2c89686f06d86b64}} 
+this is the storage for the program code 0000 is the reset and 0004 is the interrupt value \mbox{\Hypertarget{class_memory_a1802ca5810162cce2c89686f06d86b64}\label{class_memory_a1802ca5810162cce2c89686f06d86b64}} 
 \index{Memory@{Memory}!stack@{stack}}
 \index{stack@{stack}!Memory@{Memory}}
 \doxysubsubsection{\texorpdfstring{stack}{stack}}
@@ -338,11 +370,9 @@ the stack is used to store the pushed adresses by a call command
 \doxysubsubsection{\texorpdfstring{w\_register}{w\_register}}
 {\footnotesize\ttfamily int \mbox{[}$\,$\mbox{]} Memory.\+w\+\_\+register = new int\mbox{[}8\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}
 
-\mbox{\Hypertarget{class_memory_a257b31527602e9714231cb734069161d}\label{class_memory_a257b31527602e9714231cb734069161d}} 
-\index{Memory@{Memory}!zero\_flag@{zero\_flag}}
-\index{zero\_flag@{zero\_flag}!Memory@{Memory}}
-\doxysubsubsection{\texorpdfstring{zero\_flag}{zero\_flag}}
-{\footnotesize\ttfamily int Memory.\+zero\+\_\+flag\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+w\+\_\+register storage for operations 
 
 
 

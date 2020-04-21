@@ -1,19 +1,14 @@
 var searchData=
 [
-  ['rb_5fio_5fin_5f1_299',['rb_io_in_1',['../class_simulator___window.html#a7dfcaace7422b6df08940f441e750b4d',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f2_300',['rb_io_in_2',['../class_simulator___window.html#a2aee667a84014f371319c74dc76b2dc1',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f3_301',['rb_io_in_3',['../class_simulator___window.html#ab1e873a9d09cb18fdcf1e279333d9df5',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f4_302',['rb_io_in_4',['../class_simulator___window.html#a176f12c0150ca71e6d30a27777fac7d6',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f5_303',['rb_io_in_5',['../class_simulator___window.html#a2fdcf14e902f61703b0d2c7773a5a7d2',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f6_304',['rb_io_in_6',['../class_simulator___window.html#a0d3f75ede6d81af8438f53779a65f964',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f7_305',['rb_io_in_7',['../class_simulator___window.html#a54d188f28d892327c75142a1ae7b38fd',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f8_306',['rb_io_in_8',['../class_simulator___window.html#a9dfa858dabcc12b1aadde5c4ec4fc048',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f1_307',['rb_io_out_1',['../class_simulator___window.html#aee8004e0e8b34d7ba5a5df7809a822cf',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f2_308',['rb_io_out_2',['../class_simulator___window.html#a23105f768052adc0b02acb7a71dbf2b6',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f3_309',['rb_io_out_3',['../class_simulator___window.html#a9c6be8bc9b86e0b76b52e6633260f12d',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f4_310',['rb_io_out_4',['../class_simulator___window.html#a589700e004da5a3bca1bd4d7975c2064',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f5_311',['rb_io_out_5',['../class_simulator___window.html#aea5fd83fe692f2d90394d53d480db25b',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f6_312',['rb_io_out_6',['../class_simulator___window.html#a56b98bf6a75dcbb5c1181b28fa887be4',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f7_313',['rb_io_out_7',['../class_simulator___window.html#ade47c1ce289c6454abebdb57ae62fdf2',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f8_314',['rb_io_out_8',['../class_simulator___window.html#a30177317b8bf595f945179533a78d929',1,'Simulator_Window']]]
+  ['table_5fcode_314',['table_Code',['../class_simulator___window.html#affa709dd04be0867986147a9003967ef',1,'Simulator_Window']]],
+  ['table_5fmemory_315',['table_Memory',['../class_simulator___window.html#a1235cf3623c1e008e28934d9d9f57ba1',1,'Simulator_Window']]],
+  ['table_5fspecial_5fregs_316',['table_special_regs',['../class_simulator___window.html#a5998c6ce3003ea8e8a649cb03a0aedee',1,'Simulator_Window']]],
+  ['tabledata_317',['tableData',['../class_controller.html#a476647337a3f7baeeb4e3452d09c98b3',1,'Controller']]],
+  ['tbl_5fcode_318',['tbl_code',['../class_simulator___window.html#affdd041461d6a64f3fa263c4566f40fe',1,'Simulator_Window']]],
+  ['tbl_5fmemory_319',['tbl_memory',['../class_simulator___window.html#ae6fb4ca2a6b0979b4550382cd31b82a3',1,'Simulator_Window']]],
+  ['tbl_5fpcl_320',['tbl_pcl',['../class_simulator___window.html#ac17f79951f7c0c172e593913fb8e07a5',1,'Simulator_Window']]],
+  ['tbl_5fspecial_321',['tbl_special',['../class_simulator___window.html#a466a9714cbea749af8ee4481aaa9ca33',1,'Simulator_Window']]],
+  ['tbl_5fstatus_322',['tbl_status',['../class_simulator___window.html#a566d0c1d97aa56cf56eb9654cc2ca968',1,'Simulator_Window']]],
+  ['txtarea_5fconsole_323',['txtArea_Console',['../class_simulator___window.html#abe98013d1ff1ee9b64e40b039bc36d63',1,'Simulator_Window']]],
+  ['txtarea_5fmnemonic_324',['txtArea_mnemonic',['../class_mnemonic_view.html#aba083962b09918a70b2004d60d728dcd',1,'MnemonicView']]]
 ];

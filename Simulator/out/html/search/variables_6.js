@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['jumpers_285',['jumpers',['../class_controller.html#a0ce4412d01e5e0e9b2a5bbe47889a57e',1,'Controller']]]
+  ['lbl_5ferrortext_286',['lbl_ErrorText',['../class_error_dialog.html#a26c68ac644b399d584f9e48e4e8344c2',1,'ErrorDialog']]],
+  ['lbl_5ferrortitle_287',['lbl_ErrorTitle',['../class_error_dialog.html#a50565e951bd55f82b7ddaf1811c09b3a',1,'ErrorDialog']]]
 ];

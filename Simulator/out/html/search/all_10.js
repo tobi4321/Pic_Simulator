@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['updatefrequency_153',['updateFrequency',['../class_controller.html#ad5804b7397a75da8ba103f8184703575',1,'Controller']]],
-  ['updatememorytable_154',['updateMemoryTable',['../class_controller.html#adf8e0c138ab800bb09a4eb6a87931cea',1,'Controller']]],
-  ['updatewregtable_155',['updateWRegTable',['../class_controller.html#a99a0ca0f1baa20c58a63bff6247293a8',1,'Controller']]]
+  ['w_5fregister_154',['w_register',['../class_memory.html#a207439b226c2324ca3b612775b3e1170',1,'Memory']]],
+  ['waitforclient_155',['waitForClient',['../class_i_o_server.html#afdc8088567d843e023c756db2a137408',1,'IOServer']]],
+  ['watchdog_156',['Watchdog',['../class_watchdog.html',1,'']]],
+  ['watchdog_2ejava_157',['Watchdog.java',['../_watchdog_8java.html',1,'']]]
 ];

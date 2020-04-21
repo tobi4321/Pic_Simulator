@@ -1,0 +1,89 @@
+\hypertarget{class_i_o_server}{}\doxysection{I\+O\+Server Class Reference}
+\label{class_i_o_server}\index{IOServer@{IOServer}}
+
+
+class \mbox{\hyperlink{class_i_o_server}{I\+O\+Server}}  
+
+
+Inheritance diagram for I\+O\+Server\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_i_o_server}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_i_o_server_ad94b6e5629e3be5ce53234cab7a7860b}{I\+O\+Server}} (\mbox{\hyperlink{class_controller}{Controller}} p\+Ctr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_i_o_server_a7dc82b9221ddef464e10abbcb119aaee}{start\+Server}} ()
+\item 
+java.\+net.\+Socket \mbox{\hyperlink{class_i_o_server_afdc8088567d843e023c756db2a137408}{wait\+For\+Client}} ()  throws I\+O\+Exception  	
+\item 
+void \mbox{\hyperlink{class_i_o_server_ab19356b118e054ddc3026199c4d66ee5}{read\+Message}} ()
+\item 
+void \mbox{\hyperlink{class_i_o_server_aa8691166a7250b3f168ce7cc767c0d27}{send\+Message}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_i_o_server_a606ba581f1b3d1195bcd0a67badc8ef6}{server\+Port}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+class \mbox{\hyperlink{class_i_o_server}{I\+O\+Server}} 
+
+used to connect simulator to a outsourced software with hardware communication 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_i_o_server_ad94b6e5629e3be5ce53234cab7a7860b}\label{class_i_o_server_ad94b6e5629e3be5ce53234cab7a7860b}} 
+\index{IOServer@{IOServer}!IOServer@{IOServer}}
+\index{IOServer@{IOServer}!IOServer@{IOServer}}
+\doxysubsubsection{\texorpdfstring{IOServer()}{IOServer()}}
+{\footnotesize\ttfamily I\+O\+Server.\+I\+O\+Server (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_controller}{Controller}}}]{p\+Ctr }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_i_o_server_ab19356b118e054ddc3026199c4d66ee5}\label{class_i_o_server_ab19356b118e054ddc3026199c4d66ee5}} 
+\index{IOServer@{IOServer}!readMessage@{readMessage}}
+\index{readMessage@{readMessage}!IOServer@{IOServer}}
+\doxysubsubsection{\texorpdfstring{readMessage()}{readMessage()}}
+{\footnotesize\ttfamily void I\+O\+Server.\+read\+Message (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_i_o_server_aa8691166a7250b3f168ce7cc767c0d27}\label{class_i_o_server_aa8691166a7250b3f168ce7cc767c0d27}} 
+\index{IOServer@{IOServer}!sendMessage@{sendMessage}}
+\index{sendMessage@{sendMessage}!IOServer@{IOServer}}
+\doxysubsubsection{\texorpdfstring{sendMessage()}{sendMessage()}}
+{\footnotesize\ttfamily void I\+O\+Server.\+send\+Message (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_i_o_server_a7dc82b9221ddef464e10abbcb119aaee}\label{class_i_o_server_a7dc82b9221ddef464e10abbcb119aaee}} 
+\index{IOServer@{IOServer}!startServer@{startServer}}
+\index{startServer@{startServer}!IOServer@{IOServer}}
+\doxysubsubsection{\texorpdfstring{startServer()}{startServer()}}
+{\footnotesize\ttfamily void I\+O\+Server.\+start\+Server (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_i_o_server_afdc8088567d843e023c756db2a137408}\label{class_i_o_server_afdc8088567d843e023c756db2a137408}} 
+\index{IOServer@{IOServer}!waitForClient@{waitForClient}}
+\index{waitForClient@{waitForClient}!IOServer@{IOServer}}
+\doxysubsubsection{\texorpdfstring{waitForClient()}{waitForClient()}}
+{\footnotesize\ttfamily java.\+net.\+Socket I\+O\+Server.\+wait\+For\+Client (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) throws I\+O\+Exception\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_i_o_server_a606ba581f1b3d1195bcd0a67badc8ef6}\label{class_i_o_server_a606ba581f1b3d1195bcd0a67badc8ef6}} 
+\index{IOServer@{IOServer}!serverPort@{serverPort}}
+\index{serverPort@{serverPort}!IOServer@{IOServer}}
+\doxysubsubsection{\texorpdfstring{serverPort}{serverPort}}
+{\footnotesize\ttfamily int I\+O\+Server.\+server\+Port\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+F\+:/\+Coding/\+D\+H/\+Pic\+\_\+\+Simulator/\+Simulator/src/\mbox{\hyperlink{_i_o_server_8java}{I\+O\+Server.\+java}}\end{DoxyCompactItemize}
