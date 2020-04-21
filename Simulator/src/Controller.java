@@ -729,8 +729,8 @@ public class Controller {
 		{
 			this.memory.set_CARRYFLAG(0);
 		}
-		this.checkZeroFlags(result);
-		this.checkDCFalg(result);
+		this.checkZeroFlag(result);
+		this.checkDCFlag(result);
 		
 		if(d.equals("0"))
 		{
@@ -756,7 +756,7 @@ public class Controller {
 		
 		int result = w_in & f_in;
 		
-		this.checkZeroFlags(result);
+		this.checkZeroFlag(result);
 
 		if(d.equals("0"))
 		{
@@ -777,7 +777,7 @@ public class Controller {
 		memory.set_SRAM(Integer.parseInt(f, 2), 0);
 		if(Integer.parseInt(f, 2) != 3 && Integer.parseInt(f, 2) != 131) 
 		{
-			this.checkZeroFlags(0);
+			this.checkZeroFlag(0);
 		}
 	}
 	
@@ -788,7 +788,7 @@ public class Controller {
 	private void clrw() 
 	{
 		memory.set_WREGISTER(0);
-		this.checkZeroFlags(0);
+		this.checkZeroFlag(0);
 	}
 	
 	/**
@@ -806,7 +806,7 @@ public class Controller {
 		
 		int out = 255 - in;
 		
-		this.checkZeroFlags(out);
+		this.checkZeroFlag(out);
 		
 		if(d.equals("0")) 
 		{
@@ -834,7 +834,7 @@ public class Controller {
 			in--;
 		}
 		
-		this.checkZeroFlags(in);
+		this.checkZeroFlag(in);
 		
 		if(d.equals("0")) 
 		{
@@ -893,7 +893,7 @@ public class Controller {
 			in++;
 		}
 		
-		this.checkZeroFlags(in);
+		this.checkZeroFlag(in);
 		
 		if(d.equals("0")) 
 		{
@@ -976,7 +976,7 @@ public class Controller {
 	{
 		int f_in =this.memory.get_Memory(Integer.parseInt(f,2));
 		// TODO: Wann genau Z setzen ? So richtig?
-		this.checkZeroFlags(1);
+		this.checkZeroFlag(1);
 		if(d.equals("0"))
 		{
 			memory.set_WREGISTER(f_in);
@@ -1079,14 +1079,14 @@ public class Controller {
 		int result;
 		if(w_in > f_in) 
 		{
-			result = 255 - (w_in-f_in);
+			result = 256 - (w_in-f_in);
 			this.memory.set_CARRYFLAG(1);
 		}else {
 			result = f_in - w_in;
 			this.memory.set_CARRYFLAG(0);
 		}
-		this.checkZeroFlags(result);
-		this.checkDCFalg(result);
+		this.checkZeroFlag(result);
+		this.checkDCFlag(result);
 		
 		if(d.equals("0"))
 		{
@@ -1132,7 +1132,7 @@ public class Controller {
 		
 		int result = f_in ^ w_in;
 		
-		this.checkZeroFlags(result);
+		this.checkZeroFlag(result);
 		
 		if(d.equals("0"))
 		{
@@ -1225,8 +1225,8 @@ public class Controller {
 		{
 			this.memory.set_CARRYFLAG(0);
 		}
-		this.checkZeroFlags(result);
-		this.checkDCFalg(result);
+		this.checkZeroFlag(result);
+		this.checkDCFlag(result);
 		
 		memory.set_WREGISTER(in + Integer.parseInt(k, 2));
 	}
@@ -1242,7 +1242,7 @@ public class Controller {
 		int w_in = memory.get_WREGISTER();
 		int result = w_in & Integer.parseInt(k);
 		
-		this.checkZeroFlags(result);
+		this.checkZeroFlag(result);
 		
 		memory.set_WREGISTER(result);
 	}
@@ -1291,7 +1291,7 @@ public class Controller {
 		int k_in = Integer.parseInt(k,2);
 		int result = w_in | k_in;
 		
-		this.checkZeroFlags(result);
+		this.checkZeroFlag(result);
 
 		memory.set_WREGISTER(result);
 	}
@@ -1358,14 +1358,14 @@ public class Controller {
 		int result;
 		if(w_in > k_in) 
 		{
-			result = 255 - (w_in - k_in);
+			result = 256 - (w_in - k_in);
 			this.memory.set_CARRYFLAG(1);
 		}else {
 			result = k_in - w_in;
 			this.memory.set_CARRYFLAG(0);
 		}
-		this.checkZeroFlags(result);
-		this.checkDCFalg(result);
+		this.checkZeroFlag(result);
+		this.checkDCFlag(result);
 		memory.set_WREGISTER(result);
 	}
 	
@@ -1381,7 +1381,7 @@ public class Controller {
 		int k_in = Integer.parseInt(k,2);
 		int result = w_in ^ k_in;
 		
-		this.checkZeroFlags(result);
+		this.checkZeroFlag(result);
 
 		memory.set_WREGISTER(result);
 	}
@@ -1633,7 +1633,7 @@ public class Controller {
 		      e.printStackTrace();
 		    }
 	}
-	private void checkZeroFlags(int z) 
+	private void checkZeroFlag(int z) 
 	{
 		if(z == 0) 
 		{
@@ -1644,7 +1644,7 @@ public class Controller {
 		}
 
 	}
-	private void checkDCFalg(int dc) 
+	private void checkDCFlag(int dc) 
 	{
 		if(dc >= 16) 
 		{
