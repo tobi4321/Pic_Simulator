@@ -9,24 +9,24 @@ public class Memory {
 	
 	private Controller ctr;
 	
-	// this memory will store the data memory
-	// 00 to 7F is the first bank
-	// 80 to FF is the second bank
+	/// this memory will store the data memory
+	/// 00 to 7F is the first bank
+	/// 80 to FF is the second bank
 	protected int[][] dataMemory = new int[256][8];
 	
-	// this is the storage for the program code
-	// 0000 is the reset and 0004 is the interrupt value
+	/// this is the storage for the program code
+	/// 0000 is the reset and 0004 is the interrupt value
 	protected int[] programMemory = new int[1024];
 	
 	
-	// counter on which line the processor is
-	// default es 0 to indicate a reset
+	/// counter on which line the processor is
+	/// default es 0 to indicate a reset
 	protected int programmcounter;
 	
-	// w_register storage for operations
+	/// w_register storage for operations
 	protected int[] w_register = new int[8];
 	
-	// flag to indicate a overflow
+	/// flag to indicate a overflow
 	protected int carry_flag;
 	
 	//
@@ -173,6 +173,7 @@ public class Memory {
 		}
 		for(int i = 7; i >= 0; i-- ) 
 		{
+			System.out.println("RP0 Bit:"+dataMemory[3][5]);
 			if(dataMemory[3][5] == 0) 
 			{
 				dataMemory[fileaddress][i] = Integer.parseInt(""+c.charAt(i));
@@ -180,7 +181,7 @@ public class Memory {
 			}else if(dataMemory[3][5] == 1) 
 			{
 				dataMemory[fileaddress+128][i] = Integer.parseInt(""+c.charAt(i));
-				ctr.updateMemoryTable(this.tohexValue(dataMemory[fileaddress]), fileaddress/8, fileaddress%8);
+				ctr.updateMemoryTable(this.tohexValue(dataMemory[fileaddress+128]), (fileaddress/8)+16, fileaddress%8);
 			}
 			
 		}
