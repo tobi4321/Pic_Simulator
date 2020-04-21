@@ -166,13 +166,12 @@ public class Controller {
 		{
 			if((pCode[i].charAt(0) != ' ') && (pCode[i].contains("EQU") == false))
 			{
-				jumpers[this.jumpersCount] = pCode[i]+":"+(i+1);
+				jumpers[this.jumpersCount] = pCode[i]+":"+(this.programmCounter+1);
 				// kann eventuell weg gelassen werden
 				
 				jumpersCount++;
 				
-				System.out.println("JumperMark found: "+pCode[i]+" at Line "+i);
-				this.outputToConsole("JumperMark found: "+pCode[i]+" at Line "+i);
+				System.out.println("JumperMark found: "+pCode[i]+" at Line "+i+" to pc: "+this.programmCounter);
 			}
 		}
 		return pCode;
@@ -384,6 +383,8 @@ public class Controller {
 			
 			// suche nach variablen marken , speichern der wertpaare
 			this.mnemonicLines = this.searchEQUMarks(this.mnemonicLines);
+			//suche nach jumper marken
+			this.mnemonicLines = this.searchJumperMarks(this.mnemonicLines);
 			
 			for(int j = 0; j <this.mnemonicLines.length;j++) 
 			{
@@ -427,9 +428,6 @@ public class Controller {
 					// if the first char in a line is unequal to space it is a label
 					// pay attention that the EQU is checked before, because EQU has unequal first character too
 					
-					// save that jumper mark with the correct program counter
-					jumpers[this.jumpersCount] = proceed+":"+(pc);
-					jumpersCount++;
 					
 					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , proceed,""});
 				}else if(this.mnemonicLines[j].charAt(0) == ' ') 
@@ -982,8 +980,8 @@ public class Controller {
 	}
 	private void call(String k) 
 	{
-		memory.pushToStack(this.programmCounter+1);
-		this.programmCounter = Integer.parseInt(k, 2);
+		memory.pushToStack(this.programmCounter);
+		this.programmCounter = Integer.parseInt(k, 2)-1;
 	}
 	private void clrwdt() 
 	{
@@ -992,6 +990,7 @@ public class Controller {
 	// Attention the function goto is a basic java function
 	private void _goto(String k) 
 	{
+		System.out.println("k: "+k);
 		this.programmCounter = Integer.parseInt(k, 2)-1;
 	}
 	private void iorlw(String k) 

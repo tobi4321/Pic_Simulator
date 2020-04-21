@@ -49,7 +49,6 @@ public class MnemonicParser {
 		wordList[3] = "";
 		int wordListCounter = 0;
 		
-		
 		for(int i = 0; i< proceed.length(); i++) 
 		{
 			if(proceed.charAt(i) == ' ') 

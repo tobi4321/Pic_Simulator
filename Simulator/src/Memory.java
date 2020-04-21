@@ -68,18 +68,19 @@ public class Memory extends Thread{
 		
 		
 	}
+
 	
-	public void cyclicMemoryUpdate() 
-	{
-		
-	}
 	public void run() {
 		while(true) 
 		{
+			// for memory view
 			for(int i = 0; i < 256; i++) 
 	    	{
 	    		ctr.updateMemoryTable(this.tohexValue(dataMemory[i]), i/8, i%8);
 	    	}
+			// for special register table
+			
+			
 	    	try {
 				sleep(200);
 			} catch (InterruptedException e) {
@@ -287,6 +288,12 @@ public class Memory extends Thread{
 		ctr.updateSpecialRegTable(Integer.toBinaryString(this.get_WREGISTER()), 0, 2);
 	}
 	
+	
+	/**
+	 * * function to get ther specific bit of w register
+	 * @param bit bit index
+	 * @return value of the w register specific bit
+	 */
 	protected int get_WREGISTER(int bit) 
 	{
 		return w_register[bit];
