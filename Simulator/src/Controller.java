@@ -1,7 +1,6 @@
 import java.io.*;
 
 import javax.swing.table.TableColumn;
-import javax.swing.text.BadLocationException;
 /// class Controller
 /**
 *  This class is the heart of this Simulator.
@@ -68,6 +67,7 @@ public class Controller {
 	///initialice the memory table with the initiale tabledata
 	public void inizializeMemory() 
 	{
+		// initialization of data memory table
 		for(int i = 0; i< 256; i++) {
 			numbers[i] = Integer.toHexString(i);
 			data[i/8][i%8] = 0;
@@ -78,6 +78,14 @@ public class Controller {
 			tableData[i][0] = Integer.toHexString(i*8);
 			this.gui.tbl_memory.addRow(new Object[] {tableData[i][0],"0","0","0","0","0","0","0","0"});
 		}
+		// initialization of special register table
+		this.gui.tbl_special.addRow(new Object[] { "W-Reg", "00","00000000" });
+		this.gui.tbl_special.addRow(new Object[] { "FSR", "00","00000000" });
+		this.gui.tbl_special.addRow(new Object[] { "PCL", "30","00110000" });
+		this.gui.tbl_special.addRow(new Object[] { "PCLATH", "00","00000000" });
+		this.gui.tbl_special.addRow(new Object[] {"PC", "0030","00000000"});
+		this.gui.tbl_special.addRow(new Object[] { "Status", "C0","10100000" });
+		
 	}
 	// starts a thread to cyclic update the memory table
 	public void startMemoryUpdateThread() {

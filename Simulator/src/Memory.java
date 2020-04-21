@@ -20,8 +20,8 @@ public class Memory extends Thread{
 	
 	
 	/// counter on which line the processor is
-	/// default es 0 to indicate a reset
-	protected int programmcounter;
+	/// default is 0 to indicate a reset
+	protected int programmcounter = 0;
 	
 	/// w_register storage for operations
 	protected int[] w_register = new int[8];
@@ -78,8 +78,34 @@ public class Memory extends Thread{
 	    	{
 	    		ctr.updateMemoryTable(this.tohexValue(dataMemory[i]), i/8, i%8);
 	    	}
-			// for special register table
+			// for special register table	
 			
+			// PCL 
+			// ctr.programmCounter needs to be saved in a cyclic way
+			ctr.updateSpecialRegTable(this.tohexValue(dataMemory[2]), 2, 1);
+			ctr.updateSpecialRegTable(Integer.toBinaryString(Integer.parseInt(this.tohexValue(dataMemory[2]), 16)), 2, 2);
+			
+			// Status Register
+			ctr.updateSpecialRegTable(this.tohexValue(dataMemory[3]), 5, 1);
+			ctr.updateSpecialRegTable(Integer.toBinaryString(Integer.parseInt(this.tohexValue(dataMemory[3]), 16)), 5, 2);
+			
+			// FSR Register
+			ctr.updateSpecialRegTable(this.tohexValue(dataMemory[4]), 1, 1);
+			ctr.updateSpecialRegTable(Integer.toBinaryString(Integer.parseInt(this.tohexValue(dataMemory[4]), 16)), 1, 2);
+			
+			// PC LATH
+			ctr.updateSpecialRegTable(this.tohexValue(dataMemory[10]), 3, 1);
+			ctr.updateSpecialRegTable(Integer.toBinaryString(Integer.parseInt(this.tohexValue(dataMemory[10]), 16)), 3, 2);
+			
+			// PC
+			// pc lath must be concatenated in front
+			ctr.updateSpecialRegTable(Integer.toHexString(ctr.programmCounter), 4, 1);
+			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.programmCounter), 4, 2);
+			
+			
+			// W Register
+			ctr.updateSpecialRegTable(Integer.toHexString(this.get_WREGISTER()), 0, 1);
+			ctr.updateSpecialRegTable(Integer.toBinaryString(this.get_WREGISTER()), 0, 2);
 			
 	    	try {
 				sleep(200);
@@ -92,63 +118,59 @@ public class Memory extends Thread{
 	
 	protected void set_INDF(int bit, int value) 
 	{
-		dataMemory[0][bit] = value;
+		set_SRAM(0,bit,value);
 		// eventuell Bereich aus Bank 1 hier rein
 
 	}
 	
 	protected void set_TMR0(int bit, int value) 
 	{
-		dataMemory[1][bit] = value;
+		set_SRAM(1,bit,value);
 	}
 	
 	protected void set_PCL(int bit, int value) 
 	{
-		dataMemory[2][bit] = value;
+		set_SRAM(2,bit,value);
 	}
 	
 	protected void set_STATUS(int bit, int value) 
 	{
-		dataMemory[3][bit] = value;
-		ctr.updateSpecialRegTable(this.tohexValue(dataMemory[3]), 1, 5);
-		ctr.updateSpecialRegTable(Integer.toBinaryString(value), 2, 5);
+		set_SRAM(3,bit,value);
 	}
 	
 	protected void set_FSR(int bit, int value) 
 	{
-		dataMemory[4][bit] = value;
-		ctr.updateSpecialRegTable(this.tohexValue(dataMemory[4]), 1, 1);
-		ctr.updateSpecialRegTable(Integer.toBinaryString(value), 2, 1);
+		set_SRAM(4,bit,value);
 	}
 	
 	protected void set_PORTA(int bit, int value) 
 	{
-		dataMemory[5][bit] = value;
+		set_SRAM(5,bit,value);
 	}
 	
 	protected void set_PORTB(int bit, int value) 
 	{
-		dataMemory[6][bit] = value;
+		set_SRAM(6,bit,value);
 	}
 	
 	protected void set_EEDATA(int bit, int value) 
 	{
-		dataMemory[8][bit] = value;
+		set_SRAM(8,bit,value);
 	}
 	
 	protected void set_EEADR(int bit, int value) 
 	{
-		dataMemory[9][bit] = value;
+		set_SRAM(9,bit,value);
 	}
 	
 	protected void set_PCLATH(int bit, int value) 
 	{
-		dataMemory[10][bit] = value;
+		set_SRAM(10,bit,value);
 	}
 	
 	protected void set_INTCON(int bit, int value) 
 	{
-		dataMemory[11][bit] = value;
+		set_SRAM(11,bit,value);
 	}
 	
 	
@@ -156,27 +178,27 @@ public class Memory extends Thread{
 	
 	protected void set_OPTION_REG(int bit, int value) 
 	{
-		dataMemory[129][bit] = value;
+		set_SRAM(129,bit,value);
 	}
 	
 	protected void set_TRISA(int bit, int value) 
 	{
-		dataMemory[133][bit] = value;
+		set_SRAM(133,bit,value);
 	}
 	
 	protected void set_TRISB(int bit, int value) 
 	{
-		dataMemory[134][bit] = value;
+		set_SRAM(134,bit,value);
 	}
 	
 	protected void set_EECON1(int bit, int value) 
 	{
-		dataMemory[136][bit] = value;
+		set_SRAM(136,bit,value);
 	}
 	
 	protected void set_EECON2(int bit, int value) 
 	{
-		dataMemory[137][bit] = value;
+		set_SRAM(137,bit,value);
 	}
 	
 	//set General Purpose registers SRAM
@@ -216,7 +238,7 @@ public class Memory extends Thread{
 	
 	protected void set_CARRYFLAG(int c) 
 	{
-		this.dataMemory[3][0] = c;
+		set_SRAM(3,0,c);
 	}
 	
 	protected int get_CARRYFLAG() 
@@ -259,6 +281,17 @@ public class Memory extends Thread{
 	protected void set_PROGRAMMCOUNTER(int counter) 
 	{
 		programmcounter = counter;
+		String bin = Integer.toBinaryString(counter);
+		while(bin.length() < 8) 
+		{
+			bin = "0" + bin;
+		}
+		for(int i = 0; i< bin.length(); i++) 
+		{
+			
+			this.dataMemory[2][7-i] = bin.charAt(7-i);
+		}
+
 	}
 	
 	protected int get_PROGRAMMCOUNTER() 

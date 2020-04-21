@@ -63,7 +63,6 @@ public class Simulator_Window {
 	protected DefaultTableModel tbl_pcl;
 	protected JTable table_Memory;
 	protected JTable table_special_regs;
-	protected JTextArea txtArea_Console;
 
 	
 	// radio buttons for the IO Panels output
@@ -225,22 +224,18 @@ public class Simulator_Window {
 		panel_specialreg.setLayout(fl_panel_specialreg);
 		
 		tbl_special = new DefaultTableModel();
-	    String[][] rowData = {
-	    	    { "W-Reg", "00","00000000" }, { "FSR", "00","00000000" }, { "PCL", "30","00110000" },
-	    	    { "PCLATH", "00","00000000" }, {"PC", "0030","00000000"} ,{ "Status", "C0","10100000" }
-	    	    };
-
-	    	    String[] columnNames =  {
-	    	      "Register", "Hex-Wert","Bin-Wert"
-	    	    };
+		tbl_special.setColumnIdentifiers(new Object[] {"Register", "Hex-Wert","Bin-Wert"});
+		
+		
+		table_special_regs = new JTable();
+		table_special_regs.setModel(tbl_special);
 		
 		
 		JLabel lblSpecialregister = new JLabel("Special-Register");
 		lblSpecialregister.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_specialreg.add(lblSpecialregister);
-		table_special_regs = new JTable(rowData,columnNames);
+
 		panel_specialreg.add(table_special_regs);
-		//table_special_regs.setModel(tbl_special);
 		table_special_regs.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		table_special_regs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table_special_regs.setCellSelectionEnabled(true);
@@ -496,34 +491,7 @@ public class Simulator_Window {
 		
 		JButton btnActive = new JButton("Active");
 		panel_segmentOptions.add(btnActive);
-		
-
-		
-		
-		Box lowerArea = Box.createHorizontalBox();
-		lowerArea.setAlignmentY(Component.CENTER_ALIGNMENT);
-		verticalBox.add(lowerArea);
-		
-		Box verticalConsole = Box.createVerticalBox();
-		lowerArea.add(verticalConsole);
 		frmMicrocontrollerSimulator.getContentPane().setLayout(new BoxLayout(frmMicrocontrollerSimulator.getContentPane(), BoxLayout.X_AXIS));
-		
-		JPanel panel_Console = new JPanel();
-		verticalConsole.add(panel_Console);
-		panel_Console.setLayout(new BorderLayout(0, 0));
-		
-		JLabel lblConsole = new JLabel("Console");
-		panel_Console.add(lblConsole, BorderLayout.NORTH);
-		lblConsole.setHorizontalAlignment(SwingConstants.LEFT);
-		lblConsole.setFont(new Font("Tahoma", Font.BOLD, 15));
-		
-		txtArea_Console = new JTextArea();
-		txtArea_Console.setEditable(false);
-		txtArea_Console.setForeground(Color.BLACK);
-		txtArea_Console.setText("");
-		txtArea_Console.setFont(new Font("Calibri", Font.PLAIN, 15));
-		txtArea_Console.setRows(10);
-		panel_Console.add(txtArea_Console, BorderLayout.CENTER);
 		
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -691,7 +659,7 @@ public class Simulator_Window {
 	  }
 	  public void setSpecialData(Object obj,int row_index,int col_index) 
 	  {
-		  this.table_special_regs.getModel().setValueAt(obj, row_index, col_index);
+		  table_special_regs.getModel().setValueAt(obj, row_index, col_index);
 	  }
 	  public void openHelp() {
 			// TODO Auto-generated method stub
