@@ -612,178 +612,133 @@ public class Controller {
 		if (precommand == 0) {		// Byte Oriented File Register Operations
 			int d = payload >> 7;
 			int f = payload & 0b01111111;
+			
 			switch(command) {
-				case 0b0111:
-					this.addwf(d, f);
-					break;
-				case 0b0101:
-					this.andwf(d, f);
-					break;
-				case 0b0001:
-					if (d == 1) {
-						this.clrf(f);
-					}else {
-						this.clrw();
-					}
-					break;
-				case 0b1001:
-					this.comf(d, f);
-					break;
-				case 0b0011:
-					break;
-				case 0b1011:
-					break;
-				case 0b1010:
-					break;
-				case 0b1111:
-					break;
-				case 0b0100:
-					break;
-				case 0b1000:
-					break;
-				case 0b0000:
-					break;
-				case 0b1101:
-					break;
-				case 0b1100:
-					break;
-				case 0b0010:
-					break;
-				case 0b1110:
-					break;
-				case 0b0110:
-					break;
-				default:
-					this.showError("Unkown Command", "Unkown Command");
-					break;
+			case 0b0111:
+				this.addwf(d, f);
+				break;
+			case 0b0101:
+				this.andwf(d, f);
+				break;
+			case 0b0001:
+				if (d == 1) {
+					this.clrf(f);
+				}else {
+					this.clrw();
+				}
+				break;
+			case 0b1001:
+				this.comf(d, f);
+				break;
+			case 0b0011:
+				this.decf(d, f);
+				break;
+			case 0b1011:
+				this.decfsz(d, f);
+				break;
+			case 0b1010:
+				this.incf(d, f);
+				break;
+			case 0b1111:
+				this.incfsz(d, f);
+				break;
+			case 0b0100:
+				this.iorwf(d, f);
+				break;
+			case 0b1000:
+				this.movf(d, f);
+				break;
+			case 0b0000:
+				if 		(payload == 0b01100100) {
+					this.clrwdt();
+				}
+				else if	(payload == 0b00001001) {
+					this.retfie();
+				}
+				else if	(payload == 0b00001000) {
+					this._return();
+				}
+				else if (payload == 0b01100011) {
+					this.sleep();
+				}
+				else {
+					this.nop();
+				}
+			case 0b1101:
+				this.rlf(d, f);
+				break;
+			case 0b1100:
+				this.rrf(d, f);
+				break;
+			case 0b0010:
+				this.subwf(d, f);
+				break;
+			case 0b1110:
+				this.swapf(d, f);
+				break;
+			case 0b0110:
+				this.xorwf(d, f);
+				break;
+			default:
+				System.out.println("There is no command for the inserted string: " + line);
+				break;
 			}
 		}
-		else if(precommand == 1) {	// Bit-Oriented File Register Operations
+		else if (precommand == 1) {	// Bit-Oriented File Register Operations
+			int b = (line >> 7) & 0x0007;
+			int f = line  		& 0x007F;
+			
 			switch(command >> 2) {
-				case 0b00:
-					break;
-				case 0b01:
-					break;
-				case 0b10:
-					break;
-				case 0b11:
-					break;
+			case 0b00:
+				this.bcf(b, f);
+				break;
+			case 0b01:
+				this.bsf(b, f);
+				break;
+			case 0b10:
+				this.btfsc(b, f);
+				break;
+			case 0b11:
+				this.btfss(b, f);
+				break;
 			}
 		}
-		else if(precommand == 2) {	
+		else if (precommand == 2) {	// Literal and control operations
+			int k = line & 0x07FF;
 			
+			if ((command >> 3) == 0) {
+				this.call(k);
+			}
+			else {
+				this._goto(k);
+			}
 		}
-		else if(precommand == 3) {	
-			
+		else if (precommand == 3) {
+			int k = line & 0x00FF;
+			if ((command >> 1) == 7) {
+				this.addlw(k);
+			}
+			else if (command == 0b1001) {
+				this.andlw(k);
+			}
+			else if (command == 0b1000) {
+				this.iorlw(k);
+			}
+			else if ((command >> 2) == 0)  {
+				this.movlw(k);
+			}
+			else if ((command >> 2) == 1)  {
+				this.retlw(k);
+			}
+			else if ((command >> 1) == 6)  {
+				this.sublw(k);
+			}
+			else if (command == 0b1010)  {
+				this.xorlw(k);
+			}
 		}
-		
-		if(command.substring(0, 6).equals("000111")) 					// ADDWF
-		{
-			this.addwf(command.substring(6, 7),command.substring(7));
-		}else if(command.substring(0, 6).equals("000101")) 				// ANDWF
-		{
-			this.andwf(command.substring(6, 7),command.substring(7));
-		}else if(command.substring(0, 7).equals("0000011"))  			// CLRF
-		{
-			this.clrf(command.substring(7));
-		}else if(command.substring(0, 7).equals("0000010")) 			// CLRW
-		{
-			this.clrw(); 
-		}else if(command.substring(0, 6).equals("001001")) 				// COMF
-		{
-			this.comf(command.substring(6, 7),command.substring(7)); 
-		}else if(command.substring(0, 6).equals("000011")) 				// DECF
-		{
-			this.decf(command.substring(6, 7),command.substring(7)); 
-		}else if(command.substring(0, 6).equals("001011")) 				// DECFSZ
-		{
-			this.decfsz(command.substring(6, 7),command.substring(7)); 
-		}else if(command.substring(0, 6).equals("001010")) 				// INCF
-		{
-			this.incf(command.substring(6, 7),command.substring(7)); 
-		}else if(command.substring(0, 6).equals("001111")) 				// INCFSZ
-		{
-			this.incfsz(command.substring(6, 7),command.substring(7)); 
-		}else if(command.substring(0, 6).equals("000100")) 				// IORWF
-		{
-			this.iorwf(command.substring(6, 7),command.substring(7)); 
-		}else if(command.substring(0, 6).equals("001000")) 				// MOVF
-		{
-			this.movf(command.substring(6, 7),command.substring(7)); 
-		}else if(command.substring(0, 7).equals("0000001")) 			// MOVWF
-		{
-			this.movwf(command.substring(7)); 
-		}else if(command.equals("00000000000000")) 						 // NOP
-		{
-			this.nop();
-		}else if(command.substring(0, 6).equals("001101")) 				// RLF
-		{
-			this.rlf(command.substring(6, 7),command.substring(7)); 
-		}else if(command.substring(0, 6).equals("001100")) 				// RRF
-		{
-			this.rrf(command.substring(6, 7),command.substring(7)); 
-		}else if(command.substring(0, 6).equals("000010")) 				// SUBWF
-		{
-			this.subwf(command.substring(6, 7),command.substring(7)); 
-		}else if(command.substring(0, 6).equals("001110")) 				// SWAPF
-		{
-			this.swapf(command.substring(6, 7),command.substring(7)); 
-		}else if(command.substring(0, 6).equals("000110")) 				// XORWF
-		{
-			this.xorwf(command.substring(6, 7),command.substring(7)); 
-		}else if(command.substring(0, 4).equals("0100")) 				// BCF
-		{
-			this.bcf(command.substring(4, 7),command.substring(7)); 
-		}else if(command.substring(0, 4).equals("0101")) 				// BSF
-		{
-			this.bsf(command.substring(4, 7),command.substring(7)); 
-		}else if(command.substring(0, 4).equals("0110")) 				// BTFSC
-		{
-			this.btfsc(command.substring(4, 7),command.substring(7)); 
-		}else if(command.substring(0, 4).equals("0111")) 				// BTFSS
-		{
-			this.btfss(command.substring(4, 7),command.substring(7)); 
-		}else if(command.substring(0, 6).equals("111110")) 				// ADDLW
-		{
-			this.addlw(command.substring(6)); 
-		}else if(command.substring(0, 6).equals("111001")) 				// ANDLW
-		{
-			this.andlw(command.substring(6)); 
-		}else if(command.substring(0, 3).equals("100")) 				// CALL
-		{
-			this.call(command.substring(3)); 
-		}else if(command.equals("00000001100100")) 					// CLRWDT
-		{
-			this.clrwdt(); 
-		}else if(command.substring(0, 3).equals("101")) 				// GOTO
-		{
-			this._goto(command.substring(3));
-		}else if(command.substring(0, 6).equals("111000")) 				// IORLW
-		{
-			this.iorlw(command.substring(6)); 
-		}else if(command.substring(0, 6).equals("110000")) 				// MOVLW
-		{
-			this.movlw(command.substring(6)); 
-		}else if(command.equals("00000000001001")) 					// RETFIE
-		{
-			this.retfie(); 
-		}else if(command.substring(0, 6).equals("110100")) 				// RETLW
-		{
-			this.retlw(command.substring(6)); 
-		}else if(command.equals("00000000001000")) 					// RETURN
-		{
-			this._return(); 
-		}else if(command.equals("00000001100011")) 					// SLEEP
-		{
-			this.sleep(); 
-		}else if(command.substring(0, 6).equals("111100")) 				// SUBLW
-		{
-			this.sublw(command.substring(6)); 
-		}else if(command.substring(0, 6).equals("111010")) 				// XORLW
-		{
-			this.xorlw(command.substring(6)); 
-		}else {												// error
-			System.out.println("There is no command for the inserted string: "+command);
+		else {
+			System.out.println("There is no command for the inserted string: " + line);
 		}
 		
 	}
@@ -896,7 +851,7 @@ public class Controller {
 			memory.set_WREGISTER(out);
 		}else if(d == 1) 
 		{
-			memory.set_SRAM(Integer.parseInt(f, 2), out);
+			memory.set_SRAM(f, out);
 		}
 	}
 	
@@ -907,9 +862,9 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void decf(String d, String f) 
+	private void decf(int d, int f) 
 	{
-		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		int in = memory.get_Memory(f);
 		if(in == 0) 
 		{
 			in = 255;
@@ -919,12 +874,12 @@ public class Controller {
 		
 		this.checkZeroFlag(in);
 		
-		if(d.equals("0")) 
+		if(d == 0) 
 		{
 			memory.set_WREGISTER(in);
-		}else if(d.equals("1")) 
+		}else if(d == 0) 
 		{
-			memory.set_SRAM(Integer.parseInt(f, 2), in);
+			memory.set_SRAM(f, in);
 		}
 	}
 	
@@ -936,9 +891,9 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void decfsz(String d, String f) 
+	private void decfsz(int d, int f) 
 	{
-		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		int in = memory.get_Memory(f);
 		if(in == 0) 
 		{
 			in = 255;
@@ -950,12 +905,12 @@ public class Controller {
 				// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
 			}
 		}
-		if(d.equals("0")) 
+		if(d == 0) 
 		{
 			memory.set_WREGISTER(in);
-		}else if(d.equals("1")) 
+		}else if(d == 1) 
 		{
-			memory.set_SRAM(Integer.parseInt(f, 2), in);
+			memory.set_SRAM(f, in);
 		}
 	}
 	
@@ -966,9 +921,9 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void incf(String d, String f) 
+	private void incf(int d, int f) 
 	{
-		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		int in = memory.get_Memory(f);
 		if(in == 255) 
 		{
 			in = 0;
@@ -978,12 +933,12 @@ public class Controller {
 		
 		this.checkZeroFlag(in);
 		
-		if(d.equals("0")) 
+		if(d == 0) 
 		{
 			memory.set_WREGISTER(in);
-		}else if(d.equals("1")) 
+		}else if(d == 1) 
 		{
-			memory.set_SRAM(Integer.parseInt(f, 2), in);
+			memory.set_SRAM(f, in);
 		}
 	}
 	
@@ -995,9 +950,9 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void incfsz(String d, String f) 
+	private void incfsz(int d, int f) 
 	{
-		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		int in = memory.get_Memory(f);
 		if(in == 255) 
 		{
 			in = 0;
@@ -1006,12 +961,12 @@ public class Controller {
 		}else {
 			in++;
 		}
-		if(d.equals("0")) 
+		if(d == 0) 
 		{
 			memory.set_WREGISTER(in);
-		}else if(d.equals("1")) 
+		}else if(d == 1) 
 		{
-			memory.set_SRAM(Integer.parseInt(f, 2), in);
+			memory.set_SRAM(f, in);
 		}
 	}
 	
@@ -1022,10 +977,10 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void iorwf(String d, String f) 
+	private void iorwf(int d, int f) 
 	{
 		int w_in = memory.get_WREGISTER();
-		int f_in = memory.get_Memory(Integer.parseInt(f,2));
+		int f_in = memory.get_Memory(f);
 		
 		int result = w_in | f_in;
 
@@ -1038,12 +993,12 @@ public class Controller {
 			this.memory.set_ZEROFLAG(0);
 		}
 		
-		if(d.equals("0"))
+		if(d == 0)
 		{
 			memory.set_WREGISTER(result);
-		}else if(d.equals("1")) 
+		}else if(d == 1) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2), result);
+			memory.set_SRAM(f, result);
 		}
 	}
 	
@@ -1055,17 +1010,17 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void movf(String d, String f) 
+	private void movf(int d, int f) 
 	{
-		int f_in =this.memory.get_Memory(Integer.parseInt(f,2));
+		int f_in =this.memory.get_Memory(f);
 		// TODO: Wann genau Z setzen ? So richtig?
 		this.checkZeroFlag(1);
-		if(d.equals("0"))
+		if(d == 0)
 		{
 			memory.set_WREGISTER(f_in);
-		}else if(d.equals("1")) 
+		}else if(d == 1) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2), f_in);
+			memory.set_SRAM(f, f_in);
 		}
 	}
 	
@@ -1074,10 +1029,10 @@ public class Controller {
 	 * Move data from W register to register 'f'.
 	 * @param f The file register location as String
 	 * **/
-	private void movwf(String f) 
+	private void movwf(int f) 
 	{
 		int in = memory.get_WREGISTER();
-		memory.set_SRAM(Integer.parseInt(f, 2), in);
+		memory.set_SRAM(f, in);
 	}
 	
 	/**
@@ -1096,9 +1051,9 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void rlf(String d, String f) 
+	private void rlf(int d, int f) 
 	{
-		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		int in = memory.get_Memory(f);
 		int carry = memory.get_CARRYFLAG();
 		
 		if ((in & 128) == 128) {
@@ -1109,12 +1064,12 @@ public class Controller {
 		}
 		int result = ((in << 1) & 0xFF) | carry;
 		
-		if(d.equals("0")) 
+		if(d == 0) 
 		{
 			memory.set_WREGISTER(result);
-		}else if(d.equals("1")) 
+		}else if(d == 0) 
 		{
-			memory.set_SRAM(Integer.parseInt(f, 2), result);
+			memory.set_SRAM(f, result);
 		}
 	}
 	
@@ -1125,9 +1080,9 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void rrf(String d, String f) 
+	private void rrf(int d, int f) 
 	{
-		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		int in = memory.get_Memory(f);
 		int carry = memory.get_CARRYFLAG();
 		
 		if ((in & 1) == 1) {
@@ -1138,12 +1093,12 @@ public class Controller {
 		}
 		int result = (in >> 1) | (carry << 7);
 		
-		if(d.equals("0")) 
+		if(d == 0) 
 		{
 			memory.set_WREGISTER(result);
-		}else if(d.equals("1")) 
+		}else if(d == 1) 
 		{
-			memory.set_SRAM(Integer.parseInt(f, 2), result);
+			memory.set_SRAM(f, result);
 		}
 	}
 	
@@ -1154,10 +1109,10 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void subwf(String d, String f) 
+	private void subwf(int d, int f) 
 	{
 		int w_in = memory.get_WREGISTER();
-		int f_in = memory.get_Memory(Integer.parseInt(f, 2));
+		int f_in = memory.get_Memory(f);
 		
 		int result;
 		if(w_in > f_in) 
@@ -1171,12 +1126,12 @@ public class Controller {
 		this.checkZeroFlag(result);
 		this.checkDCFlag(w_in, f_in);
 		
-		if(d.equals("0"))
+		if(d == 0)
 		{
 			memory.set_WREGISTER(result);
-		}else if(d.equals("1")) 
+		}else if(d == 1) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2), result);
+			memory.set_SRAM(f, result);
 		}
 	}
 	
@@ -1187,17 +1142,17 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void swapf(String d, String f) 
+	private void swapf(int d, int f) 
 	{
-		int f_in = memory.get_Memory(Integer.parseInt(f,2));
+		int f_in = memory.get_Memory(f);
 		int result = ((f_in & 0x0F) << 4) | ((f_in & 0xF0) >> 4);
 
-		if(d.equals("0"))
+		if(d == 0)
 		{
 			memory.set_WREGISTER(result);
-		}else if(d.equals("1")) 
+		}else if(d == 1) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2), result);
+			memory.set_SRAM(f, result);
 		}
 	}
 	
@@ -1208,21 +1163,21 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void xorwf(String d, String f) 
+	private void xorwf(int d, int f) 
 	{
 		int w_in = memory.get_WREGISTER();
-		int f_in = memory.get_Memory(Integer.parseInt(f,2));
+		int f_in = memory.get_Memory(f);
 		
 		int result = f_in ^ w_in;
 		
 		this.checkZeroFlag(result);
 		
-		if(d.equals("0"))
+		if(d == 0)
 		{
 			memory.set_WREGISTER(result);
-		}else if(d.equals("1")) 
+		}else if(d == 1) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2), result);
+			memory.set_SRAM(f, result);
 		}
 	}
 	
@@ -1236,9 +1191,9 @@ public class Controller {
 	 * @param b The bit as String
 	 * @param f The file register location as String
 	 * **/
-	private void bcf(String b, String f) 
+	private void bcf(int b, int f) 
 	{
-		memory.set_SRAM(Integer.parseInt(f, 2), Integer.parseInt(b, 2), 0);
+		memory.set_SRAM(f, b, 0);
 	}
 	
 	/**
@@ -1247,9 +1202,9 @@ public class Controller {
 	 * @param b The bit as String
 	 * @param f The file register location as String
 	 * **/
-	private void bsf(String b, String f) 
+	private void bsf(int b, int f) 
 	{
-		memory.set_SRAM(Integer.parseInt(f, 2), Integer.parseInt(b, 2), 1);
+		memory.set_SRAM(f, b, 1);
 	}
 	
 	/**
@@ -1259,9 +1214,9 @@ public class Controller {
 	 * @param b The bit as String
 	 * @param f The file register location as String
 	 * **/
-	private void btfsc(String b, String f) 
+	private void btfsc(int b, int f) 
 	{
-		int in = memory.get_Memory(Integer.parseInt(f, 2), Integer.parseInt(b, 2));
+		int in = memory.get_Memory(f, b);
 		if(in == 0) 
 		{
 			this.programmCounter++;
@@ -1276,9 +1231,9 @@ public class Controller {
 	 * @param b The bit as String
 	 * @param f The file register location as String
 	 * **/
-	private void btfss(String b, String f) 
+	private void btfss(int b, int f) 
 	{
-		int in = memory.get_Memory(Integer.parseInt(f, 2), Integer.parseInt(b, 2));
+		int in = memory.get_Memory(f, b);
 		if(in == 1) 
 		{
 			this.programmCounter++;
@@ -1295,11 +1250,11 @@ public class Controller {
 	 * The contents of the W register are added to the eight bit literal k and the result is placed in the W register
 	 * @param k The Literal as String.
 	 * **/
-	private void addlw(String k) 
+	private void addlw(int k) 
 	{
 		int in = memory.get_WREGISTER();
-		int result = in + Integer.parseInt(k, 2);
-		System.out.println(in + " + " + Integer.parseInt(k) + " = " + result);
+		int result = in + k;
+		System.out.println(in + " + " + k + " = " + result);
 		if(result > 255) 
 		{
 			this.memory.set_CARRYFLAG(1);
@@ -1309,9 +1264,9 @@ public class Controller {
 			this.memory.set_CARRYFLAG(0);
 		}
 		this.checkZeroFlag(result);
-		this.checkDCFlag(in, Integer.parseInt(k));
+		this.checkDCFlag(in, k);
 		
-		memory.set_WREGISTER(in + Integer.parseInt(k, 2));
+		memory.set_WREGISTER(in + k);
 	}
 	
 	/**
@@ -1320,10 +1275,10 @@ public class Controller {
 	 * The result is placed in the W register.
 	 * @param k The Literal as String.
 	 * **/
-	private void andlw(String k) 
+	private void andlw(int k) 
 	{    
 		int w_in = memory.get_WREGISTER();
-		int result = w_in & Integer.parseInt(k);
+		int result = w_in & k;
 		
 		this.checkZeroFlag(result);
 		
@@ -1335,10 +1290,10 @@ public class Controller {
 	 * Call Subroutine.
 	 * @param k The Literal as String.
 	 * **/
-	private void call(String k) 
+	private void call(int k) 
 	{
 		memory.pushToStack(this.programmCounter);
-		this.programmCounter = Integer.parseInt(k, 2)-1;
+		this.programmCounter = k-1;
 	}
 	
 	/**
@@ -1356,10 +1311,10 @@ public class Controller {
 	 * The function goto is a basic java function, therefore _goto is used.
 	 * @param k the position as String
 	 * **/
-	private void _goto(String k) 
+	private void _goto(int k) 
 	{
 		System.out.println("k: " + k);
-		this.programmCounter = Integer.parseInt(k, 2)-1;
+		this.programmCounter = k-1;
 	}
 	
 	/**
@@ -1368,11 +1323,10 @@ public class Controller {
 	 * The result is placed in the W register.
 	 * @param k the position as String
 	 * **/
-	private void iorlw(String k) 
+	private void iorlw(int k) 
 	{
 		int w_in = memory.get_WREGISTER();
-		int k_in = Integer.parseInt(k, 2);
-		int result = w_in | k_in;
+		int result = w_in | k;
 		
 		this.checkZeroFlag(result);
 
@@ -1384,9 +1338,9 @@ public class Controller {
 	 * The literal 'l' is loaded to the W register.
 	 * @param l the literal as String
 	 * **/
-	private void movlw(String l) 
+	private void movlw(int k) 
 	{
-		memory.set_WREGISTER(Integer.parseInt(l, 2));
+		memory.set_WREGISTER(k);
 	}
 	
 	/**
@@ -1403,9 +1357,9 @@ public class Controller {
 	 * Returns with the Literal 'k' in the W Register
 	 * @param k the literal as String
 	 * **/
-	private void retlw(String k) 
+	private void retlw(int k) 
 	{
-		memory.set_WREGISTER(Integer.parseInt(k, 2));
+		memory.set_WREGISTER(k);
 		this.programmCounter = memory.popFromStack();
 	}
 	
@@ -1434,23 +1388,22 @@ public class Controller {
 	 * The result is placed in the W register.
 	 * @param k The literal as String
 	 * **/
-	private void sublw(String k) 
+	private void sublw(int k) 
 	{ 
 		int w_in = memory.get_WREGISTER();
-		int k_in = Integer.parseInt(k, 2);
-		System.out.println(k_in + " - " + w_in);
+		System.out.println(k + " - " + w_in);
 		int result;
-		if(w_in > k_in) 
+		if(w_in > k) 
 		{
-			result = 256 - (w_in - k_in);
+			result = 256 - (w_in - k);
 			this.memory.set_CARRYFLAG(0);
 			
 		}else {
-			result = k_in - w_in;
+			result = k - w_in;
 			this.memory.set_CARRYFLAG(1);
 		}
 		this.checkZeroFlag(result);
-		this.checkDCFlag(w_in, k_in);
+		this.checkDCFlag(w_in, k);
 		memory.set_WREGISTER(result);
 	}
 	
@@ -1460,11 +1413,10 @@ public class Controller {
 	 * The result is placed in the W register
 	 * @param k The literal as String
 	 * **/
-	private void xorlw(String k) 
+	private void xorlw(int k) 
 	{   // eventuell hier noch nullen auffüllen
 		int w_in = memory.get_WREGISTER();
-		int k_in = Integer.parseInt(k,2);
-		int result = w_in ^ k_in;
+		int result = w_in ^ k;
 		
 		this.checkZeroFlag(result);
 
