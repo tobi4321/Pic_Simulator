@@ -613,6 +613,11 @@ public class Simulator_Window {
 		
 		JButton btnDebuggerStoppen = new JButton("Debugger stoppen");
 		btnDebuggerStoppen.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnDebuggerStoppen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctr.stopSimu();
+			}
+		});
 		debug_menu.add(btnDebuggerStoppen);
 		
 		JButton button = new JButton("->");

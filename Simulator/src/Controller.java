@@ -220,7 +220,12 @@ public class Controller {
 	*  Method to stop the Simulation. The active processor thread will be stopped via {@link stopThread}.
 	* **/
 	public void continueDebugStep() {
-		proc.continueDebugStep();
+		if (processorRunning) {
+			proc.continueDebugStep();
+		}else {
+			this.showError("Next Step Degubber", "Debugger is not running. Please start debugging before continuing to the next line.");
+		}
+		
 	}
 
 	/**
