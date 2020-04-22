@@ -265,14 +265,17 @@ public class Memory extends Thread{
 	public void set_ZEROFLAG(int z) {
 
 		set_SRAM(3,2,z);
+		System.out.println("setZF: " + Integer.toString(z));
 	}
 	public void set_DCFLAG(int dc) 
 	{
 		set_SRAM(3,1,dc);
+		System.out.println("setDC: " + Integer.toString(dc));
 	}
 	protected void set_CARRYFLAG(int c) 
 	{
 		set_SRAM(3,0,c);
+		System.out.println("setCarry: " + Integer.toString(c));
 	}
 	
 	protected int get_CARRYFLAG() 

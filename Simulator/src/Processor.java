@@ -40,12 +40,8 @@ public class Processor extends Thread{
     			
     			// get the current code line as string
     			int codeLine = ctr.memory.programMemory[ctr.programmCounter];
-    			String commandToExecute = Integer.toBinaryString(codeLine);
-    			while(commandToExecute.length() < 14) 
-    			{
-    				commandToExecute = "0"+commandToExecute;
-    			}
-    			ctr.executeCommand(commandToExecute);
+
+    			ctr.executeCommand(codeLine);
     			
     			ctr.refreshIO();
     			if (this.debugging) {

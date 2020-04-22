@@ -604,8 +604,79 @@ public class Controller {
 	 * This method selects the command which must be executed
 	 * @param command the command to execute as a String
 	 * **/
-	public void executeCommand(String command) 
+	public void executeCommand(int line) 
 	{
+		int precommand 	= (line >> 12) 	& 0x0003;
+		int command 	= (line >> 8) 	& 0x000F;
+		int payload 	= line 			& 0x00FF;
+		if (precommand == 0) {		// Byte Oriented File Register Operations
+			int d = payload >> 7;
+			int f = payload & 0b01111111;
+			switch(command) {
+				case 0b0111:
+					this.addwf(d, f);
+					break;
+				case 0b0101:
+					this.andwf(d, f);
+					break;
+				case 0b0001:
+					if (d == 1) {
+						this.clrf(f);
+					}else {
+						this.clrw();
+					}
+					break;
+				case 0b1001:
+					this.comf(d, f);
+					break;
+				case 0b0011:
+					break;
+				case 0b1011:
+					break;
+				case 0b1010:
+					break;
+				case 0b1111:
+					break;
+				case 0b0100:
+					break;
+				case 0b1000:
+					break;
+				case 0b0000:
+					break;
+				case 0b1101:
+					break;
+				case 0b1100:
+					break;
+				case 0b0010:
+					break;
+				case 0b1110:
+					break;
+				case 0b0110:
+					break;
+				default:
+					this.showError("Unkown Command", "Unkown Command");
+					break;
+			}
+		}
+		else if(precommand == 1) {	// Bit-Oriented File Register Operations
+			switch(command >> 2) {
+				case 0b00:
+					break;
+				case 0b01:
+					break;
+				case 0b10:
+					break;
+				case 0b11:
+					break;
+			}
+		}
+		else if(precommand == 2) {	
+			
+		}
+		else if(precommand == 3) {	
+			
+		}
+		
 		if(command.substring(0, 6).equals("000111")) 					// ADDWF
 		{
 			this.addwf(command.substring(6, 7),command.substring(7));
@@ -727,10 +798,10 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void addwf(String d,String f) 
+	private void addwf(int d, int f) 
 	{
 		int w_in = memory.get_WREGISTER();
-		int f_in = memory.get_Memory(Integer.parseInt(f,2));
+		int f_in = memory.get_Memory(f);
 		
 		int result = f_in+w_in;
 		if(result > 255) 
@@ -742,14 +813,14 @@ public class Controller {
 			this.memory.set_CARRYFLAG(0);
 		}
 		this.checkZeroFlag(result);
-		this.checkDCFlag(result);
+		this.checkDCFlag(w_in, f_in);
 		
-		if(d.equals("0"))
+		if(d == 0)
 		{
 			memory.set_WREGISTER(result);
-		}else if(d.equals("1")) 
+		}else if(d == 1) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2),result);
+			memory.set_SRAM(f,result);
 		}
 	}
 	
@@ -760,22 +831,22 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void andwf(String d, String f) 
+	private void andwf(int d, int f) 
 	{
 		int w_in = memory.get_WREGISTER();
-		int f_in = memory.get_Memory(Integer.parseInt(f,2));
+		int f_in = memory.get_Memory(f);
 
 		
 		int result = w_in & f_in;
 		
 		this.checkZeroFlag(result);
 
-		if(d.equals("0"))
+		if(d == 0 )
 		{
 			memory.set_WREGISTER(result);
-		}else if(d.equals("1")) 
+		}else if(d == 1) 
 		{
-			memory.set_SRAM(Integer.parseInt(f,2), result);
+			memory.set_SRAM(f, result);
 		}
 	}
 	
@@ -784,10 +855,10 @@ public class Controller {
 	 * The contents of register f are cleared and the Z bit is set.
 	 * @param f The file register location as String
 	 * **/
-	private void clrf(String f) 
+	private void clrf(int f) 
 	{
-		memory.set_SRAM(Integer.parseInt(f, 2), 0);
-		if(Integer.parseInt(f, 2) != 3 && Integer.parseInt(f, 2) != 131) 
+		memory.set_SRAM(f, 0);
+		if(f != 3 && f != 131) 
 		{
 			this.checkZeroFlag(0);
 		}
@@ -810,9 +881,9 @@ public class Controller {
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
-	private void comf(String d, String f) 
+	private void comf(int d, int f) 
 	{
-		int in = memory.get_Memory(Integer.parseInt(f, 2));
+		int in = memory.get_Memory(f);
 		
 		// write in to w reg???????????????????????
 		
@@ -820,10 +891,10 @@ public class Controller {
 		
 		this.checkZeroFlag(out);
 		
-		if(d.equals("0")) 
+		if(d == 0) 
 		{
 			memory.set_WREGISTER(out);
-		}else if(d.equals("1")) 
+		}else if(d == 1) 
 		{
 			memory.set_SRAM(Integer.parseInt(f, 2), out);
 		}
@@ -1098,7 +1169,7 @@ public class Controller {
 			this.memory.set_CARRYFLAG(0);
 		}
 		this.checkZeroFlag(result);
-		this.checkDCFlag(result);
+		this.checkDCFlag(w_in, f_in);
 		
 		if(d.equals("0"))
 		{
@@ -1227,8 +1298,8 @@ public class Controller {
 	private void addlw(String k) 
 	{
 		int in = memory.get_WREGISTER();
-		int result = in + Integer.parseInt(k);
-		
+		int result = in + Integer.parseInt(k, 2);
+		System.out.println(in + " + " + Integer.parseInt(k) + " = " + result);
 		if(result > 255) 
 		{
 			this.memory.set_CARRYFLAG(1);
@@ -1238,7 +1309,7 @@ public class Controller {
 			this.memory.set_CARRYFLAG(0);
 		}
 		this.checkZeroFlag(result);
-		this.checkDCFlag(result);
+		this.checkDCFlag(in, Integer.parseInt(k));
 		
 		memory.set_WREGISTER(in + Integer.parseInt(k, 2));
 	}
@@ -1300,7 +1371,7 @@ public class Controller {
 	private void iorlw(String k) 
 	{
 		int w_in = memory.get_WREGISTER();
-		int k_in = Integer.parseInt(k,2);
+		int k_in = Integer.parseInt(k, 2);
 		int result = w_in | k_in;
 		
 		this.checkZeroFlag(result);
@@ -1366,18 +1437,20 @@ public class Controller {
 	private void sublw(String k) 
 	{ 
 		int w_in = memory.get_WREGISTER();
-		int k_in = Integer.parseInt(k, 2);		
+		int k_in = Integer.parseInt(k, 2);
+		System.out.println(k_in + " - " + w_in);
 		int result;
 		if(w_in > k_in) 
 		{
 			result = 256 - (w_in - k_in);
-			this.memory.set_CARRYFLAG(1);
+			this.memory.set_CARRYFLAG(0);
+			
 		}else {
 			result = k_in - w_in;
-			this.memory.set_CARRYFLAG(0);
+			this.memory.set_CARRYFLAG(1);
 		}
 		this.checkZeroFlag(result);
-		this.checkDCFlag(result);
+		this.checkDCFlag(w_in, k_in);
 		memory.set_WREGISTER(result);
 	}
 	
@@ -1656,13 +1729,15 @@ public class Controller {
 		}
 
 	}
-	private void checkDCFlag(int dc) 
+	private void checkDCFlag(int in_1, int in_2) 
 	{
-		if(dc >= 16) 
-		{
+		if ((in_1 > 0x0F) || (in_2 > 0x0F)) {
 			this.memory.set_DCFLAG(1);
-		}else 
-		{
+		}
+		else if (((in_1 & 0x0F) + (in_2 & 0x0F)) > 0x0F) {
+			this.memory.set_DCFLAG(1);
+		}
+		else {
 			this.memory.set_DCFLAG(0);
 		}
 	}

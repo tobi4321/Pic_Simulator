@@ -64,6 +64,7 @@ public class ErrorDialog extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
+				
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
