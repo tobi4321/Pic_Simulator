@@ -189,11 +189,11 @@ public class Controller {
 	*  Otherwise and an error window will be displayed.
 	*  @see showError
 	* **/
-	public void startSimu() {
+	public void startSimu(boolean debugging) {
 		System.out.println("Simulation started...");
 		if (this.isCompiled) {
 			if (!this.processorRunning) {
-				proc = new Processor(this);
+				proc = new Processor(this, debugging);
 				proc.start();	
 				this.processorRunning = true;
 			}
@@ -214,6 +214,13 @@ public class Controller {
 		System.out.println("Simulation stopped...");
 		this.processorRunning = false;
 		proc.stopThread();
+	}
+	
+	/**
+	*  Method to stop the Simulation. The active processor thread will be stopped via {@link stopThread}.
+	* **/
+	public void continueDebugStep() {
+		proc.continueDebugStep();
 	}
 
 	/**

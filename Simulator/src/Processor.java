@@ -12,11 +12,14 @@ public class Processor extends Thread{
 	Controller ctr;
 	Boolean exit = false;
 	int oldProgrammCounter = 0;
+	protected boolean debugging = false;
+	protected boolean continueDebug = false;
 
 	
-	public Processor(Controller pC) 
+	public Processor(Controller pC, boolean pDebugging) 
 	{
 		this.ctr = pC;
+		this.debugging = pDebugging;
 	}
 	
     public void run() {
@@ -45,8 +48,15 @@ public class Processor extends Thread{
     			ctr.executeCommand(commandToExecute);
     			
     			ctr.refreshIO();
-    			sleep(ctr.frequency);
-                
+    			if (this.debugging) {
+    				while(!continueDebug) {
+    					sleep(100);
+    				}
+    				continueDebug = false;
+    			}else {
+    				sleep(ctr.frequency);
+    			}
+
     			if(ctr.programmCounter >= ctr.memory.programMemory.length) 
                 {
                 	stopThread();
@@ -59,7 +69,9 @@ public class Processor extends Thread{
     	}
     	System.out.println("Thread stopped");
     }
-    
+    public void continueDebugStep() {
+    	this.continueDebug = true;
+    }
     public void stopThread() 
     {
     	this.exit = true;

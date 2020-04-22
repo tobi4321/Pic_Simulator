@@ -581,7 +581,7 @@ public class Simulator_Window {
 		btnStartSimulation.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnStartSimulation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ctr.startSimu();
+				ctr.startSimu(false);
 			}
 		});
 		run_menu.add(btnStartSimulation);
@@ -604,6 +604,11 @@ public class Simulator_Window {
 		
 		JButton btnDebuggerStarten = new JButton("Debugger starten");
 		btnDebuggerStarten.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnDebuggerStarten.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctr.startSimu(true);
+			}
+		});
 		debug_menu.add(btnDebuggerStarten);
 		
 		JButton btnDebuggerStoppen = new JButton("Debugger stoppen");
@@ -611,6 +616,11 @@ public class Simulator_Window {
 		debug_menu.add(btnDebuggerStoppen);
 		
 		JButton button = new JButton("->");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctr.continueDebugStep();
+			}
+		});
 		debug_menu.add(button);
 		button.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
