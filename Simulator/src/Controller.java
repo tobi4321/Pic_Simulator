@@ -76,7 +76,6 @@ public class Controller {
 		int[][] data = new int[32][8];
 		for(int i = 0; i< 256; i++) {
 			numbers[i] = Integer.toHexString(i);
-			System.out.println(i/8+" R:"+i%8);
 			data[i/8][i%8] = 0;
 			tableData[i/8][i%8+1] = Integer.toString( data[i/8][i%8]);
 		}
@@ -310,73 +309,7 @@ public class Controller {
 		return out;
 	}
 	
-	/**
-	 * Method to get the values of the analog IO output pins. For every active pin a 1 will be appended to a string, for every inactive a 0. 
-	 * @return the 8 pin values as a String
-	 * **/
-	protected String getIOAnalog_OUT() 
-	{
-		String value = "";
-		if(gui.rb_io_out_1.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_out_2.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_out_3.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_out_4.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_out_5.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_out_6.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_out_7.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_out_8.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		return value;
-	}
-	
-	/**
-	 * Method to get the values of the analog IO input pins. For every active pin a 1 will be appended to a string, for every inactive a 0. 
-	 * @return the 8 pin values as a String
-	 * **/
-	protected String getIOAnalog_IN() 
-	{
-		String value = "";
-		if(gui.rb_io_in_1.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_in_2.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_in_3.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_in_4.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_in_5.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_in_6.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_in_7.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		if(gui.rb_io_in_8.isSelected()) {value = "1" + value;}else {value = "0" + value;}
-		return value;
-	}
-	
-	/**
-	 * Method to set the values of the analog IO output pins.
-	 * @param number is the integer (0-255) to set
-	 * **/
-	protected void setIOAnalog_OUT(int number) 
-	{
-		if (number >= 128) {gui.rb_io_out_1.setSelected(true); number = number - 128;}else {gui.rb_io_out_1.setSelected(false);}
-		if (number >= 64)  {gui.rb_io_out_2.setSelected(true); number = number - 64;} else {gui.rb_io_out_2.setSelected(false);}
-		if (number >= 32)  {gui.rb_io_out_3.setSelected(true); number = number - 32;} else {gui.rb_io_out_3.setSelected(false);}
-		if (number >= 16)  {gui.rb_io_out_4.setSelected(true); number = number - 16;} else {gui.rb_io_out_4.setSelected(false);}
-		if (number >= 8)   {gui.rb_io_out_5.setSelected(true); number = number - 8;}  else {gui.rb_io_out_5.setSelected(false);}
-		if (number >= 4)   {gui.rb_io_out_6.setSelected(true); number = number - 4;}  else {gui.rb_io_out_6.setSelected(false);}
-		if (number >= 2)   {gui.rb_io_out_7.setSelected(true); number = number - 2;}  else {gui.rb_io_out_7.setSelected(false);}
-		if (number >= 1)   {gui.rb_io_out_8.setSelected(true); number = number - 1;}  else {gui.rb_io_out_8.setSelected(false);}
-	}
-	
-	/**
-	 * Method to set the values of the analog IO input pins.
-	 * @param number is the integer (0-255) to set
-	 * **/
-	protected void setIOAnalog_IN(int number) 
-	{
-		if (number >= 128) {gui.rb_io_in_1.setSelected(true); number = number - 128;}else {gui.rb_io_in_1.setSelected(false);}
-		if (number >= 64)  {gui.rb_io_in_2.setSelected(true); number = number - 64;} else {gui.rb_io_in_2.setSelected(false);}
-		if (number >= 32)  {gui.rb_io_in_3.setSelected(true); number = number - 32;} else {gui.rb_io_in_3.setSelected(false);}
-		if (number >= 16)  {gui.rb_io_in_4.setSelected(true); number = number - 16;} else {gui.rb_io_in_4.setSelected(false);}
-		if (number >= 8)   {gui.rb_io_in_5.setSelected(true); number = number - 8;}  else {gui.rb_io_in_5.setSelected(false);}
-		if (number >= 4)   {gui.rb_io_in_6.setSelected(true); number = number - 4;}  else {gui.rb_io_in_6.setSelected(false);}
-		if (number >= 2)   {gui.rb_io_in_7.setSelected(true); number = number - 2;}  else {gui.rb_io_in_7.setSelected(false);}
-		if (number >= 1)   {gui.rb_io_in_8.setSelected(true); number = number - 1;}  else {gui.rb_io_in_8.setSelected(false);}
-	}
+
 	
 	/**
 	 * Method to set the 4 values of the 7-Segment display.
@@ -1467,54 +1400,23 @@ public class Controller {
 	 * **/
 	public void refreshIO() {
 		
-		int portIN = gui.comboBox_AnalogIn_PortSelector.getSelectedIndex();
-		int portOUT = gui.comboBox_AnalogOUT_PortSelector.getSelectedIndex();
+		// set the Tris register from Memory
+		gui.setTrisA(this.memory.get_Memory(0x85));
+		gui.setTrisB(this.memory.get_Memory(0x86));
+
+
+		// read value from ports and save to memory
+		int ra = gui.getPortA();
+		this.memory.set_SRAM(0x05, ra&this.memory.get_Memory(0x85));
 		
-		if (portIN > 0) {
-			String portInValues = this.getIOAnalog_IN();
-			int writeNumber = 0;
-			switch(portIN) {
-			case 1:
-				for(int i = 0; i < 8; i++) {
-					memory.set_PORTA(7 - i, Integer.parseInt((String) portInValues.subSequence(i, i + 1)));
-				}
-				break;
-			case 2:
-				for(int i = 0; i < 8; i++) {
-					memory.set_PORTB(7 - i, Integer.parseInt((String) portInValues.subSequence(i, i + 1)));
-				}
-				break;
-			case 3:
-				for(int i = 0; i < 8; i++) {
-					memory.set_TRISA(7 - i, Integer.parseInt((String) portInValues.subSequence(i, i + 1)));
-				}
-				break;
-			case 4:
-				for(int i = 0; i < 8; i++) {
-					memory.set_TRISB(7 - i, Integer.parseInt((String) portInValues.subSequence(i, i + 1)));
-				}
-				break;
-			}
-			
-		}
-		if (portOUT > 0) {
-			int writeNumber = 0;
-			switch(portOUT) {
-			case 1:
-				writeNumber = memory.get_Memory((int)5);
-				break;
-			case 2:
-				writeNumber = memory.get_Memory((int)6);
-				break;
-			case 3:
-				writeNumber = memory.get_Memory((int)0x85);
-				break;
-			case 4:
-				writeNumber = memory.get_Memory((int)0x86);
-				break;
-			}
-			this.setIOAnalog_OUT(writeNumber);
-		}
+		int rb = gui.getPortB();
+		this.memory.set_SRAM(0x06, rb&this.memory.get_Memory(0x86));
+		
+		// update Port register from Memory
+		gui.setPortA(this.memory.get_Memory(0x05));
+		gui.setPortB(this.memory.get_Memory(0x06));
+		
+		
 	}
 	
 	/**

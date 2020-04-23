@@ -19,8 +19,8 @@ public class Interrupt extends Thread{
 	public void run() 
 	{
 		try {
-			ctr.getIOAnalog_OUT();
-			ctr.getIOAnalog_IN();
+			//ctr.getIOAnalog_OUT();
+			//ctr.getIOAnalog_IN();
 			
 			Thread.sleep(100);
 		}catch(Exception e) {

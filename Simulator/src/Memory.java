@@ -46,6 +46,9 @@ public class Memory extends Thread{
 		this.dataMemory[3][4] = 1;
 		this.dataMemory[128+3][4] = 1;
 		
+		// TRIS A and B Register to INPUT
+		this.set_SRAM(0x85, 255);
+		this.set_SRAM(0x86, 255);
 		
 		// Option_Reg
 		// PS0
@@ -65,6 +68,11 @@ public class Memory extends Thread{
 		//RBPU
 		this.dataMemory[129][7] = 1;
 		
+		
+		
+		// TEST set RP0 bit
+		this.dataMemory[3][5] = 1;
+		this.dataMemory[131][5] = 1;
 		
 		
 	}
@@ -106,6 +114,11 @@ public class Memory extends Thread{
 			// W Register
 			ctr.updateSpecialRegTable(Integer.toHexString(this.get_WREGISTER()), 0, 1);
 			ctr.updateSpecialRegTable(Integer.toBinaryString(this.get_WREGISTER()), 0, 2);
+			
+			
+			// Update the Port A and Port B
+			ctr.refreshIO();
+			
 			
 	    	try {
 				sleep(200);
@@ -240,9 +253,12 @@ public class Memory extends Thread{
 			if(dataMemory[3][5] == 0) 
 			{
 				dataMemory[fileaddress][bit] = value;
-			}else if(dataMemory[3][5] == 1) 
+			}else if((dataMemory[3][5] == 1) && (fileaddress < 128)) 
 			{
 				dataMemory[fileaddress+128][bit] = value;
+			}else 
+			{
+				dataMemory[fileaddress][bit] = value;
 			}
 			break;	
 		}
@@ -250,7 +266,6 @@ public class Memory extends Thread{
 	
 	protected void set_SRAM(int fileaddress, int value) 
 	{
-		System.out.println("Memory Incoming: "+value);
 		String c = Integer.toBinaryString(value);
 		for(int l = c.length(); l < 8; l++) 
 		{
@@ -288,7 +303,7 @@ public class Memory extends Thread{
 		if(dataMemory[3][5] == 0) 
 		{
 			return dataMemory[fileaddress][bit];
-		}else  if(dataMemory[3][5] == 1)
+		}else  if((dataMemory[3][5] == 1) && (fileaddress < 128))
 		{
 			return dataMemory[fileaddress+128][bit];
 		}else 
@@ -305,9 +320,12 @@ public class Memory extends Thread{
 			if(dataMemory[3][5] == 0) 
 			{
 				c = c+ dataMemory[fileaddress][7-i];
-			}else if(dataMemory[3][5] == 1) 
+			}else if((dataMemory[3][5] == 1) && (fileaddress < 128)) 
 			{
 				c = c+ dataMemory[fileaddress+128][7-i];
+			}else 
+			{
+				c = c+ dataMemory[fileaddress][7-i];
 			}
 			
 		}
