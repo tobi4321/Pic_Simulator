@@ -7,7 +7,7 @@
  * 
  * 
  * */
-public class Interrupt extends Thread{
+public class Interrupt{
 
 	private Controller ctr;
 	
@@ -16,15 +16,9 @@ public class Interrupt extends Thread{
 		this.ctr = pCtr;
 	}
 	
-	public void run() 
+	public void checkTrigger() 
 	{
-		try {
-			//ctr.getIOAnalog_OUT();
-			//ctr.getIOAnalog_IN();
-			
-			Thread.sleep(100);
-		}catch(Exception e) {
-			
-		}
+
 	}
+
 }

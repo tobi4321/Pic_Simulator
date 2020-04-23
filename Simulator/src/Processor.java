@@ -14,6 +14,7 @@ public class Processor extends Thread{
 	int oldProgrammCounter = 0;
 	protected boolean debugging = false;
 	protected boolean continueDebug = false;
+	protected boolean clkout = false;
 
 	
 	public Processor(Controller pC, boolean pDebugging) 
@@ -28,13 +29,10 @@ public class Processor extends Thread{
 
     		for(ctr.programmCounter = 0; ctr.programmCounter < ctr.memory.programMemory.length; ctr.programmCounter++) 
     		{
-    			//ctr.setSegment(ctr.programmCounter, 15-ctr.programmCounter, ctr.programmCounter, 13-ctr.programmCounter);
-    			
-    			//ctr.setCodeViewCounter(ctr.programCounterList[this.oldProgrammCounter], ctr.programCounterList[ctr.programmCounter]);
+
     			ctr.setCodeViewCounter(ctr.programCounterList[ctr.programmCounter]);
     			this.oldProgrammCounter = ctr.programmCounter;
     			
-    			//ctr.splitter(ctr.code[ctr.programmCounter]);
     			ctr.updateSpecialRegTable(Integer.toHexString(ctr.programmCounter), 4, 1);
     			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.programmCounter), 4, 2);
     			
@@ -44,6 +42,15 @@ public class Processor extends Thread{
     			ctr.executeCommand(codeLine);
     			
     			ctr.refreshIO();
+    			
+    			// set the cycle clock output for timer source
+    			clkout = true;
+    			
+    			ctr.tmr0.checkTMRIncrement();
+    			ctr.isr.checkTrigger();
+    			
+    			clkout = false;
+    			
     			if (this.debugging) {
     				while(!continueDebug) {
     					sleep(100);

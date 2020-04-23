@@ -9,23 +9,31 @@ import javax.swing.table.TableColumn;
 *  Here are objects of processor, memory, timer, interrupt and watchdog
 * **/
 public class Controller {
+	
 	/// Object of main gui.
 	private Simulator_Window gui;
 	/// Object of mnemonic editor gui.
 	private MnemonicView mnemonicWindow;
 	/// Object of a error dialog.
 	private ErrorDialog errorView;
+	
 	/// Processor object used to work each code step
 	protected Processor proc;
 	/// memory object used to store the data of microprocessor
 	protected Memory memory;
 	/// Parser Object to parse Mnemonic Code into Binary Code
 	protected MnemonicParser parser;
+	/// Timer object to check timer pin and do timer operations
+	protected Timer tmr0;
+	/// Interrupt object to check interrupt flags and if needed set pc to 0004
+	protected Interrupt isr;
+	
 	protected boolean processorRunning = false;
 	/// Displaying if the code is compiled.
 	protected boolean isCompiled = false;
 	/// The data model to initialize the data table.
 	protected String[][] tableData = new String[32][9];
+	
 	/// An array holding the jumper line number and the mnemonic code.
 	/**
 	 * The jumpers are holding the mnemonic code line with an ':' and the program counter appended.
@@ -34,6 +42,7 @@ public class Controller {
 	protected String[] jumpers = new String[512];
 	/// Amount of jumper marks in the code.
 	private int jumpersCount = 0;
+	
 	/// An array holding the EQUs.
 	/**
 	 * One entry holds the "original" before the EQU, followed by an ':' appended with the value after the EQU.
@@ -63,7 +72,8 @@ public class Controller {
 		this.gui = pGui;
 		memory = new Memory(this);
 		parser = new MnemonicParser(this);
-
+		tmr0 = new Timer(this);
+		isr = new Interrupt(this);
 	}
 	
 	/**
@@ -1594,6 +1604,10 @@ public class Controller {
 		else {
 			this.memory.set_DCFLAG(0);
 		}
+	}
+	protected int T0CKI() 
+	{
+		return this.memory.dataMemory[5][4];
 	}
 
 
