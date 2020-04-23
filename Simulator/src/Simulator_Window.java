@@ -36,6 +36,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -97,6 +98,22 @@ public class Simulator_Window {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+            // Set cross-platform Java L&F (also called "Metal")
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    } 
+	    catch (UnsupportedLookAndFeelException e) {
+	       // handle exception
+	    }
+	    catch (ClassNotFoundException e) {
+	       // handle exception
+	    }
+	    catch (InstantiationException e) {
+	       // handle exception
+	    }
+	    catch (IllegalAccessException e) {
+	       // handle exception
+	    }
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -124,6 +141,7 @@ public class Simulator_Window {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initialize() {
+		
 		frmMicrocontrollerSimulator = new JFrame();
 		frmMicrocontrollerSimulator.setTitle("MicroController Simulator");
 		frmMicrocontrollerSimulator.setBounds(100, 100, 1550, 920);
