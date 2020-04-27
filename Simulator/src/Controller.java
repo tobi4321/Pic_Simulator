@@ -1596,10 +1596,7 @@ public class Controller {
 	}
 	private void checkDCFlag(int in_1, int in_2) 
 	{
-		if ((in_1 > 0x0F) || (in_2 > 0x0F)) {
-			this.memory.set_DCFLAG(1);
-		}
-		else if (((in_1 & 0x0F) + (in_2 & 0x0F)) > 0x0F) {
+		if (((in_1 & 0x0F) + (in_2 & 0x0F)) > 0x0F) {
 			this.memory.set_DCFLAG(1);
 		}
 		else {
