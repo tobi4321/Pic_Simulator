@@ -186,7 +186,7 @@ public class Simulator_Window {
 				int fileNumber = Integer.parseInt(comboBox_File.getSelectedItem().toString(), 16);
 				int subFileNumber = Integer.parseInt(comboBox_SubFile.getSelectedItem().toString(),16);
 				System.out.println("Input: "+input+" into "+(fileNumber+subFileNumber));
-				ctr.memory.set_SRAM((fileNumber+subFileNumber), Integer.parseInt(input));
+				ctr.memory.set_SRAMDIRECT((fileNumber+subFileNumber), Integer.parseInt(input));
 			}
 		});
 		btn_InputRegister.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -313,6 +313,7 @@ public class Simulator_Window {
 		        column.setResizable(false);
 		    }
 		}
+		
 		scrollPane_3.setViewportView(table_Code);
 		
 		Box verticalIO = Box.createVerticalBox();
@@ -1217,5 +1218,10 @@ public class Simulator_Window {
 			  lbl_rb_tris0.setText("O");
 			  this.rbtn_rb_0.setEnabled(false);
 		  }
+	  }
+	  protected void highlightRow(int row) 
+	  {
+		  table_Code.removeRowSelectionInterval(0, this.table_Code.getRowCount() - 1);
+		  table_Code.addRowSelectionInterval(row, row);
 	  }
 }

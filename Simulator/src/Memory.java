@@ -66,14 +66,7 @@ public class Memory extends Thread{
 		//INTEDG
 		this.dataMemory[129][6] = 1;
 		//RBPU
-		this.dataMemory[129][7] = 1;
-		
-		
-		
-		// TEST set RP0 bit
-		this.dataMemory[3][5] = 1;
-		this.dataMemory[131][5] = 1;
-		
+		this.dataMemory[129][7] = 1;	
 		
 	}
 
@@ -277,6 +270,24 @@ public class Memory extends Thread{
 		}
 	}
 	
+	protected void set_SRAMDIRECT(int fileaddress, int bit, int value) 
+	{
+		dataMemory[fileaddress][bit] = value;
+	}
+	
+	protected void set_SRAMDIRECT(int fileaddress, int value) 
+	{
+		String c = Integer.toBinaryString(value);
+		for(int l = c.length(); l < 8; l++) 
+		{
+			c = "0" + c;
+		}
+		for(int i = 7; i >= 0; i-- ) 
+		{
+			this.set_SRAMDIRECT(fileaddress, 7-i, Integer.parseInt(""+c.charAt(i)));
+		}
+	}
+	
 	public void set_ZEROFLAG(int z) {
 
 		set_SRAM(3,2,z);
@@ -289,7 +300,7 @@ public class Memory extends Thread{
 	}
 	protected void set_CARRYFLAG(int c) 
 	{
-		set_SRAM(3,0,c);
+		set_SRAMDIRECT(3,0,c);
 		System.out.println("setCarry: " + Integer.toString(c));
 	}
 	
@@ -328,6 +339,21 @@ public class Memory extends Thread{
 				c = c+ dataMemory[fileaddress][7-i];
 			}
 			
+		}
+		return Integer.parseInt(c,2);
+	}
+	
+	protected int get_MemoryDIRECT(int fileaddress, int bit) 
+	{
+		return dataMemory[fileaddress][bit];
+	}
+	
+	protected int get_MemoryDIRECT(int fileaddress) 
+	{
+		String c = "";
+		for(int i = 0; i < 8; i++) 
+		{
+				c = c + dataMemory[fileaddress][7-i];
 		}
 		return Integer.parseInt(c,2);
 	}

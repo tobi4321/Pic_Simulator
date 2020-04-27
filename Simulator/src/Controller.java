@@ -128,6 +128,12 @@ public class Controller {
 	 */
 	protected void updateSpecialRegTable(String value, int x, int y) 
 	{
+		// When editing the binary values display 8 digits.
+		if(y == 2) {
+			while (value.length() < 8) {
+				value = 0 + value;
+			}
+		}
 		gui.setSpecialData(value, x, y);
 	}
 	
@@ -418,6 +424,7 @@ public class Controller {
 			this.gui.tbl_code.setValueAt(" ", i, 0);
 		}
 		this.gui.tbl_code.setValueAt("->", newC-1, 0);
+		this.gui.highlightRow(newC - 1);
 	}
 	
 	/**
@@ -592,7 +599,10 @@ public class Controller {
 				this.movf(d, f);
 				break;
 			case 0b0000:
-				if 		(payload == 0b01100100) {
+				if 		((payload >> 7) == 1) {
+					this.movwf(payload & 0x7F);
+				}
+				else if (payload == 0b01100100) {
 					this.clrwdt();
 				}
 				else if	(payload == 0b00001001) {
@@ -607,6 +617,7 @@ public class Controller {
 				else {
 					this.nop();
 				}
+				break;
 			case 0b1101:
 				this.rlf(d, f);
 				break;
@@ -957,7 +968,7 @@ public class Controller {
 	{
 		int f_in =this.memory.get_Memory(f);
 		// TODO: Wann genau Z setzen ? So richtig?
-		this.checkZeroFlag(1);
+		this.checkZeroFlag(0);
 		if(d == 0)
 		{
 			memory.set_WREGISTER(f_in);
@@ -976,6 +987,7 @@ public class Controller {
 	{
 		int in = memory.get_WREGISTER();
 		memory.set_SRAM(f, in);
+		System.out.println(f + "   " + in);
 	}
 	
 	/**
@@ -1005,12 +1017,12 @@ public class Controller {
 		else {
 			memory.set_CARRYFLAG(0);
 		}
-		int result = ((in << 1) & 0xFF) | carry;
-		
+		int result = ((in << 1) & 0xFF) | (carry&1);
+		System.out.println("rlf: " + result);
 		if(d == 0) 
 		{
 			memory.set_WREGISTER(result);
-		}else if(d == 0) 
+		}else
 		{
 			memory.set_SRAM(f, result);
 		}
@@ -1054,20 +1066,30 @@ public class Controller {
 	 * **/
 	private void subwf(int d, int f) 
 	{
+		// TODO: WTF alles fucking falsch mit dc und carry flaggg
 		int w_in = memory.get_WREGISTER();
 		int f_in = memory.get_Memory(f);
-		
+		System.out.println(f_in + " - " + w_in);
 		int result;
 		if(w_in > f_in) 
 		{
 			result = 256 - (w_in-f_in);
-			this.memory.set_CARRYFLAG(1);
 		}else {
 			result = f_in - w_in;
+		}
+		
+		if (f_in - w_in < 0) {
 			this.memory.set_CARRYFLAG(0);
+		}else {
+			this.memory.set_CARRYFLAG(1);
+		}
+		
+		if (f_in - w_in > 15) {
+			this.memory.set_DCFLAG(1);
+		}else {
+			this.memory.set_DCFLAG(0);
 		}
 		this.checkZeroFlag(result);
-		this.checkDCFlag(w_in, f_in);
 		
 		if(d == 0)
 		{
@@ -1411,23 +1433,31 @@ public class Controller {
 	 * **/
 	public void refreshIO() {
 		
+		int trisA = this.memory.get_MemoryDIRECT(0x85);
+		int trisB = this.memory.get_MemoryDIRECT(0x86);
 		// set the Tris register from Memory
-		gui.setTrisA(this.memory.get_Memory(0x85));
-		gui.setTrisB(this.memory.get_Memory(0x86));
+		gui.setTrisA(trisA);
+		gui.setTrisB(trisB);
 
 
 		// read value from ports and save to memory
 		int ra = gui.getPortA();
-		this.memory.set_SRAM(0x05, ra&this.memory.get_Memory(0x85));
-		
 		int rb = gui.getPortB();
-		this.memory.set_SRAM(0x06, rb&this.memory.get_Memory(0x86));
-		
+		for(int i = 0; i < 8; i++) {
+			if((trisA & 1) == 1) {
+				this.memory.set_SRAMDIRECT(0x05, i, ra & 1);
+			}
+			if((trisB & 1) == 1) {
+				this.memory.set_SRAMDIRECT(0x05, i, rb & 1);
+			}
+			trisA = trisA >> 1;
+    		trisB = trisB >> 1;
+			ra 	  = ra >> 1;
+			rb 	  = rb >> 1;
+		}
 		// update Port register from Memory
-		gui.setPortA(this.memory.get_Memory(0x05));
-		gui.setPortB(this.memory.get_Memory(0x06));
-		
-		
+		gui.setPortA(this.memory.get_MemoryDIRECT(0x05));
+		gui.setPortB(this.memory.get_MemoryDIRECT(0x06));
 	}
 	
 	/**
