@@ -14,6 +14,7 @@ public class Processor extends Thread{
 	int oldProgrammCounter = 0;
 	protected boolean debugging = false;
 	protected boolean continueDebug = false;
+	
 	protected boolean clkout = false;
 
 	
@@ -46,7 +47,13 @@ public class Processor extends Thread{
     			// set the cycle clock output for timer source
     			clkout = true;
     			
+    			ctr.tmr0.updateSources(ctr.memory.get_Memory(0x05, 4), clkout);
     			ctr.tmr0.checkTMRIncrement();
+    			
+    			ctr.isr.updateSources(ctr.memory.get_Memory(0x06));
+    			ctr.isr.checkRBISR();
+    			
+    			// check all interrupt flags
     			ctr.isr.checkTrigger();
     			
     			clkout = false;

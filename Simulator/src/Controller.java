@@ -1293,6 +1293,7 @@ public class Controller {
 	private void retfie() 
 	{
 		// TODO: RETFIE implementieren
+		// TODO: GIE setzen
 	}
 	
 	/**
@@ -1608,6 +1609,10 @@ public class Controller {
 	protected int T0CKI() 
 	{
 		return this.memory.dataMemory[5][4];
+	}
+	protected int getPrescaler() 
+	{
+		return (this.memory.get_Memory(0x81) & 0x07);
 	}
 
 
