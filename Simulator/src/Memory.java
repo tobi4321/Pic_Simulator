@@ -245,6 +245,10 @@ public class Memory extends Thread{
 		default:
 			if(dataMemory[3][5] == 0) 
 			{
+				// If TMR0 is accessed and Prescaler is active 
+				if (fileaddress == 0x01 && this.get_Memory(0x81, 3) == 0) {
+					ctr.tmr0.preScaler = 0;
+				}
 				dataMemory[fileaddress][bit] = value;
 			}else if((dataMemory[3][5] == 1) && (fileaddress < 128)) 
 			{
@@ -291,17 +295,14 @@ public class Memory extends Thread{
 	public void set_ZEROFLAG(int z) {
 
 		set_SRAM(3,2,z);
-		System.out.println("setZF: " + Integer.toString(z));
 	}
 	public void set_DCFLAG(int dc) 
 	{
 		set_SRAM(3,1,dc);
-		System.out.println("setDC: " + Integer.toString(dc));
 	}
 	protected void set_CARRYFLAG(int c) 
 	{
 		set_SRAMDIRECT(3,0,c);
-		System.out.println("setCarry: " + Integer.toString(c));
 	}
 	
 	protected int get_CARRYFLAG() 

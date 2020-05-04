@@ -9,7 +9,7 @@
  *    T0IF 0bh Bit 2   - 1 is set by overflow of register 01h
  *    T0IE 0bh  Bit 5   - 1 allows Timer to set a interrupt
  *    
- *    PSA  81h Bit 3   - 0 is prescaler is active
+ *    PSA  81h Bit 3   - 0 is prescaler is active for timer
  *    PS0  81h Bit 0 
  *    PS1  81h Bit 1
  *    PS2  81h Bit 2
@@ -50,7 +50,6 @@ public class Timer {
 		if(ctr.memory.get_Memory(0x81, 5) == 1) 
 		{
 			// check source RA4
-			
 			if(ctr.memory.get_Memory(0x81, 4) == 0) 
 			{
 				if(this.raEdge == 1) 
@@ -80,22 +79,24 @@ public class Timer {
 	private void incrementTMR() 
 	{
 		this.preScaler++;
-		if(this.preScaler == ( Math.pow(2.0, ctr.getPrescaler())*2 )) 
+		int preScalerActive = ctr.memory.get_MemoryDIRECT(0x81, 3);
+		if((preScalerActive == 0) && this.preScaler == ( Math.pow(2.0, ctr.getPrescaler())*2 )
+				|| preScalerActive == 1) 
 		{
-			int in = ctr.memory.get_Memory(1);
+			int in = ctr.memory.get_MemoryDIRECT(1);
 			if(in == 255) 
 			{
-				ctr.memory.set_SRAM(1, 0);
+				ctr.memory.set_SRAMDIRECT(1, 0);
 				
-
 				ctr.memory.set_SRAM(0x0b, 2, 1);
-
+				ctr.memory.set_ZEROFLAG(1);
 
 			}else 
 			{
 				in++;
-				ctr.memory.set_SRAM(1, in);
+				ctr.memory.set_SRAMDIRECT(1, in);
 			}
+			this.preScaler = 0;
 		}
 	}
 	

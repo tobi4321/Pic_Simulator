@@ -16,7 +16,7 @@ public class Processor extends Thread{
 	protected boolean continueDebug = false;
 	
 	protected boolean clkout = false;
-
+	private static final int NOP = 0;
 	
 	public Processor(Controller pC, boolean pDebugging) 
 	{
@@ -40,7 +40,13 @@ public class Processor extends Thread{
     			// get the current code line as string
     			int codeLine = ctr.memory.programMemory[ctr.memory.programmcounter];
 
-    			ctr.executeCommand(codeLine);
+    			if(ctr.isNopCycle) {
+        			ctr.executeCommand(NOP);		// NOP
+        			ctr.isNopCycle = false;
+        			ctr.memory.programmcounter--;
+    			}else {	
+        			ctr.executeCommand(codeLine);	// Normal Execute
+    			}
     			
     			ctr.refreshIO();
     			

@@ -61,7 +61,8 @@ public class Controller {
 	protected int codeLength = 0;
 	/// The Quartz frequency 
 	protected int frequency = 1000;
-	
+	/// Signals that the next cycle is a nop
+	protected boolean isNopCycle = false;
 	/**
 	*  The Constructor, creating a new Memory and MnemonicParser.
 	*  @param pGui Is an Object of {@link Simulator_Window}
@@ -561,6 +562,11 @@ public class Controller {
 		if (precommand == 0) {		// Byte Oriented File Register Operations
 			int d = payload >> 7;
 			int f = payload & 0b01111111;
+			// Check for indirect adressing
+			if (f == 0x00 || f == 0x80) {
+				f = this.memory.get_MemoryDIRECT(0x04);
+			}
+			
 			
 			switch(command) {
 			case 0b0111:
@@ -599,7 +605,7 @@ public class Controller {
 				break;
 			case 0b0000:
 				if 		((payload >> 7) == 1) {
-					this.movwf(payload & 0x7F);
+					this.movwf(f);
 				}
 				else if (payload == 0b01100100) {
 					this.clrwdt();
@@ -640,6 +646,10 @@ public class Controller {
 		else if (precommand == 1) {	// Bit-Oriented File Register Operations
 			int b = (line >> 7) & 0x0007;
 			int f = line  		& 0x007F;
+			// Check for indirect adressing
+			if (f == 0x00 || f == 0x80) {
+				f = this.memory.get_MemoryDIRECT(0x04);
+			}
 			
 			switch(command >> 2) {
 			case 0b00:
@@ -830,7 +840,7 @@ public class Controller {
 		if(d == 0) 
 		{
 			memory.set_WREGISTER(in);
-		}else if(d == 0) 
+		}else if(d == 1) 
 		{
 			memory.set_SRAM(f, in);
 		}
@@ -855,7 +865,7 @@ public class Controller {
 			if(in == 0) 
 			{
 				this.memory.programmcounter++;
-				// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
+				// TODO: Hier eventuell ein NOP einfÃ¼gen fÃ¼r die ansonsten fehlende ZeitverzÃ¶gerung.
 			}
 		}
 		if(d == 0) 
@@ -865,6 +875,7 @@ public class Controller {
 		{
 			memory.set_SRAM(f, in);
 		}
+		this.isNopCycle = true;
 	}
 	
 	/**
@@ -910,7 +921,7 @@ public class Controller {
 		{
 			in = 0;
 			this.memory.programmcounter++;
-			// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
+			// TODO: Hier eventuell ein NOP einfÃ¼gen fÃ¼r die ansonsten fehlende ZeitverzÃ¶gerung.
 		}else {
 			in++;
 		}
@@ -921,6 +932,7 @@ public class Controller {
 		{
 			memory.set_SRAM(f, in);
 		}
+		this.isNopCycle = true;
 	}
 	
 	/**
@@ -961,7 +973,7 @@ public class Controller {
 	{
 		int f_in =this.memory.get_Memory(f);
 		// TODO: Wann genau Z setzen ? So richtig?
-		this.checkZeroFlag(0);
+		this.checkZeroFlag(f_in);
 		if(d == 0)
 		{
 			memory.set_WREGISTER(f_in);
@@ -1177,8 +1189,7 @@ public class Controller {
 		int in = memory.get_Memory(f, b);
 		if(in == 0) 
 		{
-			this.memory.programmcounter++;
-			// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
+			this.isNopCycle = true;
 		}
 	}
 	
@@ -1194,8 +1205,7 @@ public class Controller {
 		int in = memory.get_Memory(f, b);
 		if(in == 1) 
 		{
-			this.memory.programmcounter++;
-			// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
+			this.isNopCycle = true;
 		}
 	}
 	
@@ -1373,7 +1383,7 @@ public class Controller {
 	 * @param k The literal as String
 	 * **/
 	private void xorlw(int k) 
-	{   // eventuell hier noch nullen auffüllen
+	{   // eventuell hier noch nullen auffÃ¼llen
 		int w_in = memory.get_WREGISTER();
 		int result = w_in ^ k;
 		
