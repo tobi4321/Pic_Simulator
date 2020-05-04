@@ -231,6 +231,7 @@ public class Simulator_Window {
 		
 		table_Memory = new JTable();
 		table_Memory.setModel(tbl_memory);
+		table_Memory.setEnabled(false);
 		scrollPane.setViewportView(table_Memory);
 		
 		TableColumn column = null;

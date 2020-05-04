@@ -1448,7 +1448,7 @@ public class Controller {
 				this.memory.set_SRAMDIRECT(0x05, i, ra & 1);
 			}
 			if((trisB & 1) == 1) {
-				this.memory.set_SRAMDIRECT(0x05, i, rb & 1);
+				this.memory.set_SRAMDIRECT(0x06, i, rb & 1);
 			}
 			trisA = trisA >> 1;
     		trisB = trisB >> 1;
