@@ -415,7 +415,6 @@ public class Controller {
 	
 	/**
 	 * Method to set the arrow which displays the active step to a new row.
-	 * @param oldC the old Counter row
 	 * @param newC the new Counter row
 	 * **/
 	public void setCodeViewCounter(int newC) 
@@ -971,8 +970,8 @@ public class Controller {
 	 * **/
 	private void movf(int d, int f) 
 	{
-		int f_in =this.memory.get_Memory(f);
-		// TODO: Wann genau Z setzen ? So richtig?
+		int f_in = this.memory.get_Memory(f);
+		
 		this.checkZeroFlag(f_in);
 		if(d == 0)
 		{
@@ -1189,6 +1188,7 @@ public class Controller {
 		int in = memory.get_Memory(f, b);
 		if(in == 0) 
 		{
+			this.memory.programmcounter++;
 			this.isNopCycle = true;
 		}
 	}
@@ -1205,6 +1205,7 @@ public class Controller {
 		int in = memory.get_Memory(f, b);
 		if(in == 1) 
 		{
+			this.memory.programmcounter++;
 			this.isNopCycle = true;
 		}
 	}
@@ -1262,6 +1263,7 @@ public class Controller {
 	{
 		memory.pushToStack(this.memory.programmcounter);
 		this.memory.programmcounter = k-1;
+		this.isNopCycle = true;
 	}
 	
 	/**
@@ -1283,6 +1285,7 @@ public class Controller {
 	{
 		System.out.println("k: " + k);
 		this.memory.programmcounter = k-1;
+		this.isNopCycle = true;
 	}
 	
 	/**
@@ -1319,6 +1322,7 @@ public class Controller {
 	{
 		// TODO: RETFIE implementieren
 		// TODO: GIE setzen
+		this.isNopCycle = true;
 	}
 	
 	/**
@@ -1330,6 +1334,7 @@ public class Controller {
 	{
 		memory.set_WREGISTER(k);
 		this.memory.programmcounter = memory.popFromStack();
+		this.isNopCycle = true;
 	}
 	
 	// Attention the function return is a basic java function
@@ -1340,6 +1345,7 @@ public class Controller {
 	private void _return() 
 	{
 		this.memory.programmcounter = memory.popFromStack();
+		this.isNopCycle = true;
 	}
 	
 	/**
@@ -1360,7 +1366,6 @@ public class Controller {
 	private void sublw(int k) 
 	{ 
 		int w_in = memory.get_WREGISTER();
-		System.out.println(k + " - " + w_in);
 		int result;
 		if(w_in > k) 
 		{
@@ -1482,7 +1487,7 @@ public class Controller {
 				this.frequency = 600;
 				break;
 			case "4MHz":
-				this.frequency = 300;
+				this.frequency = 50;
 				break;
 		}
 	}
