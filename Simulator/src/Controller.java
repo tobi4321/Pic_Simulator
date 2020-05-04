@@ -938,13 +938,7 @@ public class Controller {
 		int result = w_in | f_in;
 
 		// Check not zeroflag
-		if(result != 0) 
-		{
-			this.memory.set_ZEROFLAG(1);
-		}else 
-		{
-			this.memory.set_ZEROFLAG(0);
-		}
+		this.checkZeroFlag(result);
 		
 		if(d == 0)
 		{
@@ -1437,7 +1431,6 @@ public class Controller {
 		// set the Tris register from Memory
 		gui.setTrisA(trisA);
 		gui.setTrisB(trisB);
-
 
 		// read value from ports and save to memory
 		int ra = gui.getPortA();
