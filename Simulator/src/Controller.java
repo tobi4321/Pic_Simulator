@@ -54,8 +54,7 @@ public class Controller {
 	protected String[] mnemonicLines;
 	/// A list of the program counter as key with the dedicated code line as value
 	protected int[] programCounterList = new int[1024];
-	/// The current position of the program in the code.
-	//protected int programmCounter;
+
 	/// The program code as string array. Every code line is one string.
 	protected String[] code;
 	/// The length of the compiled code
