@@ -55,7 +55,7 @@ public class Controller {
 	/// A list of the program counter as key with the dedicated code line as value
 	protected int[] programCounterList = new int[1024];
 	/// The current position of the program in the code.
-	protected int programmCounter;
+	//protected int programmCounter;
 	/// The program code as string array. Every code line is one string.
 	protected String[] code;
 	/// The length of the compiled code
@@ -258,7 +258,7 @@ public class Controller {
 				jumpers[this.jumpersCount] = pCode[i] + ":" + (i + 1);				
 				jumpersCount++;
 				
-				System.out.println("JumperMark found: "+pCode[i]+" at Line "+i+" to pc: "+this.programmCounter);
+				System.out.println("JumperMark found: "+pCode[i]+" at Line "+i+" to pc: "+this.memory.programmcounter);
 			}
 		}
 		return pCode;
@@ -855,7 +855,7 @@ public class Controller {
 			in--;
 			if(in == 0) 
 			{
-				this.programmCounter++;
+				this.memory.programmcounter++;
 				// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
 			}
 		}
@@ -910,7 +910,7 @@ public class Controller {
 		if(in == 255) 
 		{
 			in = 0;
-			this.programmCounter++;
+			this.memory.programmcounter++;
 			// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
 		}else {
 			in++;
@@ -1184,7 +1184,7 @@ public class Controller {
 		int in = memory.get_Memory(f, b);
 		if(in == 0) 
 		{
-			this.programmCounter++;
+			this.memory.programmcounter++;
 			// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
 		}
 	}
@@ -1201,7 +1201,7 @@ public class Controller {
 		int in = memory.get_Memory(f, b);
 		if(in == 1) 
 		{
-			this.programmCounter++;
+			this.memory.programmcounter++;
 			// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
 		}
 	}
@@ -1257,8 +1257,8 @@ public class Controller {
 	 * **/
 	private void call(int k) 
 	{
-		memory.pushToStack(this.programmCounter);
-		this.programmCounter = k-1;
+		memory.pushToStack(this.memory.programmcounter);
+		this.memory.programmcounter = k-1;
 	}
 	
 	/**
@@ -1279,7 +1279,7 @@ public class Controller {
 	private void _goto(int k) 
 	{
 		System.out.println("k: " + k);
-		this.programmCounter = k-1;
+		this.memory.programmcounter = k-1;
 	}
 	
 	/**
@@ -1326,7 +1326,7 @@ public class Controller {
 	private void retlw(int k) 
 	{
 		memory.set_WREGISTER(k);
-		this.programmCounter = memory.popFromStack();
+		this.memory.programmcounter = memory.popFromStack();
 	}
 	
 	// Attention the function return is a basic java function
@@ -1336,7 +1336,7 @@ public class Controller {
 	 * **/
 	private void _return() 
 	{
-		this.programmCounter = memory.popFromStack();
+		this.memory.programmcounter = memory.popFromStack();
 	}
 	
 	/**

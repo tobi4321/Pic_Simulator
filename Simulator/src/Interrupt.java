@@ -68,10 +68,10 @@ public class Interrupt{
 	 */
 	private void setISR() 
 	{
-		ctr.memory.pushToStack(ctr.programmCounter);
+		ctr.memory.pushToStack(ctr.memory.programmcounter);
 		// clearing GIE bit to disable other interrupts
 		ctr.memory.set_SRAM(0x0b, 7, 0);
-		ctr.programmCounter = 0x04;
+		ctr.memory.programmcounter = 0x04;
 	}
 	
 	/**

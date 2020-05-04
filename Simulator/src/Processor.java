@@ -28,17 +28,17 @@ public class Processor extends Thread{
     	while (!exit) {  
     		try {
 
-    		for(ctr.programmCounter = 0; ctr.programmCounter < ctr.memory.programMemory.length; ctr.programmCounter++) 
+    		for(ctr.memory.programmcounter = 0; ctr.memory.programmcounter < ctr.memory.programMemory.length; ctr.memory.programmcounter++) 
     		{
 
-    			ctr.setCodeViewCounter(ctr.programCounterList[ctr.programmCounter]);
-    			this.oldProgrammCounter = ctr.programmCounter;
+    			ctr.setCodeViewCounter(ctr.programCounterList[ctr.memory.programmcounter]);
+    			this.oldProgrammCounter = ctr.memory.programmcounter;
     			
-    			ctr.updateSpecialRegTable(Integer.toHexString(ctr.programmCounter), 4, 1);
-    			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.programmCounter), 4, 2);
+    			ctr.updateSpecialRegTable(Integer.toHexString(ctr.memory.programmcounter), 4, 1);
+    			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.memory.programmcounter), 4, 2);
     			
     			// get the current code line as string
-    			int codeLine = ctr.memory.programMemory[ctr.programmCounter];
+    			int codeLine = ctr.memory.programMemory[ctr.memory.programmcounter];
 
     			ctr.executeCommand(codeLine);
     			
@@ -67,7 +67,7 @@ public class Processor extends Thread{
     				sleep(ctr.frequency);
     			}
 
-    			if(ctr.programmCounter >= ctr.memory.programMemory.length) 
+    			if(ctr.memory.programmcounter >= ctr.memory.programMemory.length) 
                 {
                 	stopThread();
                 }
@@ -85,6 +85,6 @@ public class Processor extends Thread{
     public void stopThread() 
     {
     	this.exit = true;
-    	ctr.programmCounter = 65536;
+    	ctr.memory.programmcounter = 65536;
     }
 }

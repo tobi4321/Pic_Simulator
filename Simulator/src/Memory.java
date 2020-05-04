@@ -100,8 +100,8 @@ public class Memory extends Thread{
 			
 			// PC
 			// pc lath must be concatenated in front
-			ctr.updateSpecialRegTable(Integer.toHexString(ctr.programmCounter), 4, 1);
-			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.programmCounter), 4, 2);
+			ctr.updateSpecialRegTable(Integer.toHexString(this.programmcounter), 4, 1);
+			ctr.updateSpecialRegTable(Integer.toBinaryString(this.programmcounter), 4, 2);
 			
 			
 			// W Register
