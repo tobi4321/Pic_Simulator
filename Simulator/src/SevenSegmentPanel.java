@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 *  The Panel to display the 7-segment Display.
 * 
 * **/
-public class MyPanel extends JPanel{
+public class SevenSegmentPanel extends JPanel{
 
     private int First;
     private int Second;
@@ -22,7 +22,7 @@ public class MyPanel extends JPanel{
     
     private int correction = 40;
     
-	public MyPanel() 
+	public SevenSegmentPanel() 
 	{
         
     }

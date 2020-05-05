@@ -54,7 +54,7 @@ public class Simulator_Window {
 	private JFrame frmMicrocontrollerSimulator;
 	private Controller ctr;
 	protected TableModel dataModel;
-	protected MyPanel panel_segmentCanvas;
+	protected SevenSegmentPanel panel_segmentCanvas;
 	protected JTable table_Code;
 	protected DefaultTableModel tbl_code;
 	protected DefaultTableModel tbl_memory;
@@ -651,7 +651,7 @@ public class Simulator_Window {
 		panel_7Segment.add(lblSegment, BorderLayout.NORTH);
 		lblSegment.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
-		panel_segmentCanvas = new MyPanel();
+		panel_segmentCanvas = new SevenSegmentPanel();
 		panel_segmentCanvas.setMaximumSize(new Dimension(310, 105));
 		panel_segmentCanvas.setPreferredSize(new Dimension(310, 105));
 		panel_7Segment.add(panel_segmentCanvas, BorderLayout.CENTER);
