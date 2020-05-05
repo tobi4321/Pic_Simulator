@@ -34,6 +34,7 @@ public class Controller {
 	/// The data model to initialize the data table.
 	protected String[][] tableData = new String[32][9];
 	
+	protected int[][] tableHighlight = new int[32][9];
 	/// An array holding the jumper line number and the mnemonic code.
 	/**
 	 * The jumpers are holding the mnemonic code line with an ':' and the program counter appended.
@@ -115,8 +116,11 @@ public class Controller {
 	*  @param x is an integer referencing to the column
 	*  @param y is an integer referencing to the row + 1, because the first row are the labels.
 	* **/
-	protected void updateMemoryTable(String value,int x, int y) 
+	protected void updateMemoryTable(String value, int x, int y) 
 	{
+		while (value.length() < 2) {
+			value = "0" + value;
+		}
 		gui.SetData(value, x, y+1);
 	}
 	
@@ -1648,6 +1652,12 @@ public class Controller {
 	{
 		return (this.memory.get_Memory(0x81) & 0x07);
 	}
-
+	protected void clearHighlights() {
+		this.gui.table_Memory.clearSelection();
+	}
+	protected void highlightCell(int x, int y)
+	{
+		this.gui.highlightCell(x, y);
+	}
 
 }

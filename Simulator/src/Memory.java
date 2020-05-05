@@ -214,31 +214,43 @@ public class Memory extends Thread{
 		{
 		// INDF
 		case 0:
+			highlightCell(0, bit, value);
+			highlightCell(128, bit, value);
 			dataMemory[0][bit] = value;
 			dataMemory[128][bit] = value;
 			break;
 		// PCL
 		case 2:
+			highlightCell(2, bit, value);
+			highlightCell(130, bit, value);
 			dataMemory[2][bit] = value;
 			dataMemory[130][bit] = value;
 			break;
 		// Status
 		case 3:
+			highlightCell(3, bit, value);
+			highlightCell(131, bit, value);
 			dataMemory[3][bit] = value;
 			dataMemory[131][bit] = value;
 			break;
 		// FSR
 		case 4:
+			highlightCell(4, bit, value);
+			highlightCell(132, bit, value);
 			dataMemory[4][bit] = value;
 			dataMemory[132][bit] = value;
 			break;
 		// PCLATH
 		case 10:
+			highlightCell(10, bit, value);
+			highlightCell(138, bit, value);
 			dataMemory[10][bit] = value;
 			dataMemory[138][bit] = value;
 			break;
 		// INTCON
 		case 11:
+			highlightCell(11, bit, value);
+			highlightCell(139, bit, value);
 			dataMemory[11][bit] = value;
 			dataMemory[139][bit] = value;
 			break;
@@ -249,16 +261,20 @@ public class Memory extends Thread{
 				if (fileaddress == 0x01 && this.get_Memory(0x81, 3) == 0) {
 					ctr.tmr0.preScaler = 0;
 				}
+				highlightCell(fileaddress, bit, value);
 				dataMemory[fileaddress][bit] = value;
 			}else if((dataMemory[3][5] == 1) && (fileaddress < 128)) 
 			{
+				highlightCell(fileaddress+128, bit, value);
 				dataMemory[fileaddress+128][bit] = value;
 			}else 
 			{
+				highlightCell(fileaddress, bit, value);
 				dataMemory[fileaddress][bit] = value;
 			}
 			break;	
 		}
+		
 	}
 	
 	protected void set_SRAM(int fileaddress, int value) 
@@ -276,6 +292,7 @@ public class Memory extends Thread{
 	
 	protected void set_SRAMDIRECT(int fileaddress, int bit, int value) 
 	{
+		highlightCell(fileaddress, bit, value);
 		dataMemory[fileaddress][bit] = value;
 	}
 	
@@ -289,6 +306,13 @@ public class Memory extends Thread{
 		for(int i = 7; i >= 0; i-- ) 
 		{
 			this.set_SRAMDIRECT(fileaddress, 7-i, Integer.parseInt(""+c.charAt(i)));
+		}
+	}
+	
+	private void highlightCell(int fileaddress, int bit, int value) 
+	{
+		if(value != dataMemory[fileaddress][bit]) {
+			ctr.highlightCell(fileaddress/8, fileaddress%8 + 1);
 		}
 	}
 	
