@@ -111,7 +111,7 @@ public class Memory extends Thread{
 			
 			// Update the Port A and Port B
 			ctr.refreshIO();
-			
+			ctr.update7Segment();
 			
 	    	try {
 				sleep(200);

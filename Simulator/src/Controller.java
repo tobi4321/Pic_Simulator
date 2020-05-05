@@ -202,11 +202,11 @@ public class Controller {
 			if(this.dataPortSelect == 0) 
 			{
 				dataPort = this.memory.get_MemoryDIRECT(0x05);
-			}else if(this.dataPortSelect == 0)
+			}else if(this.dataPortSelect == 1)
 			{
 				dataPort = this.memory.get_MemoryDIRECT(0x06);
 			}
-			
+			System.out.println("set7Segment: "+controlPort+" data: "+dataPort);
 			this.gui.panel_segmentCanvas.set7Segment(controlPort, dataPort);
 		}
 	}

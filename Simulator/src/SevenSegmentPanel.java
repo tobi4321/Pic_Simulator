@@ -63,19 +63,19 @@ public class SevenSegmentPanel extends JPanel{
     }
 	public void set7Segment(int controlPort, int dataPort) 
 	{
-		if((controlPort & 0x01) == 1) 
+		if((controlPort & 0x01) == 0x01) 
 		{
 	    	this.First = dataPort;
 		}
-		if((controlPort & 0x02) == 1) 
+		if((controlPort & 0x02) == 0x02) 
 		{
 			this.Second = dataPort;
 		}
-		if((controlPort & 0x04) == 1) 
+		if((controlPort & 0x04) == 0x04) 
 		{
 			this.Third = dataPort;
 		}
-		if((controlPort & 0x08) == 1) 
+		if((controlPort & 0x08) == 0x08) 
 		{
 			this.Fourth = dataPort;
 		}
@@ -94,35 +94,35 @@ public class SevenSegmentPanel extends JPanel{
     public void paintFirst(Graphics g,int Char) 
     {   
     	g.setColor(Color.red);
-    	if((Char & 0x01) == 1) 
+    	if((Char & 0x01) == 0x01) 
     	{
         	g.fillRect(correction+20, 95,horizontalWidth,horizontalHeight);
     	}
-    	if((Char & 0x02) == 1) 
+    	if((Char & 0x02) == 0x02) 
     	{
     		g.fillRect(correction+60, 55, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x04) == 1) 
+    	if((Char & 0x04) == 0x04) 
     	{
     		g.fillRect(correction+60, 10, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x08) == 1)
+    	if((Char & 0x08) == 0x08)
     	{
     		g.fillRect(correction+20, 5, horizontalWidth, horizontalHeight);
     	}
-    	if((Char & 0x10) == 1) 
+    	if((Char & 0x10) == 0x10) 
     	{
     		g.fillRect(correction+15, 10, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x20) == 1) 
+    	if((Char & 0x20) == 0x20) 
     	{
     		g.fillRect(correction+15, 55, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x40) == 1) 
+    	if((Char & 0x40) == 0x40) 
     	{
     		g.fillRect(correction+20, 50, horizontalWidth, horizontalHeight);
     	}
-    	if((Char & 0x80) == 1) 
+    	if((Char & 0x80) == 0x80) 
     	{
     		// TODO: implement dot
     	}
@@ -131,72 +131,72 @@ public class SevenSegmentPanel extends JPanel{
     public void paintSecond(Graphics g,int Char) 
     {
     	g.setColor(Color.red);
-    	if((Char & 0x01) == 1) 
+    	if((Char & 0x01) == 0x01) 
     	{
     		g.fillRect(correction+20+secondOffSet, 95,horizontalWidth,horizontalHeight);
     	}
-    	if((Char & 0x02) == 1) 
+    	if((Char & 0x02) == 0x02) 
     	{
     		g.fillRect(correction+60+secondOffSet, 55, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x04) == 1) 
+    	if((Char & 0x04) == 0x04) 
     	{
     		g.fillRect(correction+60+secondOffSet, 10, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x08) == 1)
+    	if((Char & 0x08) == 0x08)
     	{
     		g.fillRect(correction+20+secondOffSet, 5, horizontalWidth, horizontalHeight);
     	}
-    	if((Char & 0x10) == 1) 
+    	if((Char & 0x10) == 0x10) 
     	{
     		g.fillRect(correction+15+secondOffSet, 10, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x20) == 1) 
+    	if((Char & 0x20) == 0x20) 
     	{
     		g.fillRect(correction+15+secondOffSet, 55, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x40) == 1) 
+    	if((Char & 0x40) == 0x40) 
     	{
     		g.fillRect(correction+20+secondOffSet, 50, horizontalWidth, horizontalHeight);
     	}
-    	if((Char & 0x80) == 1) 
+    	if((Char & 0x80) == 0x80) 
     	{
     		// TODO: implement dot
-    	}   	
+    	}  	
     }
     
     public void paintThird(Graphics g,int Char) 
     {
     	g.setColor(Color.red);
-    	if((Char & 0x01) == 1) 
+    	if((Char & 0x01) == 0x01) 
     	{
     		g.fillRect(correction+20+thirdOffSet, 95,horizontalWidth,horizontalHeight);
     	}
-    	if((Char & 0x02) == 1) 
+    	if((Char & 0x02) == 0x02) 
     	{
     		g.fillRect(correction+60+thirdOffSet, 55, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x04) == 1) 
+    	if((Char & 0x04) == 0x04) 
     	{
     		g.fillRect(correction+60+thirdOffSet, 10, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x08) == 1)
+    	if((Char & 0x08) == 0x08)
     	{
     		g.fillRect(correction+20+thirdOffSet, 5, horizontalWidth, horizontalHeight);
     	}
-    	if((Char & 0x10) == 1) 
+    	if((Char & 0x10) == 0x10) 
     	{
     		g.fillRect(correction+15+thirdOffSet, 10, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x20) == 1) 
+    	if((Char & 0x20) == 0x20) 
     	{
     		g.fillRect(correction+15+thirdOffSet, 55, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x40) == 1) 
+    	if((Char & 0x40) == 0x40) 
     	{
     		g.fillRect(correction+20+thirdOffSet, 50, horizontalWidth, horizontalHeight);
     	}
-    	if((Char & 0x80) == 1) 
+    	if((Char & 0x80) == 0x80) 
     	{
     		// TODO: implement dot
     	}   	
@@ -205,35 +205,35 @@ public class SevenSegmentPanel extends JPanel{
     public void paintFourth(Graphics g,int Char) 
     {
     	g.setColor(Color.red);
-    	if((Char & 0x01) == 1) 
+    	if((Char & 0x01) == 0x01) 
     	{
     		g.fillRect(correction+20+fourthOffSet, 95,horizontalWidth,horizontalHeight);
     	}
-    	if((Char & 0x02) == 1) 
+    	if((Char & 0x02) == 0x02) 
     	{
     		g.fillRect(correction+60+fourthOffSet, 55, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x04) == 1) 
+    	if((Char & 0x04) == 0x04) 
     	{
     		g.fillRect(correction+60+fourthOffSet, 10, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x08) == 1)
+    	if((Char & 0x08) == 0x08)
     	{
     		g.fillRect(correction+20+fourthOffSet, 5, horizontalWidth, horizontalHeight);
     	}
-    	if((Char & 0x10) == 1) 
+    	if((Char & 0x10) == 0x10) 
     	{
     		g.fillRect(correction+15+fourthOffSet, 10, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x20) == 1) 
+    	if((Char & 0x20) == 0x20) 
     	{
     		g.fillRect(correction+15+fourthOffSet, 55, verticalWidth, verticalHeight);
     	}
-    	if((Char & 0x40) == 1) 
+    	if((Char & 0x40) == 0x40) 
     	{
     		g.fillRect(correction+20+fourthOffSet, 50, horizontalWidth, horizontalHeight);
     	}
-    	if((Char & 0x80) == 1) 
+    	if((Char & 0x80) == 0x80) 
     	{
     		// TODO: implement dot
     	}   	
