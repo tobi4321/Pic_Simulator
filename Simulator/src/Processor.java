@@ -39,7 +39,8 @@ public class Processor extends Thread{
     			
     			// get the current code line as string
     			int codeLine = ctr.memory.programMemory[ctr.memory.programmcounter];
-
+    			
+    			ctr.clearHighlights();
     			if(ctr.isNopCycle) {
         			ctr.executeCommand(NOP);		// NOP
         			ctr.isNopCycle = false;

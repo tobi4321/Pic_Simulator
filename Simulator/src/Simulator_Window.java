@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.EventObject;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -39,6 +40,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
@@ -232,6 +234,7 @@ public class Simulator_Window {
 		table_Memory = new JTable();
 		table_Memory.setModel(tbl_memory);
 		table_Memory.setEnabled(false);
+		table_Memory.setCellSelectionEnabled(true);
 		scrollPane.setViewportView(table_Memory);
 		
 		TableColumn column = null;
@@ -1224,5 +1227,20 @@ public class Simulator_Window {
 	  {
 		  table_Code.removeRowSelectionInterval(0, this.table_Code.getRowCount() - 1);
 		  table_Code.addRowSelectionInterval(row, row);
+	  }
+	  
+	  protected void highlightCell(int x, int y) 
+	  {
+		  try {
+			table_Memory.addRowSelectionInterval(x, x);
+			table_Memory.addColumnSelectionInterval(y, y);
+		  }catch(NullPointerException e) {
+			  // Exception occures in the initialization and can therefore be ignored.
+		  }
+	  }
+	  protected void removeHighlightCell(int x, int y) 
+	  {
+		  table_Memory.removeRowSelectionInterval(x, x);
+		  table_Memory.removeColumnSelectionInterval(y, y);
 	  }
 }
