@@ -11,7 +11,30 @@ import javax.swing.JPanel;
 /**
 *  
 *  The Panel to display the 7-segment Display.
+*     a
+*    ---
+* f | g | b 
+*    ---
+* e |   | c
+*    ---     . h
+*     d
+*               h g f e d c b a
+*  input char = 0 0 0 0 0 0 0 0 b
 * 
+*  horizontal
+*   ________
+*  |________|
+* 
+*  vertical 
+*   _
+*  | |
+*  | |
+*  | | 
+*  | |
+*  |_|
+* 
+* 
+*  
 * **/
 public class SevenSegmentPanel extends JPanel{
 
@@ -20,12 +43,44 @@ public class SevenSegmentPanel extends JPanel{
     private int Third;
     private int Fourth;
     
-    private int correction = 40;
+    private final static int correction = 40;
+    
+    private final static int secondOffSet = 80;
+    private final static int thirdOffSet = 160;
+    private final static int fourthOffSet = 240;
+    
+    private final static int horizontalHeight = 5;
+    private final static int horizontalWidth = 40;
+    
+    private final static int verticalHeight = 40;
+    private final static int verticalWidth = 5;
+    
+    
     
 	public SevenSegmentPanel() 
 	{
         
     }
+	public void set7Segment(int controlPort, int dataPort) 
+	{
+		if((controlPort & 0x01) == 1) 
+		{
+	    	this.First = dataPort;
+		}
+		if((controlPort & 0x02) == 1) 
+		{
+			this.Second = dataPort;
+		}
+		if((controlPort & 0x04) == 1) 
+		{
+			this.Third = dataPort;
+		}
+		if((controlPort & 0x08) == 1) 
+		{
+			this.Fourth = dataPort;
+		}
+		this.setChars(this.First, this.Second, this.Third, this.Fourth);
+	}
     
     public void setChars(int c1,int c2, int c3, int c4) 
     {
@@ -39,466 +94,149 @@ public class SevenSegmentPanel extends JPanel{
     public void paintFirst(Graphics g,int Char) 
     {   
     	g.setColor(Color.red);
-        if(Char == 0) 
-        {
-        	g.fillRect(correction+20, 5, 40, 5);
-        	g.fillRect(correction+20, 95,40,5);
-        	g.fillRect(correction+15, 10, 5, 40);
-        	g.fillRect(correction+15, 55, 5, 40);
-        	g.fillRect(correction+60, 10, 5, 40);
-        	g.fillRect(correction+60, 55, 5, 40);
-        }else if(Char == 1) 
-        {
-        	g.fillRect(correction+60, 10, 5, 40);
-        	g.fillRect(correction+60, 55, 5, 40);
-        }else if(Char == 2) 
-        {
-        	g.fillRect(correction+20, 5, 40, 5);
-        	g.fillRect(correction+20, 50, 40, 5);
-        	g.fillRect(correction+20, 95,40,5);
-        	g.fillRect(correction+15, 55, 5, 40);
-        	g.fillRect(correction+60, 10, 5, 40);
-        }else if(Char == 3) 
-        {
-        	g.fillRect(correction+20, 5, 40, 5);
-        	g.fillRect(correction+20, 50, 40, 5);
-        	g.fillRect(correction+20, 95,40,5);
-        	g.fillRect(correction+60, 10, 5, 40);
-        	g.fillRect(correction+60, 55, 5, 40);
-        }else if(Char == 4) 
-        {
-        	g.fillRect(correction+20, 50, 40, 5);
-        	g.fillRect(correction+15, 10, 5, 40);
-        	g.fillRect(correction+60, 10, 5, 40);
-        	g.fillRect(correction+60, 55, 5, 40);
-        	
-        }else if(Char == 5) 
-        {
-        	g.fillRect(correction+20, 5, 40, 5);
-        	g.fillRect(correction+20, 50, 40, 5);
-        	g.fillRect(correction+20, 95,40,5);
-        	g.fillRect(correction+15, 10, 5, 40);
-        	g.fillRect(correction+60, 55, 5, 40);
-        }else if(Char == 6) 
-        {
-        	g.fillRect(correction+20, 5, 40, 5);
-        	g.fillRect(correction+20, 50, 40, 5);
-        	g.fillRect(correction+20, 95,40,5);
-        	g.fillRect(correction+15, 10, 5, 40);
-        	g.fillRect(correction+15, 55, 5, 40);
-        	g.fillRect(correction+60, 55, 5, 40);
-        }else if(Char == 7) 
-        {
-        	g.fillRect(correction+20, 5, 40, 5);
-        	g.fillRect(correction+60, 10, 5, 40);
-        	g.fillRect(correction+60, 55, 5, 40);
-        }else if(Char == 8) 
-        {
-        	g.fillRect(correction+20, 5, 40, 5);
-        	g.fillRect(correction+20, 50, 40, 5);
-        	g.fillRect(correction+20, 95,40,5);
-        	g.fillRect(correction+15, 10, 5, 40);
-        	g.fillRect(correction+15, 55, 5, 40);
-        	g.fillRect(correction+60, 10, 5, 40);
-        	g.fillRect(correction+60, 55, 5, 40);
-        }else if(Char == 9) 
-        {
-        	g.fillRect(correction+20, 5, 40, 5);
-        	g.fillRect(correction+20, 50, 40, 5);
-        	g.fillRect(correction+20, 95,40,5);
-        	g.fillRect(correction+15, 10, 5, 40);
-        	g.fillRect(correction+60, 10, 5, 40);
-        	g.fillRect(correction+60, 55, 5, 40);
-        }else if(Char == 10) 
-        {
-        	g.fillRect(correction+20, 5, 40, 5);
-        	g.fillRect(correction+20, 50, 40, 5);
-        	g.fillRect(correction+15, 10, 5, 40);
-        	g.fillRect(correction+15, 55, 5, 40);
-        	g.fillRect(correction+60, 10, 5, 40);
-        	g.fillRect(correction+60, 55, 5, 40);
-        }else if(Char == 11) 
-        {
-        	g.fillRect(correction+20, 50, 40, 5);
-        	g.fillRect(correction+20, 95,40,5);
-        	g.fillRect(correction+15, 10, 5, 40);
-        	g.fillRect(correction+60, 10, 5, 40);
-        	g.fillRect(correction+60, 55, 5, 40);
-        }else if(Char == 12) 
-        {
-        	g.fillRect(correction+20, 5, 40, 5);
-        	g.fillRect(correction+20, 95,40,5);
-        	g.fillRect(correction+15, 10, 5, 40);
-        	g.fillRect(correction+15, 55, 5, 40);
-        }else if(Char == 13) 
-        {
-        	g.fillRect(correction+20, 50, 40, 5);
-        	g.fillRect(correction+20, 95,40,5);
-        	g.fillRect(correction+15, 55, 5, 40);
-        	g.fillRect(correction+60, 10, 5, 40);
-        	g.fillRect(correction+60, 55, 5, 40);
-        }else if(Char == 14) 
-        {
-        	g.fillRect(correction+20, 5, 40, 5);
-        	g.fillRect(correction+20, 50, 40, 5);
-        	g.fillRect(correction+20, 95,40,5);
-        	g.fillRect(correction+15, 10, 5, 40);
-        	g.fillRect(correction+15, 55, 5, 40);
-        }else if(Char == 15) 
-        {
-        	g.fillRect(correction+20, 5, 40, 5);
-        	g.fillRect(correction+20, 50, 40, 5);
-        	g.fillRect(correction+15, 10, 5, 40);
-        	g.fillRect(correction+15, 55, 5, 40);
-        }
+    	if((Char & 0x01) == 1) 
+    	{
+        	g.fillRect(correction+20, 95,horizontalWidth,horizontalHeight);
+    	}
+    	if((Char & 0x02) == 1) 
+    	{
+    		g.fillRect(correction+60, 55, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x04) == 1) 
+    	{
+    		g.fillRect(correction+60, 10, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x08) == 1)
+    	{
+    		g.fillRect(correction+20, 5, horizontalWidth, horizontalHeight);
+    	}
+    	if((Char & 0x10) == 1) 
+    	{
+    		g.fillRect(correction+15, 10, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x20) == 1) 
+    	{
+    		g.fillRect(correction+15, 55, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x40) == 1) 
+    	{
+    		g.fillRect(correction+20, 50, horizontalWidth, horizontalHeight);
+    	}
+    	if((Char & 0x80) == 1) 
+    	{
+    		// TODO: implement dot
+    	}
     }
+    
     public void paintSecond(Graphics g,int Char) 
     {
     	g.setColor(Color.red);
-        if(Char == 0) 
-        {
-        	g.fillRect(correction+20+80, 5, 40, 5);
-        	g.fillRect(correction+20+80, 95,40,5);
-        	g.fillRect(correction+15+80, 10, 5, 40);
-        	g.fillRect(correction+15+80, 55, 5, 40);
-        	g.fillRect(correction+60+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 55, 5, 40);
-        }else if(Char == 1) 
-        {
-        	g.fillRect(correction+60+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 55, 5, 40);
-        }else if(Char == 2) 
-        {
-        	g.fillRect(correction+20+80, 5, 40, 5);
-        	g.fillRect(correction+20+80, 50, 40, 5);
-        	g.fillRect(correction+20+80, 95,40,5);
-        	g.fillRect(correction+15+80, 55, 5, 40);
-        	g.fillRect(correction+60+80, 10, 5, 40);
-        }else if(Char == 3) 
-        {
-        	g.fillRect(correction+20+80, 5, 40, 5);
-        	g.fillRect(correction+20+80, 50, 40, 5);
-        	g.fillRect(correction+20+80, 95,40,5);
-        	g.fillRect(correction+60+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 55, 5, 40);
-        }else if(Char == 4) 
-        {
-        	g.fillRect(correction+20+80, 50, 40, 5);
-        	g.fillRect(correction+15+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 55, 5, 40);
-        	
-        }else if(Char == 5) 
-        {
-        	g.fillRect(correction+20+80, 5, 40, 5);
-        	g.fillRect(correction+20+80, 50, 40, 5);
-        	g.fillRect(correction+20+80, 95,40,5);
-        	g.fillRect(correction+15+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 55, 5, 40);
-        }else if(Char == 6) 
-        {
-        	g.fillRect(correction+20+80, 5, 40, 5);
-        	g.fillRect(correction+20+80, 50, 40, 5);
-        	g.fillRect(correction+20+80, 95,40,5);
-        	g.fillRect(correction+15+80, 10, 5, 40);
-        	g.fillRect(correction+15+80, 55, 5, 40);
-        	g.fillRect(correction+60+80, 55, 5, 40);
-        }else if(Char == 7) 
-        {
-        	g.fillRect(correction+20+80, 5, 40, 5);
-        	g.fillRect(correction+60+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 55, 5, 40);
-        }else if(Char == 8) 
-        {
-        	g.fillRect(correction+20+80, 5, 40, 5);
-        	g.fillRect(correction+20+80, 50, 40, 5);
-        	g.fillRect(correction+20+80, 95,40,5);
-        	g.fillRect(correction+15+80, 10, 5, 40);
-        	g.fillRect(correction+15+80, 55, 5, 40);
-        	g.fillRect(correction+60+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 55, 5, 40);
-        }else if(Char == 9) 
-        {
-        	g.fillRect(correction+20+80, 5, 40, 5);
-        	g.fillRect(correction+20+80, 50, 40, 5);
-        	g.fillRect(correction+20+80, 95,40,5);
-        	g.fillRect(correction+1+805, 10, 5, 40);
-        	g.fillRect(correction+60+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 55, 5, 40);
-        }else if(Char == 10) 
-        {
-        	g.fillRect(correction+20+80, 5, 40, 5);
-        	g.fillRect(correction+20+80, 50, 40, 5);
-        	g.fillRect(correction+15+80, 10, 5, 40);
-        	g.fillRect(correction+15+80, 55, 5, 40);
-        	g.fillRect(correction+60+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 55, 5, 40);
-        }else if(Char == 11) 
-        {
-        	g.fillRect(correction+20+80, 50, 40, 5);
-        	g.fillRect(correction+20+80, 95,40,5);
-        	g.fillRect(correction+15+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 55, 5, 40);
-        }else if(Char == 12) 
-        {
-        	g.fillRect(correction+20+80, 5, 40, 5);
-        	g.fillRect(correction+20+80, 95,40,5);
-        	g.fillRect(correction+15+80, 10, 5, 40);
-        	g.fillRect(correction+15+80, 55, 5, 40);
-        }else if(Char == 13) 
-        {
-        	g.fillRect(correction+20+80, 50, 40, 5);
-        	g.fillRect(correction+20+80, 95,40,5);
-        	g.fillRect(correction+15+80, 55, 5, 40);
-        	g.fillRect(correction+60+80, 10, 5, 40);
-        	g.fillRect(correction+60+80, 55, 5, 40);
-        }else if(Char == 14) 
-        {
-        	g.fillRect(correction+20+80, 5, 40, 5);
-        	g.fillRect(correction+20+80, 50, 40, 5);
-        	g.fillRect(correction+20+80, 95,40,5);
-        	g.fillRect(correction+15+80, 10, 5, 40);
-        	g.fillRect(correction+15+80, 55, 5, 40);
-        }else if(Char == 15) 
-        {
-        	g.fillRect(correction+20+80, 5, 40, 5);
-        	g.fillRect(correction+20+80, 50, 40, 5);
-        	g.fillRect(correction+15+80, 10, 5, 40);
-        	g.fillRect(correction+15+80, 55, 5, 40);
-        }    	
+    	if((Char & 0x01) == 1) 
+    	{
+    		g.fillRect(correction+20+secondOffSet, 95,horizontalWidth,horizontalHeight);
+    	}
+    	if((Char & 0x02) == 1) 
+    	{
+    		g.fillRect(correction+60+secondOffSet, 55, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x04) == 1) 
+    	{
+    		g.fillRect(correction+60+secondOffSet, 10, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x08) == 1)
+    	{
+    		g.fillRect(correction+20+secondOffSet, 5, horizontalWidth, horizontalHeight);
+    	}
+    	if((Char & 0x10) == 1) 
+    	{
+    		g.fillRect(correction+15+secondOffSet, 10, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x20) == 1) 
+    	{
+    		g.fillRect(correction+15+secondOffSet, 55, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x40) == 1) 
+    	{
+    		g.fillRect(correction+20+secondOffSet, 50, horizontalWidth, horizontalHeight);
+    	}
+    	if((Char & 0x80) == 1) 
+    	{
+    		// TODO: implement dot
+    	}   	
     }
+    
     public void paintThird(Graphics g,int Char) 
     {
     	g.setColor(Color.red);
-        if(Char == 0) 
-        {
-        	g.fillRect(correction+20+160, 5, 40, 5);
-        	g.fillRect(correction+20+160, 95,40,5);
-        	g.fillRect(correction+15+160, 10, 5, 40);
-        	g.fillRect(correction+15+160, 55, 5, 40);
-        	g.fillRect(correction+60+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 55, 5, 40);
-        }else if(Char == 1) 
-        {
-        	g.fillRect(correction+60+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 55, 5, 40);
-        }else if(Char == 2) 
-        {
-        	g.fillRect(correction+20+160, 5, 40, 5);
-        	g.fillRect(correction+20+160, 50, 40, 5);
-        	g.fillRect(correction+20+160, 95,40,5);
-        	g.fillRect(correction+15+160, 55, 5, 40);
-        	g.fillRect(correction+60+160, 10, 5, 40);
-        }else if(Char == 3) 
-        {
-        	g.fillRect(correction+20+160, 5, 40, 5);
-        	g.fillRect(correction+20+160, 50, 40, 5);
-        	g.fillRect(correction+20+160, 95,40,5);
-        	g.fillRect(correction+60+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 55, 5, 40);
-        }else if(Char == 4) 
-        {
-        	g.fillRect(correction+20+160, 50, 40, 5);
-        	g.fillRect(correction+15+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 55, 5, 40);
-        	
-        }else if(Char == 5) 
-        {
-        	g.fillRect(correction+20+160, 5, 40, 5);
-        	g.fillRect(correction+20+160, 50, 40, 5);
-        	g.fillRect(correction+20+160, 95,40,5);
-        	g.fillRect(correction+15+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 55, 5, 40);
-        }else if(Char == 6) 
-        {
-        	g.fillRect(correction+20+160, 5, 40, 5);
-        	g.fillRect(correction+20+160, 50, 40, 5);
-        	g.fillRect(correction+20+160, 95,40,5);
-        	g.fillRect(correction+15+160, 10, 5, 40);
-        	g.fillRect(correction+15+160, 55, 5, 40);
-        	g.fillRect(correction+60+160, 55, 5, 40);
-        }else if(Char == 7) 
-        {
-        	g.fillRect(correction+20+160, 5, 40, 5);
-        	g.fillRect(correction+60+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 55, 5, 40);
-        }else if(Char == 8) 
-        {
-        	g.fillRect(correction+20+160, 5, 40, 5);
-        	g.fillRect(correction+20+160, 50, 40, 5);
-        	g.fillRect(correction+20+160, 95,40,5);
-        	g.fillRect(correction+15+160, 10, 5, 40);
-        	g.fillRect(correction+15+160, 55, 5, 40);
-        	g.fillRect(correction+60+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 55, 5, 40);
-        }else if(Char == 9) 
-        {
-        	g.fillRect(correction+20+160, 5, 40, 5);
-        	g.fillRect(correction+20+160, 50, 40, 5);
-        	g.fillRect(correction+20+160, 95,40,5);
-        	g.fillRect(correction+15+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 55, 5, 40);
-        }else if(Char == 10) 
-        {
-        	g.fillRect(correction+20+160, 5, 40, 5);
-        	g.fillRect(correction+20+160, 50, 40, 5);
-        	g.fillRect(correction+15+160, 10, 5, 40);
-        	g.fillRect(correction+15+160, 55, 5, 40);
-        	g.fillRect(correction+60+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 55, 5, 40);
-        }else if(Char == 11) 
-        {
-        	g.fillRect(correction+20+160, 50, 40, 5);
-        	g.fillRect(correction+20+160, 95,40,5);
-        	g.fillRect(correction+15+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 55, 5, 40);
-        }else if(Char == 12) 
-        {
-        	g.fillRect(correction+20+160, 5, 40, 5);
-        	g.fillRect(correction+20+160, 95,40,5);
-        	g.fillRect(correction+15+160, 10, 5, 40);
-        	g.fillRect(correction+15+160, 55, 5, 40);
-        }else if(Char == 13) 
-        {
-        	g.fillRect(correction+20+160, 50, 40, 5);
-        	g.fillRect(correction+20+160, 95,40,5);
-        	g.fillRect(correction+15+160, 55, 5, 40);
-        	g.fillRect(correction+60+160, 10, 5, 40);
-        	g.fillRect(correction+60+160, 55, 5, 40);
-        }else if(Char == 14) 
-        {
-        	g.fillRect(correction+20+160, 5, 40, 5);
-        	g.fillRect(correction+20+160, 50, 40, 5);
-        	g.fillRect(correction+20+160, 95,40,5);
-        	g.fillRect(correction+15+160, 10, 5, 40);
-        	g.fillRect(correction+15+160, 55, 5, 40);
-        }else if(Char == 15) 
-        {
-        	g.fillRect(correction+20+160, 5, 40, 5);
-        	g.fillRect(correction+20+160, 50, 40, 5);
-        	g.fillRect(correction+15+160, 10, 5, 40);
-        	g.fillRect(correction+15+160, 55, 5, 40);
-        }    	
+    	if((Char & 0x01) == 1) 
+    	{
+    		g.fillRect(correction+20+thirdOffSet, 95,horizontalWidth,horizontalHeight);
+    	}
+    	if((Char & 0x02) == 1) 
+    	{
+    		g.fillRect(correction+60+thirdOffSet, 55, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x04) == 1) 
+    	{
+    		g.fillRect(correction+60+thirdOffSet, 10, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x08) == 1)
+    	{
+    		g.fillRect(correction+20+thirdOffSet, 5, horizontalWidth, horizontalHeight);
+    	}
+    	if((Char & 0x10) == 1) 
+    	{
+    		g.fillRect(correction+15+thirdOffSet, 10, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x20) == 1) 
+    	{
+    		g.fillRect(correction+15+thirdOffSet, 55, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x40) == 1) 
+    	{
+    		g.fillRect(correction+20+thirdOffSet, 50, horizontalWidth, horizontalHeight);
+    	}
+    	if((Char & 0x80) == 1) 
+    	{
+    		// TODO: implement dot
+    	}   	
     }
+    
     public void paintFourth(Graphics g,int Char) 
     {
     	g.setColor(Color.red);
-        if(Char == 0) 
-        {
-        	g.fillRect(correction+20+240, 5, 40, 5);
-        	g.fillRect(correction+20+240, 95,40,5);
-        	g.fillRect(correction+15+240, 10, 5, 40);
-        	g.fillRect(correction+15+240, 55, 5, 40);
-        	g.fillRect(correction+60+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 55, 5, 40);
-        }else if(Char == 1) 
-        {
-        	g.fillRect(correction+60+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 55, 5, 40);
-        }else if(Char == 2) 
-        {
-        	g.fillRect(correction+20+240, 5, 40, 5);
-        	g.fillRect(correction+20+240, 50, 40, 5);
-        	g.fillRect(correction+20+240, 95,40,5);
-        	g.fillRect(correction+15+240, 55, 5, 40);
-        	g.fillRect(correction+60+240, 10, 5, 40);
-        }else if(Char == 3) 
-        {
-        	g.fillRect(correction+20+240, 5, 40, 5);
-        	g.fillRect(correction+20+240, 50, 40, 5);
-        	g.fillRect(correction+20+240, 95,40,5);
-        	g.fillRect(correction+60+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 55, 5, 40);
-        }else if(Char == 4) 
-        {
-        	g.fillRect(correction+20+240, 50, 40, 5);
-        	g.fillRect(correction+15+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 55, 5, 40);
-        	
-        }else if(Char == 5) 
-        {
-        	g.fillRect(correction+20+240, 5, 40, 5);
-        	g.fillRect(correction+20+240, 50, 40, 5);
-        	g.fillRect(correction+20+240, 95,40,5);
-        	g.fillRect(correction+15+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 55, 5, 40);
-        }else if(Char == 6) 
-        {
-        	g.fillRect(correction+20+240, 5, 40, 5);
-        	g.fillRect(correction+20+240, 50, 40, 5);
-        	g.fillRect(correction+20+240, 95,40,5);
-        	g.fillRect(correction+15+240, 10, 5, 40);
-        	g.fillRect(correction+15+240, 55, 5, 40);
-        	g.fillRect(correction+60+240, 55, 5, 40);
-        }else if(Char == 7) 
-        {
-        	g.fillRect(correction+20+240, 5, 40, 5);
-        	g.fillRect(correction+60+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 55, 5, 40);
-        }else if(Char == 8) 
-        {
-        	g.fillRect(correction+20+240, 5, 40, 5);
-        	g.fillRect(correction+20+240, 50, 40, 5);
-        	g.fillRect(correction+20+240, 95,40,5);
-        	g.fillRect(correction+15+240, 10, 5, 40);
-        	g.fillRect(correction+15+240, 55, 5, 40);
-        	g.fillRect(correction+60+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 55, 5, 40);
-        }else if(Char == 9) 
-        {
-        	g.fillRect(correction+20+240, 5, 40, 5);
-        	g.fillRect(correction+20+240, 50, 40, 5);
-        	g.fillRect(correction+20+240, 95,40,5);
-        	g.fillRect(correction+15+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 55, 5, 40);
-        }else if(Char == 10) 
-        {
-        	g.fillRect(correction+20+240, 5, 40, 5);
-        	g.fillRect(correction+20+240, 50, 40, 5);
-        	g.fillRect(correction+15+240, 10, 5, 40);
-        	g.fillRect(correction+15+240, 55, 5, 40);
-        	g.fillRect(correction+60+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 55, 5, 40);
-        }else if(Char == 11) 
-        {
-        	g.fillRect(correction+20+240, 50, 40, 5);
-        	g.fillRect(correction+20+240, 95,40,5);
-        	g.fillRect(correction+15+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 55, 5, 40);
-        }else if(Char == 12) 
-        {
-        	g.fillRect(correction+20+240, 5, 40, 5);
-        	g.fillRect(correction+20+240, 95,40,5);
-        	g.fillRect(correction+15+240, 10, 5, 40);
-        	g.fillRect(correction+15+240, 55, 5, 40);
-        }else if(Char == 13) 
-        {
-        	g.fillRect(correction+20+240, 50, 40, 5);
-        	g.fillRect(correction+20+240, 95,40,5);
-        	g.fillRect(correction+15+240, 55, 5, 40);
-        	g.fillRect(correction+60+240, 10, 5, 40);
-        	g.fillRect(correction+60+240, 55, 5, 40);
-        }else if(Char == 14) 
-        {
-        	g.fillRect(correction+20+240, 5, 40, 5);
-        	g.fillRect(correction+20+240, 50, 40, 5);
-        	g.fillRect(correction+20+240, 95,40,5);
-        	g.fillRect(correction+15+240, 10, 5, 40);
-        	g.fillRect(correction+15+240, 55, 5, 40);
-        }else if(Char == 15) 
-        {
-        	g.fillRect(correction+20+240, 5, 40, 5);
-        	g.fillRect(correction+20+240, 50, 40, 5);
-        	g.fillRect(correction+15+240, 10, 5, 40);
-        	g.fillRect(correction+15+240, 55, 5, 40);
-        }    	
+    	if((Char & 0x01) == 1) 
+    	{
+    		g.fillRect(correction+20+fourthOffSet, 95,horizontalWidth,horizontalHeight);
+    	}
+    	if((Char & 0x02) == 1) 
+    	{
+    		g.fillRect(correction+60+fourthOffSet, 55, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x04) == 1) 
+    	{
+    		g.fillRect(correction+60+fourthOffSet, 10, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x08) == 1)
+    	{
+    		g.fillRect(correction+20+fourthOffSet, 5, horizontalWidth, horizontalHeight);
+    	}
+    	if((Char & 0x10) == 1) 
+    	{
+    		g.fillRect(correction+15+fourthOffSet, 10, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x20) == 1) 
+    	{
+    		g.fillRect(correction+15+fourthOffSet, 55, verticalWidth, verticalHeight);
+    	}
+    	if((Char & 0x40) == 1) 
+    	{
+    		g.fillRect(correction+20+fourthOffSet, 50, horizontalWidth, horizontalHeight);
+    	}
+    	if((Char & 0x80) == 1) 
+    	{
+    		// TODO: implement dot
+    	}   	
     }
     
 
@@ -508,10 +246,6 @@ public class SevenSegmentPanel extends JPanel{
     
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);       
-        //g.setColor(Color.RED);
-        //g.fillRect(squareX,squareY,squareW,squareH);
-        //g.setColor(Color.BLACK);
-        //g.drawRect(squareX,squareY,squareW,squareH);
         
         g.drawRect(correction+20, 5,40,5);
         g.drawRect(correction+20, 50,40,5);
