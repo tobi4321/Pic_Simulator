@@ -1365,8 +1365,8 @@ public class Controller {
 	 * **/
 	private void retfie() 
 	{
-		// TODO: RETFIE implementieren
-		// TODO: GIE setzen
+		memory.set_GIE(1);
+		this.memory.programmcounter = memory.popFromStack();
 		this.isNopCycle = true;
 	}
 	
@@ -1485,7 +1485,6 @@ public class Controller {
 	 * The analog input is read and written to the selected Port.
 	 * **/
 	public void refreshIO() {
-		
 		int trisA = this.memory.get_MemoryDIRECT(0x85);
 		int trisB = this.memory.get_MemoryDIRECT(0x86);
 		// set the Tris register from Memory

@@ -577,42 +577,42 @@ public class Simulator_Window {
 		
 		lbl_rb_tris7 = new JLabel("I");
 		lbl_rb_tris7.setAlignmentX(0.5f);
-		lbl_rb_tris7.setBounds(282, 29, 14, 14);
+		lbl_rb_tris7.setBounds(114, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris7);
 		
 		lbl_rb_tris6 = new JLabel("I");
 		lbl_rb_tris6.setAlignmentX(0.5f);
-		lbl_rb_tris6.setBounds(258, 29, 14, 14);
+		lbl_rb_tris6.setBounds(138, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris6);
 		
 		lbl_rb_tris5 = new JLabel("I");
 		lbl_rb_tris5.setAlignmentX(0.5f);
-		lbl_rb_tris5.setBounds(234, 29, 14, 14);
+		lbl_rb_tris5.setBounds(162, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris5);
 		
 		lbl_rb_tris4 = new JLabel("I");
 		lbl_rb_tris4.setAlignmentX(0.5f);
-		lbl_rb_tris4.setBounds(210, 29, 14, 14);
+		lbl_rb_tris4.setBounds(186, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris4);
 		
 		lbl_rb_tris3 = new JLabel("I");
 		lbl_rb_tris3.setAlignmentX(0.5f);
-		lbl_rb_tris3.setBounds(186, 29, 14, 14);
+		lbl_rb_tris3.setBounds(210, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris3);
 		
 		lbl_rb_tris2 = new JLabel("I");
 		lbl_rb_tris2.setAlignmentX(0.5f);
-		lbl_rb_tris2.setBounds(162, 29, 14, 14);
+		lbl_rb_tris2.setBounds(234, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris2);
 		
 		lbl_rb_tris1 = new JLabel("I");
 		lbl_rb_tris1.setAlignmentX(0.5f);
-		lbl_rb_tris1.setBounds(138, 29, 14, 14);
+		lbl_rb_tris1.setBounds(258, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris1);
 		
 		lbl_rb_tris0 = new JLabel("I");
 		lbl_rb_tris0.setAlignmentX(0.5f);
-		lbl_rb_tris0.setBounds(114, 29, 14, 14);
+		lbl_rb_tris0.setBounds(282, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris0);
 		
 		rbtn_rb_7 = new JRadioButton("");

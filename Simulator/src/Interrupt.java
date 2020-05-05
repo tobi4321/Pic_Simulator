@@ -71,7 +71,8 @@ public class Interrupt{
 		ctr.memory.pushToStack(ctr.memory.programmcounter);
 		// clearing GIE bit to disable other interrupts
 		ctr.memory.set_SRAM(0x0b, 7, 0);
-		ctr.memory.programmcounter = 0x04;
+		// Subtract 1 because the programcounter is incremented again at the end of the run loop in processor
+		ctr.memory.programmcounter = 0x04 - 1;
 	}
 	
 	/**
@@ -123,11 +124,22 @@ public class Interrupt{
 			this.rb0Edge = 0;
 		}
 		
-		if(this.rb4 != (rb & 0x10) || this.rb5 != (rb & 0x20) || this.rb6 != (rb & 0x40) || this.rb7 != (rb & 0x80)) 
-		{
+		if(this.rb4 != (rb & 0x10)) {
 			this.rbChanged = true;
+			this.rb4 = (rb & 0x10);
 		}
-		
+		if(this.rb5 != (rb & 0x20)) {
+			this.rbChanged = true;
+			this.rb5 = (rb & 0x20);
+		}
+		if(this.rb6 != (rb & 0x40)) {
+			this.rbChanged = true;
+			this.rb6 = (rb & 0x40);
+		}
+		if(this.rb7 != (rb & 0x80)) {
+			this.rbChanged = true;
+			this.rb7 = (rb & 0x80);
+		}
 	}
 
 }
