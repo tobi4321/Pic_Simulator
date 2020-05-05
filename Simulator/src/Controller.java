@@ -64,6 +64,22 @@ public class Controller {
 	protected int frequency = 1000;
 	/// Signals that the next cycle is a nop
 	protected boolean isNopCycle = false;
+	
+	/// Bool to indicate if 7 segment is actiavted or not
+	protected boolean sevenSegmentActive = false;
+	/// Bool to indicate the controlPort for 7Seg
+	/**
+	 *  1 indicates port b
+	 *  0 indicates port a
+	 */
+	protected int controlPortSelect = 0;
+	/// Bool to indicate the dataPort for 7Seg
+	/**
+	 *  0 indicates port a
+	 *  1 indicates port b
+	 */
+	protected int dataPortSelect = 1;
+	
 	/**
 	*  The Constructor, creating a new Memory and MnemonicParser.
 	*  @param pGui Is an Object of {@link Simulator_Window}
@@ -168,6 +184,31 @@ public class Controller {
 		errorView.setVisible(true);
 		errorView.lbl_ErrorTitle.setText(title);
 		errorView.lbl_ErrorText.setText(text);
+	}
+	protected void update7Segment() 
+	{
+		int controlPort = 0;
+		int dataPort = 1;
+		if(this.sevenSegmentActive) 
+		{
+			if(this.controlPortSelect == 0) 
+			{
+				controlPort = this.memory.get_MemoryDIRECT(0x05);
+			}else if(this.controlPortSelect == 1)
+			{
+				controlPort = this.memory.get_MemoryDIRECT(0x06);
+			}
+			
+			if(this.dataPortSelect == 0) 
+			{
+				dataPort = this.memory.get_MemoryDIRECT(0x05);
+			}else if(this.dataPortSelect == 0)
+			{
+				dataPort = this.memory.get_MemoryDIRECT(0x06);
+			}
+			
+			this.gui.panel_segmentCanvas.set7Segment(controlPort, dataPort);
+		}
 	}
 	
 	/**

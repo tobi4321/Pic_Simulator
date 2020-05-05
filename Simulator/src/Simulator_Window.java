@@ -17,8 +17,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.EventObject;
 
+import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -39,11 +41,16 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
+import javax.swing.JToggleButton;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 /// class Simulator_Window
 /**
 *  Grafical user interface for Pic Simualtor.
@@ -667,17 +674,56 @@ public class Simulator_Window {
 		panel_segmentOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Port 1", "Port 2", "Port 3", "Port 4"}));
+		comboBox_2.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent arg0) {
+				if(comboBox_2.getSelectedIndex() == 0) 
+				{
+					ctr.controlPortSelect = 0;
+				}else if(comboBox_2.getSelectedIndex() == 1) 
+				{
+					ctr.controlPortSelect = 1;
+				}
+			}
+		});
+		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Port A", "Port B"}));
 		panel_segmentOptions.add(comboBox_2);
 		
 		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Port 1", "Port 2", "Port 3", "Port 4"}));
+		comboBox_3.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent arg0) {
+				if(comboBox_3.getSelectedIndex() == 0) 
+				{
+					ctr.dataPortSelect = 0;
+				}else if(comboBox_3.getSelectedIndex() == 1) 
+				{
+					ctr.dataPortSelect = 1;
+				}
+			}
+		});
+		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Port A", "Port B"}));
 		panel_segmentOptions.add(comboBox_3);
 		
-		JButton btnActive = new JButton("Active");
-		panel_segmentOptions.add(btnActive);
+		JToggleButton tglbtnActivate = new JToggleButton("Activate");
+		panel_segmentOptions.add(tglbtnActivate);
+		tglbtnActivate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AbstractButton abstractButton = (AbstractButton) e.getSource();
+		          ButtonModel buttonModel = abstractButton.getModel();
+		          //boolean armed = buttonModel.isArmed();
+		          //boolean pressed = buttonModel.isPressed();
+		          boolean selected = buttonModel.isSelected();  
+				System.out.println("7-Segment: "+selected);
+				if(selected) 
+		          {
+		        	  ctr.sevenSegmentActive = true;
+		          }else 
+		          {
+		        	  ctr.sevenSegmentActive = false;
+		          }
+			}
+		});
 		frmMicrocontrollerSimulator.getContentPane().setLayout(new BoxLayout(frmMicrocontrollerSimulator.getContentPane(), BoxLayout.X_AXIS));
-		
+
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Segoe UI", Font.PLAIN, 14));

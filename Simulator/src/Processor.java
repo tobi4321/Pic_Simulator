@@ -49,7 +49,11 @@ public class Processor extends Thread{
         			ctr.executeCommand(codeLine);	// Normal Execute
     			}
     			
+    			// update all IO like Ports and 7 Segment
     			ctr.refreshIO();
+    			
+    			ctr.update7Segment();
+    			
     			
     			// set the cycle clock output for timer source
     			clkout = true;
