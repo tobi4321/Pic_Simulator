@@ -18,11 +18,6 @@ public class Memory extends Thread{
 	/// 0000 is the reset and 0004 is the interrupt value
 	protected int[] programMemory = new int[1024];
 	
-	
-	/// counter on which line the processor is
-	/// default is 0 to indicate a reset
-	protected int programmcounter = 0;
-	
 	/// w_register storage for operations
 	protected int[] w_register = new int[8];
 	
