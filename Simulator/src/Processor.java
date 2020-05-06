@@ -25,12 +25,10 @@ public class Processor extends Thread{
 	}
 	
     public void run() {
-    	while (!exit) {  
+    	ctr.memory.set_PROGRAMMCOUNTER(0);
+    	while (!exit && ctr.memory.get_PROGRAMMCOUNTER() < ctr.memory.programMemory.length) {  
     		try {
-    		ctr.memory.set_PROGRAMMCOUNTER(0);
-    		while(ctr.memory.get_PROGRAMMCOUNTER() < ctr.memory.programMemory.length) 
-    		{
-
+    			System.out.println(ctr.memory.get_PROGRAMMCOUNTER() + " - " + ctr.memory.programMemory.length);
     			ctr.setCodeViewCounter(ctr.programCounterList[ctr.memory.get_PROGRAMMCOUNTER()]);
     			this.oldProgrammCounter = ctr.memory.get_PROGRAMMCOUNTER();
     			
@@ -84,7 +82,6 @@ public class Processor extends Thread{
                 	stopThread();
                 }
     			ctr.memory.set_PROGRAMMCOUNTER(ctr.memory.get_PROGRAMMCOUNTER() + 1);
-    		}
 
     		}
     		catch(InterruptedException e) {
