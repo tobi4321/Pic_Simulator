@@ -1400,7 +1400,15 @@ public class Controller {
 	private void sleep() 
 	{
 		// TODO: Sleep implementieren.
+		
 		// TODO: Power Down Status Bit und Time Out Statusbit setzen.
+		
+		// TODO: Wenn Watchdog aktiv:
+		this.memory.set_PD(0);
+		this.memory.set_TO(1);
+		
+		this.proc.isInSleep = true;
+		this.gui.rdbtn_sleep.setSelected(true);
 	}
 	
 	/**
@@ -1699,6 +1707,11 @@ public class Controller {
 	protected void highlightCell(int x, int y)
 	{
 		this.gui.highlightCell(x, y);
+	}
+	protected void wakeUpSleep() 
+	{
+		// TODO: Wake Up Implementieren
+		this.proc.isInSleep = false;
 	}
 
 }

@@ -14,6 +14,7 @@ public class Processor extends Thread{
 	int oldProgrammCounter = 0;
 	protected boolean debugging = false;
 	protected boolean continueDebug = false;
+	protected boolean isInSleep = false;
 	
 	protected boolean clkout = false;
 	private static final int NOP = 0;
@@ -67,10 +68,16 @@ public class Processor extends Thread{
     			ctr.isr.checkRBISR();
     			
     			// check all interrupt flags
-    			ctr.isr.checkTrigger();
+    			ctr.isr.checkInterrupt();
     			
     			clkout = false;
-    			
+    			while(this.isInSleep)
+    			{
+    				sleep(10);
+    				if (ctr.isr.checkInterruptFlags()) {
+    					ctr.wakeUpSleep();
+    				}
+    			}
     			if (this.debugging) {
     				while(!continueDebug) {
     					sleep(100);

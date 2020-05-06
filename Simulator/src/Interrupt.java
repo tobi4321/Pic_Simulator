@@ -26,55 +26,56 @@ public class Interrupt{
 	{
 		this.ctr = pCtr;
 	}
+
 	/**
 	 *  checking all triggers for a interrupt
 	 */
-	public void checkTrigger() 
-	{
-       if(ctr.memory.get_Memory(0x0b, 7) == 1) 
-       {
+	public boolean checkInterruptFlags() {
     	   // check T0IF and T0IE
     	   if(ctr.memory.get_Memory(0x0b, 2) == 1 && ctr.memory.get_Memory(0x0b, 5) == 1) 
     	   {
     		   System.out.println("Timer0 Interrupt occured");
-    		   setISR();
+    		   return true;
     	   }else
     	   // check INTF and INTE
     	   if(ctr.memory.get_Memory(0x0b, 1) == 1 && ctr.memory.get_Memory(0x0b, 4) == 1) 
     	   {
     		   System.out.println("INTF Interrupt occured");
-    		   setISR();
+    		   return true;
     	   }else
     	   // check RBIF and RBIE
     	   if(ctr.memory.get_Memory(0x0b, 0) == 1 && ctr.memory.get_Memory(0x0b, 3) == 1) 
     	   {
     		   System.out.println("RB Interrupt occured");
-    		   setISR();
+    		   return true;
     	   }else
     	   // check EEIF and EEIE
     	   if(ctr.memory.get_Memory(0x88, 4) == 1 && ctr.memory.get_Memory(0x0b, 6) == 1) 
     	   {
     		   System.out.println("INTF Interrupt occured");
-    		   setISR();
+    		   return true;
     	   }
-       }
+    	   // No Interrupt
+    	   return false;
 	}
-	
 	/**
 	 * execution if a interrupt occured
 	 * saving the current pc
 	 * jumping to pc 0x04
 	 * clear GIE bit
 	 */
-	private void setISR() 
+	public void checkInterrupt() 
 	{
-		//ctr.memory.pushToStack(ctr.memory.programmcounter);
-		ctr.memory.pushToStack(ctr.memory.get_PROGRAMMCOUNTER());
-		// clearing GIE bit to disable other interrupts
-		ctr.memory.set_SRAM(0x0b, 7, 0);
-		// Subtract 1 because the programcounter is incremented again at the end of the run loop in processor
-		//ctr.memory.programmcounter = 0x04 - 1;
-		ctr.memory.set_PROGRAMMCOUNTER(0x04 - 1);
+		// If Global interrupts are enabled and an interrupt occured
+		if (ctr.memory.get_Memory(0x0b, 7) == 1 && checkInterruptFlags()) {
+			//ctr.memory.pushToStack(ctr.memory.programmcounter);
+			ctr.memory.pushToStack(ctr.memory.get_PROGRAMMCOUNTER());
+			// clearing GIE bit to disable other interrupts
+			ctr.memory.set_SRAM(0x0b, 7, 0);
+			// Subtract 1 because the programcounter is incremented again at the end of the run loop in processor
+			//ctr.memory.programmcounter = 0x04 - 1;
+			ctr.memory.set_PROGRAMMCOUNTER(0x04 - 1);
+		}
 	}
 	
 	/**

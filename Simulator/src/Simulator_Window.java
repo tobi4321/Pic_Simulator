@@ -72,6 +72,7 @@ public class Simulator_Window {
 	protected DefaultTableModel tbl_pcl;
 	protected JTable table_Memory;
 	protected JTable table_special_regs;
+	protected JRadioButton rdbtn_sleep;
 	// members to input values into register memory
 	private JTextField txtField_input;
 	private JButton btn_InputRegister;
@@ -722,6 +723,15 @@ public class Simulator_Window {
 		          }
 			}
 		});
+		
+		rdbtn_sleep = new JRadioButton("Is in sleep");
+		rdbtn_sleep.setEnabled(false);
+		GridBagConstraints gbc_rdbtn_sleep = new GridBagConstraints();
+		gbc_rdbtn_sleep.insets = new Insets(0, 0, 5, 0);
+		gbc_rdbtn_sleep.gridx = 0;
+		gbc_rdbtn_sleep.gridy = 4;
+		panel_IO.add(rdbtn_sleep, gbc_rdbtn_sleep);
+
 		frmMicrocontrollerSimulator.getContentPane().setLayout(new BoxLayout(frmMicrocontrollerSimulator.getContentPane(), BoxLayout.X_AXIS));
 
 		

@@ -212,6 +212,16 @@ public class Memory extends Thread{
 		set_SRAMDIRECT(0x0B, 7, value);
 	}
 	
+	protected void set_PD(int value)
+	{
+		set_SRAMDIRECT(0x03, 3, value);
+	}
+	
+	protected void set_TO(int value)
+	{
+		set_SRAMDIRECT(0x03, 4, value);
+	}
+	
 	//set General Purpose registers SRAM
 	protected void set_SRAM(int fileaddress, int bit, int value) 
 	{
