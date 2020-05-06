@@ -27,6 +27,8 @@ public class Controller {
 	protected Timer tmr0;
 	/// Interrupt object to check interrupt flags and if needed set pc to 0004
 	protected Interrupt isr;
+	/// Object of the Watchdog.
+	protected Watchdog wtd;
 	
 	protected boolean processorRunning = false;
 	/// Displaying if the code is compiled.
@@ -254,7 +256,9 @@ public class Controller {
 		if (this.isCompiled) {
 			if (!this.processorRunning) {
 				proc = new Processor(this, debugging);
-				proc.start();	
+				proc.start();
+				wtd = new Watchdog(this);
+				wtd.start();
 				this.processorRunning = true;
 			}
 			else {
@@ -274,6 +278,7 @@ public class Controller {
 		System.out.println("Simulation stopped...");
 		this.processorRunning = false;
 		proc.stopThread();
+		wtd.stopThread();
 	}
 	
 	/**
@@ -1712,6 +1717,7 @@ public class Controller {
 	{
 		// TODO: Wake Up Implementieren
 		this.proc.isInSleep = false;
+		this.gui.rdbtn_sleep.setSelected(false);
 	}
 
 }

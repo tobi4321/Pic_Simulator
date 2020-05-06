@@ -28,7 +28,7 @@ public class Processor extends Thread{
     public void run() {
     	while (!exit) {  
     		try {
-
+    		
     		for(ctr.memory.programmcounter = 0; ctr.memory.programmcounter < ctr.memory.programMemory.length; ctr.memory.programmcounter++) 
     		{
     			// Write Programmcounter in PCL
@@ -98,7 +98,7 @@ public class Processor extends Thread{
     		catch(InterruptedException e) {
     		}
     	}
-    	System.out.println("Thread stopped");
+    	System.out.println("Processor thread stopped");
     }
     public void continueDebugStep() {
     	this.continueDebug = true;
