@@ -25,25 +25,28 @@ public class Processor extends Thread{
 	}
 	
     public void run() {
-    	ctr.memory.set_PROGRAMMCOUNTER(0);
-    	while (!exit && ctr.memory.get_PROGRAMMCOUNTER() < ctr.memory.programMemory.length) {  
+    	while (!exit) {  
     		try {
-    			System.out.println(ctr.memory.get_PROGRAMMCOUNTER() + " - " + ctr.memory.programMemory.length);
-    			ctr.setCodeViewCounter(ctr.programCounterList[ctr.memory.get_PROGRAMMCOUNTER()]);
-    			this.oldProgrammCounter = ctr.memory.get_PROGRAMMCOUNTER();
+
+    		for(ctr.memory.programmcounter = 0; ctr.memory.programmcounter < ctr.memory.programMemory.length; ctr.memory.programmcounter++) 
+    		{
+    			// Write Programmcounter in PCL
+    			ctr.memory.set_SRAMDIRECT(0x02, ctr.memory.programmcounter & 0xFF);
     			
-    			ctr.updateSpecialRegTable(Integer.toHexString(ctr.memory.get_PROGRAMMCOUNTER()), 4, 1);
-    			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.memory.get_PROGRAMMCOUNTER()), 4, 2);
+    			ctr.setCodeViewCounter(ctr.programCounterList[ctr.memory.programmcounter]);
+    			this.oldProgrammCounter = ctr.memory.programmcounter;
+    			
+    			ctr.updateSpecialRegTable(Integer.toHexString(ctr.memory.programmcounter), 4, 1);
+    			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.memory.programmcounter), 4, 2);
     			
     			// get the current code line as string
-    			int codeLine = ctr.memory.programMemory[ctr.memory.get_PROGRAMMCOUNTER()];
+    			int codeLine = ctr.memory.programMemory[ctr.memory.programmcounter];
     			
     			ctr.clearHighlights();
     			if(ctr.isNopCycle) {
         			ctr.executeCommand(NOP);		// NOP
         			ctr.isNopCycle = false;
-        			//ctr.memory.programmcounter--;
-        			ctr.memory.set_PROGRAMMCOUNTER(ctr.memory.get_PROGRAMMCOUNTER() - 1);
+        			ctr.memory.programmcounter--;
     			}else {	
         			ctr.executeCommand(codeLine);	// Normal Execute
     			}
@@ -77,11 +80,12 @@ public class Processor extends Thread{
     				sleep(ctr.frequency);
     			}
 
-    			if(ctr.memory.get_PROGRAMMCOUNTER() >= ctr.memory.programMemory.length) 
+    			if(ctr.memory.programmcounter >= ctr.memory.programMemory.length) 
                 {
                 	stopThread();
                 }
-    			ctr.memory.set_PROGRAMMCOUNTER(ctr.memory.get_PROGRAMMCOUNTER() + 1);
+    			
+    		}
 
     		}
     		catch(InterruptedException e) {
@@ -95,7 +99,6 @@ public class Processor extends Thread{
     public void stopThread() 
     {
     	this.exit = true;
-    	//ctr.memory.programmcounter = 65536;
-    	ctr.memory.set_PROGRAMMCOUNTER(65536);
+    	ctr.memory.programmcounter = 65536;
     }
 }
