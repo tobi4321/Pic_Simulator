@@ -303,7 +303,8 @@ public class Controller {
 				jumpers[this.jumpersCount] = pCode[i] + ":" + (i + 1);				
 				jumpersCount++;
 				
-				System.out.println("JumperMark found: "+pCode[i]+" at Line "+i+" to pc: "+this.memory.programmcounter);
+				//System.out.println("JumperMark found: "+pCode[i]+" at Line "+i+" to pc: "+this.memory.programmcounter);
+				System.out.println("JumperMark found: "+pCode[i]+" at Line "+i+" to pc: "+this.memory.get_PROGRAMMCOUNTER());
 			}
 		}
 		return pCode;
@@ -908,8 +909,9 @@ public class Controller {
 			in--;
 			if(in == 0) 
 			{
-				this.memory.programmcounter++;
-				// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
+				//this.memory.programmcounter++;
+				this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
+				// TODO: NOP
 			}
 		}
 		if(d == 0) 
@@ -964,8 +966,9 @@ public class Controller {
 		if(in == 255) 
 		{
 			in = 0;
-			this.memory.programmcounter++;
-			// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
+			//this.memory.programmcounter++;
+			this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
+			// TODO: NOP
 		}else {
 			in++;
 		}
@@ -1233,7 +1236,8 @@ public class Controller {
 		int in = memory.get_Memory(f, b);
 		if(in == 0) 
 		{
-			this.memory.programmcounter++;
+			//this.memory.programmcounter++;
+			this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
 			this.isNopCycle = true;
 		}
 	}
@@ -1250,7 +1254,8 @@ public class Controller {
 		int in = memory.get_Memory(f, b);
 		if(in == 1) 
 		{
-			this.memory.programmcounter++;
+			//this.memory.programmcounter++;
+			this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
 			this.isNopCycle = true;
 		}
 	}
@@ -1306,8 +1311,10 @@ public class Controller {
 	 * **/
 	private void call(int k) 
 	{
-		memory.pushToStack(this.memory.programmcounter);
-		this.memory.programmcounter = k-1;
+		//memory.pushToStack(this.memory.programmcounter);
+		//this.memory.programmcounter = k-1;
+		memory.pushToStack(this.memory.get_PROGRAMMCOUNTER());
+		this.memory.set_PROGRAMMCOUNTER(k + 1);
 		this.isNopCycle = true;
 	}
 	
@@ -1328,8 +1335,8 @@ public class Controller {
 	 * **/
 	private void _goto(int k) 
 	{
-		System.out.println("k: " + k);
-		this.memory.programmcounter = k-1;
+		//this.memory.programmcounter = k-1;
+		this.memory.set_PROGRAMMCOUNTER(k - 1);
 		this.isNopCycle = true;
 	}
 	
@@ -1366,7 +1373,8 @@ public class Controller {
 	private void retfie() 
 	{
 		memory.set_GIE(1);
-		this.memory.programmcounter = memory.popFromStack();
+		//this.memory.programmcounter = memory.popFromStack();
+		this.memory.set_PROGRAMMCOUNTER(memory.popFromStack());
 		this.isNopCycle = true;
 	}
 	
@@ -1378,7 +1386,8 @@ public class Controller {
 	private void retlw(int k) 
 	{
 		memory.set_WREGISTER(k);
-		this.memory.programmcounter = memory.popFromStack();
+		//this.memory.programmcounter = memory.popFromStack();
+		this.memory.set_PROGRAMMCOUNTER(memory.popFromStack());
 		this.isNopCycle = true;
 	}
 	
@@ -1389,7 +1398,8 @@ public class Controller {
 	 * **/
 	private void _return() 
 	{
-		this.memory.programmcounter = memory.popFromStack();
+		//this.memory.programmcounter = memory.popFromStack();
+		this.memory.set_PROGRAMMCOUNTER(memory.popFromStack());
 		this.isNopCycle = true;
 	}
 	

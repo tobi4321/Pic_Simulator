@@ -100,8 +100,10 @@ public class Memory extends Thread{
 			
 			// PC
 			// pc lath must be concatenated in front
-			ctr.updateSpecialRegTable(Integer.toHexString(this.programmcounter), 4, 1);
-			ctr.updateSpecialRegTable(Integer.toBinaryString(this.programmcounter), 4, 2);
+			//ctr.updateSpecialRegTable(Integer.toHexString(this.programmcounter), 4, 1);
+			//ctr.updateSpecialRegTable(Integer.toBinaryString(this.programmcounter), 4, 2);
+			ctr.updateSpecialRegTable(Integer.toHexString(this.get_PROGRAMMCOUNTER()), 4, 1);
+			ctr.updateSpecialRegTable(Integer.toBinaryString(this.get_PROGRAMMCOUNTER()), 4, 2);
 			
 			
 			// W Register
@@ -391,6 +393,11 @@ public class Memory extends Thread{
 	// Getter and Setter for programmcounter
 	protected void set_PROGRAMMCOUNTER(int counter) 
 	{
+		int PCL		=  counter & 0x00FF;
+		int PCLATH	= (counter & 0x1F00) >> 8;
+		this.set_SRAMDIRECT(0x02, PCL);
+		this.set_SRAMDIRECT(0x0A, PCLATH);
+		/*
 		programmcounter = counter;
 		String bin = Integer.toBinaryString(counter);
 		while(bin.length() < 13) 
@@ -410,12 +417,15 @@ public class Memory extends Thread{
 			}
 
 		}
-
+		 */
 	}
 	
 	protected int get_PROGRAMMCOUNTER() 
 	{
-		return programmcounter;
+		int PCL 	= this.get_MemoryDIRECT(0x02);
+		int PCLATH 	= this.get_MemoryDIRECT(0x0A);
+		int PC 		= (PCLATH << 8) | PCL;
+		return PC;
 	}
 	
 	// Getter and Setter for w-register

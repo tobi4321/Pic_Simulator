@@ -68,11 +68,13 @@ public class Interrupt{
 	 */
 	private void setISR() 
 	{
-		ctr.memory.pushToStack(ctr.memory.programmcounter);
+		//ctr.memory.pushToStack(ctr.memory.programmcounter);
+		ctr.memory.pushToStack(ctr.memory.get_PROGRAMMCOUNTER());
 		// clearing GIE bit to disable other interrupts
 		ctr.memory.set_SRAM(0x0b, 7, 0);
 		// Subtract 1 because the programcounter is incremented again at the end of the run loop in processor
-		ctr.memory.programmcounter = 0x04 - 1;
+		//ctr.memory.programmcounter = 0x04 - 1;
+		ctr.memory.set_PROGRAMMCOUNTER(0x04 - 1);
 	}
 	
 	/**
