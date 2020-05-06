@@ -219,45 +219,37 @@ public class Memory extends Thread{
 		{
 		// INDF
 		case 0:
-			highlightCell(0, bit, value);
-			highlightCell(128, bit, value);
-			dataMemory[0][bit] = value;
-			dataMemory[128][bit] = value;
+			set_SRAMDIRECT(0, bit, value);
+			set_SRAMDIRECT(128, bit, value);
 			break;
 		// PCL
 		case 2:
-			highlightCell(2, bit, value);
-			highlightCell(130, bit, value);
-			dataMemory[2][bit] = value;
-			dataMemory[130][bit] = value;
+			set_SRAMDIRECT(2, bit, value);
+			set_SRAMDIRECT(130, bit, value);
+			// Add the PCLATH when writing on PCL
+			int PCLATH 	= ctr.memory.get_MemoryDIRECT(0x0A);
+			int PCL 	= ctr.memory.get_MemoryDIRECT(0x02);
+			ctr.memory.programmcounter = ((PCLATH & 0x1F) << 8) | PCL;
 			break;
 		// Status
 		case 3:
-			highlightCell(3, bit, value);
-			highlightCell(131, bit, value);
-			dataMemory[3][bit] = value;
-			dataMemory[131][bit] = value;
+			set_SRAMDIRECT(3, bit, value);
+			set_SRAMDIRECT(131, bit, value);
 			break;
 		// FSR
 		case 4:
-			highlightCell(4, bit, value);
-			highlightCell(132, bit, value);
-			dataMemory[4][bit] = value;
-			dataMemory[132][bit] = value;
+			set_SRAMDIRECT(4, bit, value);
+			set_SRAMDIRECT(132, bit, value);
 			break;
 		// PCLATH
 		case 10:
-			highlightCell(10, bit, value);
-			highlightCell(138, bit, value);
-			dataMemory[10][bit] = value;
-			dataMemory[138][bit] = value;
+			set_SRAMDIRECT(10, bit, value);
+			set_SRAMDIRECT(138, bit, value);
 			break;
 		// INTCON
 		case 11:
-			highlightCell(11, bit, value);
-			highlightCell(139, bit, value);
-			dataMemory[11][bit] = value;
-			dataMemory[139][bit] = value;
+			set_SRAMDIRECT(11, bit, value);
+			set_SRAMDIRECT(139, bit, value);
 			break;
 		default:
 			if(dataMemory[3][5] == 0) 
@@ -266,16 +258,14 @@ public class Memory extends Thread{
 				if (fileaddress == 0x01 && this.get_Memory(0x81, 3) == 0) {
 					ctr.tmr0.preScaler = 0;
 				}
-				highlightCell(fileaddress, bit, value);
-				dataMemory[fileaddress][bit] = value;
+				set_SRAMDIRECT(fileaddress, bit, value);
 			}else if((dataMemory[3][5] == 1) && (fileaddress < 128)) 
 			{
-				highlightCell(fileaddress+128, bit, value);
-				dataMemory[fileaddress+128][bit] = value;
+				set_SRAMDIRECT(fileaddress + 128, bit, value);
+				
 			}else 
 			{
-				highlightCell(fileaddress, bit, value);
-				dataMemory[fileaddress][bit] = value;
+				set_SRAMDIRECT(fileaddress, bit, value);
 			}
 			break;	
 		}
@@ -299,6 +289,7 @@ public class Memory extends Thread{
 	{
 		highlightCell(fileaddress, bit, value);
 		dataMemory[fileaddress][bit] = value;
+		
 	}
 	
 	protected void set_SRAMDIRECT(int fileaddress, int value) 
@@ -391,7 +382,9 @@ public class Memory extends Thread{
 	// Getter and Setter for programmcounter
 	protected void set_PROGRAMMCOUNTER(int counter) 
 	{
+		//this.set_SRAMDIRECT(0x02, counter&0xFF);
 		programmcounter = counter;
+		/*
 		String bin = Integer.toBinaryString(counter);
 		while(bin.length() < 13) 
 		{
@@ -410,7 +403,7 @@ public class Memory extends Thread{
 			}
 
 		}
-
+		 */
 	}
 	
 	protected int get_PROGRAMMCOUNTER() 

@@ -30,7 +30,9 @@ public class Processor extends Thread{
 
     		for(ctr.memory.programmcounter = 0; ctr.memory.programmcounter < ctr.memory.programMemory.length; ctr.memory.programmcounter++) 
     		{
-
+    			// Write Programmcounter in PCL
+    			ctr.memory.set_SRAMDIRECT(0x02, ctr.memory.programmcounter & 0xFF);
+    			
     			ctr.setCodeViewCounter(ctr.programCounterList[ctr.memory.programmcounter]);
     			this.oldProgrammCounter = ctr.memory.programmcounter;
     			
@@ -82,6 +84,7 @@ public class Processor extends Thread{
                 {
                 	stopThread();
                 }
+    			
     		}
 
     		}

@@ -303,7 +303,7 @@ public class Controller {
 				jumpers[this.jumpersCount] = pCode[i] + ":" + (i + 1);				
 				jumpersCount++;
 				
-				System.out.println("JumperMark found: "+pCode[i]+" at Line "+i+" to pc: "+this.memory.programmcounter);
+				System.out.println("JumperMark found: "+pCode[i]+" at Line "+i+" to pc: "+this.memory.get_PROGRAMMCOUNTER());
 			}
 		}
 		return pCode;
@@ -908,8 +908,7 @@ public class Controller {
 			in--;
 			if(in == 0) 
 			{
-				this.memory.programmcounter++;
-				// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
+				this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
 			}
 		}
 		if(d == 0) 
@@ -964,8 +963,7 @@ public class Controller {
 		if(in == 255) 
 		{
 			in = 0;
-			this.memory.programmcounter++;
-			// TODO: Hier eventuell ein NOP einfügen für die ansonsten fehlende Zeitverzögerung.
+			this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
 		}else {
 			in++;
 		}
@@ -1036,7 +1034,6 @@ public class Controller {
 	{
 		int in = memory.get_WREGISTER();
 		memory.set_SRAM(f, in);
-		System.out.println(f + "   " + in);
 	}
 	
 	/**
@@ -1067,7 +1064,6 @@ public class Controller {
 			memory.set_CARRYFLAG(0);
 		}
 		int result = ((in << 1) & 0xFF) | (carry&1);
-		System.out.println("rlf: " + result);
 		if(d == 0) 
 		{
 			memory.set_WREGISTER(result);
@@ -1118,7 +1114,6 @@ public class Controller {
 		// TODO: WTF alles fucking falsch mit dc und carry flaggg
 		int w_in = memory.get_WREGISTER();
 		int f_in = memory.get_Memory(f);
-		System.out.println(f_in + " - " + w_in);
 		int result;
 		if(w_in > f_in) 
 		{
@@ -1233,7 +1228,7 @@ public class Controller {
 		int in = memory.get_Memory(f, b);
 		if(in == 0) 
 		{
-			this.memory.programmcounter++;
+			this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
 			this.isNopCycle = true;
 		}
 	}
@@ -1250,7 +1245,7 @@ public class Controller {
 		int in = memory.get_Memory(f, b);
 		if(in == 1) 
 		{
-			this.memory.programmcounter++;
+			this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
 			this.isNopCycle = true;
 		}
 	}
@@ -1268,7 +1263,6 @@ public class Controller {
 	{
 		int in = memory.get_WREGISTER();
 		int result = in + k;
-		System.out.println(in + " + " + k + " = " + result);
 		if(result > 255) 
 		{
 			this.memory.set_CARRYFLAG(1);
@@ -1306,8 +1300,10 @@ public class Controller {
 	 * **/
 	private void call(int k) 
 	{
-		memory.pushToStack(this.memory.programmcounter);
-		this.memory.programmcounter = k-1;
+		memory.pushToStack(this.memory.get_PROGRAMMCOUNTER());
+		int PCLATH = memory.get_MemoryDIRECT(0x0A);
+		int PC = ((PCLATH << 8) & 0x18) | (k - 1);
+		this.memory.set_PROGRAMMCOUNTER(PC);
 		this.isNopCycle = true;
 	}
 	
@@ -1328,8 +1324,9 @@ public class Controller {
 	 * **/
 	private void _goto(int k) 
 	{
-		System.out.println("k: " + k);
-		this.memory.programmcounter = k-1;
+		int PCLATH = memory.get_MemoryDIRECT(0x0A);
+		int PC = ((PCLATH << 8) & 0x18) | (k - 1);
+		this.memory.set_PROGRAMMCOUNTER(PC);
 		this.isNopCycle = true;
 	}
 	
@@ -1366,7 +1363,7 @@ public class Controller {
 	private void retfie() 
 	{
 		memory.set_GIE(1);
-		this.memory.programmcounter = memory.popFromStack();
+		this.memory.set_PROGRAMMCOUNTER(memory.popFromStack());
 		this.isNopCycle = true;
 	}
 	
@@ -1378,7 +1375,7 @@ public class Controller {
 	private void retlw(int k) 
 	{
 		memory.set_WREGISTER(k);
-		this.memory.programmcounter = memory.popFromStack();
+		this.memory.set_PROGRAMMCOUNTER(memory.popFromStack());
 		this.isNopCycle = true;
 	}
 	
@@ -1389,7 +1386,7 @@ public class Controller {
 	 * **/
 	private void _return() 
 	{
-		this.memory.programmcounter = memory.popFromStack();
+		this.memory.set_PROGRAMMCOUNTER(memory.popFromStack());
 		this.isNopCycle = true;
 	}
 	
