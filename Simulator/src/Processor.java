@@ -56,6 +56,10 @@ public class Processor extends Thread{
     			
     			ctr.update7Segment();
     			
+    			// add the cycle time to operationalTime and update the panel
+    			ctr.countCycleTime();
+    			System.out.println("OperationalTime: "+ctr.operationalTime);
+    			ctr.updateOperationalTime();
     			
     			// set the cycle clock output for timer source
     			clkout = true;

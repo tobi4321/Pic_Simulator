@@ -51,6 +51,7 @@ import javax.swing.table.TableModel;
 import javax.swing.JToggleButton;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.awt.GridLayout;
 /// class Simulator_Window
 /**
 *  Grafical user interface for Pic Simualtor.
@@ -117,6 +118,9 @@ public class Simulator_Window {
 	/**
 	 * Launch the application.
 	 */
+	// label for displaying the cycle time since program start
+	protected JLabel lblOperationalTime;
+	
 	public static void main(String[] args) {
 		try {
             // Set cross-platform Java L&F (also called "Metal")
@@ -328,6 +332,7 @@ public class Simulator_Window {
 		scrollPane_3.setViewportView(table_Code);
 		
 		Box verticalIO = Box.createVerticalBox();
+		verticalIO.setAlignmentY(1.0f);
 		verticalIO.setMaximumSize(new Dimension(350, 800));
 		upperArea.add(verticalIO);
 		
@@ -336,9 +341,9 @@ public class Simulator_Window {
 		panel_IO.setBorder(new EmptyBorder(4, 4, 4, 4));
 		verticalIO.add(panel_IO);
 		GridBagLayout gbl_panel_IO = new GridBagLayout();
-		gbl_panel_IO.columnWidths = new int[] {130, 0};
-		gbl_panel_IO.rowHeights = new int[] {30, 90, 90, 180, 30, 30, 300};
-		gbl_panel_IO.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_IO.columnWidths = new int[] {130};
+		gbl_panel_IO.rowHeights = new int[] {30, 30, 90, 90, 180, 180, 90, 90};
+		gbl_panel_IO.columnWeights = new double[]{1.0};
 		gbl_panel_IO.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0};
 		panel_IO.setLayout(gbl_panel_IO);
 		
@@ -350,131 +355,139 @@ public class Simulator_Window {
 		gbc_panel_RA.fill = GridBagConstraints.BOTH;
 		gbc_panel_RA.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_RA.gridx = 0;
-		gbc_panel_RA.gridy = 1;
+		gbc_panel_RA.gridy = 2;
 		panel_IO.add(panel_RA, gbc_panel_RA);
 		
 		JLabel lblAnalogOut = new JLabel("Port A");
-		lblAnalogOut.setBounds(6, 6, 46, 19);
+		lblAnalogOut.setBounds(6, 6, 71, 19);
 		lblAnalogOut.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_RA.add(lblAnalogOut);
 		
 		JLabel lblBits = new JLabel("Bits");
 		lblBits.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblBits.setBounds(62, 6, 46, 25);
+		lblBits.setBounds(115, 6, 46, 25);
 		panel_RA.add(lblBits);
 		
 		JLabel lblTris = new JLabel("Tris A");
 		lblTris.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblTris.setBounds(62, 32, 46, 19);
+		lblTris.setBounds(115, 32, 46, 19);
 		panel_RA.add(lblTris);
 		
 		JLabel lblPortA = new JLabel("Port A");
 		lblPortA.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblPortA.setBounds(62, 53, 46, 32);
+		lblPortA.setBounds(115, 53, 46, 32);
 		panel_RA.add(lblPortA);
 		
 		JLabel lbl_ra7 = new JLabel("7");
-		lbl_ra7.setBounds(118, 10, 14, 14);
+		lbl_ra7.setBounds(171, 10, 14, 14);
 		panel_RA.add(lbl_ra7);
 		
 		JLabel lbl_ra6 = new JLabel("6");
-		lbl_ra6.setBounds(142, 10, 14, 14);
+		lbl_ra6.setBounds(195, 10, 14, 14);
 		panel_RA.add(lbl_ra6);
 		
 		JLabel lbl_ra5 = new JLabel("5");
-		lbl_ra5.setBounds(166, 10, 14, 14);
+		lbl_ra5.setBounds(219, 10, 14, 14);
 		panel_RA.add(lbl_ra5);
 		
 		JLabel lbl_ra4 = new JLabel("4");
-		lbl_ra4.setBounds(190, 10, 14, 14);
+		lbl_ra4.setBounds(243, 10, 14, 14);
 		panel_RA.add(lbl_ra4);
 		
 		JLabel lbl_ra3 = new JLabel("3");
-		lbl_ra3.setBounds(214, 10, 14, 14);
+		lbl_ra3.setBounds(267, 10, 14, 14);
 		panel_RA.add(lbl_ra3);
 		
 		JLabel lbl_ra2 = new JLabel("2");
-		lbl_ra2.setBounds(238, 10, 14, 14);
+		lbl_ra2.setBounds(291, 10, 14, 14);
 		panel_RA.add(lbl_ra2);
 		
 		JLabel lbl_ra1 = new JLabel("1");
-		lbl_ra1.setBounds(262, 10, 14, 14);
+		lbl_ra1.setBounds(315, 10, 14, 14);
 		panel_RA.add(lbl_ra1);
 		
 		JLabel lbl_ra0 = new JLabel("0");
-		lbl_ra0.setBounds(286, 10, 14, 14);
+		lbl_ra0.setBounds(339, 10, 14, 14);
 		panel_RA.add(lbl_ra0);
 		
 		lbl_ra_tris7 = new JLabel("I");
+		lbl_ra_tris7.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris7.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris7.setBounds(118, 35, 14, 14);
+		lbl_ra_tris7.setBounds(171, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris7);
 		
 		lbl_ra_tris6 = new JLabel("I");
+		lbl_ra_tris6.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris6.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris6.setBounds(142, 35, 14, 14);
+		lbl_ra_tris6.setBounds(195, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris6);
 		
 		lbl_ra_tris5 = new JLabel("I");
+		lbl_ra_tris5.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris5.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris5.setBounds(166, 35, 14, 14);
+		lbl_ra_tris5.setBounds(219, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris5);
 		
 		lbl_ra_tris4 = new JLabel("I");
+		lbl_ra_tris4.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris4.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris4.setBounds(190, 35, 14, 14);
+		lbl_ra_tris4.setBounds(243, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris4);
 		
 		lbl_ra_tris3 = new JLabel("I");
+		lbl_ra_tris3.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris3.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris3.setBounds(214, 35, 14, 14);
+		lbl_ra_tris3.setBounds(267, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris3);
 		
 		lbl_ra_tris2 = new JLabel("I");
+		lbl_ra_tris2.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris2.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris2.setBounds(238, 35, 14, 14);
+		lbl_ra_tris2.setBounds(291, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris2);
 		
 		lbl_ra_tris1 = new JLabel("I");
+		lbl_ra_tris1.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris1.setBounds(262, 35, 14, 14);
+		lbl_ra_tris1.setBounds(315, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris1);
 		
 		lbl_ra_tris0 = new JLabel("I");
+		lbl_ra_tris0.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris0.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris0.setBounds(286, 35, 14, 14);
+		lbl_ra_tris0.setBounds(339, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris0);
 		
 		rbtn_ra_7 = new JRadioButton("");
-		rbtn_ra_7.setBounds(114, 53, 21, 23);
+		rbtn_ra_7.setBounds(167, 53, 21, 23);
 		panel_RA.add(rbtn_ra_7);
 		
 		rbtn_ra_6 = new JRadioButton("");
-		rbtn_ra_6.setBounds(135, 53, 21, 23);
+		rbtn_ra_6.setBounds(188, 53, 21, 23);
 		panel_RA.add(rbtn_ra_6);
 		
 		rbtn_ra_5 = new JRadioButton("");
-		rbtn_ra_5.setBounds(159, 53, 21, 23);
+		rbtn_ra_5.setBounds(212, 53, 21, 23);
 		panel_RA.add(rbtn_ra_5);
 		
 		rbtn_ra_4 = new JRadioButton("");
-		rbtn_ra_4.setBounds(183, 53, 21, 23);
+		rbtn_ra_4.setBounds(236, 53, 21, 23);
 		panel_RA.add(rbtn_ra_4);
 		
 		rbtn_ra_3 = new JRadioButton("");
-		rbtn_ra_3.setBounds(207, 53, 21, 23);
+		rbtn_ra_3.setBounds(260, 53, 21, 23);
 		panel_RA.add(rbtn_ra_3);
 		
 		rbtn_ra_2 = new JRadioButton("");
-		rbtn_ra_2.setBounds(231, 53, 21, 23);
+		rbtn_ra_2.setBounds(284, 53, 21, 23);
 		panel_RA.add(rbtn_ra_2);
 		
 		rbtn_ra_1 = new JRadioButton("");
-		rbtn_ra_1.setBounds(255, 53, 21, 23);
+		rbtn_ra_1.setBounds(308, 53, 21, 23);
 		panel_RA.add(rbtn_ra_1);
 		
 		rbtn_ra_0 = new JRadioButton("");
-		rbtn_ra_0.setBounds(279, 53, 21, 23);
+		rbtn_ra_0.setBounds(332, 53, 21, 23);
 		panel_RA.add(rbtn_ra_0);
 		
 		JPanel panel_Quarzfrequenz = new JPanel();
@@ -520,131 +533,139 @@ public class Simulator_Window {
 		gbc_panel_RB.fill = GridBagConstraints.BOTH;
 		gbc_panel_RB.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_RB.gridx = 0;
-		gbc_panel_RB.gridy = 2;
+		gbc_panel_RB.gridy = 3;
 		panel_IO.add(panel_RB, gbc_panel_RB);
 		
 		JLabel lblAnalogIn = new JLabel("Port B");
-		lblAnalogIn.setBounds(6, 7, 46, 19);
+		lblAnalogIn.setBounds(6, 7, 72, 19);
 		lblAnalogIn.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_RB.add(lblAnalogIn);
 		
 		JLabel label = new JLabel("Bits");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label.setBounds(58, 0, 46, 25);
+		label.setBounds(116, 0, 46, 25);
 		panel_RB.add(label);
 		
 		JLabel lblTrisB = new JLabel("Tris B");
 		lblTrisB.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblTrisB.setBounds(58, 26, 46, 19);
+		lblTrisB.setBounds(116, 26, 46, 19);
 		panel_RB.add(lblTrisB);
 		
 		JLabel lblPortB = new JLabel("Port B");
 		lblPortB.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblPortB.setBounds(58, 47, 46, 32);
+		lblPortB.setBounds(116, 47, 46, 32);
 		panel_RB.add(lblPortB);
 		
 		JLabel lbl_rb7 = new JLabel("7");
-		lbl_rb7.setBounds(114, 4, 14, 14);
+		lbl_rb7.setBounds(172, 4, 14, 14);
 		panel_RB.add(lbl_rb7);
 		
 		JLabel lbl_rb6 = new JLabel("6");
-		lbl_rb6.setBounds(138, 4, 14, 14);
+		lbl_rb6.setBounds(196, 4, 14, 14);
 		panel_RB.add(lbl_rb6);
 		
 		JLabel lbl_rb5 = new JLabel("5");
-		lbl_rb5.setBounds(162, 4, 14, 14);
+		lbl_rb5.setBounds(220, 4, 14, 14);
 		panel_RB.add(lbl_rb5);
 		
 		JLabel lbl_rb4 = new JLabel("4");
-		lbl_rb4.setBounds(186, 4, 14, 14);
+		lbl_rb4.setBounds(244, 4, 14, 14);
 		panel_RB.add(lbl_rb4);
 		
 		JLabel lbl_rb3 = new JLabel("3");
-		lbl_rb3.setBounds(210, 4, 14, 14);
+		lbl_rb3.setBounds(268, 4, 14, 14);
 		panel_RB.add(lbl_rb3);
 		
 		JLabel lbl_rb2 = new JLabel("2");
-		lbl_rb2.setBounds(234, 4, 14, 14);
+		lbl_rb2.setBounds(292, 4, 14, 14);
 		panel_RB.add(lbl_rb2);
 		
 		JLabel lbl_rb1 = new JLabel("1");
-		lbl_rb1.setBounds(258, 4, 14, 14);
+		lbl_rb1.setBounds(316, 4, 14, 14);
 		panel_RB.add(lbl_rb1);
 		
 		JLabel lbl_rb0 = new JLabel("0");
-		lbl_rb0.setBounds(282, 4, 14, 14);
+		lbl_rb0.setBounds(340, 4, 14, 14);
 		panel_RB.add(lbl_rb0);
 		
 		lbl_rb_tris7 = new JLabel("I");
+		lbl_rb_tris7.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris7.setAlignmentX(0.5f);
-		lbl_rb_tris7.setBounds(114, 29, 14, 14);
+		lbl_rb_tris7.setBounds(172, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris7);
 		
 		lbl_rb_tris6 = new JLabel("I");
+		lbl_rb_tris6.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris6.setAlignmentX(0.5f);
-		lbl_rb_tris6.setBounds(138, 29, 14, 14);
+		lbl_rb_tris6.setBounds(196, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris6);
 		
 		lbl_rb_tris5 = new JLabel("I");
+		lbl_rb_tris5.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris5.setAlignmentX(0.5f);
-		lbl_rb_tris5.setBounds(162, 29, 14, 14);
+		lbl_rb_tris5.setBounds(220, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris5);
 		
 		lbl_rb_tris4 = new JLabel("I");
+		lbl_rb_tris4.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris4.setAlignmentX(0.5f);
-		lbl_rb_tris4.setBounds(186, 29, 14, 14);
+		lbl_rb_tris4.setBounds(244, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris4);
 		
 		lbl_rb_tris3 = new JLabel("I");
+		lbl_rb_tris3.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris3.setAlignmentX(0.5f);
-		lbl_rb_tris3.setBounds(210, 29, 14, 14);
+		lbl_rb_tris3.setBounds(268, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris3);
 		
 		lbl_rb_tris2 = new JLabel("I");
+		lbl_rb_tris2.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris2.setAlignmentX(0.5f);
-		lbl_rb_tris2.setBounds(234, 29, 14, 14);
+		lbl_rb_tris2.setBounds(292, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris2);
 		
 		lbl_rb_tris1 = new JLabel("I");
+		lbl_rb_tris1.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris1.setAlignmentX(0.5f);
-		lbl_rb_tris1.setBounds(258, 29, 14, 14);
+		lbl_rb_tris1.setBounds(316, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris1);
 		
 		lbl_rb_tris0 = new JLabel("I");
+		lbl_rb_tris0.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris0.setAlignmentX(0.5f);
-		lbl_rb_tris0.setBounds(282, 29, 14, 14);
+		lbl_rb_tris0.setBounds(340, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris0);
 		
 		rbtn_rb_7 = new JRadioButton("");
-		rbtn_rb_7.setBounds(110, 47, 21, 23);
+		rbtn_rb_7.setBounds(168, 47, 21, 23);
 		panel_RB.add(rbtn_rb_7);
 		
 		rbtn_rb_6 = new JRadioButton("");
-		rbtn_rb_6.setBounds(131, 47, 21, 23);
+		rbtn_rb_6.setBounds(189, 47, 21, 23);
 		panel_RB.add(rbtn_rb_6);
 		
 		rbtn_rb_5 = new JRadioButton("");
-		rbtn_rb_5.setBounds(155, 47, 21, 23);
+		rbtn_rb_5.setBounds(213, 47, 21, 23);
 		panel_RB.add(rbtn_rb_5);
 		
 		rbtn_rb_4 = new JRadioButton("");
-		rbtn_rb_4.setBounds(179, 47, 21, 23);
+		rbtn_rb_4.setBounds(237, 47, 21, 23);
 		panel_RB.add(rbtn_rb_4);
 		
 		rbtn_rb_3 = new JRadioButton("");
-		rbtn_rb_3.setBounds(203, 47, 21, 23);
+		rbtn_rb_3.setBounds(261, 47, 21, 23);
 		panel_RB.add(rbtn_rb_3);
 		
 		rbtn_rb_2 = new JRadioButton("");
-		rbtn_rb_2.setBounds(227, 47, 21, 23);
+		rbtn_rb_2.setBounds(285, 47, 21, 23);
 		panel_RB.add(rbtn_rb_2);
 		
 		rbtn_rb_1 = new JRadioButton("");
-		rbtn_rb_1.setBounds(251, 47, 21, 23);
+		rbtn_rb_1.setBounds(309, 47, 21, 23);
 		panel_RB.add(rbtn_rb_1);
 		
 		rbtn_rb_0 = new JRadioButton("");
-		rbtn_rb_0.setBounds(275, 47, 21, 23);
+		rbtn_rb_0.setBounds(333, 47, 21, 23);
 		panel_RB.add(rbtn_rb_0);
 		
 		JPanel panel_7Segment = new JPanel();
@@ -653,7 +674,7 @@ public class Simulator_Window {
 		gbc_panel_7Segment.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel_7Segment.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_7Segment.gridx = 0;
-		gbc_panel_7Segment.gridy = 3;
+		gbc_panel_7Segment.gridy = 4;
 		panel_IO.add(panel_7Segment, gbc_panel_7Segment);
 		panel_7Segment.setLayout(new BorderLayout(0, 0));
 		
@@ -705,6 +726,54 @@ public class Simulator_Window {
 		
 		JToggleButton tglbtnActivate = new JToggleButton("Activate");
 		panel_segmentOptions.add(tglbtnActivate);
+		
+		JPanel panel_Time = new JPanel();
+		panel_Time.setBorder(new LineBorder(new Color(0, 0, 0)));
+		GridBagConstraints gbc_panel_Time = new GridBagConstraints();
+		gbc_panel_Time.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_Time.fill = GridBagConstraints.BOTH;
+		gbc_panel_Time.gridx = 0;
+		gbc_panel_Time.gridy = 1;
+		panel_IO.add(panel_Time, gbc_panel_Time);
+		GridBagLayout gbl_panel_Time = new GridBagLayout();
+		gbl_panel_Time.columnWidths = new int[] {80, 180, 90};
+		gbl_panel_Time.rowHeights = new int[]{23, 0};
+		gbl_panel_Time.columnWeights = new double[]{0.0, 0.0, 0.0};
+		gbl_panel_Time.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_Time.setLayout(gbl_panel_Time);
+		
+		JButton btnZurcksetzen = new JButton("Zur\u00FCcksetzen");
+		btnZurcksetzen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctr.operationalTime = 0.0;
+				ctr.updateOperationalTime();
+			}
+		});
+		
+		JLabel lblLaufzeit = new JLabel("Laufzeit");
+		lblLaufzeit.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblLaufzeit.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints gbc_lblLaufzeit = new GridBagConstraints();
+		gbc_lblLaufzeit.fill = GridBagConstraints.BOTH;
+		gbc_lblLaufzeit.insets = new Insets(0, 0, 0, 5);
+		gbc_lblLaufzeit.gridx = 0;
+		gbc_lblLaufzeit.gridy = 0;
+		panel_Time.add(lblLaufzeit, gbc_lblLaufzeit);
+		
+		lblOperationalTime = new JLabel("0.0us");
+		lblOperationalTime.setHorizontalAlignment(SwingConstants.CENTER);
+		lblOperationalTime.setFont(new Font("Tahoma", Font.BOLD, 14));
+		GridBagConstraints gbc_lblOperationalTime = new GridBagConstraints();
+		gbc_lblOperationalTime.fill = GridBagConstraints.BOTH;
+		gbc_lblOperationalTime.insets = new Insets(0, 0, 0, 5);
+		gbc_lblOperationalTime.gridx = 1;
+		gbc_lblOperationalTime.gridy = 0;
+		panel_Time.add(lblOperationalTime, gbc_lblOperationalTime);
+		GridBagConstraints gbc_btnZurcksetzen = new GridBagConstraints();
+		gbc_btnZurcksetzen.fill = GridBagConstraints.BOTH;
+		gbc_btnZurcksetzen.gridx = 2;
+		gbc_btnZurcksetzen.gridy = 0;
+		panel_Time.add(btnZurcksetzen, gbc_btnZurcksetzen);
 		tglbtnActivate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AbstractButton abstractButton = (AbstractButton) e.getSource();

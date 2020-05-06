@@ -65,6 +65,10 @@ public class Controller {
 	/// Signals that the next cycle is a nop
 	protected boolean isNopCycle = false;
 	
+	/// time since simulator program started
+	protected double operationalTime = 0.0;
+	
+	
 	/// Bool to indicate if 7 segment is actiavted or not
 	protected boolean sevenSegmentActive = false;
 	/// Bool to indicate the controlPort for 7Seg
@@ -185,6 +189,11 @@ public class Controller {
 		errorView.lbl_ErrorTitle.setText(title);
 		errorView.lbl_ErrorText.setText(text);
 	}
+	/**
+	 * this method will update the seven segment panel 
+	 * there are a control input and a data input needed
+	 * these inputs can be choosen (Port a and Port b)
+	 */
 	protected void update7Segment() 
 	{
 		int controlPort = 0;
@@ -210,7 +219,20 @@ public class Controller {
 			this.gui.panel_segmentCanvas.set7Segment(controlPort, dataPort);
 		}
 	}
-	
+	// used to update the operationTime panel in gui
+	protected void updateOperationalTime() 
+	{
+		gui.lblOperationalTime.setText(this.operationalTime+"us");
+	}
+	/**
+	 * add the cycle time to the operationalTime and round to 3 decimal digits
+	 */
+	protected void countCycleTime() 
+	{
+		double d = Math.pow(10, 3);
+	    this.operationalTime = this.operationalTime + (1.0/this.frequency);  
+	    this.operationalTime = Math.round(this.operationalTime * d) / d;
+	}
 	/**
 	*  Method to load the program code from the code view table.
 	*  If labels are found in the 5th column they are added.
