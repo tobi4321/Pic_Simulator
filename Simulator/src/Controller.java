@@ -122,6 +122,10 @@ public class Controller {
 		this.gui.tbl_special.addRow(new Object[] {"PC", "0030","00000000"});
 		this.gui.tbl_special.addRow(new Object[] { "Status", "C0","10100000" });
 		
+		for(int i = 0; i < 8; i++) 
+		{
+			this.gui.tbl_stack.addRow(new Object[] {i,""});
+		}
 	}
 	/**
 	 * Starts a thread to cyclic update the memory table.
