@@ -43,7 +43,7 @@ public class SevenSegmentPanel extends JPanel{
     private int Third;
     private int Fourth;
     
-    private final static int correction = 40;
+    private final static int correction = 25;
     
     private final static int secondOffSet = 80;
     private final static int thirdOffSet = 160;
