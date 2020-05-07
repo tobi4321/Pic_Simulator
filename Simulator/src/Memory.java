@@ -113,6 +113,16 @@ public class Memory extends Thread{
 			ctr.refreshIO();
 			ctr.update7Segment();
 			
+			for(int i = 0; i < 8; i++) 
+			{
+				ctr.updateStackPanel("", i);
+			}
+			for(int i = 0; i < this.stack.size(); i++) 
+			{
+				ctr.updateStackPanel(Integer.toHexString(this.stack.get(i)), i);
+			}
+			
+			
 	    	try {
 				sleep(200);
 			} catch (InterruptedException e) {

@@ -439,18 +439,38 @@ public class Simulator_Window {
 		panel_IO.add(panel_Control, gbc_panel_Control);
 		
 		JButton btnDebug = new JButton("Debug");
+		btnDebug.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctr.startSimu(true);
+			}
+		});
 		btnDebug.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_Control.add(btnDebug);
 		
 		JButton btnGo = new JButton("Go");
+		btnGo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctr.startSimu(false);
+			}
+		});
 		btnGo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_Control.add(btnGo);
 		
 		JButton btnNext = new JButton("Next");
+		btnNext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctr.continueDebugStep();
+			}
+		});
 		btnNext.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_Control.add(btnNext);
 		
 		JButton btnStop = new JButton("Stop");
+		btnStop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctr.stopSimu();
+			}
+		});
 		btnStop.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_Control.add(btnStop);
 		
@@ -1053,18 +1073,17 @@ public class Simulator_Window {
 		});
 		debug_menu.add(btnDebuggerStoppen);
 		
-		JButton button = new JButton("->");
-		button.addActionListener(new ActionListener() {
+		JButton btnNext_1 = new JButton("Next");
+		btnNext_1.setSize(new Dimension(121, 23));
+		btnNext_1.setMinimumSize(new Dimension(121, 23));
+		btnNext_1.setPreferredSize(new Dimension(121, 23));
+		btnNext_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ctr.continueDebugStep();
 			}
 		});
-		debug_menu.add(button);
-		button.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		
-		JButton button_1 = new JButton("<-");
-		debug_menu.add(button_1);
-		button_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		debug_menu.add(btnNext_1);
+		btnNext_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
 		JMenu mnSimulator = new JMenu("Simulator");
 		menuBar.add(mnSimulator);

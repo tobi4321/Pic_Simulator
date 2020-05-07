@@ -164,6 +164,13 @@ public class Controller {
 		}
 		gui.setSpecialData(value, x, y);
 	}
+	/**
+	 * Method to update the stack panel with the data in memory variable stack 
+	 */
+	protected void updateStackPanel(String value, int y) 
+	{
+		gui.setStackData(value, y, 1);
+	}
 	
 	/**
 	*  Try to open a new {@link MnemonicView} and display it. 
