@@ -51,6 +51,12 @@ public class Processor extends Thread{
         			ctr.executeCommand(codeLine);	// Normal Execute
     			}
     			
+    			// checking if this pc has a breakpoint
+    			if(ctr.breakPointList[ctr.memory.programmcounter]) 
+    			{
+    				this.debugging = true;
+    			}
+    			
     			// update all IO like Ports and 7 Segment
     			ctr.refreshIO();
     			

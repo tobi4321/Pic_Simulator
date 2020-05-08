@@ -361,7 +361,19 @@ public class Simulator_Window {
 
 		
 		String header[] = new String[] { " ", "ProgramCounter", "ProgramCode", "LineCount","Label","MnemonicCode"};	
-		tbl_code = new DefaultTableModel();
+		tbl_code = new DefaultTableModel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			boolean[] canEdit = new boolean[]{
+                    true, false, false, false, false,false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+		};
 	    tbl_code.setColumnIdentifiers(header);
 
 
@@ -385,10 +397,21 @@ public class Simulator_Window {
 		panel_Code.add(scrollPane_3, BorderLayout.CENTER);
 		scrollPane_3.setViewportBorder(UIManager.getBorder("TableHeader.cellBorder"));
 		table_Code = new JTable();
+		table_Code.setEnabled(false);
+		table_Code.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		        int row = table_Code.rowAtPoint(evt.getPoint());
+		        int col = table_Code.columnAtPoint(evt.getPoint());
+		        if (col == 0 ) {
+		          System.out.println("Row: "+row);
+		          ctr.setBreakPoint(row);
+		        }
+		    }
+		});
 		table_Code.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		table_Code.setSelectionBackground(Color.ORANGE);
 		table_Code.setModel(tbl_code);
-		table_Code.setEnabled(false);
 		for (int i = 0; i < 5; i++) {
 		    column = table_Code.getColumnModel().getColumn(i);
 		    if (i == 0) {

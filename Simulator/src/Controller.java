@@ -56,6 +56,9 @@ public class Controller {
 	/// A list of the program counter as key with the dedicated code line as value
 	protected int[] programCounterList = new int[1024];
 
+	/// A list of breakpoints
+	protected boolean[] breakPointList = new boolean[1024];
+	
 	/// The program code as string array. Every code line is one string.
 	protected String[] code;
 	/// The length of the compiled code
@@ -170,6 +173,25 @@ public class Controller {
 	protected void updateStackPanel(String value, int y) 
 	{
 		gui.setStackData(value, y, 1);
+	}
+	
+	protected void setBreakPoint(int row) 
+	{
+		for(int i = 0; i < programCounterList.length; i++) 
+		{
+			if(programCounterList[i]-1 == row) 
+			{
+				if(breakPointList[i] == false) 
+				{
+					breakPointList[i] = true;
+					this.gui.tbl_code.setValueAt("O", row, 0);
+				}else 
+				{
+					breakPointList[i] = false;
+					this.gui.tbl_code.setValueAt(" ", row, 0);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -497,10 +519,16 @@ public class Controller {
 	 * **/
 	public void setCodeViewCounter(int newC) 
 	{
-		for(int i = 0; i < this.gui.tbl_code.getRowCount(); i++) {
+		// first column is used for breakpoints
+		/*
+		 *  for(int i = 0; i < this.gui.tbl_code.getRowCount(); i++) {
 			this.gui.tbl_code.setValueAt(" ", i, 0);
-		}
-		this.gui.tbl_code.setValueAt("->", newC-1, 0);
+			}
+			this.gui.tbl_code.setValueAt("->", newC-1, 0);
+		 * 
+		 * 
+		 * */
+
 		this.gui.highlightRow(newC - 1);
 	}
 	
