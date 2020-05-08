@@ -464,7 +464,16 @@ public class Simulator_Window {
 		JButton btnDebug = new JButton("Debug");
 		btnDebug.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctr.startSimu(true);
+				
+				if(ctr.processorRunning == false) 
+				{
+					ctr.startSimu(true);
+				}else 
+				{
+					// deactivate debugging if thread is already running
+					ctr.proc.debugging = false;
+					ctr.proc.continueDebug = true;
+				}
 			}
 		});
 		btnDebug.setFont(new Font("Tahoma", Font.BOLD, 12));

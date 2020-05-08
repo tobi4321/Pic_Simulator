@@ -55,6 +55,7 @@ public class Processor extends Thread{
     			if(ctr.breakPointList[ctr.memory.programmcounter]) 
     			{
     				this.debugging = true;
+    				this.continueDebug = false;
     			}
     			
     			// update all IO like Ports and 7 Segment
