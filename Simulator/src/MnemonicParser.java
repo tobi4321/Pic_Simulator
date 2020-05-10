@@ -8,7 +8,7 @@ public class MnemonicParser {
 	
 	
 	/// obejct of main Controller
-	Controller ctr;
+	private Controller ctr;
 	
 	
 	/// constructor 

@@ -11,16 +11,16 @@ public class Interrupt{
 
 	private Controller ctr;
 	
-	int rb0;
+	private int rb0;
 	
-	int rb4;
-	int rb5;
-	int rb6;
-	int rb7;
+	private int rb4;
+	private int rb5;
+	private int rb6;
+	private int rb7;
 	
-	int rb0Edge;
+	private int rb0Edge;
 	
-	boolean rbChanged; 
+	private boolean rbChanged; 
 	
 	public Interrupt(Controller pCtr) 
 	{

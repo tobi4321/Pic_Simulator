@@ -31,7 +31,8 @@ public class MnemonicView extends JFrame {
 
 	private Controller ctr;
 	
-	protected JTextArea txtArea_mnemonic;
+	private JTextArea txtArea_mnemonic;
+
 	/**
 	 * Create the frame.
 	 */
@@ -115,6 +116,19 @@ public class MnemonicView extends JFrame {
 			}
 		});
 		mnFile.add(btnSaveSrcFile);
+	}
+	
+	/**
+	 * @return the txtArea_mnemonic
+	 */
+	protected JTextArea getTxtArea_mnemonic() {
+		return txtArea_mnemonic;
+	}
+	/**
+	 * @param txtArea_mnemonic the txtArea_mnemonic to set
+	 */
+	protected void setTxtArea_mnemonic(JTextArea txtArea_mnemonic) {
+		this.txtArea_mnemonic = txtArea_mnemonic;
 	}
 
 }

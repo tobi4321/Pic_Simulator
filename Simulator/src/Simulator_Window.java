@@ -461,8 +461,8 @@ public class Simulator_Window {
 				}else 
 				{
 					// deactivate debugging if thread is already running
-					ctr.getProcessor().debugging = false;
-					ctr.getProcessor().continueDebug = true;
+					ctr.getProcessor().setDebugging(false);
+					ctr.getProcessor().setContinueDebug(true);
 				}
 			}
 		});

@@ -12,13 +12,13 @@ public class Memory extends Thread{
 	/// this memory will store the data memory
 	/// 00 to 7F is the first bank
 	/// 80 to FF is the second bank
-	protected int[][] dataMemory = new int[256][8];
+	private int[][] dataMemory = new int[256][8];
 	
 	/// this is the storage for the program code
 	/// 0000 is the reset and 0004 is the interrupt value
-	protected int[] programMemory = new int[1024];
+	private int[] programMemory = new int[1024];
 	
-	
+
 	/// counter on which line the processor is
 	/// default is 0 to indicate a reset
 	protected int programmcounter = 0;
@@ -265,7 +265,7 @@ public class Memory extends Thread{
 			{
 				// If TMR0 is accessed and Prescaler is active 
 				if (fileaddress == 0x01 && this.get_Memory(0x81, 3) == 0) {
-					ctr.getTimer().preScaler = 0;
+					ctr.getTimer().setPreScaler(0);
 				}
 				set_SRAMDIRECT(fileaddress, bit, value);
 			}else if((dataMemory[3][5] == 1) && (fileaddress < 128)) 
@@ -500,5 +500,20 @@ public class Memory extends Thread{
 		{
 			this.programMemory[i] = 255;
 		}
+	}
+	
+	/**
+	 * @return the programMemory
+	 */
+	protected int[] getProgramMemory() {
+		return programMemory;
+	}
+
+
+	/**
+	 * @param programMemory the programMemory to set
+	 */
+	protected void setProgramMemory(int[] programMemory) {
+		this.programMemory = programMemory;
 	}
 }

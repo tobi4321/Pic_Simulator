@@ -9,13 +9,15 @@
 
 public class Processor extends Thread{
 	
-	Controller ctr;
-	Boolean exit = false;
-	int oldProgrammCounter = 0;
-	protected boolean debugging = false;
-	protected boolean continueDebug = false;
+	private Controller ctr;
+	private Boolean exit = false;
+	private boolean debugging = false;
+
+	private boolean continueDebug = false;
 	
-	protected boolean clkout = false;
+
+
+	private boolean clkout = false;
 	private static final int NOP = 0;
 	
 	public Processor(Controller pC, boolean pDebugging) 
@@ -28,19 +30,18 @@ public class Processor extends Thread{
     	while (!exit) {  
     		try {
 
-    		for(ctr.getMemory().programmcounter = 0; ctr.getMemory().programmcounter < ctr.getMemory().programMemory.length; ctr.getMemory().programmcounter++) 
+    		for(ctr.getMemory().programmcounter = 0; ctr.getMemory().programmcounter < ctr.getMemory().getProgramMemory().length; ctr.getMemory().programmcounter++) 
     		{
     			// Write Programmcounter in PCL
     			ctr.getMemory().set_SRAMDIRECT(0x02, ctr.getMemory().programmcounter & 0xFF);
     			
     			ctr.setCodeViewCounter(ctr.getProgramCounterList()[ctr.getMemory().programmcounter]);
-    			this.oldProgrammCounter = ctr.getMemory().programmcounter;
     			
     			ctr.updateSpecialRegTable(Integer.toHexString(ctr.getMemory().programmcounter), 4, 1);
     			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.getMemory().programmcounter), 4, 2);
     			
     			// get the current code line as string
-    			int codeLine = ctr.getMemory().programMemory[ctr.getMemory().programmcounter];
+    			int codeLine = ctr.getMemory().getProgramMemory()[ctr.getMemory().programmcounter];
     			
     			ctr.clearHighlights();
     			if(ctr.isNopCycle()) {
@@ -91,7 +92,7 @@ public class Processor extends Thread{
     				sleep(ctr.getFrequency());
     			}
 
-    			if(ctr.getMemory().programmcounter >= ctr.getMemory().programMemory.length) 
+    			if(ctr.getMemory().programmcounter >= ctr.getMemory().getProgramMemory().length) 
                 {
                 	stopThread();
                 }
@@ -112,4 +113,31 @@ public class Processor extends Thread{
     	this.exit = true;
     	ctr.getMemory().programmcounter = 65536;
     }
+    
+	/**
+	 * @return the debugging
+	 */
+	protected boolean isDebugging() {
+		return debugging;
+	}
+
+	/**
+	 * @param debugging the debugging to set
+	 */
+	protected void setDebugging(boolean debugging) {
+		this.debugging = debugging;
+	}
+	/**
+	 * @return the continueDebug
+	 */
+	protected boolean isContinueDebug() {
+		return continueDebug;
+	}
+
+	/**
+	 * @param continueDebug the continueDebug to set
+	 */
+	protected void setContinueDebug(boolean continueDebug) {
+		this.continueDebug = continueDebug;
+	}
 }

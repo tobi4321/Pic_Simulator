@@ -21,22 +21,23 @@ public class Timer {
 	private Controller ctr;
 	
 	/// ra0/clkout variables
-	int ra0;
-	boolean clkout;
+	private int ra0;
+	private boolean clkout;
 	
 	/**
 	 *  0 = no edge
 	 *  1 = pos edge
 	 *  2 neg edge
 	 */
-	int raEdge;
+	private int raEdge;
 	
 	/**
 	 * counting increments for comparison with prescaler value
 	 */
-	int preScaler;
+	private int preScaler;
 	
-	
+
+
 	public Timer(Controller pCtr) 
 	{
 		this.ctr = pCtr;
@@ -125,5 +126,20 @@ public class Timer {
 		}
 
 		this.clkout = pCLKOUT;
+	}
+	
+	/**
+	 * @return the preScaler
+	 */
+	protected int getPreScaler() {
+		return preScaler;
+	}
+
+
+	/**
+	 * @param preScaler the preScaler to set
+	 */
+	protected void setPreScaler(int preScaler) {
+		this.preScaler = preScaler;
 	}
 }

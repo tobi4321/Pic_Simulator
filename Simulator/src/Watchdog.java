@@ -9,9 +9,9 @@
  * */
 public class Watchdog {
 	
-	Controller ctr;
+	private Controller ctr;
 	
-	int preScaler;
+	private int preScaler;
 	
 	
 	public Watchdog(Controller pCtr) 

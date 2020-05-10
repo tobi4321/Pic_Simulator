@@ -305,8 +305,8 @@ public class Controller {
 			}
 		}
 		// add and repaint.
-		mnemonicWindow.txtArea_mnemonic.setText(mnemonic);
-		mnemonicWindow.txtArea_mnemonic.repaint();
+		mnemonicWindow.getTxtArea_mnemonic().setText(mnemonic);
+		mnemonicWindow.getTxtArea_mnemonic().repaint();
 	}
 
 	/**
@@ -501,7 +501,7 @@ public class Controller {
 			if(!st.substring(0, 4).equals("    ")) 
 			{
 				this.codeLength = Integer.parseInt(st.substring(0, 4),16);
-				memory.programMemory[codeLength] = Integer.parseInt(st.substring(5, 9), 16);
+				memory.getProgramMemory()[codeLength] = Integer.parseInt(st.substring(5, 9), 16);
 				programCounterList[codeLength] = Integer.parseInt(st.substring(20, 25));
 			}
 
@@ -625,7 +625,7 @@ public class Controller {
 					String binaryCode = parser.fromMnemToHex(proceed, j).toString();
 					
 					gui.getTblCodeModel().addRow(new Object[]{"",Integer.toHexString(pc), Integer.toHexString(Integer.parseInt(binaryCode, 2)), j+1 , "",mnemonicLines[j]});
-					this.memory.programMemory[pc] = Integer.parseInt(binaryCode, 2);
+					this.memory.getProgramMemory()[pc] = Integer.parseInt(binaryCode, 2);
 					
 					programCounterList[pc] = j+1;
 					// pc needs to be incremented
@@ -1619,7 +1619,7 @@ public class Controller {
 		            FileWriter myWriter = new FileWriter(savingFile.getAbsolutePath());
 		           
 		            
-		            myWriter.write(this.mnemonicWindow.txtArea_mnemonic.getText());
+		            myWriter.write(this.mnemonicWindow.getTxtArea_mnemonic().getText());
 		            myWriter.close();
 		            
 		            System.out.println("Successfully wrote to the file.");
@@ -1653,7 +1653,7 @@ public class Controller {
 
     	
     	// initialisieren der grafischen Elemente
-		this.mnemonicWindow.txtArea_mnemonic.setText("");
+		this.mnemonicWindow.getTxtArea_mnemonic().setText("");
 		
 		String output = "";
 		
@@ -1665,7 +1665,7 @@ public class Controller {
 				
 			}
 			
-			this.mnemonicWindow.txtArea_mnemonic.setText(output);
+			this.mnemonicWindow.getTxtArea_mnemonic().setText(output);
 			
 		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
@@ -1753,7 +1753,7 @@ public class Controller {
 	}
 	protected int T0CKI() 
 	{
-		return this.memory.dataMemory[5][4];
+		return this.memory.get_MemoryDIRECT(5, 4);
 	}
 	protected int getPrescaler() 
 	{
