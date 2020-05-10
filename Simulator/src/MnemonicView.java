@@ -1,6 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,15 +8,11 @@ import java.awt.Component;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
-import java.awt.Dialog.ModalExclusionType;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 /// class MnemonicView
 /**

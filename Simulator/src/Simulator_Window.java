@@ -15,8 +15,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.EventObject;
-
 import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -39,19 +37,13 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 import javax.swing.JToggleButton;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-import java.awt.GridLayout;
 import java.awt.Cursor;
 /// class Simulator_Window
 /**
@@ -64,22 +56,20 @@ public class Simulator_Window {
 
 	private JFrame frmMicrocontrollerSimulator;
 	private Controller ctr;
-	protected TableModel dataModel;
-	protected SevenSegmentPanel panel_segmentCanvas;
-	protected JTable table_Code;
-	protected DefaultTableModel tbl_code;
-	protected DefaultTableModel tbl_memory;
-	protected DefaultTableModel tbl_special;
-	protected DefaultTableModel tbl_status;
-	protected DefaultTableModel tbl_pcl;
-	protected DefaultTableModel tbl_stack;
-	protected JTable table_Memory;
-	protected JTable table_special_regs;
+
+	private SevenSegmentPanel panel_segmentCanvas;
+	private JTable table_Code;
+	private DefaultTableModel tbl_code;
+	private DefaultTableModel tbl_memory;
+	private DefaultTableModel tbl_special;
+	private DefaultTableModel tbl_stack;
+	private JTable table_Memory;
+	private JTable table_special_regs;
 	// members to input values into register memory
 	private JTextField txtField_input;
 	private JButton btn_InputRegister;
-	private JComboBox comboBox_File;
-	private JComboBox comboBox_SubFile;
+	private JComboBox<String> comboBox_File;
+	private JComboBox<String> comboBox_SubFile;
 	// member for port a
 	private JLabel lbl_ra_tris7;
 	private JLabel lbl_ra_tris6;
@@ -116,14 +106,14 @@ public class Simulator_Window {
 	private JRadioButton rbtn_rb_0;
 	
 	// member to set the Quarz Frequency
-	protected JComboBox comboBox_quarzFrequency;
+	private JComboBox<String> comboBox_quarzFrequency;
+
+	// label for displaying the cycle time since program start
+	private JLabel lblOperationalTime;
+	private JTable table_Stack;
 	/**
 	 * Launch the application.
 	 */
-	// label for displaying the cycle time since program start
-	protected JLabel lblOperationalTime;
-	private JTable table_Stack;
-	
 	public static void main(String[] args) {
 		try {
             // Set cross-platform Java L&F (also called "Metal")
@@ -1013,7 +1003,6 @@ public class Simulator_Window {
 			            try {
 							ctr.loadFile(file);
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 			            //This is where a real application would open the file.
@@ -1165,7 +1154,6 @@ public class Simulator_Window {
 		  table_Stack.getModel().setValueAt(obj, row_index, col_index);
 	  }
 	  public void openHelp() {
-			// TODO Auto-generated method stub
 
 			try {
 			  File helpFile = new File("out/html/annotated.html");
@@ -1545,5 +1533,77 @@ public class Simulator_Window {
 	  {
 		  table_Memory.removeRowSelectionInterval(x, x);
 		  table_Memory.removeColumnSelectionInterval(y, y);
+	  }
+	  /**
+	   * Getter for 7 Segment Panel
+	   * @return reference to SevenSegmentPanel object
+	   */
+	  protected SevenSegmentPanel getSevenSegmentPanel() 
+	  {
+		  return panel_segmentCanvas;
+	  }
+	  /**
+	   * Getter for access to  Code Table
+	   * @return reference to object of code table
+	   */
+	  protected JTable getTableCode() 
+	  {
+		  return table_Code;
+	  }
+	  /**
+	   * Getter for access to TableModel of code table
+	   * @return reference to code table model
+	   */
+	  protected DefaultTableModel getTblCodeModel() 
+	  {
+		  return tbl_code;
+	  }
+	  /**
+	   * Getter for access to TableModel of Memory Table
+	   * @return reference to memory table model
+	   */
+	  protected DefaultTableModel getTblMemoryModel() 
+	  {
+		  return tbl_memory;
+	  }
+	  /**
+	   * Getter for access to TableModel of Special Register Table
+	   * @return reference to special reg table model
+	   */
+	  protected DefaultTableModel getTblSpecialModel() 
+	  {
+		  return tbl_special;
+	  }
+	  /**
+	   * Getter for access to TableModel of Stack Table
+	   * @return reference to stack table model
+	   */
+	  protected DefaultTableModel getTblStackModel() 
+	  {
+		  return tbl_stack;
+	  }
+	  /**
+	   * Getter for access to Memory Table
+	   * @return reference to code table
+	   */
+	  protected JTable getTableMemory() 
+	  {
+		  return table_Memory;
+	  }
+	  /**
+	   * Getter for access to Special Register Table
+	   * @return reference to special register table
+	   */
+	  protected JTable getTableSpecialReg() 
+	  {
+		  return table_special_regs;
+	  }
+	  /**
+	   * update function for operational time
+	   * @param opTime time to display
+	   */
+	  protected void updateOperationalTime(double opTime) 
+	  {
+		  this.lblOperationalTime.setText(opTime+"us");
 	  }
 }

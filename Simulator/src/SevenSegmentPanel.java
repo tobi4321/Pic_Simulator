@@ -1,9 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -124,7 +121,7 @@ public class SevenSegmentPanel extends JPanel{
     	}
     	if((Char & 0x80) == 0x80) 
     	{
-    		// TODO: implement dot
+    		g.fillRect(correction+20+55, 95, 5, 5);
     	}
     }
     
@@ -161,7 +158,7 @@ public class SevenSegmentPanel extends JPanel{
     	}
     	if((Char & 0x80) == 0x80) 
     	{
-    		// TODO: implement dot
+    		g.fillRect(correction+20+80+55, 95, 5, 5);
     	}  	
     }
     
@@ -198,7 +195,7 @@ public class SevenSegmentPanel extends JPanel{
     	}
     	if((Char & 0x80) == 0x80) 
     	{
-    		// TODO: implement dot
+    		g.fillRect(correction+20+160+55, 95, 5, 5);
     	}   	
     }
     
@@ -235,7 +232,7 @@ public class SevenSegmentPanel extends JPanel{
     	}
     	if((Char & 0x80) == 0x80) 
     	{
-    		// TODO: implement dot
+    		g.fillRect(correction+20+240+55, 95, 5, 5);
     	}   	
     }
     
@@ -255,6 +252,9 @@ public class SevenSegmentPanel extends JPanel{
         g.drawRect(correction+60, 10, 5, 40);
         g.drawRect(correction+60, 55, 5, 40);
         
+        //dot
+        g.drawRect(correction+20+55, 95, 5, 5);
+        
         g.drawRect(correction+20+80, 5,40,5);
         g.drawRect(correction+20+80, 50,40,5);
         g.drawRect(correction+20+80, 95,40,5);
@@ -262,6 +262,9 @@ public class SevenSegmentPanel extends JPanel{
         g.drawRect(correction+15+80, 55, 5, 40);
         g.drawRect(correction+60+80, 10, 5, 40);
         g.drawRect(correction+60+80, 55, 5, 40);
+        
+        //dot
+        g.drawRect(correction+20+80+55, 95, 5, 5);
         
         g.drawRect(correction+20+160, 5,40,5);
         g.drawRect(correction+20+160, 50,40,5);
@@ -271,6 +274,9 @@ public class SevenSegmentPanel extends JPanel{
         g.drawRect(correction+60+160, 10, 5, 40);
         g.drawRect(correction+60+160, 55, 5, 40);
         
+        //dot
+        g.drawRect(correction+20+160+55, 95, 5, 5);
+        
         g.drawRect(correction+20+240, 5,40,5);
         g.drawRect(correction+20+240, 50,40,5);
         g.drawRect(correction+20+240, 95,40,5);
@@ -278,6 +284,9 @@ public class SevenSegmentPanel extends JPanel{
         g.drawRect(correction+15+240, 55, 5, 40);
         g.drawRect(correction+60+240, 10, 5, 40);
         g.drawRect(correction+60+240, 55, 5, 40);
+        
+        //dot
+        g.drawRect(correction+20+240+55, 95, 5, 5);
         
         paintFirst(g,this.First);
         paintSecond(g,this.Second);

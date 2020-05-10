@@ -115,19 +115,19 @@ public class Controller {
 		}
 		for(int i = 0; i < 32; i++) {
 			tableData[i][0] = Integer.toHexString(i*8);
-			this.gui.tbl_memory.addRow(new Object[] {tableData[i][0],"0","0","0","0","0","0","0","0"});
+			this.gui.getTblMemoryModel().addRow(new Object[] {tableData[i][0],"0","0","0","0","0","0","0","0"});
 		}
 		// initialization of special register table
-		this.gui.tbl_special.addRow(new Object[] { "W-Reg", "00","00000000" });
-		this.gui.tbl_special.addRow(new Object[] { "FSR", "00","00000000" });
-		this.gui.tbl_special.addRow(new Object[] { "PCL", "30","00110000" });
-		this.gui.tbl_special.addRow(new Object[] { "PCLATH", "00","00000000" });
-		this.gui.tbl_special.addRow(new Object[] {"PC", "0030","00000000"});
-		this.gui.tbl_special.addRow(new Object[] { "Status", "C0","10100000" });
+		this.gui.getTblSpecialModel().addRow(new Object[] { "W-Reg", "00","00000000" });
+		this.gui.getTblSpecialModel().addRow(new Object[] { "FSR", "00","00000000" });
+		this.gui.getTblSpecialModel().addRow(new Object[] { "PCL", "30","00110000" });
+		this.gui.getTblSpecialModel().addRow(new Object[] { "PCLATH", "00","00000000" });
+		this.gui.getTblSpecialModel().addRow(new Object[] {"PC", "0030","00000000"});
+		this.gui.getTblSpecialModel().addRow(new Object[] { "Status", "C0","10100000" });
 		
 		for(int i = 0; i < 8; i++) 
 		{
-			this.gui.tbl_stack.addRow(new Object[] {i,""});
+			this.gui.getTblStackModel().addRow(new Object[] {i,""});
 		}
 	}
 	/**
@@ -184,11 +184,11 @@ public class Controller {
 				if(breakPointList[i] == false) 
 				{
 					breakPointList[i] = true;
-					this.gui.tbl_code.setValueAt("O", row, 0);
+					this.gui.getTblCodeModel().setValueAt("O", row, 0);
 				}else 
 				{
 					breakPointList[i] = false;
-					this.gui.tbl_code.setValueAt(" ", row, 0);
+					this.gui.getTblCodeModel().setValueAt(" ", row, 0);
 				}
 			}
 		}
@@ -249,13 +249,13 @@ public class Controller {
 				dataPort = this.memory.get_MemoryDIRECT(0x06);
 			}
 			System.out.println("set7Segment: "+controlPort+" data: "+dataPort);
-			this.gui.panel_segmentCanvas.set7Segment(controlPort, dataPort);
+			this.gui.getSevenSegmentPanel().set7Segment(controlPort, dataPort);
 		}
 	}
 	// used to update the operationTime panel in gui
 	protected void updateOperationalTime() 
 	{
-		gui.lblOperationalTime.setText(this.operationalTime+"us");
+		gui.updateOperationalTime(this.operationalTime);
 	}
 	/**
 	 * add the cycle time to the operationalTime and round to 3 decimal digits
@@ -276,15 +276,15 @@ public class Controller {
 	{
 		String mnemonic = "";
 		// iterate over the code view table
-		for (int i = 0; i < gui.tbl_code.getRowCount(); i++) {
+		for (int i = 0; i < gui.getTblCodeModel().getRowCount(); i++) {
 			// check for Labels and add if found
-			String label = gui.tbl_code.getValueAt(i, 4).toString();
+			String label = gui.getTblCodeModel().getValueAt(i, 4).toString();
 			if(!label.isEmpty()) {
 				mnemonic = mnemonic + label + "\n";
 			}
 			else {
 				// else check if line is an EQU and add it, otherwise add it with an space as prefix
-				String code = gui.tbl_code.getValueAt(i, 5).toString();
+				String code = gui.getTblCodeModel().getValueAt(i, 5).toString();
 				if (code.contains("EQU")) {
 					mnemonic = mnemonic + code + "\n";
 				}
@@ -451,7 +451,6 @@ public class Controller {
 			br = new BufferedReader(new FileReader(pFile));
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String st; 
@@ -482,10 +481,10 @@ public class Controller {
 			}
 			if(!label.isEmpty()) 
 			{
-				gui.tbl_code.addRow(new Object[] {" ",st.substring(0, 4),st.substring(5, 9),st.substring(20, 25),label,""});
+				gui.getTblCodeModel().addRow(new Object[] {" ",st.substring(0, 4),st.substring(5, 9),st.substring(20, 25),label,""});
 			}else 
 			{
-				gui.tbl_code.addRow(new Object[] {" ",st.substring(0, 4),st.substring(5, 9),st.substring(20, 25),label, st.substring(36)});
+				gui.getTblCodeModel().addRow(new Object[] {" ",st.substring(0, 4),st.substring(5, 9),st.substring(20, 25),label, st.substring(36)});
 			}
 
 			if(!st.substring(0, 4).equals("    ")) 
@@ -579,7 +578,7 @@ public class Controller {
 				if(proceed.isEmpty() || (proceed.length() < 5 &&  proceed.startsWith(" "))) 
 				{
 					// empty line 
-					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",""});
+					gui.getTblCodeModel().addRow(new Object[]{"","    ", "    ", j+1 , "",""});
 				}else if(proceed.contains("org") || proceed.contains("device 16")) 
 				{
 					// org statement should change the pc
@@ -595,18 +594,18 @@ public class Controller {
 							}
 						}
 					}
-					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
+					gui.getTblCodeModel().addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
 				}else if(proceed.contains("EQU")) 
 				{
 					// EQU should not affect any variable
-					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
+					gui.getTblCodeModel().addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
 				}else if(proceed.charAt(0) != ' ') 
 				{
 					// if the first char in a line is unequal to space it is a label
 					// pay attention that the EQU is checked before, because EQU has unequal first character too
 					
 					
-					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , proceed,""});
+					gui.getTblCodeModel().addRow(new Object[]{"","    ", "    ", j+1 , proceed,""});
 				}else if(this.mnemonicLines[j].charAt(0) == ' ') 
 				{
 					
@@ -614,7 +613,7 @@ public class Controller {
 					System.out.println("Controller: "+proceed);
 					String binaryCode = parser.fromMnemToHex(proceed, j).toString();
 					
-					gui.tbl_code.addRow(new Object[]{"",Integer.toHexString(pc), Integer.toHexString(Integer.parseInt(binaryCode, 2)), j+1 , "",mnemonicLines[j]});
+					gui.getTblCodeModel().addRow(new Object[]{"",Integer.toHexString(pc), Integer.toHexString(Integer.parseInt(binaryCode, 2)), j+1 , "",mnemonicLines[j]});
 					this.memory.programMemory[pc] = Integer.parseInt(binaryCode, 2);
 					
 					programCounterList[pc] = j+1;
@@ -635,7 +634,7 @@ public class Controller {
 	{
 		TableColumn column = null;
 		for (int i = 0; i < 3; i++) {
-		    column = gui.table_Code.getColumnModel().getColumn(i);
+		    column = gui.getTableCode().getColumnModel().getColumn(i);
 		    if (i < 2 ) {
 		        column.setPreferredWidth(3); //third column is bigger
 		        column.setResizable(false);
@@ -650,9 +649,9 @@ public class Controller {
 	 * **/
 	public void inizializeTables() 
 	{
-		gui.tbl_code.setColumnIdentifiers	(new Object[] {" ", "ProgramCounter", "ProgramCode", "LineCount","Label","MnemonicCode"});
-		gui.tbl_memory.setColumnIdentifiers	(new Object[] {"","00","01","02","03","04","05","06","07"});
-		gui.tbl_special.setColumnIdentifiers(new Object[]{"Register", "Hex-Wert", "Bin-Wert"});
+		gui.getTblCodeModel().setColumnIdentifiers	(new Object[] {" ", "ProgramCounter", "ProgramCode", "LineCount","Label","MnemonicCode"});
+		gui.getTblMemoryModel().setColumnIdentifiers	(new Object[] {"","00","01","02","03","04","05","06","07"});
+		gui.getTblSpecialModel().setColumnIdentifiers(new Object[]{"Register", "Hex-Wert", "Bin-Wert"});
 	}
 
 	/**
@@ -969,7 +968,6 @@ public class Controller {
 			in--;
 			if(in == 0) 
 			{
-				//this.memory.programmcounter++;
 				this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
 				// TODO: NOP
 			}
@@ -1026,7 +1024,6 @@ public class Controller {
 		if(in == 255) 
 		{
 			in = 0;
-			//this.memory.programmcounter++;
 			this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
 			// TODO: NOP
 		}else {
@@ -1514,7 +1511,6 @@ public class Controller {
 	 * **/
 
 	public void closeMnemonicWindow() {
-		// TODO Auto-generated method stub
 		this.mnemonicWindow.dispose();
 	}
 	
@@ -1523,10 +1519,10 @@ public class Controller {
 	 * **/
 	public void clearCodeTable() 
 	{
-		int rows = gui.tbl_code.getRowCount();
+		int rows = gui.getTblCodeModel().getRowCount();
     	for(int i = 0; i<rows; i++) 
     	{
-        	gui.tbl_code.removeRow(0);  		
+        	gui.getTblCodeModel().removeRow(0);  		
     	}
 	}
 	
@@ -1640,7 +1636,6 @@ public class Controller {
 			br = new BufferedReader(new FileReader(file));
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String st; 
@@ -1662,7 +1657,6 @@ public class Controller {
 			this.mnemonicWindow.txtArea_mnemonic.setText(output);
 			
 		} catch (NumberFormatException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -1682,30 +1676,30 @@ public class Controller {
 		            FileWriter fileWriter = new FileWriter(savingFile.getAbsolutePath());
 		            
 		    		String code = "";
-		    		for(int i = 0; i < 		gui.tbl_code.getRowCount(); i++) 
+		    		for(int i = 0; i < 		gui.getTblCodeModel().getRowCount(); i++) 
 		    		{
 		    			// get the data of specific line
-		    			String progCounter = gui.tbl_code.getValueAt(i, 1).toString();
+		    			String progCounter = gui.getTblCodeModel().getValueAt(i, 1).toString();
 		    			while(progCounter.length() < 4) 
 		    			{
 		    				progCounter = "0"+progCounter;
 		    			}
-		    			String progCode = gui.tbl_code.getValueAt(i, 2).toString();
+		    			String progCode = gui.getTblCodeModel().getValueAt(i, 2).toString();
 		    			while(progCode.length() < 4) 
 		    			{
 		    				progCode = "0"+progCode;
 		    			}
-		    			String lineCount = gui.tbl_code.getValueAt(i, 3).toString();
+		    			String lineCount = gui.getTblCodeModel().getValueAt(i, 3).toString();
 		    			while(lineCount.length() < 5) 
 		    			{
 		    				lineCount = "0"+lineCount;
 		    			}
-		    			String label = gui.tbl_code.getValueAt(i, 4).toString();
+		    			String label = gui.getTblCodeModel().getValueAt(i, 4).toString();
 		    			while(label.length() < 4) 
 		    			{
 		    				label = " "+label;
 		    			}
-		    			String mnemonic = gui.tbl_code.getValueAt(i, 5).toString();
+		    			String mnemonic = gui.getTblCodeModel().getValueAt(i, 5).toString();
 		    			
 		    			// attention to the correct space count between each variable
 		    			code = code + progCounter + " " + progCode + "           " + lineCount + "  " + label + "     " + mnemonic + "\n";
@@ -1755,7 +1749,7 @@ public class Controller {
 		return (this.memory.get_Memory(0x81) & 0x07);
 	}
 	protected void clearHighlights() {
-		this.gui.table_Memory.clearSelection();
+		this.gui.getTableMemory().clearSelection();
 	}
 	protected void highlightCell(int x, int y)
 	{
