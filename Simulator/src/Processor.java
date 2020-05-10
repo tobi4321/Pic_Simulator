@@ -28,31 +28,31 @@ public class Processor extends Thread{
     	while (!exit) {  
     		try {
 
-    		for(ctr.memory.programmcounter = 0; ctr.memory.programmcounter < ctr.memory.programMemory.length; ctr.memory.programmcounter++) 
+    		for(ctr.getMemory().programmcounter = 0; ctr.getMemory().programmcounter < ctr.getMemory().programMemory.length; ctr.getMemory().programmcounter++) 
     		{
     			// Write Programmcounter in PCL
-    			ctr.memory.set_SRAMDIRECT(0x02, ctr.memory.programmcounter & 0xFF);
+    			ctr.getMemory().set_SRAMDIRECT(0x02, ctr.getMemory().programmcounter & 0xFF);
     			
-    			ctr.setCodeViewCounter(ctr.programCounterList[ctr.memory.programmcounter]);
-    			this.oldProgrammCounter = ctr.memory.programmcounter;
+    			ctr.setCodeViewCounter(ctr.getProgramCounterList()[ctr.getMemory().programmcounter]);
+    			this.oldProgrammCounter = ctr.getMemory().programmcounter;
     			
-    			ctr.updateSpecialRegTable(Integer.toHexString(ctr.memory.programmcounter), 4, 1);
-    			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.memory.programmcounter), 4, 2);
+    			ctr.updateSpecialRegTable(Integer.toHexString(ctr.getMemory().programmcounter), 4, 1);
+    			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.getMemory().programmcounter), 4, 2);
     			
     			// get the current code line as string
-    			int codeLine = ctr.memory.programMemory[ctr.memory.programmcounter];
+    			int codeLine = ctr.getMemory().programMemory[ctr.getMemory().programmcounter];
     			
     			ctr.clearHighlights();
-    			if(ctr.isNopCycle) {
+    			if(ctr.isNopCycle()) {
         			ctr.executeCommand(NOP);		// NOP
-        			ctr.isNopCycle = false;
-        			ctr.memory.programmcounter--;
+        			ctr.setNopCycle(false);
+        			ctr.getMemory().programmcounter--;
     			}else {	
         			ctr.executeCommand(codeLine);	// Normal Execute
     			}
     			
     			// checking if this pc has a breakpoint
-    			if(ctr.breakPointList[ctr.memory.programmcounter]) 
+    			if(ctr.getBreakPointList()[ctr.getMemory().programmcounter]) 
     			{
     				this.debugging = true;
     				this.continueDebug = false;
@@ -65,20 +65,20 @@ public class Processor extends Thread{
     			
     			// add the cycle time to operationalTime and update the panel
     			ctr.countCycleTime();
-    			System.out.println("OperationalTime: "+ctr.operationalTime);
+    			System.out.println("OperationalTime: "+ctr.getOperationalTime());
     			ctr.updateOperationalTime();
     			
     			// set the cycle clock output for timer source
     			clkout = true;
     			
-    			ctr.tmr0.updateSources(ctr.memory.get_Memory(0x05, 4), clkout);
-    			ctr.tmr0.checkTMRIncrement();
+    			ctr.getTimer().updateSources(ctr.getMemory().get_Memory(0x05, 4), clkout);
+    			ctr.getTimer().checkTMRIncrement();
     			
-    			ctr.isr.updateSources(ctr.memory.get_Memory(0x06));
-    			ctr.isr.checkRBISR();
+    			ctr.getInterrupt().updateSources(ctr.getMemory().get_Memory(0x06));
+    			ctr.getInterrupt().checkRBISR();
     			
     			// check all interrupt flags
-    			ctr.isr.checkTrigger();
+    			ctr.getInterrupt().checkTrigger();
     			
     			clkout = false;
     			
@@ -88,10 +88,10 @@ public class Processor extends Thread{
     				}
     				continueDebug = false;
     			}else {
-    				sleep(ctr.frequency);
+    				sleep(ctr.getFrequency());
     			}
 
-    			if(ctr.memory.programmcounter >= ctr.memory.programMemory.length) 
+    			if(ctr.getMemory().programmcounter >= ctr.getMemory().programMemory.length) 
                 {
                 	stopThread();
                 }
@@ -110,6 +110,6 @@ public class Processor extends Thread{
     public void stopThread() 
     {
     	this.exit = true;
-    	ctr.memory.programmcounter = 65536;
+    	ctr.getMemory().programmcounter = 65536;
     }
 }

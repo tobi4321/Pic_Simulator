@@ -31,28 +31,28 @@ public class Interrupt{
 	 */
 	public void checkTrigger() 
 	{
-       if(ctr.memory.get_Memory(0x0b, 7) == 1) 
+       if(ctr.getMemory().get_Memory(0x0b, 7) == 1) 
        {
     	   // check T0IF and T0IE
-    	   if(ctr.memory.get_Memory(0x0b, 2) == 1 && ctr.memory.get_Memory(0x0b, 5) == 1) 
+    	   if(ctr.getMemory().get_Memory(0x0b, 2) == 1 && ctr.getMemory().get_Memory(0x0b, 5) == 1) 
     	   {
     		   System.out.println("Timer0 Interrupt occured");
     		   setISR();
     	   }else
     	   // check INTF and INTE
-    	   if(ctr.memory.get_Memory(0x0b, 1) == 1 && ctr.memory.get_Memory(0x0b, 4) == 1) 
+    	   if(ctr.getMemory().get_Memory(0x0b, 1) == 1 && ctr.getMemory().get_Memory(0x0b, 4) == 1) 
     	   {
     		   System.out.println("INTF Interrupt occured");
     		   setISR();
     	   }else
     	   // check RBIF and RBIE
-    	   if(ctr.memory.get_Memory(0x0b, 0) == 1 && ctr.memory.get_Memory(0x0b, 3) == 1) 
+    	   if(ctr.getMemory().get_Memory(0x0b, 0) == 1 && ctr.getMemory().get_Memory(0x0b, 3) == 1) 
     	   {
     		   System.out.println("RB Interrupt occured");
     		   setISR();
     	   }else
     	   // check EEIF and EEIE
-    	   if(ctr.memory.get_Memory(0x88, 4) == 1 && ctr.memory.get_Memory(0x0b, 6) == 1) 
+    	   if(ctr.getMemory().get_Memory(0x88, 4) == 1 && ctr.getMemory().get_Memory(0x0b, 6) == 1) 
     	   {
     		   System.out.println("INTF Interrupt occured");
     		   setISR();
@@ -69,12 +69,12 @@ public class Interrupt{
 	private void setISR() 
 	{
 		//ctr.memory.pushToStack(ctr.memory.programmcounter);
-		ctr.memory.pushToStack(ctr.memory.get_PROGRAMMCOUNTER());
+		ctr.getMemory().pushToStack(ctr.getMemory().get_PROGRAMMCOUNTER());
 		// clearing GIE bit to disable other interrupts
-		ctr.memory.set_SRAM(0x0b, 7, 0);
+		ctr.getMemory().set_SRAM(0x0b, 7, 0);
 		// Subtract 1 because the programcounter is incremented again at the end of the run loop in processor
 		//ctr.memory.programmcounter = 0x04 - 1;
-		ctr.memory.set_PROGRAMMCOUNTER(0x04 - 1);
+		ctr.getMemory().set_PROGRAMMCOUNTER(0x04 - 1);
 	}
 	
 	/**
@@ -83,24 +83,24 @@ public class Interrupt{
 	protected void checkRBISR() 
 	{
 		// INTEDG is 1 = pos edge 
-		if(ctr.memory.get_Memory(0x81, 6) == 1) 
+		if(ctr.getMemory().get_Memory(0x81, 6) == 1) 
 		{
 			if(this.rb0Edge == 1) 
 			{
-				ctr.memory.set_SRAM(0x0b, 1, 1);
+				ctr.getMemory().set_SRAM(0x0b, 1, 1);
 			}
 		}else 
 		{
 			if(this.rb0Edge == 2) 
 			{
-				ctr.memory.set_SRAM(0x0b, 1, 1);
+				ctr.getMemory().set_SRAM(0x0b, 1, 1);
 			}
 		}
 		
 		
 		if(this.rbChanged) 
 		{
-			ctr.memory.set_SRAM(0x0b, 0, 1);
+			ctr.getMemory().set_SRAM(0x0b, 0, 1);
 			this.rbChanged = false;
 		}
 	}

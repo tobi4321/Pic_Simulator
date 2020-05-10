@@ -24,15 +24,15 @@ public class Watchdog {
 		this.preScaler++;
 		if(this.preScaler == ( Math.pow(2.0, ctr.getPrescaler()) )) 
 		{
-			int in = ctr.memory.get_Memory(1);
+			int in = ctr.getMemory().get_Memory(1);
 			if(in == 255) 
 			{
-				ctr.memory.set_SRAM(1, 0);
-				ctr.memory.set_SRAM(0x0b, 2, 1);
+				ctr.getMemory().set_SRAM(1, 0);
+				ctr.getMemory().set_SRAM(0x0b, 2, 1);
 			}else 
 			{
 				in++;
-				ctr.memory.set_SRAM(1, in);
+				ctr.getMemory().set_SRAM(1, in);
 			}
 		}
 	}

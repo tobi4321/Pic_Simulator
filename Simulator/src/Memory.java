@@ -236,9 +236,9 @@ public class Memory extends Thread{
 			set_SRAMDIRECT(2, bit, value);
 			set_SRAMDIRECT(130, bit, value);
 			// Add the PCLATH when writing on PCL
-			int PCLATH 	= ctr.memory.get_MemoryDIRECT(0x0A);
-			int PCL 	= ctr.memory.get_MemoryDIRECT(0x02);
-			ctr.memory.programmcounter = ((PCLATH & 0x1F) << 8) | PCL;
+			int PCLATH 	= this.get_MemoryDIRECT(0x0A);
+			int PCL 	= this.get_MemoryDIRECT(0x02);
+			this.programmcounter = ((PCLATH & 0x1F) << 8) | PCL;
 			break;
 		// Status
 		case 3:
@@ -265,7 +265,7 @@ public class Memory extends Thread{
 			{
 				// If TMR0 is accessed and Prescaler is active 
 				if (fileaddress == 0x01 && this.get_Memory(0x81, 3) == 0) {
-					ctr.tmr0.preScaler = 0;
+					ctr.getTimer().preScaler = 0;
 				}
 				set_SRAMDIRECT(fileaddress, bit, value);
 			}else if((dataMemory[3][5] == 1) && (fileaddress < 128)) 

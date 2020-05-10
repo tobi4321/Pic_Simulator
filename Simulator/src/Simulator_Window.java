@@ -212,7 +212,7 @@ public class Simulator_Window {
 				int fileNumber = Integer.parseInt(comboBox_File.getSelectedItem().toString(), 16);
 				int subFileNumber = Integer.parseInt(comboBox_SubFile.getSelectedItem().toString(),16);
 				System.out.println("Input: "+input+" into "+(fileNumber+subFileNumber));
-				ctr.memory.set_SRAMDIRECT((fileNumber+subFileNumber), Integer.parseInt(input));
+				ctr.getMemory().set_SRAMDIRECT((fileNumber+subFileNumber), Integer.parseInt(input));
 			}
 		});
 		btn_InputRegister.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -455,14 +455,14 @@ public class Simulator_Window {
 		btnDebug.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(ctr.processorRunning == false) 
+				if(ctr.isProcessorRunning() == false) 
 				{
 					ctr.startSimu(true);
 				}else 
 				{
 					// deactivate debugging if thread is already running
-					ctr.proc.debugging = false;
-					ctr.proc.continueDebug = true;
+					ctr.getProcessor().debugging = false;
+					ctr.getProcessor().continueDebug = true;
 				}
 			}
 		});
@@ -874,10 +874,10 @@ public class Simulator_Window {
 			public void propertyChange(PropertyChangeEvent arg0) {
 				if(comboBox_2.getSelectedIndex() == 0) 
 				{
-					ctr.controlPortSelect = 0;
+					ctr.setControlPortSelect(0);
 				}else if(comboBox_2.getSelectedIndex() == 1) 
 				{
-					ctr.controlPortSelect = 1;
+					ctr.setControlPortSelect(1);
 				}
 			}
 		});
@@ -889,10 +889,10 @@ public class Simulator_Window {
 			public void propertyChange(PropertyChangeEvent arg0) {
 				if(comboBox_3.getSelectedIndex() == 0) 
 				{
-					ctr.dataPortSelect = 0;
+					ctr.setDataPortSelect(0);
 				}else if(comboBox_3.getSelectedIndex() == 1) 
 				{
-					ctr.dataPortSelect = 1;
+					ctr.setDataPortSelect(1);
 				}
 			}
 		});
@@ -911,10 +911,10 @@ public class Simulator_Window {
 				System.out.println("7-Segment: "+selected);
 				if(selected) 
 		          {
-		        	  ctr.sevenSegmentActive = true;
+		        	  ctr.setSevenSegmentActive(true);
 		          }else 
 		          {
-		        	  ctr.sevenSegmentActive = false;
+		        	  ctr.setSevenSegmentActive(false);
 		          }
 			}
 		});
@@ -937,7 +937,7 @@ public class Simulator_Window {
 		JButton btnZurcksetzen = new JButton("Zur\u00FCcksetzen");
 		btnZurcksetzen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ctr.operationalTime = 0.0;
+				ctr.setOperationalTime(0.0);
 				ctr.updateOperationalTime();
 			}
 		});

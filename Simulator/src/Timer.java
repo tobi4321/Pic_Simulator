@@ -47,10 +47,10 @@ public class Timer {
 	{
 		
 		// if T0CS is 1 source is RA4 otherwise clkout
-		if(ctr.memory.get_Memory(0x81, 5) == 1) 
+		if(ctr.getMemory().get_Memory(0x81, 5) == 1) 
 		{
 			// check source RA4
-			if(ctr.memory.get_Memory(0x81, 4) == 0) 
+			if(ctr.getMemory().get_Memory(0x81, 4) == 0) 
 			{
 				if(this.raEdge == 1) 
 				{
@@ -79,22 +79,22 @@ public class Timer {
 	private void incrementTMR() 
 	{
 		this.preScaler++;
-		int preScalerActive = ctr.memory.get_MemoryDIRECT(0x81, 3);
+		int preScalerActive = ctr.getMemory().get_MemoryDIRECT(0x81, 3);
 		if((preScalerActive == 0) && this.preScaler == ( Math.pow(2.0, ctr.getPrescaler())*2 )
 				|| preScalerActive == 1) 
 		{
-			int in = ctr.memory.get_MemoryDIRECT(1);
+			int in = ctr.getMemory().get_MemoryDIRECT(1);
 			if(in == 255) 
 			{
-				ctr.memory.set_SRAMDIRECT(1, 0);
+				ctr.getMemory().set_SRAMDIRECT(1, 0);
 				
-				ctr.memory.set_SRAM(0x0b, 2, 1);
-				ctr.memory.set_ZEROFLAG(1);
+				ctr.getMemory().set_SRAM(0x0b, 2, 1);
+				ctr.getMemory().set_ZEROFLAG(1);
 
 			}else 
 			{
 				in++;
-				ctr.memory.set_SRAMDIRECT(1, in);
+				ctr.getMemory().set_SRAMDIRECT(1, in);
 			}
 			this.preScaler = 0;
 		}

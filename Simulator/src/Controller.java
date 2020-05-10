@@ -18,29 +18,32 @@ public class Controller {
 	private ErrorDialog errorView;
 	
 	/// Processor object used to work each code step
-	protected Processor proc;
+	private Processor proc;
 	/// memory object used to store the data of microprocessor
-	protected Memory memory;
+	private Memory memory;
 	/// Parser Object to parse Mnemonic Code into Binary Code
-	protected MnemonicParser parser;
+	private MnemonicParser parser;
 	/// Timer object to check timer pin and do timer operations
-	protected Timer tmr0;
+	private Timer tmr0;
 	/// Interrupt object to check interrupt flags and if needed set pc to 0004
-	protected Interrupt isr;
+	private Interrupt isr;
 	
-	protected boolean processorRunning = false;
+	private boolean processorRunning = false;
+
 	/// Displaying if the code is compiled.
-	protected boolean isCompiled = false;
+	private boolean isCompiled = false;
 	/// The data model to initialize the data table.
-	protected String[][] tableData = new String[32][9];
+	private String[][] tableData = new String[32][9];
 	
-	protected int[][] tableHighlight = new int[32][9];
+	private int[][] tableHighlight = new int[32][9];
 	/// An array holding the jumper line number and the mnemonic code.
 	/**
 	 * The jumpers are holding the mnemonic code line with an ':' and the program counter appended.
 	 * They are listed starting at 0.
 	 */
-	protected String[] jumpers = new String[512];
+	private String[] jumpers = new String[512];
+
+
 	/// Amount of jumper marks in the code.
 	private int jumpersCount = 0;
 	
@@ -48,45 +51,53 @@ public class Controller {
 	/**
 	 * One entry holds the "original" before the EQU, followed by an ':' appended with the value after the EQU.
 	 */
-	protected String[] equ = new String[256];
+	private String[] equ = new String[256];
 	/// Amount of EQUs in the code.
 	private int equCount = 0;
 	/// The mnemonic code.
-	protected String[] mnemonicLines;
+	private String[] mnemonicLines;
 	/// A list of the program counter as key with the dedicated code line as value
-	protected int[] programCounterList = new int[1024];
+	private int[] programCounterList = new int[1024];
 
 	/// A list of breakpoints
-	protected boolean[] breakPointList = new boolean[1024];
+	private boolean[] breakPointList = new boolean[1024];
 	
-	/// The program code as string array. Every code line is one string.
-	protected String[] code;
+
 	/// The length of the compiled code
-	protected int codeLength = 0;
+	private int codeLength = 0;
 	/// The Quartz frequency 
-	protected int frequency = 1000;
+	private int frequency = 1000;
+
+
 	/// Signals that the next cycle is a nop
-	protected boolean isNopCycle = false;
+	private boolean isNopCycle = false;
 	
 	/// time since simulator program started
-	protected double operationalTime = 0.0;
+	private double operationalTime = 0.0;
 	
-	
+
+
 	/// Bool to indicate if 7 segment is actiavted or not
-	protected boolean sevenSegmentActive = false;
+	private boolean sevenSegmentActive = false;
+
+
 	/// Bool to indicate the controlPort for 7Seg
 	/**
 	 *  1 indicates port b
 	 *  0 indicates port a
 	 */
-	protected int controlPortSelect = 0;
+	private int controlPortSelect = 0;
+
+
 	/// Bool to indicate the dataPort for 7Seg
 	/**
 	 *  0 indicates port a
 	 *  1 indicates port b
 	 */
-	protected int dataPortSelect = 1;
+	private int dataPortSelect = 1;
 	
+
+
 	/**
 	*  The Constructor, creating a new Memory and MnemonicParser.
 	*  @param pGui Is an Object of {@link Simulator_Window}
@@ -979,7 +990,7 @@ public class Controller {
 		{
 			memory.set_SRAM(f, in);
 		}
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	/**
@@ -1036,7 +1047,7 @@ public class Controller {
 		{
 			memory.set_SRAM(f, in);
 		}
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	/**
@@ -1292,7 +1303,7 @@ public class Controller {
 		{
 			//this.memory.programmcounter++;
 			this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
-			this.isNopCycle = true;
+			this.setNopCycle(true);
 		}
 	}
 	
@@ -1310,7 +1321,7 @@ public class Controller {
 		{
 			//this.memory.programmcounter++;
 			this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
-			this.isNopCycle = true;
+			this.setNopCycle(true);
 		}
 	}
 	
@@ -1367,7 +1378,7 @@ public class Controller {
 	{
 		memory.pushToStack(this.memory.programmcounter);
 		this.memory.programmcounter = k-1;
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	/**
@@ -1389,7 +1400,7 @@ public class Controller {
 	{
 		System.out.println("k: " + k);
 		this.memory.programmcounter = k-1;
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	/**
@@ -1426,7 +1437,7 @@ public class Controller {
 	{
 		memory.set_GIE(1);
 		this.memory.programmcounter = memory.popFromStack();
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	/**
@@ -1438,7 +1449,7 @@ public class Controller {
 	{
 		memory.set_WREGISTER(k);
 		this.memory.programmcounter = memory.popFromStack();
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	// Attention the function return is a basic java function
@@ -1449,7 +1460,7 @@ public class Controller {
 	private void _return() 
 	{
 		this.memory.programmcounter = memory.popFromStack();
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	/**
@@ -1755,5 +1766,183 @@ public class Controller {
 	{
 		this.gui.highlightCell(x, y);
 	}
+	/**
+	 * Getter for access to Processor Object
+	 * @return reference to proc
+	 */
+	protected Processor getProcessor() 
+	{
+		return proc;
+	}
+	/**
+	 * Getter for access to Memory Object
+	 * @return reference to memory
+	 */
+	protected Memory getMemory() 
+	{
+		return memory;
+	}
+	/**
+	 * Getter for access to Timer Object
+	 * @return reference to tmr0
+	 */
+	protected Timer getTimer() 
+	{
+		return tmr0;
+	}
+	/**
+	 * Getter for access to Interrupt Object
+	 * @return reference to isr;
+	 */
+	protected Interrupt getInterrupt() 
+	{
+		return isr;
+	}
+	/**
+	 * @return the processorRunning
+	 */
+	protected boolean isProcessorRunning() {
+		return processorRunning;
+	}
 
+	/**
+	 * @param processorRunning the processorRunning to set
+	 */
+	protected void setProcessorRunning(boolean processorRunning) {
+		this.processorRunning = processorRunning;
+	}
+
+	/**
+	 * @return the tableHighlight
+	 */
+	public int[][] getTableHighlight() {
+		return tableHighlight;
+	}
+
+	/**
+	 * @param tableHighlight the tableHighlight to set
+	 */
+	public void setTableHighlight(int[][] tableHighlight) {
+		this.tableHighlight = tableHighlight;
+	}
+	/**
+	 * @return the jumpers
+	 */
+	protected String[] getJumpers() {
+		return jumpers;
+	}
+
+	/**
+	 * @param jumpers the jumpers to set
+	 */
+	protected void setJumpers(String[] jumpers) {
+		this.jumpers = jumpers;
+	}
+	/**
+	 * @return the programCounterList
+	 */
+	protected int[] getProgramCounterList() {
+		return programCounterList;
+	}
+
+	/**
+	 * @param programCounterList the programCounterList to set
+	 */
+	protected void setProgramCounterList(int[] programCounterList) {
+		this.programCounterList = programCounterList;
+	}
+	/**
+	 * @return the breakPointList
+	 */
+	protected boolean[] getBreakPointList() {
+		return breakPointList;
+	}
+
+	/**
+	 * @param breakPointList the breakPointList to set
+	 */
+	protected void setBreakPointList(boolean[] breakPointList) {
+		this.breakPointList = breakPointList;
+	}
+	/**
+	 * @return the frequency
+	 */
+	protected int getFrequency() {
+		return frequency;
+	}
+
+	/**
+	 * @param frequency the frequency to set
+	 */
+	protected void setFrequency(int frequency) {
+		this.frequency = frequency;
+	}
+
+	/**
+	 * @return the isNopCycle
+	 */
+	public boolean isNopCycle() {
+		return isNopCycle;
+	}
+
+	/**
+	 * @param isNopCycle the isNopCycle to set
+	 */
+	public void setNopCycle(boolean isNopCycle) {
+		this.isNopCycle = isNopCycle;
+	}
+	
+	/**
+	 * @return the operationalTime
+	 */
+	protected double getOperationalTime() {
+		return operationalTime;
+	}
+
+	/**
+	 * @param operationalTime the operationalTime to set
+	 */
+	protected void setOperationalTime(double operationalTime) {
+		this.operationalTime = operationalTime;
+	}
+	/**
+	 * @return the sevenSegmentActive
+	 */
+	protected boolean isSevenSegmentActive() {
+		return sevenSegmentActive;
+	}
+
+	/**
+	 * @param sevenSegmentActive the sevenSegmentActive to set
+	 */
+	protected void setSevenSegmentActive(boolean sevenSegmentActive) {
+		this.sevenSegmentActive = sevenSegmentActive;
+	}
+	
+	/**
+	 * @return the controlPortSelect
+	 */
+	protected int getControlPortSelect() {
+		return controlPortSelect;
+	}
+
+	/**
+	 * @param controlPortSelect the controlPortSelect to set
+	 */
+	protected void setControlPortSelect(int controlPortSelect) {
+		this.controlPortSelect = controlPortSelect;
+	}
+	/**
+	 * @return the dataPortSelect
+	 */
+	protected int getDataPortSelect() {
+		return dataPortSelect;
+	}
+
+	/**
+	 * @param dataPortSelect the dataPortSelect to set
+	 */
+	protected void setDataPortSelect(int dataPortSelect) {
+		this.dataPortSelect = dataPortSelect;
+	}
 }
