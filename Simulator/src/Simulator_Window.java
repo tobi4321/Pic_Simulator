@@ -15,6 +15,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -369,22 +373,29 @@ public class Simulator_Window {
 
 
 		Box verticalCodeViewer = Box.createVerticalBox();
-		verticalCodeViewer.setMinimumSize(new Dimension(500, 300));
+		verticalCodeViewer.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		verticalCodeViewer.setMaximumSize(new Dimension(2000, 800));
+		verticalCodeViewer.setMinimumSize(new Dimension(500, 100));
 		upperArea.add(verticalCodeViewer);
 		
 
 		JPanel panel_Code = new JPanel();
+		panel_Code.setPreferredSize(new Dimension(10, 600));
+		panel_Code.setMaximumSize(new Dimension(32767, 800));
 		verticalCodeViewer.add(panel_Code);
 		panel_Code.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblCodeViewer = new JLabel("Code Viewer");
+		lblCodeViewer.setHorizontalAlignment(SwingConstants.LEFT);
+		lblCodeViewer.setVerticalTextPosition(SwingConstants.TOP);
+		lblCodeViewer.setVerticalAlignment(SwingConstants.TOP);
+		lblCodeViewer.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel_Code.add(lblCodeViewer, BorderLayout.NORTH);
-		lblCodeViewer.setAlignmentY(Component.TOP_ALIGNMENT);
 		lblCodeViewer.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setPreferredSize(new Dimension(2, 700));
-		scrollPane_3.setMaximumSize(new Dimension(32767, 750));
+		scrollPane_3.setPreferredSize(new Dimension(2, 600));
+		scrollPane_3.setMaximumSize(new Dimension(32767, 600));
 		panel_Code.add(scrollPane_3, BorderLayout.CENTER);
 		scrollPane_3.setViewportBorder(UIManager.getBorder("TableHeader.cellBorder"));
 		table_Code = new JTable();
@@ -1125,6 +1136,37 @@ public class Simulator_Window {
 			}
 		});
 		mnSimulator.add(btnOpenMnemonic);
+		
+		JButton btnIoServer = new JButton("IO Server");
+		btnIoServer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			    JLabel ipAdress = new JLabel();
+			    JLabel port = new JLabel();
+
+			    InetAddress inetAddress;
+				try {
+					inetAddress = InetAddress.getLocalHost();
+				    ipAdress.setText(inetAddress.getHostAddress());
+				    port.setText(Integer.toString(ctr.getServer().getServerPort()));
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+			    
+			    JPanel myPanel = new JPanel();
+			    myPanel.add(new JLabel("IP:"));
+			    myPanel.add(ipAdress);
+			    myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+			    myPanel.add(new JLabel("Port:"));
+			    myPanel.add(port);
+			    
+			    int result = JOptionPane.showConfirmDialog(null, myPanel,
+			            "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+			        if (result == JOptionPane.OK_OPTION) {
+			          System.out.println("Port value: " + port.getText());
+			        }
+			}
+		});
+		mnSimulator.add(btnIoServer);
 		
 		JButton btnInfo = new JButton("Info");
 		mnSimulator.add(btnInfo);
