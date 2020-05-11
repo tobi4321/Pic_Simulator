@@ -9,11 +9,11 @@
 
 public class Processor extends Thread{
 	
-	Controller ctr;
-	Boolean exit = false;
-	int oldProgrammCounter = 0;
-	protected boolean debugging = false;
-	protected boolean continueDebug = false;
+	private Controller ctr;
+	private Boolean exit = false;
+	private boolean debugging = false;
+
+	private boolean continueDebug = false;
 	protected boolean isInSleep = false;
 	
 	protected boolean clkout = false;
@@ -28,7 +28,7 @@ public class Processor extends Thread{
     public void run() {
     	while (!exit) {  
     		try {
-    		
+
     		for(ctr.memory.programmcounter = 0; ctr.memory.programmcounter < ctr.memory.programMemory.length; ctr.memory.programmcounter++) 
     		{
     			// Write Programmcounter in PCL
@@ -68,16 +68,10 @@ public class Processor extends Thread{
     			ctr.isr.checkRBISR();
     			
     			// check all interrupt flags
-    			ctr.isr.checkInterrupt();
+    			ctr.isr.checkTrigger();
     			
     			clkout = false;
-    			while(this.isInSleep)
-    			{
-    				sleep(10);
-    				if (ctr.isr.checkInterruptFlags()) {
-    					ctr.wakeUpSleep();
-    				}
-    			}
+    			
     			if (this.debugging) {
     				while(!continueDebug) {
     					sleep(100);
@@ -98,7 +92,7 @@ public class Processor extends Thread{
     		catch(InterruptedException e) {
     		}
     	}
-    	System.out.println("Processor thread stopped");
+    	System.out.println("Thread stopped");
     }
     public void continueDebugStep() {
     	this.continueDebug = true;
@@ -108,4 +102,31 @@ public class Processor extends Thread{
     	this.exit = true;
     	ctr.memory.programmcounter = 65536;
     }
+    
+	/**
+	 * @return the debugging
+	 */
+	protected boolean isDebugging() {
+		return debugging;
+	}
+
+	/**
+	 * @param debugging the debugging to set
+	 */
+	protected void setDebugging(boolean debugging) {
+		this.debugging = debugging;
+	}
+	/**
+	 * @return the continueDebug
+	 */
+	protected boolean isContinueDebug() {
+		return continueDebug;
+	}
+
+	/**
+	 * @param continueDebug the continueDebug to set
+	 */
+	protected void setContinueDebug(boolean continueDebug) {
+		this.continueDebug = continueDebug;
+	}
 }

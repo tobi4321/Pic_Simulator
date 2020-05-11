@@ -11,13 +11,13 @@ import java.net.ServerSocket;
  */
 public class IOServer extends Thread{
 	
-	Controller ctr;
+	private Controller ctr;
 	
-	protected int serverPort;
+	private int serverPort;
 	
-	ServerSocket tcpServer;
+	private ServerSocket tcpServer;
 	
-	Socket tcpClient;
+	private Socket tcpClient;
 	
 	public IOServer(Controller pCtr) 
 	{
@@ -33,7 +33,6 @@ public class IOServer extends Thread{
 			
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 	}

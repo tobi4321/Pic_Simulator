@@ -18,31 +18,34 @@ public class Controller {
 	private ErrorDialog errorView;
 	
 	/// Processor object used to work each code step
-	protected Processor proc;
+	private Processor proc;
 	/// memory object used to store the data of microprocessor
-	protected Memory memory;
+	private Memory memory;
 	/// Parser Object to parse Mnemonic Code into Binary Code
-	protected MnemonicParser parser;
+	private MnemonicParser parser;
 	/// Timer object to check timer pin and do timer operations
-	protected Timer tmr0;
+	private Timer tmr0;
 	/// Interrupt object to check interrupt flags and if needed set pc to 0004
-	protected Interrupt isr;
+	private Interrupt isr;
 	/// Object of the Watchdog.
 	protected Watchdog wtd;
 	
-	protected boolean processorRunning = false;
+	private boolean processorRunning = false;
+
 	/// Displaying if the code is compiled.
-	protected boolean isCompiled = false;
+	private boolean isCompiled = false;
 	/// The data model to initialize the data table.
-	protected String[][] tableData = new String[32][9];
+	private String[][] tableData = new String[32][9];
 	
-	protected int[][] tableHighlight = new int[32][9];
+	private int[][] tableHighlight = new int[32][9];
 	/// An array holding the jumper line number and the mnemonic code.
 	/**
 	 * The jumpers are holding the mnemonic code line with an ':' and the program counter appended.
 	 * They are listed starting at 0.
 	 */
-	protected String[] jumpers = new String[512];
+	private String[] jumpers = new String[512];
+
+
 	/// Amount of jumper marks in the code.
 	private int jumpersCount = 0;
 	
@@ -50,37 +53,50 @@ public class Controller {
 	/**
 	 * One entry holds the "original" before the EQU, followed by an ':' appended with the value after the EQU.
 	 */
-	protected String[] equ = new String[256];
+	private String[] equ = new String[256];
 	/// Amount of EQUs in the code.
 	private int equCount = 0;
 	/// The mnemonic code.
-	protected String[] mnemonicLines;
+	private String[] mnemonicLines;
 	/// A list of the program counter as key with the dedicated code line as value
-	protected int[] programCounterList = new int[1024];
+	private int[] programCounterList = new int[1024];
 
-	/// The program code as string array. Every code line is one string.
-	protected String[] code;
-	/// The length of the compiled code
-	protected int codeLength = 0;
-	/// The Quartz frequency 
-	protected int frequency = 1000;
-	/// Signals that the next cycle is a nop
-	protected boolean isNopCycle = false;
+	/// A list of breakpoints
+	private boolean[] breakPointList = new boolean[1024];
 	
+
+	/// The length of the compiled code
+	private int codeLength = 0;
+	/// The Quartz frequency 
+	private int frequency = 1000;
+
+
+	/// Signals that the next cycle is a nop
+	private boolean isNopCycle = false;
+	
+	/// time since simulator program started
+	private double operationalTime = 0.0;
+	
+
+
 	/// Bool to indicate if 7 segment is actiavted or not
-	protected boolean sevenSegmentActive = false;
+	private boolean sevenSegmentActive = false;
+
+
 	/// Bool to indicate the controlPort for 7Seg
 	/**
 	 *  1 indicates port b
 	 *  0 indicates port a
 	 */
-	protected int controlPortSelect = 0;
+	private int controlPortSelect = 0;
+
+
 	/// Bool to indicate the dataPort for 7Seg
 	/**
 	 *  0 indicates port a
 	 *  1 indicates port b
 	 */
-	protected int dataPortSelect = 1;
+	private int dataPortSelect = 1;
 	
 	/**
 	*  The Constructor, creating a new Memory and MnemonicParser.
@@ -110,16 +126,20 @@ public class Controller {
 		}
 		for(int i = 0; i < 32; i++) {
 			tableData[i][0] = Integer.toHexString(i*8);
-			this.gui.tbl_memory.addRow(new Object[] {tableData[i][0],"0","0","0","0","0","0","0","0"});
+			this.gui.getTblMemoryModel().addRow(new Object[] {tableData[i][0],"0","0","0","0","0","0","0","0"});
 		}
 		// initialization of special register table
-		this.gui.tbl_special.addRow(new Object[] { "W-Reg", "00","00000000" });
-		this.gui.tbl_special.addRow(new Object[] { "FSR", "00","00000000" });
-		this.gui.tbl_special.addRow(new Object[] { "PCL", "30","00110000" });
-		this.gui.tbl_special.addRow(new Object[] { "PCLATH", "00","00000000" });
-		this.gui.tbl_special.addRow(new Object[] {"PC", "0030","00000000"});
-		this.gui.tbl_special.addRow(new Object[] { "Status", "C0","10100000" });
+		this.gui.getTblSpecialModel().addRow(new Object[] { "W-Reg", "00","00000000" });
+		this.gui.getTblSpecialModel().addRow(new Object[] { "FSR", "00","00000000" });
+		this.gui.getTblSpecialModel().addRow(new Object[] { "PCL", "30","00110000" });
+		this.gui.getTblSpecialModel().addRow(new Object[] { "PCLATH", "00","00000000" });
+		this.gui.getTblSpecialModel().addRow(new Object[] {"PC", "0030","00000000"});
+		this.gui.getTblSpecialModel().addRow(new Object[] { "Status", "C0","10100000" });
 		
+		for(int i = 0; i < 8; i++) 
+		{
+			this.gui.getTblStackModel().addRow(new Object[] {i,""});
+		}
 	}
 	/**
 	 * Starts a thread to cyclic update the memory table.
@@ -158,6 +178,32 @@ public class Controller {
 		}
 		gui.setSpecialData(value, x, y);
 	}
+	/**
+	 * Method to update the stack panel with the data in memory variable stack 
+	 */
+	protected void updateStackPanel(String value, int y) 
+	{
+		gui.setStackData(value, y, 1);
+	}
+	
+	protected void setBreakPoint(int row) 
+	{
+		for(int i = 0; i < programCounterList.length; i++) 
+		{
+			if(programCounterList[i]-1 == row) 
+			{
+				if(breakPointList[i] == false) 
+				{
+					breakPointList[i] = true;
+					this.gui.getTblCodeModel().setValueAt("O", row, 0);
+				}else 
+				{
+					breakPointList[i] = false;
+					this.gui.getTblCodeModel().setValueAt(" ", row, 0);
+				}
+			}
+		}
+	}
 	
 	/**
 	*  Try to open a new {@link MnemonicView} and display it. 
@@ -187,6 +233,11 @@ public class Controller {
 		errorView.lbl_ErrorTitle.setText(title);
 		errorView.lbl_ErrorText.setText(text);
 	}
+	/**
+	 * this method will update the seven segment panel 
+	 * there are a control input and a data input needed
+	 * these inputs can be choosen (Port a and Port b)
+	 */
 	protected void update7Segment() 
 	{
 		int controlPort = 0;
@@ -209,10 +260,23 @@ public class Controller {
 				dataPort = this.memory.get_MemoryDIRECT(0x06);
 			}
 			System.out.println("set7Segment: "+controlPort+" data: "+dataPort);
-			this.gui.panel_segmentCanvas.set7Segment(controlPort, dataPort);
+			this.gui.getSevenSegmentPanel().set7Segment(controlPort, dataPort);
 		}
 	}
-	
+	// used to update the operationTime panel in gui
+	protected void updateOperationalTime() 
+	{
+		gui.updateOperationalTime(this.operationalTime);
+	}
+	/**
+	 * add the cycle time to the operationalTime and round to 3 decimal digits
+	 */
+	protected void countCycleTime() 
+	{
+		double d = Math.pow(10, 3);
+	    this.operationalTime = this.operationalTime + (1.0/this.frequency);  
+	    this.operationalTime = Math.round(this.operationalTime * d) / d;
+	}
 	/**
 	*  Method to load the program code from the code view table.
 	*  If labels are found in the 5th column they are added.
@@ -223,15 +287,15 @@ public class Controller {
 	{
 		String mnemonic = "";
 		// iterate over the code view table
-		for (int i = 0; i < gui.tbl_code.getRowCount(); i++) {
+		for (int i = 0; i < gui.getTblCodeModel().getRowCount(); i++) {
 			// check for Labels and add if found
-			String label = gui.tbl_code.getValueAt(i, 4).toString();
+			String label = gui.getTblCodeModel().getValueAt(i, 4).toString();
 			if(!label.isEmpty()) {
 				mnemonic = mnemonic + label + "\n";
 			}
 			else {
 				// else check if line is an EQU and add it, otherwise add it with an space as prefix
-				String code = gui.tbl_code.getValueAt(i, 5).toString();
+				String code = gui.getTblCodeModel().getValueAt(i, 5).toString();
 				if (code.contains("EQU")) {
 					mnemonic = mnemonic + code + "\n";
 				}
@@ -241,8 +305,8 @@ public class Controller {
 			}
 		}
 		// add and repaint.
-		mnemonicWindow.txtArea_mnemonic.setText(mnemonic);
-		mnemonicWindow.txtArea_mnemonic.repaint();
+		mnemonicWindow.getTxtArea_mnemonic().setText(mnemonic);
+		mnemonicWindow.getTxtArea_mnemonic().repaint();
 	}
 
 	/**
@@ -401,7 +465,8 @@ public class Controller {
 			br = new BufferedReader(new FileReader(pFile));
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+
+
 			e.printStackTrace();
 		}
 		String st; 
@@ -432,16 +497,16 @@ public class Controller {
 			}
 			if(!label.isEmpty()) 
 			{
-				gui.tbl_code.addRow(new Object[] {" ",st.substring(0, 4),st.substring(5, 9),st.substring(20, 25),label,""});
+				gui.getTblCodeModel().addRow(new Object[] {" ",st.substring(0, 4),st.substring(5, 9),st.substring(20, 25),label,""});
 			}else 
 			{
-				gui.tbl_code.addRow(new Object[] {" ",st.substring(0, 4),st.substring(5, 9),st.substring(20, 25),label, st.substring(36)});
+				gui.getTblCodeModel().addRow(new Object[] {" ",st.substring(0, 4),st.substring(5, 9),st.substring(20, 25),label, st.substring(36)});
 			}
 
 			if(!st.substring(0, 4).equals("    ")) 
 			{
 				this.codeLength = Integer.parseInt(st.substring(0, 4),16);
-				memory.programMemory[codeLength] = Integer.parseInt(st.substring(5, 9), 16);
+				memory.getProgramMemory()[codeLength] = Integer.parseInt(st.substring(5, 9), 16);
 				programCounterList[codeLength] = Integer.parseInt(st.substring(20, 25));
 			}
 
@@ -469,10 +534,16 @@ public class Controller {
 	 * **/
 	public void setCodeViewCounter(int newC) 
 	{
-		for(int i = 0; i < this.gui.tbl_code.getRowCount(); i++) {
+		// first column is used for breakpoints
+		/*
+		 *  for(int i = 0; i < this.gui.tbl_code.getRowCount(); i++) {
 			this.gui.tbl_code.setValueAt(" ", i, 0);
-		}
-		this.gui.tbl_code.setValueAt("->", newC-1, 0);
+			}
+			this.gui.tbl_code.setValueAt("->", newC-1, 0);
+		 * 
+		 * 
+		 * */
+
 		this.gui.highlightRow(newC - 1);
 	}
 	
@@ -523,7 +594,7 @@ public class Controller {
 				if(proceed.isEmpty() || (proceed.length() < 5 &&  proceed.startsWith(" "))) 
 				{
 					// empty line 
-					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",""});
+					gui.getTblCodeModel().addRow(new Object[]{"","    ", "    ", j+1 , "",""});
 				}else if(proceed.contains("org") || proceed.contains("device 16")) 
 				{
 					// org statement should change the pc
@@ -539,18 +610,18 @@ public class Controller {
 							}
 						}
 					}
-					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
+					gui.getTblCodeModel().addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
 				}else if(proceed.contains("EQU")) 
 				{
 					// EQU should not affect any variable
-					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
+					gui.getTblCodeModel().addRow(new Object[]{"","    ", "    ", j+1 , "",mnemonicLines[j]});
 				}else if(proceed.charAt(0) != ' ') 
 				{
 					// if the first char in a line is unequal to space it is a label
 					// pay attention that the EQU is checked before, because EQU has unequal first character too
 					
 					
-					gui.tbl_code.addRow(new Object[]{"","    ", "    ", j+1 , proceed,""});
+					gui.getTblCodeModel().addRow(new Object[]{"","    ", "    ", j+1 , proceed,""});
 				}else if(this.mnemonicLines[j].charAt(0) == ' ') 
 				{
 					
@@ -558,8 +629,8 @@ public class Controller {
 					System.out.println("Controller: "+proceed);
 					String binaryCode = parser.fromMnemToHex(proceed, j).toString();
 					
-					gui.tbl_code.addRow(new Object[]{"",Integer.toHexString(pc), Integer.toHexString(Integer.parseInt(binaryCode, 2)), j+1 , "",mnemonicLines[j]});
-					this.memory.programMemory[pc] = Integer.parseInt(binaryCode, 2);
+					gui.getTblCodeModel().addRow(new Object[]{"",Integer.toHexString(pc), Integer.toHexString(Integer.parseInt(binaryCode, 2)), j+1 , "",mnemonicLines[j]});
+					this.memory.getProgramMemory()[pc] = Integer.parseInt(binaryCode, 2);
 					
 					programCounterList[pc] = j+1;
 					// pc needs to be incremented
@@ -579,7 +650,7 @@ public class Controller {
 	{
 		TableColumn column = null;
 		for (int i = 0; i < 3; i++) {
-		    column = gui.table_Code.getColumnModel().getColumn(i);
+		    column = gui.getTableCode().getColumnModel().getColumn(i);
 		    if (i < 2 ) {
 		        column.setPreferredWidth(3); //third column is bigger
 		        column.setResizable(false);
@@ -594,9 +665,9 @@ public class Controller {
 	 * **/
 	public void inizializeTables() 
 	{
-		gui.tbl_code.setColumnIdentifiers	(new Object[] {" ", "ProgramCounter", "ProgramCode", "LineCount","Label","MnemonicCode"});
-		gui.tbl_memory.setColumnIdentifiers	(new Object[] {"","00","01","02","03","04","05","06","07"});
-		gui.tbl_special.setColumnIdentifiers(new Object[]{"Register", "Hex-Wert", "Bin-Wert"});
+		gui.getTblCodeModel().setColumnIdentifiers	(new Object[] {" ", "ProgramCounter", "ProgramCode", "LineCount","Label","MnemonicCode"});
+		gui.getTblMemoryModel().setColumnIdentifiers	(new Object[] {"","00","01","02","03","04","05","06","07"});
+		gui.getTblSpecialModel().setColumnIdentifiers(new Object[]{"Register", "Hex-Wert", "Bin-Wert"});
 	}
 
 	/**
@@ -925,7 +996,7 @@ public class Controller {
 		{
 			memory.set_SRAM(f, in);
 		}
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	/**
@@ -983,7 +1054,7 @@ public class Controller {
 		{
 			memory.set_SRAM(f, in);
 		}
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	/**
@@ -1239,7 +1310,7 @@ public class Controller {
 		{
 			//this.memory.programmcounter++;
 			this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
-			this.isNopCycle = true;
+			this.setNopCycle(true);
 		}
 	}
 	
@@ -1257,7 +1328,7 @@ public class Controller {
 		{
 			//this.memory.programmcounter++;
 			this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
-			this.isNopCycle = true;
+			this.setNopCycle(true);
 		}
 	}
 	
@@ -1314,7 +1385,7 @@ public class Controller {
 	{
 		memory.pushToStack(this.memory.programmcounter);
 		this.memory.programmcounter = k-1;
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	/**
@@ -1336,7 +1407,7 @@ public class Controller {
 	{
 		System.out.println("k: " + k);
 		this.memory.programmcounter = k-1;
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	/**
@@ -1373,7 +1444,7 @@ public class Controller {
 	{
 		memory.set_GIE(1);
 		this.memory.programmcounter = memory.popFromStack();
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	/**
@@ -1385,7 +1456,7 @@ public class Controller {
 	{
 		memory.set_WREGISTER(k);
 		this.memory.programmcounter = memory.popFromStack();
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	// Attention the function return is a basic java function
@@ -1396,7 +1467,7 @@ public class Controller {
 	private void _return() 
 	{
 		this.memory.programmcounter = memory.popFromStack();
-		this.isNopCycle = true;
+		this.setNopCycle(true);
 	}
 	
 	/**
@@ -1466,7 +1537,7 @@ public class Controller {
 	 * **/
 
 	public void closeMnemonicWindow() {
-		// TODO Auto-generated method stub
+
 		this.mnemonicWindow.dispose();
 	}
 	
@@ -1475,10 +1546,10 @@ public class Controller {
 	 * **/
 	public void clearCodeTable() 
 	{
-		int rows = gui.tbl_code.getRowCount();
+		int rows = gui.getTblCodeModel().getRowCount();
     	for(int i = 0; i<rows; i++) 
     	{
-        	gui.tbl_code.removeRow(0);  		
+        	gui.getTblCodeModel().removeRow(0);  		
     	}
 	}
 	
@@ -1564,7 +1635,7 @@ public class Controller {
 		            FileWriter myWriter = new FileWriter(savingFile.getAbsolutePath());
 		           
 		            
-		            myWriter.write(this.mnemonicWindow.txtArea_mnemonic.getText());
+		            myWriter.write(this.mnemonicWindow.getTxtArea_mnemonic().getText());
 		            myWriter.close();
 		            
 		            System.out.println("Successfully wrote to the file.");
@@ -1592,14 +1663,14 @@ public class Controller {
 			br = new BufferedReader(new FileReader(file));
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		String st; 
 
     	
     	// initialisieren der grafischen Elemente
-		this.mnemonicWindow.txtArea_mnemonic.setText("");
+		this.mnemonicWindow.getTxtArea_mnemonic().setText("");
 		
 		String output = "";
 		
@@ -1611,10 +1682,10 @@ public class Controller {
 				
 			}
 			
-			this.mnemonicWindow.txtArea_mnemonic.setText(output);
+			this.mnemonicWindow.getTxtArea_mnemonic().setText(output);
 			
 		} catch (NumberFormatException | IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		
@@ -1634,30 +1705,30 @@ public class Controller {
 		            FileWriter fileWriter = new FileWriter(savingFile.getAbsolutePath());
 		            
 		    		String code = "";
-		    		for(int i = 0; i < 		gui.tbl_code.getRowCount(); i++) 
+		    		for(int i = 0; i < 		gui.getTblCodeModel().getRowCount(); i++) 
 		    		{
 		    			// get the data of specific line
-		    			String progCounter = gui.tbl_code.getValueAt(i, 1).toString();
+		    			String progCounter = gui.getTblCodeModel().getValueAt(i, 1).toString();
 		    			while(progCounter.length() < 4) 
 		    			{
 		    				progCounter = "0"+progCounter;
 		    			}
-		    			String progCode = gui.tbl_code.getValueAt(i, 2).toString();
+		    			String progCode = gui.getTblCodeModel().getValueAt(i, 2).toString();
 		    			while(progCode.length() < 4) 
 		    			{
 		    				progCode = "0"+progCode;
 		    			}
-		    			String lineCount = gui.tbl_code.getValueAt(i, 3).toString();
+		    			String lineCount = gui.getTblCodeModel().getValueAt(i, 3).toString();
 		    			while(lineCount.length() < 5) 
 		    			{
 		    				lineCount = "0"+lineCount;
 		    			}
-		    			String label = gui.tbl_code.getValueAt(i, 4).toString();
+		    			String label = gui.getTblCodeModel().getValueAt(i, 4).toString();
 		    			while(label.length() < 4) 
 		    			{
 		    				label = " "+label;
 		    			}
-		    			String mnemonic = gui.tbl_code.getValueAt(i, 5).toString();
+		    			String mnemonic = gui.getTblCodeModel().getValueAt(i, 5).toString();
 		    			
 		    			// attention to the correct space count between each variable
 		    			code = code + progCounter + " " + progCode + "           " + lineCount + "  " + label + "     " + mnemonic + "\n";
@@ -1700,14 +1771,14 @@ public class Controller {
 	}
 	protected int T0CKI() 
 	{
-		return this.memory.dataMemory[5][4];
+		return this.memory.get_MemoryDIRECT(5, 4);
 	}
 	protected int getPrescaler() 
 	{
 		return (this.memory.get_Memory(0x81) & 0x07);
 	}
 	protected void clearHighlights() {
-		this.gui.table_Memory.clearSelection();
+		this.gui.getTableMemory().clearSelection();
 	}
 	protected void highlightCell(int x, int y)
 	{
@@ -1718,6 +1789,44 @@ public class Controller {
 		// TODO: Wake Up Implementieren
 		this.proc.isInSleep = false;
 		this.gui.rdbtn_sleep.setSelected(false);
+	}
+	/**
+	 * Getter for access to Processor Object
+	 * @return reference to proc
+	 */
+	protected Processor getProcessor() 
+	{
+		return proc;
+	}
+	/**
+	 * Getter for access to Memory Object
+	 * @return reference to memory
+	 */
+	protected Memory getMemory() 
+	{
+		return memory;
+	}
+	/**
+	 * Getter for access to Timer Object
+	 * @return reference to tmr0
+	 */
+	protected Timer getTimer() 
+	{
+		return tmr0;
+	}
+	/**
+	 * Getter for access to Interrupt Object
+	 * @return reference to isr;
+	 */
+	protected Interrupt getInterrupt() 
+	{
+		return isr;
+	}
+	/**
+	 * @return the processorRunning
+	 */
+	protected boolean isProcessorRunning() {
+		return processorRunning;
 	}
 
 	protected void reset() {
@@ -1785,6 +1894,144 @@ public class Controller {
 		// TODO: WRERR
 		// EEIF
 		this.memory.set_SRAMDIRECT(0x88, 4, 0);
+	/**
+	 * @param processorRunning the processorRunning to set
+	 */
+	protected void setProcessorRunning(boolean processorRunning) {
+		this.processorRunning = processorRunning;
 	}
 
+	/**
+	 * @return the tableHighlight
+	 */
+	public int[][] getTableHighlight() {
+		return tableHighlight;
+	}
+
+	/**
+	 * @param tableHighlight the tableHighlight to set
+	 */
+	public void setTableHighlight(int[][] tableHighlight) {
+		this.tableHighlight = tableHighlight;
+	}
+	/**
+	 * @return the jumpers
+	 */
+	protected String[] getJumpers() {
+		return jumpers;
+	}
+
+	/**
+	 * @param jumpers the jumpers to set
+	 */
+	protected void setJumpers(String[] jumpers) {
+		this.jumpers = jumpers;
+	}
+	/**
+	 * @return the programCounterList
+	 */
+	protected int[] getProgramCounterList() {
+		return programCounterList;
+	}
+
+	/**
+	 * @param programCounterList the programCounterList to set
+	 */
+	protected void setProgramCounterList(int[] programCounterList) {
+		this.programCounterList = programCounterList;
+	}
+	/**
+	 * @return the breakPointList
+	 */
+	protected boolean[] getBreakPointList() {
+		return breakPointList;
+	}
+
+	/**
+	 * @param breakPointList the breakPointList to set
+	 */
+	protected void setBreakPointList(boolean[] breakPointList) {
+		this.breakPointList = breakPointList;
+	}
+	/**
+	 * @return the frequency
+	 */
+	protected int getFrequency() {
+		return frequency;
+	}
+
+	/**
+	 * @param frequency the frequency to set
+	 */
+	protected void setFrequency(int frequency) {
+		this.frequency = frequency;
+	}
+
+	/**
+	 * @return the isNopCycle
+	 */
+	public boolean isNopCycle() {
+		return isNopCycle;
+	}
+
+	/**
+	 * @param isNopCycle the isNopCycle to set
+	 */
+	public void setNopCycle(boolean isNopCycle) {
+		this.isNopCycle = isNopCycle;
+	}
+	
+	/**
+	 * @return the operationalTime
+	 */
+	protected double getOperationalTime() {
+		return operationalTime;
+	}
+
+	/**
+	 * @param operationalTime the operationalTime to set
+	 */
+	protected void setOperationalTime(double operationalTime) {
+		this.operationalTime = operationalTime;
+	}
+	/**
+	 * @return the sevenSegmentActive
+	 */
+	protected boolean isSevenSegmentActive() {
+		return sevenSegmentActive;
+	}
+
+	/**
+	 * @param sevenSegmentActive the sevenSegmentActive to set
+	 */
+	protected void setSevenSegmentActive(boolean sevenSegmentActive) {
+		this.sevenSegmentActive = sevenSegmentActive;
+	}
+	
+	/**
+	 * @return the controlPortSelect
+	 */
+	protected int getControlPortSelect() {
+		return controlPortSelect;
+	}
+
+	/**
+	 * @param controlPortSelect the controlPortSelect to set
+	 */
+	protected void setControlPortSelect(int controlPortSelect) {
+		this.controlPortSelect = controlPortSelect;
+	}
+	/**
+	 * @return the dataPortSelect
+	 */
+	protected int getDataPortSelect() {
+		return dataPortSelect;
+	}
+
+	/**
+	 * @param dataPortSelect the dataPortSelect to set
+	 */
+	protected void setDataPortSelect(int dataPortSelect) {
+		this.dataPortSelect = dataPortSelect;
+	}
 }

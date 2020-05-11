@@ -8,7 +8,7 @@ public class MnemonicParser {
 	
 	
 	/// obejct of main Controller
-	Controller ctr;
+	private Controller ctr;
 	
 	
 	/// constructor 
@@ -223,7 +223,7 @@ public class MnemonicParser {
 					hexCode = "100";
 					for(int i = 0; i< ctr.getJumpersCount(); i++) 
 					{
-						String[] j = ctr.jumpers[i].split(":");
+						String[] j = ctr.getJumpers()[i].split(":");
 
 						if(wordList[1].equals(j[0])) 
 						{
@@ -238,7 +238,7 @@ public class MnemonicParser {
 					hexCode = "101";
 					for(int i = 0; i< ctr.getJumpersCount(); i++) 
 					{
-						String[] j = ctr.jumpers[i].split(":");
+						String[] j = ctr.getJumpers()[i].split(":");
 						if(wordList[1].equals(j[0])) 
 						{
 							bin = Integer.toBinaryString(Integer.parseInt(j[1]));

@@ -15,8 +15,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.EventObject;
-
 import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -39,18 +37,14 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 import javax.swing.JToggleButton;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.awt.Cursor;
 /// class Simulator_Window
 /**
 *  Grafical user interface for Pic Simualtor.
@@ -62,22 +56,20 @@ public class Simulator_Window {
 
 	private JFrame frmMicrocontrollerSimulator;
 	private Controller ctr;
-	protected TableModel dataModel;
-	protected SevenSegmentPanel panel_segmentCanvas;
-	protected JTable table_Code;
-	protected DefaultTableModel tbl_code;
-	protected DefaultTableModel tbl_memory;
-	protected DefaultTableModel tbl_special;
-	protected DefaultTableModel tbl_status;
-	protected DefaultTableModel tbl_pcl;
-	protected JTable table_Memory;
-	protected JTable table_special_regs;
-	protected JRadioButton rdbtn_sleep;
+
+	private SevenSegmentPanel panel_segmentCanvas;
+	private JTable table_Code;
+	private DefaultTableModel tbl_code;
+	private DefaultTableModel tbl_memory;
+	private DefaultTableModel tbl_special;
+	private DefaultTableModel tbl_stack;
+	private JTable table_Memory;
+	private JTable table_special_regs;
 	// members to input values into register memory
 	private JTextField txtField_input;
 	private JButton btn_InputRegister;
-	private JComboBox comboBox_File;
-	private JComboBox comboBox_SubFile;
+	private JComboBox<String> comboBox_File;
+	private JComboBox<String> comboBox_SubFile;
 	// member for port a
 	private JLabel lbl_ra_tris7;
 	private JLabel lbl_ra_tris6;
@@ -114,7 +106,11 @@ public class Simulator_Window {
 	private JRadioButton rbtn_rb_0;
 	
 	// member to set the Quarz Frequency
-	protected JComboBox comboBox_quarzFrequency;
+	private JComboBox<String> comboBox_quarzFrequency;
+
+	// label for displaying the cycle time since program start
+	private JLabel lblOperationalTime;
+	private JTable table_Stack;
 	/**
 	 * Launch the application.
 	 */
@@ -164,6 +160,8 @@ public class Simulator_Window {
 	private void initialize() {
 		
 		frmMicrocontrollerSimulator = new JFrame();
+		frmMicrocontrollerSimulator.getContentPane().setMaximumSize(new Dimension(1300, 800));
+		frmMicrocontrollerSimulator.setMaximumSize(new Dimension(1300, 800));
 		frmMicrocontrollerSimulator.setTitle("MicroController Simulator");
 		frmMicrocontrollerSimulator.setBounds(100, 100, 1550, 920);
 		frmMicrocontrollerSimulator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -174,17 +172,35 @@ public class Simulator_Window {
 		frmMicrocontrollerSimulator.getContentPane().add(verticalBox);
 		
 		Box upperArea = Box.createHorizontalBox();
+		upperArea.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		upperArea.setAlignmentY(0.5f);
 		verticalBox.add(upperArea);
 		
 		Box verticalMemoryView = Box.createVerticalBox();
-		verticalMemoryView.setMinimumSize(new Dimension(320, 700));
-		verticalMemoryView.setPreferredSize(new Dimension(350, 700));
-		verticalMemoryView.setMaximumSize(new Dimension(350, 1000));
+		verticalMemoryView.setAlignmentY(1.0f);
+		verticalMemoryView.setMinimumSize(new Dimension(320, 800));
+		verticalMemoryView.setPreferredSize(new Dimension(320, 800));
+		verticalMemoryView.setMaximumSize(new Dimension(320, 800));
 		upperArea.add(verticalMemoryView);
 		
+		JPanel panel_MemoryView = new JPanel();
+		verticalMemoryView.add(panel_MemoryView);
+		GridBagLayout gbl_panel_MemoryView = new GridBagLayout();
+		gbl_panel_MemoryView.columnWidths = new int[] {150};
+		gbl_panel_MemoryView.rowHeights = new int[] {40, 450, 130, 180};
+		gbl_panel_MemoryView.columnWeights = new double[]{0.0};
+		gbl_panel_MemoryView.rowWeights = new double[]{0.0, 0.0, 0.0};
+		panel_MemoryView.setLayout(gbl_panel_MemoryView);
+		
 		JPanel inputPanel = new JPanel();
-		verticalMemoryView.add(inputPanel);
+		inputPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		inputPanel.setMinimumSize(new Dimension(140, 40));
+		GridBagConstraints gbc_inputPanel = new GridBagConstraints();
+		gbc_inputPanel.fill = GridBagConstraints.BOTH;
+		gbc_inputPanel.insets = new Insets(0, 0, 0, 5);
+		gbc_inputPanel.gridx = 0;
+		gbc_inputPanel.gridy = 0;
+		panel_MemoryView.add(inputPanel, gbc_inputPanel);
 		FlowLayout flowLayout = (FlowLayout) inputPanel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		
@@ -196,19 +212,20 @@ public class Simulator_Window {
 				int fileNumber = Integer.parseInt(comboBox_File.getSelectedItem().toString(), 16);
 				int subFileNumber = Integer.parseInt(comboBox_SubFile.getSelectedItem().toString(),16);
 				System.out.println("Input: "+input+" into "+(fileNumber+subFileNumber));
-				ctr.memory.set_SRAMDIRECT((fileNumber+subFileNumber), Integer.parseInt(input));
+				ctr.getMemory().set_SRAMDIRECT((fileNumber+subFileNumber), Integer.parseInt(input));
 			}
 		});
 		btn_InputRegister.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		inputPanel.add(btn_InputRegister);
 		
 		txtField_input = new JTextField();
+		txtField_input.setPreferredSize(new Dimension(80, 25));
 		txtField_input.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtField_input.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		txtField_input.setSize(new Dimension(40, 39));
-		txtField_input.setMaximumSize(new Dimension(40, 39));
+		txtField_input.setSize(new Dimension(80, 25));
+		txtField_input.setMaximumSize(new Dimension(80, 25));
 		inputPanel.add(txtField_input);
-		txtField_input.setColumns(8);
+		txtField_input.setColumns(7);
 		
 		comboBox_File = new JComboBox();
 		comboBox_File.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -221,7 +238,15 @@ public class Simulator_Window {
 		inputPanel.add(comboBox_SubFile);
 		
 		JPanel panel_Memeory = new JPanel();
-		verticalMemoryView.add(panel_Memeory);
+		panel_Memeory.setBorder(new LineBorder(new Color(0, 0, 0)));
+		GridBagConstraints gbc_panel_Memeory = new GridBagConstraints();
+		gbc_panel_Memeory.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_Memeory.gridx = 0;
+		gbc_panel_Memeory.gridy = 1;
+		panel_MemoryView.add(panel_Memeory, gbc_panel_Memeory);
+		panel_Memeory.setPreferredSize(new Dimension(310, 700));
+		panel_Memeory.setMinimumSize(new Dimension(310, 500));
+		panel_Memeory.setMaximumSize(new Dimension(310, 700));
 		panel_Memeory.setLayout(new BorderLayout(0, 0));
 		
 
@@ -231,13 +256,15 @@ public class Simulator_Window {
 		panel_Memeory.add(lblMemoryView, BorderLayout.NORTH);
 		lblMemoryView.setFont(new Font("Tahoma", Font.BOLD, 15));
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setPreferredSize(new Dimension(320, 700));
+		scrollPane.setMaximumSize(new Dimension(320, 700));
 		scrollPane.setMinimumSize(new Dimension(200, 49));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		panel_Memeory.add(scrollPane, BorderLayout.CENTER);
 		
 		tbl_memory = new DefaultTableModel();
-		tbl_memory.setColumnIdentifiers(new Object[] {"","00","01","02","03","04","05","06","07"});		
+		tbl_memory.setColumnIdentifiers(new Object[] {"","00","01","02","03","04","05","06","07"});	
 		
 		table_Memory = new JTable();
 		table_Memory.setModel(tbl_memory);
@@ -253,46 +280,98 @@ public class Simulator_Window {
 		        column.setMaxWidth(32);
 		        column.setResizable(false);
 		    }
-		}
-		
-		
+		}		
+				
 		JPanel panel_specialreg = new JPanel();
-		panel_specialreg.setPreferredSize(new Dimension(10, 150));
-		panel_specialreg.setMinimumSize(new Dimension(200, 150));
-		verticalMemoryView.add(panel_specialreg);
+		GridBagConstraints gbc_panel_specialreg = new GridBagConstraints();
+		gbc_panel_specialreg.gridx = 0;
+		gbc_panel_specialreg.gridy = 2;
+		panel_MemoryView.add(panel_specialreg, gbc_panel_specialreg);
+		panel_specialreg.setPreferredSize(new Dimension(320, 300));
+		panel_specialreg.setMinimumSize(new Dimension(310, 120));
 		panel_specialreg.setBorder(new LineBorder(new Color(0, 0, 0)));
-		FlowLayout fl_panel_specialreg = new FlowLayout(FlowLayout.CENTER, 5, 5);
-		panel_specialreg.setLayout(fl_panel_specialreg);
-		
+				
 		tbl_special = new DefaultTableModel();
 		tbl_special.setColumnIdentifiers(new Object[] {"Register", "Hex-Wert","Bin-Wert"});
-		
-		
+				
 		table_special_regs = new JTable();
+		table_special_regs.setEnabled(false);
 		table_special_regs.setModel(tbl_special);
-		
-		
+		panel_specialreg.setLayout(new BorderLayout(0, 0));
+				
+				
 		JLabel lblSpecialregister = new JLabel("Special-Register");
 		lblSpecialregister.setFont(new Font("Tahoma", Font.BOLD, 15));
-		panel_specialreg.add(lblSpecialregister);
-
+		panel_specialreg.add(lblSpecialregister, BorderLayout.NORTH);
+				
 		panel_specialreg.add(table_special_regs);
 		table_special_regs.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		table_special_regs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table_special_regs.setCellSelectionEnabled(true);
 		
+		
+		JPanel panel_Stack = new JPanel();
+		panel_Stack.setMinimumSize(new Dimension(310, 180));
+		panel_Stack.setLayout(null);
+		GridBagConstraints gbc_panel_stack = new GridBagConstraints();
+		gbc_panel_stack.gridx = 0;
+		gbc_panel_stack.gridy = 3;
+		panel_MemoryView.add(panel_Stack,gbc_panel_stack);
+		
+		tbl_stack = new DefaultTableModel();
+		tbl_stack.setColumnIdentifiers(new Object[] {"Nr","Adresse"});
+		
+		table_Stack = new JTable();
+		table_Stack.setBounds(90, 0, 120, 129);
+		table_Stack.setFont(new Font("Tahoma", Font.BOLD, 12));
+		table_Stack.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table_Stack.setEnabled(false);
+		table_Stack.setModel(tbl_stack);
+		
+		TableColumn stackCol0 = null;
+		stackCol0 = table_Stack.getColumnModel().getColumn(0);
+		stackCol0.setMaxWidth(40);
+		stackCol0.setResizable(false);
+		
+		TableColumn stackCol1 = null;
+		stackCol1 = table_Stack.getColumnModel().getColumn(1);
+		stackCol1.setMaxWidth(80);
+		stackCol1.setResizable(false);
+
+		
+		JLabel lbl_stack = new JLabel("Stack");
+		lbl_stack.setBounds(5, 5, 42, 19);
+		lbl_stack.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_stack.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		lbl_stack.setFont(new Font("Tahoma", Font.BOLD, 15));
+		panel_Stack.add(lbl_stack);
+		panel_Stack.add(table_Stack);
+		
+		
+
+		
 		String header[] = new String[] { " ", "ProgramCounter", "ProgramCode", "LineCount","Label","MnemonicCode"};	
-		tbl_code = new DefaultTableModel();
+		tbl_code = new DefaultTableModel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			boolean[] canEdit = new boolean[]{
+                    true, false, false, false, false,false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+		};
 	    tbl_code.setColumnIdentifiers(header);
 
 
-		
 		Box verticalCodeViewer = Box.createVerticalBox();
-		verticalCodeViewer.setMinimumSize(new Dimension(500, 800));
+		verticalCodeViewer.setMinimumSize(new Dimension(500, 300));
 		upperArea.add(verticalCodeViewer);
 		
 
-		
 		JPanel panel_Code = new JPanel();
 		verticalCodeViewer.add(panel_Code);
 		panel_Code.setLayout(new BorderLayout(0, 0));
@@ -303,11 +382,26 @@ public class Simulator_Window {
 		lblCodeViewer.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setPreferredSize(new Dimension(2, 700));
+		scrollPane_3.setMaximumSize(new Dimension(32767, 750));
 		panel_Code.add(scrollPane_3, BorderLayout.CENTER);
 		scrollPane_3.setViewportBorder(UIManager.getBorder("TableHeader.cellBorder"));
 		table_Code = new JTable();
-		table_Code.setModel(tbl_code);
 		table_Code.setEnabled(false);
+		table_Code.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		        int row = table_Code.rowAtPoint(evt.getPoint());
+		        int col = table_Code.columnAtPoint(evt.getPoint());
+		        if (col == 0 ) {
+		          System.out.println("Row: "+row);
+		          ctr.setBreakPoint(row);
+		        }
+		    }
+		});
+		table_Code.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		table_Code.setSelectionBackground(Color.ORANGE);
+		table_Code.setModel(tbl_code);
 		for (int i = 0; i < 5; i++) {
 		    column = table_Code.getColumnModel().getColumn(i);
 		    if (i == 0) {
@@ -329,19 +423,84 @@ public class Simulator_Window {
 		scrollPane_3.setViewportView(table_Code);
 		
 		Box verticalIO = Box.createVerticalBox();
-		verticalIO.setMaximumSize(new Dimension(350, 800));
+		verticalIO.setMinimumSize(new Dimension(350, 800));
+		verticalIO.setPreferredSize(new Dimension(380, 800));
+		verticalIO.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		verticalIO.setMaximumSize(new Dimension(400, 800));
 		upperArea.add(verticalIO);
 		
 		
 		JPanel panel_IO = new JPanel();
-		panel_IO.setBorder(new EmptyBorder(4, 4, 4, 4));
+		panel_IO.setAlignmentX(0.0f);
+		panel_IO.setAlignmentY(Component.TOP_ALIGNMENT);
+		panel_IO.setBorder(new LineBorder(new Color(0, 0, 0)));
 		verticalIO.add(panel_IO);
 		GridBagLayout gbl_panel_IO = new GridBagLayout();
-		gbl_panel_IO.columnWidths = new int[] {130, 0};
-		gbl_panel_IO.rowHeights = new int[] {30, 90, 90, 180, 30, 30, 300};
-		gbl_panel_IO.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_IO.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0};
+		gbl_panel_IO.columnWidths = new int[] {130};
+		gbl_panel_IO.rowHeights = new int[] {30, 30, 30, 90, 90, 180, 140, 140, 100};
+		gbl_panel_IO.columnWeights = new double[]{1.0};
+		gbl_panel_IO.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, 0.0};
 		panel_IO.setLayout(gbl_panel_IO);
+		
+		JPanel panel_Control = new JPanel();
+		panel_Control.setBorder(new LineBorder(new Color(0, 0, 0)));
+		GridBagConstraints gbc_panel_Control = new GridBagConstraints();
+		gbc_panel_Control.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_Control.fill = GridBagConstraints.BOTH;
+		gbc_panel_Control.gridx = 0;
+		gbc_panel_Control.gridy = 0;
+		panel_IO.add(panel_Control, gbc_panel_Control);
+		
+		JButton btnDebug = new JButton("Debug");
+		btnDebug.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(ctr.isProcessorRunning() == false) 
+				{
+					ctr.startSimu(true);
+				}else 
+				{
+					// deactivate debugging if thread is already running
+					ctr.getProcessor().setDebugging(false);
+					ctr.getProcessor().setContinueDebug(true);
+				}
+			}
+		});
+		btnDebug.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel_Control.add(btnDebug);
+		
+		JButton btnGo = new JButton("Go");
+		btnGo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctr.startSimu(false);
+			}
+		});
+		btnGo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel_Control.add(btnGo);
+		
+		JButton btnNext = new JButton("Next");
+		btnNext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctr.continueDebugStep();
+			}
+		});
+		btnNext.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel_Control.add(btnNext);
+		
+		JButton btnStop = new JButton("Stop");
+		btnStop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctr.stopSimu();
+			}
+		});
+		btnStop.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel_Control.add(btnStop);
+		
+		JButton btnReset = new JButton("Reset");
+		btnReset.setForeground(Color.BLACK);
+		btnReset.setBackground(new Color(255, 0, 0));
+		btnReset.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panel_Control.add(btnReset);
 		
 		JPanel panel_RA = new JPanel();
 		panel_RA.setOpaque(false);
@@ -351,131 +510,139 @@ public class Simulator_Window {
 		gbc_panel_RA.fill = GridBagConstraints.BOTH;
 		gbc_panel_RA.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_RA.gridx = 0;
-		gbc_panel_RA.gridy = 1;
+		gbc_panel_RA.gridy = 3;
 		panel_IO.add(panel_RA, gbc_panel_RA);
 		
 		JLabel lblAnalogOut = new JLabel("Port A");
-		lblAnalogOut.setBounds(6, 6, 46, 19);
+		lblAnalogOut.setBounds(6, 6, 71, 19);
 		lblAnalogOut.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_RA.add(lblAnalogOut);
 		
 		JLabel lblBits = new JLabel("Bits");
 		lblBits.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblBits.setBounds(62, 6, 46, 25);
+		lblBits.setBounds(115, 6, 46, 25);
 		panel_RA.add(lblBits);
 		
 		JLabel lblTris = new JLabel("Tris A");
 		lblTris.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblTris.setBounds(62, 32, 46, 19);
+		lblTris.setBounds(115, 32, 46, 19);
 		panel_RA.add(lblTris);
 		
 		JLabel lblPortA = new JLabel("Port A");
 		lblPortA.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblPortA.setBounds(62, 53, 46, 32);
+		lblPortA.setBounds(115, 53, 46, 32);
 		panel_RA.add(lblPortA);
 		
 		JLabel lbl_ra7 = new JLabel("7");
-		lbl_ra7.setBounds(118, 10, 14, 14);
+		lbl_ra7.setBounds(171, 10, 14, 14);
 		panel_RA.add(lbl_ra7);
 		
 		JLabel lbl_ra6 = new JLabel("6");
-		lbl_ra6.setBounds(142, 10, 14, 14);
+		lbl_ra6.setBounds(195, 10, 14, 14);
 		panel_RA.add(lbl_ra6);
 		
 		JLabel lbl_ra5 = new JLabel("5");
-		lbl_ra5.setBounds(166, 10, 14, 14);
+		lbl_ra5.setBounds(219, 10, 14, 14);
 		panel_RA.add(lbl_ra5);
 		
 		JLabel lbl_ra4 = new JLabel("4");
-		lbl_ra4.setBounds(190, 10, 14, 14);
+		lbl_ra4.setBounds(243, 10, 14, 14);
 		panel_RA.add(lbl_ra4);
 		
 		JLabel lbl_ra3 = new JLabel("3");
-		lbl_ra3.setBounds(214, 10, 14, 14);
+		lbl_ra3.setBounds(267, 10, 14, 14);
 		panel_RA.add(lbl_ra3);
 		
 		JLabel lbl_ra2 = new JLabel("2");
-		lbl_ra2.setBounds(238, 10, 14, 14);
+		lbl_ra2.setBounds(291, 10, 14, 14);
 		panel_RA.add(lbl_ra2);
 		
 		JLabel lbl_ra1 = new JLabel("1");
-		lbl_ra1.setBounds(262, 10, 14, 14);
+		lbl_ra1.setBounds(315, 10, 14, 14);
 		panel_RA.add(lbl_ra1);
 		
 		JLabel lbl_ra0 = new JLabel("0");
-		lbl_ra0.setBounds(286, 10, 14, 14);
+		lbl_ra0.setBounds(339, 10, 14, 14);
 		panel_RA.add(lbl_ra0);
 		
 		lbl_ra_tris7 = new JLabel("I");
+		lbl_ra_tris7.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris7.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris7.setBounds(118, 35, 14, 14);
+		lbl_ra_tris7.setBounds(171, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris7);
 		
 		lbl_ra_tris6 = new JLabel("I");
+		lbl_ra_tris6.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris6.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris6.setBounds(142, 35, 14, 14);
+		lbl_ra_tris6.setBounds(195, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris6);
 		
 		lbl_ra_tris5 = new JLabel("I");
+		lbl_ra_tris5.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris5.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris5.setBounds(166, 35, 14, 14);
+		lbl_ra_tris5.setBounds(219, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris5);
 		
 		lbl_ra_tris4 = new JLabel("I");
+		lbl_ra_tris4.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris4.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris4.setBounds(190, 35, 14, 14);
+		lbl_ra_tris4.setBounds(243, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris4);
 		
 		lbl_ra_tris3 = new JLabel("I");
+		lbl_ra_tris3.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris3.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris3.setBounds(214, 35, 14, 14);
+		lbl_ra_tris3.setBounds(267, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris3);
 		
 		lbl_ra_tris2 = new JLabel("I");
+		lbl_ra_tris2.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris2.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris2.setBounds(238, 35, 14, 14);
+		lbl_ra_tris2.setBounds(291, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris2);
 		
 		lbl_ra_tris1 = new JLabel("I");
+		lbl_ra_tris1.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris1.setBounds(262, 35, 14, 14);
+		lbl_ra_tris1.setBounds(315, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris1);
 		
 		lbl_ra_tris0 = new JLabel("I");
+		lbl_ra_tris0.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_ra_tris0.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris0.setBounds(286, 35, 14, 14);
+		lbl_ra_tris0.setBounds(339, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris0);
 		
 		rbtn_ra_7 = new JRadioButton("");
-		rbtn_ra_7.setBounds(114, 53, 21, 23);
+		rbtn_ra_7.setBounds(167, 53, 21, 23);
 		panel_RA.add(rbtn_ra_7);
 		
 		rbtn_ra_6 = new JRadioButton("");
-		rbtn_ra_6.setBounds(135, 53, 21, 23);
+		rbtn_ra_6.setBounds(188, 53, 21, 23);
 		panel_RA.add(rbtn_ra_6);
 		
 		rbtn_ra_5 = new JRadioButton("");
-		rbtn_ra_5.setBounds(159, 53, 21, 23);
+		rbtn_ra_5.setBounds(212, 53, 21, 23);
 		panel_RA.add(rbtn_ra_5);
 		
 		rbtn_ra_4 = new JRadioButton("");
-		rbtn_ra_4.setBounds(183, 53, 21, 23);
+		rbtn_ra_4.setBounds(236, 53, 21, 23);
 		panel_RA.add(rbtn_ra_4);
 		
 		rbtn_ra_3 = new JRadioButton("");
-		rbtn_ra_3.setBounds(207, 53, 21, 23);
+		rbtn_ra_3.setBounds(260, 53, 21, 23);
 		panel_RA.add(rbtn_ra_3);
 		
 		rbtn_ra_2 = new JRadioButton("");
-		rbtn_ra_2.setBounds(231, 53, 21, 23);
+		rbtn_ra_2.setBounds(284, 53, 21, 23);
 		panel_RA.add(rbtn_ra_2);
 		
 		rbtn_ra_1 = new JRadioButton("");
-		rbtn_ra_1.setBounds(255, 53, 21, 23);
+		rbtn_ra_1.setBounds(308, 53, 21, 23);
 		panel_RA.add(rbtn_ra_1);
 		
 		rbtn_ra_0 = new JRadioButton("");
-		rbtn_ra_0.setBounds(279, 53, 21, 23);
+		rbtn_ra_0.setBounds(332, 53, 21, 23);
 		panel_RA.add(rbtn_ra_0);
 		
 		JPanel panel_Quarzfrequenz = new JPanel();
@@ -487,13 +654,13 @@ public class Simulator_Window {
 		gbc_panel_Quarzfrequenz.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_Quarzfrequenz.fill = GridBagConstraints.BOTH;
 		gbc_panel_Quarzfrequenz.gridx = 0;
-		gbc_panel_Quarzfrequenz.gridy = 0;
+		gbc_panel_Quarzfrequenz.gridy = 1;
 		panel_IO.add(panel_Quarzfrequenz, gbc_panel_Quarzfrequenz);
 		panel_Quarzfrequenz.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
 		JLabel lblQuarzFrequenz = new JLabel("Quarz Freq");
 		lblQuarzFrequenz.setHorizontalAlignment(SwingConstants.LEFT);
-		lblQuarzFrequenz.setPreferredSize(new Dimension(172, 20));
+		lblQuarzFrequenz.setPreferredSize(new Dimension(140, 20));
 		lblQuarzFrequenz.setMinimumSize(new Dimension(64, 14));
 		lblQuarzFrequenz.setMaximumSize(new Dimension(64, 14));
 		lblQuarzFrequenz.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -507,6 +674,7 @@ public class Simulator_Window {
 		panel_Quarzfrequenz.add(comboBox_quarzFrequency);
 		
 		JButton btnSetFrequency = new JButton("Set Frequency");
+		btnSetFrequency.setPreferredSize(new Dimension(130, 23));
 		btnSetFrequency.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ctr.updateFrequency(comboBox_quarzFrequency.getSelectedItem().toString());
@@ -521,157 +689,184 @@ public class Simulator_Window {
 		gbc_panel_RB.fill = GridBagConstraints.BOTH;
 		gbc_panel_RB.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_RB.gridx = 0;
-		gbc_panel_RB.gridy = 2;
+		gbc_panel_RB.gridy = 4;
 		panel_IO.add(panel_RB, gbc_panel_RB);
 		
 		JLabel lblAnalogIn = new JLabel("Port B");
-		lblAnalogIn.setBounds(6, 7, 46, 19);
+		lblAnalogIn.setBounds(6, 7, 72, 19);
 		lblAnalogIn.setFont(new Font("Tahoma", Font.BOLD, 15));
 		panel_RB.add(lblAnalogIn);
 		
 		JLabel label = new JLabel("Bits");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label.setBounds(58, 0, 46, 25);
+		label.setBounds(116, 0, 46, 25);
 		panel_RB.add(label);
 		
 		JLabel lblTrisB = new JLabel("Tris B");
 		lblTrisB.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblTrisB.setBounds(58, 26, 46, 19);
+		lblTrisB.setBounds(116, 26, 46, 19);
 		panel_RB.add(lblTrisB);
 		
 		JLabel lblPortB = new JLabel("Port B");
 		lblPortB.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblPortB.setBounds(58, 47, 46, 32);
+		lblPortB.setBounds(116, 47, 46, 32);
 		panel_RB.add(lblPortB);
 		
 		JLabel lbl_rb7 = new JLabel("7");
-		lbl_rb7.setBounds(114, 4, 14, 14);
+		lbl_rb7.setBounds(172, 4, 14, 14);
 		panel_RB.add(lbl_rb7);
 		
 		JLabel lbl_rb6 = new JLabel("6");
-		lbl_rb6.setBounds(138, 4, 14, 14);
+		lbl_rb6.setBounds(196, 4, 14, 14);
 		panel_RB.add(lbl_rb6);
 		
 		JLabel lbl_rb5 = new JLabel("5");
-		lbl_rb5.setBounds(162, 4, 14, 14);
+		lbl_rb5.setBounds(220, 4, 14, 14);
 		panel_RB.add(lbl_rb5);
 		
 		JLabel lbl_rb4 = new JLabel("4");
-		lbl_rb4.setBounds(186, 4, 14, 14);
+		lbl_rb4.setBounds(244, 4, 14, 14);
 		panel_RB.add(lbl_rb4);
 		
 		JLabel lbl_rb3 = new JLabel("3");
-		lbl_rb3.setBounds(210, 4, 14, 14);
+		lbl_rb3.setBounds(268, 4, 14, 14);
 		panel_RB.add(lbl_rb3);
 		
 		JLabel lbl_rb2 = new JLabel("2");
-		lbl_rb2.setBounds(234, 4, 14, 14);
+		lbl_rb2.setBounds(292, 4, 14, 14);
 		panel_RB.add(lbl_rb2);
 		
 		JLabel lbl_rb1 = new JLabel("1");
-		lbl_rb1.setBounds(258, 4, 14, 14);
+		lbl_rb1.setBounds(316, 4, 14, 14);
 		panel_RB.add(lbl_rb1);
 		
 		JLabel lbl_rb0 = new JLabel("0");
-		lbl_rb0.setBounds(282, 4, 14, 14);
+		lbl_rb0.setBounds(340, 4, 14, 14);
 		panel_RB.add(lbl_rb0);
 		
 		lbl_rb_tris7 = new JLabel("I");
+		lbl_rb_tris7.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris7.setAlignmentX(0.5f);
-		lbl_rb_tris7.setBounds(114, 29, 14, 14);
+		lbl_rb_tris7.setBounds(172, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris7);
 		
 		lbl_rb_tris6 = new JLabel("I");
+		lbl_rb_tris6.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris6.setAlignmentX(0.5f);
-		lbl_rb_tris6.setBounds(138, 29, 14, 14);
+		lbl_rb_tris6.setBounds(196, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris6);
 		
 		lbl_rb_tris5 = new JLabel("I");
+		lbl_rb_tris5.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris5.setAlignmentX(0.5f);
-		lbl_rb_tris5.setBounds(162, 29, 14, 14);
+		lbl_rb_tris5.setBounds(220, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris5);
 		
 		lbl_rb_tris4 = new JLabel("I");
+		lbl_rb_tris4.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris4.setAlignmentX(0.5f);
-		lbl_rb_tris4.setBounds(186, 29, 14, 14);
+		lbl_rb_tris4.setBounds(244, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris4);
 		
 		lbl_rb_tris3 = new JLabel("I");
+		lbl_rb_tris3.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris3.setAlignmentX(0.5f);
-		lbl_rb_tris3.setBounds(210, 29, 14, 14);
+		lbl_rb_tris3.setBounds(268, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris3);
 		
 		lbl_rb_tris2 = new JLabel("I");
+		lbl_rb_tris2.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris2.setAlignmentX(0.5f);
-		lbl_rb_tris2.setBounds(234, 29, 14, 14);
+		lbl_rb_tris2.setBounds(292, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris2);
 		
 		lbl_rb_tris1 = new JLabel("I");
+		lbl_rb_tris1.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris1.setAlignmentX(0.5f);
-		lbl_rb_tris1.setBounds(258, 29, 14, 14);
+		lbl_rb_tris1.setBounds(316, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris1);
 		
 		lbl_rb_tris0 = new JLabel("I");
+		lbl_rb_tris0.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_rb_tris0.setAlignmentX(0.5f);
-		lbl_rb_tris0.setBounds(282, 29, 14, 14);
+		lbl_rb_tris0.setBounds(340, 29, 14, 14);
 		panel_RB.add(lbl_rb_tris0);
 		
 		rbtn_rb_7 = new JRadioButton("");
-		rbtn_rb_7.setBounds(110, 47, 21, 23);
+		rbtn_rb_7.setBounds(168, 47, 21, 23);
 		panel_RB.add(rbtn_rb_7);
 		
 		rbtn_rb_6 = new JRadioButton("");
-		rbtn_rb_6.setBounds(131, 47, 21, 23);
+		rbtn_rb_6.setBounds(189, 47, 21, 23);
 		panel_RB.add(rbtn_rb_6);
 		
 		rbtn_rb_5 = new JRadioButton("");
-		rbtn_rb_5.setBounds(155, 47, 21, 23);
+		rbtn_rb_5.setBounds(213, 47, 21, 23);
 		panel_RB.add(rbtn_rb_5);
 		
 		rbtn_rb_4 = new JRadioButton("");
-		rbtn_rb_4.setBounds(179, 47, 21, 23);
+		rbtn_rb_4.setBounds(237, 47, 21, 23);
 		panel_RB.add(rbtn_rb_4);
 		
 		rbtn_rb_3 = new JRadioButton("");
-		rbtn_rb_3.setBounds(203, 47, 21, 23);
+		rbtn_rb_3.setBounds(261, 47, 21, 23);
 		panel_RB.add(rbtn_rb_3);
 		
 		rbtn_rb_2 = new JRadioButton("");
-		rbtn_rb_2.setBounds(227, 47, 21, 23);
+		rbtn_rb_2.setBounds(285, 47, 21, 23);
 		panel_RB.add(rbtn_rb_2);
 		
 		rbtn_rb_1 = new JRadioButton("");
-		rbtn_rb_1.setBounds(251, 47, 21, 23);
+		rbtn_rb_1.setBounds(309, 47, 21, 23);
 		panel_RB.add(rbtn_rb_1);
 		
 		rbtn_rb_0 = new JRadioButton("");
-		rbtn_rb_0.setBounds(275, 47, 21, 23);
+		rbtn_rb_0.setBounds(333, 47, 21, 23);
 		panel_RB.add(rbtn_rb_0);
 		
 		JPanel panel_7Segment = new JPanel();
 		panel_7Segment.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_panel_7Segment = new GridBagConstraints();
-		gbc_panel_7Segment.fill = GridBagConstraints.HORIZONTAL;
+		gbc_panel_7Segment.fill = GridBagConstraints.BOTH;
 		gbc_panel_7Segment.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_7Segment.gridx = 0;
-		gbc_panel_7Segment.gridy = 3;
+		gbc_panel_7Segment.gridy = 5;
 		panel_IO.add(panel_7Segment, gbc_panel_7Segment);
-		panel_7Segment.setLayout(new BorderLayout(0, 0));
+		GridBagLayout gbl_panel_7Segment = new GridBagLayout();
+		gbl_panel_7Segment.columnWidths = new int[] {375};
+		gbl_panel_7Segment.rowHeights = new int[] {20, 80, 20};
+		gbl_panel_7Segment.columnWeights = new double[]{0.0};
+		gbl_panel_7Segment.rowWeights = new double[]{0.0, 0.0, 0.0};
+		panel_7Segment.setLayout(gbl_panel_7Segment);
 		
 		JLabel lblSegment = new JLabel("  7 - Segment  ");
-		panel_7Segment.add(lblSegment, BorderLayout.NORTH);
+		GridBagConstraints gbc_lblSegment = new GridBagConstraints();
+		gbc_lblSegment.fill = GridBagConstraints.BOTH;
+		gbc_lblSegment.insets = new Insets(0, 0, 5, 0);
+		gbc_lblSegment.gridx = 0;
+		gbc_lblSegment.gridy = 0;
+		panel_7Segment.add(lblSegment, gbc_lblSegment);
 		lblSegment.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		panel_segmentCanvas = new SevenSegmentPanel();
 		panel_segmentCanvas.setMaximumSize(new Dimension(310, 105));
 		panel_segmentCanvas.setPreferredSize(new Dimension(310, 105));
-		panel_7Segment.add(panel_segmentCanvas, BorderLayout.CENTER);
+		GridBagConstraints gbc_panel_segmentCanvas = new GridBagConstraints();
+		gbc_panel_segmentCanvas.fill = GridBagConstraints.BOTH;
+		gbc_panel_segmentCanvas.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_segmentCanvas.gridx = 0;
+		gbc_panel_segmentCanvas.gridy = 1;
+		panel_7Segment.add(panel_segmentCanvas, gbc_panel_segmentCanvas);
 		panel_segmentCanvas.setOpaque(false);
 		panel_segmentCanvas.setBackground(Color.WHITE);
 		panel_segmentCanvas.setLayout(null);
 		
 		JPanel panel_segmentOptions = new JPanel();
-		panel_7Segment.add(panel_segmentOptions, BorderLayout.SOUTH);
+		GridBagConstraints gbc_panel_segmentOptions = new GridBagConstraints();
+		gbc_panel_segmentOptions.fill = GridBagConstraints.BOTH;
+		gbc_panel_segmentOptions.gridx = 0;
+		gbc_panel_segmentOptions.gridy = 2;
+		panel_7Segment.add(panel_segmentOptions, gbc_panel_segmentOptions);
 		panel_segmentOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JComboBox comboBox_2 = new JComboBox();
@@ -679,10 +874,10 @@ public class Simulator_Window {
 			public void propertyChange(PropertyChangeEvent arg0) {
 				if(comboBox_2.getSelectedIndex() == 0) 
 				{
-					ctr.controlPortSelect = 0;
+					ctr.setControlPortSelect(0);
 				}else if(comboBox_2.getSelectedIndex() == 1) 
 				{
-					ctr.controlPortSelect = 1;
+					ctr.setControlPortSelect(1);
 				}
 			}
 		});
@@ -694,10 +889,10 @@ public class Simulator_Window {
 			public void propertyChange(PropertyChangeEvent arg0) {
 				if(comboBox_3.getSelectedIndex() == 0) 
 				{
-					ctr.dataPortSelect = 0;
+					ctr.setDataPortSelect(0);
 				}else if(comboBox_3.getSelectedIndex() == 1) 
 				{
-					ctr.dataPortSelect = 1;
+					ctr.setDataPortSelect(1);
 				}
 			}
 		});
@@ -716,22 +911,61 @@ public class Simulator_Window {
 				System.out.println("7-Segment: "+selected);
 				if(selected) 
 		          {
-		        	  ctr.sevenSegmentActive = true;
+		        	  ctr.setSevenSegmentActive(true);
 		          }else 
 		          {
-		        	  ctr.sevenSegmentActive = false;
+		        	  ctr.setSevenSegmentActive(false);
 		          }
 			}
 		});
 		
-		rdbtn_sleep = new JRadioButton("Is in sleep");
-		rdbtn_sleep.setEnabled(false);
-		GridBagConstraints gbc_rdbtn_sleep = new GridBagConstraints();
-		gbc_rdbtn_sleep.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtn_sleep.gridx = 0;
-		gbc_rdbtn_sleep.gridy = 4;
-		panel_IO.add(rdbtn_sleep, gbc_rdbtn_sleep);
-
+		JPanel panel_Time = new JPanel();
+		panel_Time.setBorder(new LineBorder(new Color(0, 0, 0)));
+		GridBagConstraints gbc_panel_Time = new GridBagConstraints();
+		gbc_panel_Time.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_Time.fill = GridBagConstraints.BOTH;
+		gbc_panel_Time.gridx = 0;
+		gbc_panel_Time.gridy = 2;
+		panel_IO.add(panel_Time, gbc_panel_Time);
+		GridBagLayout gbl_panel_Time = new GridBagLayout();
+		gbl_panel_Time.columnWidths = new int[] {80, 180, 90};
+		gbl_panel_Time.rowHeights = new int[] {30};
+		gbl_panel_Time.columnWeights = new double[]{0.0, 0.0, 0.0};
+		gbl_panel_Time.rowWeights = new double[]{0.0};
+		panel_Time.setLayout(gbl_panel_Time);
+		
+		JButton btnZurcksetzen = new JButton("Zur\u00FCcksetzen");
+		btnZurcksetzen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctr.setOperationalTime(0.0);
+				ctr.updateOperationalTime();
+			}
+		});
+		
+		JLabel lblLaufzeit = new JLabel("Laufzeit");
+		lblLaufzeit.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblLaufzeit.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints gbc_lblLaufzeit = new GridBagConstraints();
+		gbc_lblLaufzeit.fill = GridBagConstraints.BOTH;
+		gbc_lblLaufzeit.insets = new Insets(0, 0, 0, 5);
+		gbc_lblLaufzeit.gridx = 0;
+		gbc_lblLaufzeit.gridy = 0;
+		panel_Time.add(lblLaufzeit, gbc_lblLaufzeit);
+		
+		lblOperationalTime = new JLabel("0.0us");
+		lblOperationalTime.setHorizontalAlignment(SwingConstants.CENTER);
+		lblOperationalTime.setFont(new Font("Tahoma", Font.BOLD, 14));
+		GridBagConstraints gbc_lblOperationalTime = new GridBagConstraints();
+		gbc_lblOperationalTime.fill = GridBagConstraints.BOTH;
+		gbc_lblOperationalTime.insets = new Insets(0, 0, 0, 5);
+		gbc_lblOperationalTime.gridx = 1;
+		gbc_lblOperationalTime.gridy = 0;
+		panel_Time.add(lblOperationalTime, gbc_lblOperationalTime);
+		GridBagConstraints gbc_btnZurcksetzen = new GridBagConstraints();
+		gbc_btnZurcksetzen.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnZurcksetzen.gridx = 2;
+		gbc_btnZurcksetzen.gridy = 0;
+		panel_Time.add(btnZurcksetzen, gbc_btnZurcksetzen);
 		frmMicrocontrollerSimulator.getContentPane().setLayout(new BoxLayout(frmMicrocontrollerSimulator.getContentPane(), BoxLayout.X_AXIS));
 
 		
@@ -769,7 +1003,6 @@ public class Simulator_Window {
 			            try {
 							ctr.loadFile(file);
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 			            //This is where a real application would open the file.
@@ -861,18 +1094,17 @@ public class Simulator_Window {
 		});
 		debug_menu.add(btnDebuggerStoppen);
 		
-		JButton button = new JButton("->");
-		button.addActionListener(new ActionListener() {
+		JButton btnNext_1 = new JButton("Next");
+		btnNext_1.setSize(new Dimension(121, 23));
+		btnNext_1.setMinimumSize(new Dimension(121, 23));
+		btnNext_1.setPreferredSize(new Dimension(121, 23));
+		btnNext_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ctr.continueDebugStep();
 			}
 		});
-		debug_menu.add(button);
-		button.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		
-		JButton button_1 = new JButton("<-");
-		debug_menu.add(button_1);
-		button_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		debug_menu.add(btnNext_1);
+		btnNext_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
 		JMenu mnSimulator = new JMenu("Simulator");
 		menuBar.add(mnSimulator);
@@ -917,8 +1149,11 @@ public class Simulator_Window {
 	  {
 		  table_special_regs.getModel().setValueAt(obj, row_index, col_index);
 	  }
+	  public void setStackData(Object obj,int row_index,int col_index) 
+	  {
+		  table_Stack.getModel().setValueAt(obj, row_index, col_index);
+	  }
 	  public void openHelp() {
-			// TODO Auto-generated method stub
 
 			try {
 			  File helpFile = new File("out/html/annotated.html");
@@ -1298,5 +1533,77 @@ public class Simulator_Window {
 	  {
 		  table_Memory.removeRowSelectionInterval(x, x);
 		  table_Memory.removeColumnSelectionInterval(y, y);
+	  }
+	  /**
+	   * Getter for 7 Segment Panel
+	   * @return reference to SevenSegmentPanel object
+	   */
+	  protected SevenSegmentPanel getSevenSegmentPanel() 
+	  {
+		  return panel_segmentCanvas;
+	  }
+	  /**
+	   * Getter for access to  Code Table
+	   * @return reference to object of code table
+	   */
+	  protected JTable getTableCode() 
+	  {
+		  return table_Code;
+	  }
+	  /**
+	   * Getter for access to TableModel of code table
+	   * @return reference to code table model
+	   */
+	  protected DefaultTableModel getTblCodeModel() 
+	  {
+		  return tbl_code;
+	  }
+	  /**
+	   * Getter for access to TableModel of Memory Table
+	   * @return reference to memory table model
+	   */
+	  protected DefaultTableModel getTblMemoryModel() 
+	  {
+		  return tbl_memory;
+	  }
+	  /**
+	   * Getter for access to TableModel of Special Register Table
+	   * @return reference to special reg table model
+	   */
+	  protected DefaultTableModel getTblSpecialModel() 
+	  {
+		  return tbl_special;
+	  }
+	  /**
+	   * Getter for access to TableModel of Stack Table
+	   * @return reference to stack table model
+	   */
+	  protected DefaultTableModel getTblStackModel() 
+	  {
+		  return tbl_stack;
+	  }
+	  /**
+	   * Getter for access to Memory Table
+	   * @return reference to code table
+	   */
+	  protected JTable getTableMemory() 
+	  {
+		  return table_Memory;
+	  }
+	  /**
+	   * Getter for access to Special Register Table
+	   * @return reference to special register table
+	   */
+	  protected JTable getTableSpecialReg() 
+	  {
+		  return table_special_regs;
+	  }
+	  /**
+	   * update function for operational time
+	   * @param opTime time to display
+	   */
+	  protected void updateOperationalTime(double opTime) 
+	  {
+		  this.lblOperationalTime.setText(opTime+"us");
 	  }
 }

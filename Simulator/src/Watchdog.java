@@ -9,9 +9,9 @@
  * */
 public class Watchdog extends Thread{
 	
-	Controller ctr;
+	private Controller ctr;
 	
-	int preScaler;
+	private int preScaler;
 	int timeOutPeriod = 18;
 	public boolean exit = false;
 	

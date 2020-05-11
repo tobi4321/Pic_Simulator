@@ -1,6 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,15 +8,11 @@ import java.awt.Component;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
-import java.awt.Dialog.ModalExclusionType;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 /// class MnemonicView
 /**
@@ -37,7 +31,8 @@ public class MnemonicView extends JFrame {
 
 	private Controller ctr;
 	
-	protected JTextArea txtArea_mnemonic;
+	private JTextArea txtArea_mnemonic;
+
 	/**
 	 * Create the frame.
 	 */
@@ -121,6 +116,19 @@ public class MnemonicView extends JFrame {
 			}
 		});
 		mnFile.add(btnSaveSrcFile);
+	}
+	
+	/**
+	 * @return the txtArea_mnemonic
+	 */
+	protected JTextArea getTxtArea_mnemonic() {
+		return txtArea_mnemonic;
+	}
+	/**
+	 * @param txtArea_mnemonic the txtArea_mnemonic to set
+	 */
+	protected void setTxtArea_mnemonic(JTextArea txtArea_mnemonic) {
+		this.txtArea_mnemonic = txtArea_mnemonic;
 	}
 
 }

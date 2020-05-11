@@ -12,13 +12,13 @@ public class Memory extends Thread{
 	/// this memory will store the data memory
 	/// 00 to 7F is the first bank
 	/// 80 to FF is the second bank
-	protected int[][] dataMemory = new int[256][8];
+	private int[][] dataMemory = new int[256][8];
 	
 	/// this is the storage for the program code
 	/// 0000 is the reset and 0004 is the interrupt value
-	protected int[] programMemory = new int[1024];
+	private int[] programMemory = new int[1024];
 	
-	
+
 	/// counter on which line the processor is
 	/// default is 0 to indicate a reset
 	protected int programmcounter = 0;
@@ -113,10 +113,19 @@ public class Memory extends Thread{
 			ctr.refreshIO();
 			ctr.update7Segment();
 			
+			for(int i = 0; i < 8; i++) 
+			{
+				ctr.updateStackPanel("", i);
+			}
+			for(int i = 0; i < this.stack.size(); i++) 
+			{
+				ctr.updateStackPanel(Integer.toHexString(this.stack.get(i)), i);
+			}
+			
+			
 	    	try {
 				sleep(200);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -237,9 +246,9 @@ public class Memory extends Thread{
 			set_SRAMDIRECT(2, bit, value);
 			set_SRAMDIRECT(130, bit, value);
 			// Add the PCLATH when writing on PCL
-			int PCLATH 	= ctr.memory.get_MemoryDIRECT(0x0A);
-			int PCL 	= ctr.memory.get_MemoryDIRECT(0x02);
-			ctr.memory.programmcounter = ((PCLATH & 0x1F) << 8) | PCL;
+			int PCLATH 	= this.get_MemoryDIRECT(0x0A);
+			int PCL 	= this.get_MemoryDIRECT(0x02);
+			this.programmcounter = ((PCLATH & 0x1F) << 8) | PCL;
 			break;
 		// Status
 		case 3:
@@ -266,7 +275,7 @@ public class Memory extends Thread{
 			{
 				// If TMR0 is accessed and Prescaler is active 
 				if (fileaddress == 0x01 && this.get_Memory(0x81, 3) == 0) {
-					ctr.tmr0.preScaler = 0;
+					ctr.getTimer().setPreScaler(0);
 				}
 				set_SRAMDIRECT(fileaddress, bit, value);
 			}else if((dataMemory[3][5] == 1) && (fileaddress < 128)) 
@@ -501,5 +510,20 @@ public class Memory extends Thread{
 		{
 			this.programMemory[i] = 255;
 		}
+	}
+	
+	/**
+	 * @return the programMemory
+	 */
+	protected int[] getProgramMemory() {
+		return programMemory;
+	}
+
+
+	/**
+	 * @param programMemory the programMemory to set
+	 */
+	protected void setProgramMemory(int[] programMemory) {
+		this.programMemory = programMemory;
 	}
 }
