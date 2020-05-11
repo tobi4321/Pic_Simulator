@@ -39,11 +39,11 @@ public class Watchdog extends Thread{
 	protected void incrementWatchDog() 
 	{
 		this.preScaler++;
-		int preScalerActive = ctr.memory.get_MemoryDIRECT(0x81, 3);
+		int preScalerActive = ctr.getMemory().get_MemoryDIRECT(0x81, 3);
 		if((preScalerActive == 1) && this.preScaler == ( Math.pow(2.0, ctr.getPrescaler())) 
 			|| preScalerActive == 0) 
 		{
-			if(this.ctr.proc.isInSleep) {
+			if(this.ctr.getProcessor().isInSleep) {
 				this.ctr.wakeUpSleep();
 			}else {
 				this.ctr.reset();

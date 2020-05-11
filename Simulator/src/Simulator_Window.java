@@ -65,6 +65,7 @@ public class Simulator_Window {
 	private DefaultTableModel tbl_stack;
 	private JTable table_Memory;
 	private JTable table_special_regs;
+	protected JRadioButton rdbtn_sleep;
 	// members to input values into register memory
 	private JTextField txtField_input;
 	private JButton btn_InputRegister;
@@ -966,6 +967,14 @@ public class Simulator_Window {
 		gbc_btnZurcksetzen.gridx = 2;
 		gbc_btnZurcksetzen.gridy = 0;
 		panel_Time.add(btnZurcksetzen, gbc_btnZurcksetzen);
+		
+		rdbtn_sleep = new JRadioButton("Is in sleep");
+		rdbtn_sleep.setEnabled(false);
+		GridBagConstraints gbc_rdbtnNewRadioButton = new GridBagConstraints();
+		gbc_rdbtnNewRadioButton.insets = new Insets(0, 0, 5, 0);
+		gbc_rdbtnNewRadioButton.gridx = 0;
+		gbc_rdbtnNewRadioButton.gridy = 6;
+		panel_IO.add(rdbtn_sleep, gbc_rdbtnNewRadioButton);
 		frmMicrocontrollerSimulator.getContentPane().setLayout(new BoxLayout(frmMicrocontrollerSimulator.getContentPane(), BoxLayout.X_AXIS));
 
 		

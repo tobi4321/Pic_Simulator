@@ -1894,6 +1894,7 @@ public class Controller {
 		// TODO: WRERR
 		// EEIF
 		this.memory.set_SRAMDIRECT(0x88, 4, 0);
+	}
 	/**
 	 * @param processorRunning the processorRunning to set
 	 */
