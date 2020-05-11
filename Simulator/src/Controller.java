@@ -16,6 +16,8 @@ public class Controller {
 	private MnemonicView mnemonicWindow;
 	/// Object of a error dialog.
 	private ErrorDialog errorView;
+	/// Object of io server.
+	private IOServer server;
 	
 	/// Processor object used to work each code step
 	private Processor proc;
@@ -27,9 +29,10 @@ public class Controller {
 	private Timer tmr0;
 	/// Interrupt object to check interrupt flags and if needed set pc to 0004
 	private Interrupt isr;
+	/// EEPROM Memory instance to save data into txt file
+	private EEProm eeprom;
 	
 	private boolean processorRunning = false;
-
 	/// Displaying if the code is compiled.
 	private boolean isCompiled = false;
 	/// The data model to initialize the data table.
@@ -109,6 +112,11 @@ public class Controller {
 		parser = new MnemonicParser(this);
 		tmr0 = new Timer(this);
 		isr = new Interrupt(this);
+		server = new IOServer(this);
+		eeprom = new EEProm();
+		
+		// testing write function
+		eeprom.setData(100, 0x1f);
 	}
 	
 	/**
@@ -1945,4 +1953,20 @@ public class Controller {
 	protected void setDataPortSelect(int dataPortSelect) {
 		this.dataPortSelect = dataPortSelect;
 	}
+
+	/**
+	 * @return the server
+	 */
+	protected IOServer getServer() {
+		return server;
+	}
+
+	/**
+	 * @param server the server to set
+	 */
+	protected void setServer(IOServer server) {
+		this.server = server;
+	}
+	
+	
 }
