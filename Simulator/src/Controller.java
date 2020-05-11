@@ -1720,4 +1720,71 @@ public class Controller {
 		this.gui.rdbtn_sleep.setSelected(false);
 	}
 
+	protected void reset() {
+		// TODO: Reset implementieren
+		
+		this.memory.programmcounter = 0;
+		
+		// PCL
+		this.memory.set_SRAMDIRECT(0x02, 0);
+		this.memory.set_SRAMDIRECT(0x82, 0);
+		
+		// Status Register
+		// TODO: PD und TO Bit
+		// RP0
+		this.memory.set_SRAMDIRECT(0x03, 5, 0);
+		this.memory.set_SRAMDIRECT(0x83, 5, 0);
+		// RP1
+		this.memory.set_SRAMDIRECT(0x03, 6, 0);
+		this.memory.set_SRAMDIRECT(0x83, 6, 0);
+		// IRP
+		this.memory.set_SRAMDIRECT(0x03, 7, 0);
+		this.memory.set_SRAMDIRECT(0x83, 7, 0);
+		
+		//PCLATH
+		this.memory.set_SRAMDIRECT(0x0A, 0);
+		this.memory.set_SRAMDIRECT(0x8A, 0);
+		
+		// INTCON
+		// INTF
+		this.memory.set_SRAMDIRECT(0x0B, 1, 0);
+		this.memory.set_SRAMDIRECT(0x8B, 1, 0);
+		// T0IF
+		this.memory.set_SRAMDIRECT(0x0B, 2, 0);
+		this.memory.set_SRAMDIRECT(0x8B, 2, 0);
+		// RBIE
+		this.memory.set_SRAMDIRECT(0x0B, 3, 0);
+		this.memory.set_SRAMDIRECT(0x8B, 3, 0);
+		// INTE
+		this.memory.set_SRAMDIRECT(0x0B, 4, 0);
+		this.memory.set_SRAMDIRECT(0x8B, 4, 0);
+		// T0IE
+		this.memory.set_SRAMDIRECT(0x0B, 5, 0);
+		this.memory.set_SRAMDIRECT(0x8B, 5, 0);
+		// EEIE
+		this.memory.set_SRAMDIRECT(0x0B, 6, 0);
+		this.memory.set_SRAMDIRECT(0x8B, 6, 0);
+		// GIE
+		this.memory.set_SRAMDIRECT(0x0B, 7, 0);
+		this.memory.set_SRAMDIRECT(0x8B, 7, 0);
+		
+		// Option Register
+		this.memory.set_SRAMDIRECT(0x81, 255);
+		
+		// TRISA
+		this.memory.set_SRAMDIRECT(0x85, 255);
+		// TRISB
+		this.memory.set_SRAMDIRECT(0x86, 255);
+		// EECON1
+		// RD
+		this.memory.set_SRAMDIRECT(0x88, 0, 0);
+		// WR
+		this.memory.set_SRAMDIRECT(0x88, 1, 0);
+		// WREN
+		this.memory.set_SRAMDIRECT(0x88, 2, 0);
+		// TODO: WRERR
+		// EEIF
+		this.memory.set_SRAMDIRECT(0x88, 4, 0);
+	}
+
 }

@@ -22,8 +22,10 @@ public class Watchdog extends Thread{
 	
 	public void run() {
 		while(!exit) {
-			//TODO: If WDTE is set
-			incrementWatchDog();
+			//TODO: If WDTE is set, wo ist WDTE?? (0x2007, 2)?
+			if(true) {//this.ctr.memory.get_MemoryDIRECT(0x20, 9) == 1) {
+				incrementWatchDog();
+			}
 			
 			try {
 				sleep(timeOutPeriod);
@@ -41,15 +43,10 @@ public class Watchdog extends Thread{
 		if((preScalerActive == 1) && this.preScaler == ( Math.pow(2.0, ctr.getPrescaler())) 
 			|| preScalerActive == 0) 
 		{
-			int in = ctr.memory.get_Memory(1);
-			if(in == 255) 
-			{
-				ctr.memory.set_SRAM(1, 0);
-				ctr.memory.set_SRAM(0x0b, 2, 1);
-			}else 
-			{
-				in++;
-				ctr.memory.set_SRAM(1, in);
+			if(this.ctr.proc.isInSleep) {
+				this.ctr.wakeUpSleep();
+			}else {
+				this.ctr.reset();
 			}
 		}
 	}
