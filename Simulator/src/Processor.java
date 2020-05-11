@@ -30,7 +30,7 @@ public class Processor extends Thread{
     public void run() {
     	while (!exit) {  
     		try {
-
+    		this.ctr.setOperationalTime(0.0);
     		for(ctr.getMemory().programmcounter = 0; ctr.getMemory().programmcounter < ctr.getMemory().getProgramMemory().length; ctr.getMemory().programmcounter++) 
     		{
     			// Write Programmcounter in PCL
@@ -66,8 +66,7 @@ public class Processor extends Thread{
     			ctr.update7Segment();
     			
     			// add the cycle time to operationalTime and update the panel
-    			ctr.countCycleTime();
-    			System.out.println("OperationalTime: "+ctr.getOperationalTime());
+    			ctr.countCycleTime(ctr.getFrequency());
     			ctr.updateOperationalTime();
     			
     			// set the cycle clock output for timer source
@@ -85,7 +84,13 @@ public class Processor extends Thread{
     			clkout = false;
     			
     			while(this.isInSleep) {
-    				sleep(100);
+    				// Update run time
+    				int sleeptime = 100;
+    				sleep(sleeptime);
+    				ctr.countCycleTime(sleeptime);
+        			
+        			ctr.updateOperationalTime();
+        			// Wake up if interrupt
     				if(ctr.getInterrupt().checkInterruptFlags()) {
     					ctr.wakeUpSleep();
     				}
@@ -97,7 +102,7 @@ public class Processor extends Thread{
     				}
     				continueDebug = false;
     			}else {
-    				sleep(ctr.getFrequency());
+    				sleep((long) ((1.0/ctr.getFrequency())*100000));
     			}
 
     			if(ctr.getMemory().programmcounter >= ctr.getMemory().getProgramMemory().length) 

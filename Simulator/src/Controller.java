@@ -28,7 +28,7 @@ public class Controller {
 	/// Interrupt object to check interrupt flags and if needed set pc to 0004
 	private Interrupt isr;
 	/// Object of the Watchdog.
-	protected Watchdog wtd;
+	private Watchdog wtd;
 	
 	private boolean processorRunning = false;
 
@@ -68,7 +68,7 @@ public class Controller {
 	/// The length of the compiled code
 	private int codeLength = 0;
 	/// The Quartz frequency 
-	private int frequency = 1000;
+	private int frequency = 500;
 
 
 	/// Signals that the next cycle is a nop
@@ -267,14 +267,15 @@ public class Controller {
 	protected void updateOperationalTime() 
 	{
 		gui.updateOperationalTime(this.operationalTime);
+		//System.out.println("Operation time: " + this.operationalTime);
 	}
 	/**
 	 * add the cycle time to the operationalTime and round to 3 decimal digits
 	 */
-	protected void countCycleTime() 
+	protected void countCycleTime(int frequency) 
 	{
-		double d = Math.pow(10, 3);
-	    this.operationalTime = this.operationalTime + (1.0/this.frequency);  
+		double d = Math.pow(10, 6);
+	    this.operationalTime = this.operationalTime + (1.0/(frequency));
 	    this.operationalTime = Math.round(this.operationalTime * d) / d;
 	}
 	/**
@@ -1479,9 +1480,10 @@ public class Controller {
 		
 		// TODO: Power Down Status Bit und Time Out Statusbit setzen.
 		
-		// TODO: Wenn Watchdog aktiv:
 		this.memory.set_PD(0);
 		this.memory.set_TO(1);
+		this.getWatchdog().setPreScaler(0);
+		// If Watchdog Timer is enabled
 		
 		this.proc.setInSleep(true);
 		this.gui.rdbtn_sleep.setSelected(true);
@@ -1604,19 +1606,19 @@ public class Controller {
 		switch(selectedItem) 
 		{
 			case "500kHz":
-				this.frequency = 1500;
+				this.frequency = 500;
 				break;
 			case "1MHz":
-				this.frequency = 1200;
+				this.frequency = 1000;
 				break;
 			case "2MHz":
-				this.frequency = 900;
+				this.frequency = 2000;
 				break;
 			case "3MHz":
-				this.frequency = 600;
+				this.frequency = 3000;
 				break;
 			case "4MHz":
-				this.frequency = 50;
+				this.frequency = 4000;
 				break;
 		}
 	}
@@ -1805,6 +1807,14 @@ public class Controller {
 	protected Memory getMemory() 
 	{
 		return memory;
+	}
+	/**
+	 * Getter for access to Watchdog Object
+	 * @return reference to watchdog
+	 */
+	protected Watchdog getWatchdog() 
+	{
+		return wtd;
 	}
 	/**
 	 * Getter for access to Timer Object

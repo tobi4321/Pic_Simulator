@@ -12,6 +12,7 @@ public class Watchdog extends Thread{
 	private Controller ctr;
 	
 	private int preScaler;
+
 	int timeOutPeriod = 18;
 	public boolean exit = false;
 	
@@ -22,8 +23,7 @@ public class Watchdog extends Thread{
 	
 	public void run() {
 		while(!exit) {
-			//TODO: If WDTE is set, wo ist WDTE?? (0x2007, 2)?
-			if(true) {//this.ctr.memory.get_MemoryDIRECT(0x20, 9) == 1) {
+			if(ctr.getMemory().get_WDTE() == 1) {
 				incrementWatchDog();
 			}
 			
@@ -43,6 +43,10 @@ public class Watchdog extends Thread{
 		if((preScalerActive == 1) && this.preScaler == ( Math.pow(2.0, ctr.getPrescaler())) 
 			|| preScalerActive == 0) 
 		{
+			System.out.println("Watchdog time-out occured.");
+			this.ctr.getMemory().set_TO(0);
+			this.ctr.getMemory().set_SRAMDIRECT(0x03, 0);
+			
 			if(this.ctr.getProcessor().isInSleep()) {
 				this.ctr.wakeUpSleep();
 			}else {
@@ -56,4 +60,8 @@ public class Watchdog extends Thread{
 		System.out.println("Watchdog stopped.");
     	this.exit = true;
     }
+	
+	protected void setPreScaler(int preScaler) {
+		this.preScaler = preScaler;
+	}
 }
