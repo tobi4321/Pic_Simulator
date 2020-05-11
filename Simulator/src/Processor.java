@@ -12,11 +12,13 @@ public class Processor extends Thread{
 	private Controller ctr;
 	private Boolean exit = false;
 	private boolean debugging = false;
+	private boolean isInSleep = false;
 
 	private boolean continueDebug = false;
-	protected boolean isInSleep = false;
 	
-	protected boolean clkout = false;
+
+
+	private boolean clkout = false;
 	private static final int NOP = 0;
 	
 	public Processor(Controller pC, boolean pDebugging) 
@@ -29,27 +31,33 @@ public class Processor extends Thread{
     	while (!exit) {  
     		try {
 
-    		for(ctr.memory.programmcounter = 0; ctr.memory.programmcounter < ctr.memory.programMemory.length; ctr.memory.programmcounter++) 
+    		for(ctr.getMemory().programmcounter = 0; ctr.getMemory().programmcounter < ctr.getMemory().getProgramMemory().length; ctr.getMemory().programmcounter++) 
     		{
     			// Write Programmcounter in PCL
-    			ctr.memory.set_SRAMDIRECT(0x02, ctr.memory.programmcounter & 0xFF);
+    			ctr.getMemory().set_SRAMDIRECT(0x02, ctr.getMemory().programmcounter & 0xFF);
     			
-    			ctr.setCodeViewCounter(ctr.programCounterList[ctr.memory.programmcounter]);
-    			this.oldProgrammCounter = ctr.memory.programmcounter;
+    			ctr.setCodeViewCounter(ctr.getProgramCounterList()[ctr.getMemory().programmcounter]);
     			
-    			ctr.updateSpecialRegTable(Integer.toHexString(ctr.memory.programmcounter), 4, 1);
-    			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.memory.programmcounter), 4, 2);
+    			ctr.updateSpecialRegTable(Integer.toHexString(ctr.getMemory().programmcounter), 4, 1);
+    			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.getMemory().programmcounter), 4, 2);
     			
     			// get the current code line as string
-    			int codeLine = ctr.memory.programMemory[ctr.memory.programmcounter];
+    			int codeLine = ctr.getMemory().getProgramMemory()[ctr.getMemory().programmcounter];
     			
     			ctr.clearHighlights();
-    			if(ctr.isNopCycle) {
+    			if(ctr.isNopCycle()) {
         			ctr.executeCommand(NOP);		// NOP
-        			ctr.isNopCycle = false;
-        			ctr.memory.programmcounter--;
+        			ctr.setNopCycle(false);
+        			ctr.getMemory().programmcounter--;
     			}else {	
         			ctr.executeCommand(codeLine);	// Normal Execute
+    			}
+    			
+    			// checking if this pc has a breakpoint
+    			if(ctr.getBreakPointList()[ctr.getMemory().programmcounter]) 
+    			{
+    				this.debugging = true;
+    				this.continueDebug = false;
     			}
     			
     			// update all IO like Ports and 7 Segment
@@ -57,20 +65,31 @@ public class Processor extends Thread{
     			
     			ctr.update7Segment();
     			
+    			// add the cycle time to operationalTime and update the panel
+    			ctr.countCycleTime();
+    			System.out.println("OperationalTime: "+ctr.getOperationalTime());
+    			ctr.updateOperationalTime();
     			
     			// set the cycle clock output for timer source
     			clkout = true;
     			
-    			ctr.tmr0.updateSources(ctr.memory.get_Memory(0x05, 4), clkout);
-    			ctr.tmr0.checkTMRIncrement();
+    			ctr.getTimer().updateSources(ctr.getMemory().get_Memory(0x05, 4), clkout);
+    			ctr.getTimer().checkTMRIncrement();
     			
-    			ctr.isr.updateSources(ctr.memory.get_Memory(0x06));
-    			ctr.isr.checkRBISR();
+    			ctr.getInterrupt().updateSources(ctr.getMemory().get_Memory(0x06));
+    			ctr.getInterrupt().checkRBISR();
     			
     			// check all interrupt flags
-    			ctr.isr.checkTrigger();
+    			ctr.getInterrupt().checkInterrupt();
     			
     			clkout = false;
+    			
+    			while(this.isInSleep) {
+    				sleep(100);
+    				if(ctr.getInterrupt().checkInterruptFlags()) {
+    					ctr.wakeUpSleep();
+    				}
+    			}
     			
     			if (this.debugging) {
     				while(!continueDebug) {
@@ -78,10 +97,10 @@ public class Processor extends Thread{
     				}
     				continueDebug = false;
     			}else {
-    				sleep(ctr.frequency);
+    				sleep(ctr.getFrequency());
     			}
 
-    			if(ctr.memory.programmcounter >= ctr.memory.programMemory.length) 
+    			if(ctr.getMemory().programmcounter >= ctr.getMemory().getProgramMemory().length) 
                 {
                 	stopThread();
                 }
@@ -100,7 +119,7 @@ public class Processor extends Thread{
     public void stopThread() 
     {
     	this.exit = true;
-    	ctr.memory.programmcounter = 65536;
+    	ctr.getMemory().programmcounter = 65536;
     }
     
 	/**
@@ -128,5 +147,13 @@ public class Processor extends Thread{
 	 */
 	protected void setContinueDebug(boolean continueDebug) {
 		this.continueDebug = continueDebug;
+	}
+	
+	public boolean isInSleep() {
+		return isInSleep;
+	}
+
+	public void setInSleep(boolean isInSleep) {
+		this.isInSleep = isInSleep;
 	}
 }

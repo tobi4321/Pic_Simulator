@@ -43,7 +43,7 @@ public class Watchdog extends Thread{
 		if((preScalerActive == 1) && this.preScaler == ( Math.pow(2.0, ctr.getPrescaler())) 
 			|| preScalerActive == 0) 
 		{
-			if(this.ctr.getProcessor().isInSleep) {
+			if(this.ctr.getProcessor().isInSleep()) {
 				this.ctr.wakeUpSleep();
 			}else {
 				this.ctr.reset();

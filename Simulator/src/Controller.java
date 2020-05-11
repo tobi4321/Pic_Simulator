@@ -1483,7 +1483,7 @@ public class Controller {
 		this.memory.set_PD(0);
 		this.memory.set_TO(1);
 		
-		this.proc.isInSleep = true;
+		this.proc.setInSleep(true);
 		this.gui.rdbtn_sleep.setSelected(true);
 	}
 	
@@ -1787,7 +1787,7 @@ public class Controller {
 	protected void wakeUpSleep() 
 	{
 		// TODO: Wake Up Implementieren
-		this.proc.isInSleep = false;
+		this.proc.setInSleep(false);
 		this.gui.rdbtn_sleep.setSelected(false);
 	}
 	/**
