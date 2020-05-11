@@ -29,13 +29,10 @@ public class Controller {
 	private Timer tmr0;
 	/// Interrupt object to check interrupt flags and if needed set pc to 0004
 	private Interrupt isr;
-<<<<<<< HEAD
 	/// Object of the Watchdog.
 	private Watchdog wtd;
-=======
 	/// EEPROM Memory instance to save data into txt file
 	private EEProm eeprom;
->>>>>>> feature/eeprom
 	
 	private boolean processorRunning = false;
 	/// Displaying if the code is compiled.
@@ -1417,7 +1414,6 @@ public class Controller {
 	 * **/
 	private void _goto(int k) 
 	{
-		System.out.println("k: " + k);
 		this.memory.programmcounter = k-1;
 		this.setNopCycle(true);
 	}
@@ -1489,12 +1485,10 @@ public class Controller {
 	{
 		// TODO: Sleep implementieren.
 		
-		// TODO: Power Down Status Bit und Time Out Statusbit setzen.
 		
 		this.memory.set_PD(0);
 		this.memory.set_TO(1);
-		this.getWatchdog().setPreScaler(0);
-		// If Watchdog Timer is enabled
+		this.getWatchdog().reset();
 		
 		this.proc.setInSleep(true);
 		this.gui.rdbtn_sleep.setSelected(true);

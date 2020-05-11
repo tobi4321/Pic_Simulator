@@ -15,7 +15,7 @@ public class Processor extends Thread{
 	private boolean isInSleep = false;
 
 	private boolean continueDebug = false;
-	
+	private long slowDownTime = 1000;
 
 
 	private boolean clkout = false;
@@ -86,7 +86,7 @@ public class Processor extends Thread{
     			while(this.isInSleep) {
     				// Update run time
     				int sleeptime = 100;
-    				sleep(sleeptime);
+    				sleep((long) ((1.0/ctr.getFrequency())*slowDownTime));
     				ctr.countCycleTime(sleeptime);
         			
         			ctr.updateOperationalTime();
@@ -102,7 +102,7 @@ public class Processor extends Thread{
     				}
     				continueDebug = false;
     			}else {
-    				sleep((long) ((1.0/ctr.getFrequency())*100000));
+    				sleep((long) ((1.0/ctr.getFrequency())*slowDownTime));
     			}
 
     			if(ctr.getMemory().programmcounter >= ctr.getMemory().getProgramMemory().length) 
