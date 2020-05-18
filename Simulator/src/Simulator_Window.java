@@ -1655,6 +1655,6 @@ public class Simulator_Window {
 	   */
 	  protected void updateOperationalTime(double opTime) 
 	  {
-		  this.lblOperationalTime.setText(opTime+"us");
+		  this.lblOperationalTime.setText(opTime+"ms");
 	  }
 }
