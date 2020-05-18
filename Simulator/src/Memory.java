@@ -314,7 +314,16 @@ public class Memory extends Thread{
 	{
 		highlightCell(fileaddress, bit, value);
 		dataMemory[fileaddress][bit] = value;
-		
+		if( (fileaddress == 0x88) && (bit == 0) && (value == 1)) 
+		{
+			// clearing rd bit
+			this.set_SRAMDIRECT(0x88, 0, 0);
+			
+			int eepromValue = ctr.getEeprom().getData(this.get_MemoryDIRECT(0x09) & 0x03f);
+			System.out.println("EEProm read: "+eepromValue);
+			this.set_SRAMDIRECT(0x08,eepromValue);
+
+		}
 	}
 	
 	protected void set_SRAMDIRECT(int fileaddress, int value) 

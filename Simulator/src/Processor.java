@@ -43,8 +43,7 @@ public class Processor extends Thread{
     			
     			// get the command of the current line as an int
     			int codeLine = ctr.getMemory().getProgramMemory()[ctr.getMemory().programmcounter];
-    			
-    			
+
     			
     			// If the last command was 2 cycle long then execute a NOP first.
     			ctr.clearHighlights();
@@ -55,6 +54,9 @@ public class Processor extends Thread{
     			}else {	
         			ctr.executeCommand(codeLine);	// Normal Execute
     			}
+    			// check eeprom state machine
+    			ctr.getEeprom().checkStates(codeLine);
+    			
     			// Before the command execute, the watchdog is updated
     			ctr.getWatchdog().update(ctr.getOperationalTime());
     			// checking if this pc has a breakpoint and activating the debugger
@@ -104,6 +106,33 @@ public class Processor extends Thread{
     					ctr.wakeUpSleep();
     				}
     				//TODO: Wake up when EEPROM write complete
+    			}
+    			
+    			// check if eeprom write is active
+    			if(ctr.getWriteActive()) 
+    			{
+    				for(int i = 0; i < 1000; i++) 
+    				{
+    					sleep((long) ((4.0/ctr.getFrequency())*slowDownTime));
+    	    			
+    					// Before the command execute, the watchdog is updated
+    	    			ctr.getWatchdog().update(ctr.getOperationalTime());
+    	    			
+    	    			// TODO: is needed in write cycle??
+    	    			// update all analog IO 
+    	    			ctr.refreshIO();
+    	    			// update 7 segment display 
+    	    			ctr.update7Segment();
+    	    			
+    	    			
+    	    			// add the cycle time to operationalTime and update the panel
+    	    			ctr.countCycleTime(ctr.getFrequency());
+    	    			ctr.updateOperationalTime();
+    					
+    				}
+    				ctr.getMemory().set_SRAMDIRECT(0x88, 1, 0);
+    				ctr.getMemory().set_SRAMDIRECT(0x88, 4, 1);
+    				ctr.setWriteActive(false);
     			}
     			
     			if (this.debugging) {

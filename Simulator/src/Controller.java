@@ -77,6 +77,9 @@ public class Controller {
 	/// Signals that the next cycle is a nop
 	private boolean isNopCycle = false;
 	
+	/// 
+	private boolean writeActive = false;
+	
 	/// time since simulator program started
 	private double operationalTime = 0.0;
 	
@@ -113,11 +116,9 @@ public class Controller {
 		tmr0 = new Timer(this);
 		isr = new Interrupt(this);
 		server = new IOServer(this);
-		eeprom = new EEProm();
+		eeprom = new EEProm(this);
 		wtd = new Watchdog(this);
 		
-		// testing write function
-		eeprom.setData(100, 0x1f);
 	}
 	
 	/**
@@ -1825,6 +1826,13 @@ public class Controller {
 		return memory;
 	}
 	/**
+	 * @return the eeprom
+	 */
+	protected EEProm getEeprom() {
+		return eeprom;
+	}
+
+	/**
 	 * Getter for access to Watchdog Object
 	 * @return reference to watchdog
 	 */
@@ -2075,6 +2083,20 @@ public class Controller {
 	 */
 	protected void setServer(IOServer server) {
 		this.server = server;
+	}
+
+	/**
+	 * @return the writeActive
+	 */
+	public boolean getWriteActive() {
+		return writeActive;
+	}
+
+	/**
+	 * @param writeActive the writeActive to set
+	 */
+	public void setWriteActive(boolean writeActive) {
+		this.writeActive = writeActive;
 	}
 	
 	

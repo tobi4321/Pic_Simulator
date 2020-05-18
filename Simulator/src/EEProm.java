@@ -5,10 +5,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class EEProm {
+	
+	private Controller ctr;
+	
 	private String[] data = new String[64];
 	
-	public EEProm() 
+	private static int state = 0;
+	
+	public EEProm(Controller pCtr) 
 	{
+		ctr = pCtr; 
 		try {
 			loadFromFile();
 		} catch (IOException e) {
@@ -16,6 +22,38 @@ public class EEProm {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	protected void checkStates(int line) 
+	{
+		if(state == 0 && line == 0x3055) 
+		{
+			state = 1;
+		}else if(state == 1 && line == 0x0089) 
+		{
+			state = 2;
+		}else if(state == 2 && line == 0x30AA) 
+		{
+			state = 3;
+		}else if(state == 3 && line == 0x0089) 
+		{
+			state = 4;
+		}else if(state == 4 && line == 0x1488) 
+		{
+
+			if(ctr.getMemory().get_MemoryDIRECT(0x88, 2) == 1) 
+			{
+				// jetzt wird geschrieben
+				ctr.setWriteActive(true);
+				this.setData(ctr.getMemory().get_MemoryDIRECT(0x08), ctr.getMemory().get_MemoryDIRECT(0x09));
+			}
+		}else 
+		{
+			state = 0;
+		}
+	}
+	
+	
 	protected void setData(int value,int adress) 
 	{
 		data[adress] = Integer.toHexString(value);
@@ -23,6 +61,7 @@ public class EEProm {
 	}
 	protected int getData(int adress) 
 	{
+		System.out.println("getEEPROMData: adress:"+adress+" data:"+data[adress]);
 		return Integer.parseInt(data[adress], 16);
 	}
 	
