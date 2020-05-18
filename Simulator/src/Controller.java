@@ -114,6 +114,7 @@ public class Controller {
 		isr = new Interrupt(this);
 		server = new IOServer(this);
 		eeprom = new EEProm();
+		wtd = new Watchdog(this);
 		
 		// testing write function
 		eeprom.setData(100, 0x1f);
@@ -283,7 +284,7 @@ public class Controller {
 	protected void countCycleTime(int frequency) 
 	{
 		double d = Math.pow(10, 6);
-	    this.operationalTime = this.operationalTime + (1.0/(frequency));
+	    this.operationalTime = this.operationalTime + (4.0/(frequency));
 	    this.operationalTime = Math.round(this.operationalTime * d) / d;
 	}
 	/**
@@ -330,8 +331,6 @@ public class Controller {
 			if (!this.processorRunning) {
 				proc = new Processor(this, debugging);
 				proc.start();
-				wtd = new Watchdog(this);
-				wtd.start();
 				this.processorRunning = true;
 			}
 			else {
@@ -351,7 +350,6 @@ public class Controller {
 		System.out.println("Simulation stopped...");
 		this.processorRunning = false;
 		proc.stopThread();
-		wtd.stopThread();
 	}
 	
 	/**
@@ -995,7 +993,7 @@ public class Controller {
 			{
 				//this.memory.programmcounter++;
 				this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
-				// TODO: NOP
+				this.setNopCycle(true);
 			}
 		}
 		if(d == 0) 
@@ -1005,7 +1003,7 @@ public class Controller {
 		{
 			memory.set_SRAM(f, in);
 		}
-		this.setNopCycle(true);
+		
 	}
 	
 	/**
@@ -1052,7 +1050,7 @@ public class Controller {
 			in = 0;
 			//this.memory.programmcounter++;
 			this.memory.set_PROGRAMMCOUNTER(this.memory.get_PROGRAMMCOUNTER() + 1);
-			// TODO: NOP
+			this.setNopCycle(true);
 		}else {
 			in++;
 		}
@@ -1063,7 +1061,6 @@ public class Controller {
 		{
 			memory.set_SRAM(f, in);
 		}
-		this.setNopCycle(true);
 	}
 	
 	/**
@@ -1845,6 +1842,7 @@ public class Controller {
 	}
 
 	protected void reset() {
+		System.out.println("reset funktion");
 		// TODO: Reset implementieren
 		
 		this.memory.programmcounter = 0;
