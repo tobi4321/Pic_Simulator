@@ -35,34 +35,39 @@ public class Processor extends Thread{
     		{
     			// Write Programmcounter in PCL
     			ctr.getMemory().set_SRAMDIRECT(0x02, ctr.getMemory().programmcounter & 0xFF);
-    			
+    			// Set the marker in the gui to the active code line
     			ctr.setCodeViewCounter(ctr.getProgramCounterList()[ctr.getMemory().programmcounter]);
-    			
+    			// Update the special registers
     			ctr.updateSpecialRegTable(Integer.toHexString(ctr.getMemory().programmcounter), 4, 1);
     			ctr.updateSpecialRegTable(Integer.toBinaryString(ctr.getMemory().programmcounter), 4, 2);
     			
-    			// get the current code line as string
+    			// get the command of the current line as an int
     			int codeLine = ctr.getMemory().getProgramMemory()[ctr.getMemory().programmcounter];
     			
+    			
+    			
+    			// If the last command was 2 cycle long then execute a NOP first.
     			ctr.clearHighlights();
     			if(ctr.isNopCycle()) {
         			ctr.executeCommand(NOP);		// NOP
         			ctr.setNopCycle(false);
-        			ctr.getMemory().programmcounter--;
+        			ctr.getMemory().set_PROGRAMMCOUNTER(ctr.getMemory().get_PROGRAMMCOUNTER() - 1);
     			}else {	
         			ctr.executeCommand(codeLine);	// Normal Execute
     			}
-    			
-    			// checking if this pc has a breakpoint
-    			if(ctr.getBreakPointList()[ctr.getMemory().programmcounter]) 
+    			// Before the command execute, the watchdog is updated
+    			ctr.getWatchdog().update(ctr.getOperationalTime());
+    			// checking if this pc has a breakpoint and activating the debugger
+
+				if(ctr.getBreakPointList()[ctr.getMemory().programmcounter]) 
     			{
     				this.debugging = true;
     				this.continueDebug = false;
     			}
-    			
-    			// update all IO like Ports and 7 Segment
+
+    			// update all analog IO 
     			ctr.refreshIO();
-    			
+    			// update 7 segment display 
     			ctr.update7Segment();
     			
     			// add the cycle time to operationalTime and update the panel
@@ -72,9 +77,10 @@ public class Processor extends Thread{
     			// set the cycle clock output for timer source
     			clkout = true;
     			
+    			// Update timer
     			ctr.getTimer().updateSources(ctr.getMemory().get_Memory(0x05, 4), clkout);
     			ctr.getTimer().checkTMRIncrement();
-    			
+    			// Update interrupt
     			ctr.getInterrupt().updateSources(ctr.getMemory().get_Memory(0x06));
     			ctr.getInterrupt().checkRBISR();
     			
@@ -85,15 +91,19 @@ public class Processor extends Thread{
     			
     			while(this.isInSleep) {
     				// Update run time
-    				int sleeptime = 100;
-    				sleep((long) ((1.0/ctr.getFrequency())*slowDownTime));
-    				ctr.countCycleTime(sleeptime);
-        			
+    				sleep((long) ((4.0/ctr.getFrequency())*slowDownTime));
+    				ctr.countCycleTime(ctr.getFrequency());
+
+    				ctr.getWatchdog().update(ctr.getOperationalTime());
+    				
         			ctr.updateOperationalTime();
         			// Wake up if interrupt
+        			ctr.getInterrupt().updateSources(ctr.getMemory().get_Memory(0x06));
+        			ctr.getInterrupt().checkRBISR();
     				if(ctr.getInterrupt().checkInterruptFlags()) {
     					ctr.wakeUpSleep();
     				}
+    				//TODO: Wake up when EEPROM write complete
     			}
     			
     			if (this.debugging) {
@@ -102,7 +112,7 @@ public class Processor extends Thread{
     				}
     				continueDebug = false;
     			}else {
-    				sleep((long) ((1.0/ctr.getFrequency())*slowDownTime));
+    				sleep((long) ((4.0/ctr.getFrequency())*slowDownTime));
     			}
 
     			if(ctr.getMemory().programmcounter >= ctr.getMemory().getProgramMemory().length) 

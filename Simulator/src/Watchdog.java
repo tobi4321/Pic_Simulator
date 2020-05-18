@@ -7,7 +7,7 @@
  * PSA  81h Bit 3   - 1 is prescaler is active for watchdog
  * 
  * */
-public class Watchdog extends Thread{
+public class Watchdog {
 	
 	private Controller ctr;
 	
@@ -22,27 +22,19 @@ public class Watchdog extends Thread{
 		this.timeStamp = this.ctr.getOperationalTime();
 	}
 	
-	public void run() {
-		while(!exit) {
-			if(ctr.getMemory().get_WDTE() == 1 && this.ctr.getOperationalTime() - this.timeStamp >= 18.0) {
-				incrementWatchDog();
-				this.timeStamp = this.ctr.getOperationalTime();
-			}
-			
-			try {
-				sleep(timeOutPeriod);
-			} catch (InterruptedException e) {
-				System.out.println("sleep (" + timeOutPeriod + ") of watchdog failed");
-			}
+	public void update(double timeNow) {
+		if(ctr.getMemory().get_WDTE() == 1 && timeNow - this.timeStamp >= 18.0) {
+			incrementWatchDog();
+			this.timeStamp = this.ctr.getOperationalTime();
 		}
-		System.out.println("Watchdog thread stopped");
 	}
 	
 	protected void incrementWatchDog() 
 	{
+		System.out.println(this.preScaler);
 		this.preScaler++;
 		int preScalerActive = ctr.getMemory().get_MemoryDIRECT(0x81, 3);
-		if((preScalerActive == 1) && this.preScaler == ( Math.pow(2.0, ctr.getPrescaler())) 
+		if((preScalerActive == 1) && this.preScaler >= ( Math.pow(2.0, ctr.getPrescaler())) 
 			|| preScalerActive == 0) 
 		{
 			System.out.println("Watchdog time-out occured at time: " + this.ctr.getOperationalTime());
@@ -54,14 +46,9 @@ public class Watchdog extends Thread{
 			}else {
 				this.ctr.reset();
 			}
+			this.preScaler = 0;
 		}
 	}
-	
-	public void stopThread() 
-    {
-		System.out.println("Watchdog stopped.");
-    	this.exit = true;
-    }
 	
 	protected void setPreScaler(int preScaler) {
 		this.preScaler = preScaler;

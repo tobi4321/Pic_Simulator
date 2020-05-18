@@ -408,6 +408,9 @@ public class Memory extends Thread{
 	protected void set_PROGRAMMCOUNTER(int counter) 
 	{
 		//this.set_SRAMDIRECT(0x02, counter&0xFF);
+		if (counter < 0) {
+			counter = 0;
+		}
 		programmcounter = counter;
 		/*
 		String bin = Integer.toBinaryString(counter);
