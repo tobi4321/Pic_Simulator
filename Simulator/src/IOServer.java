@@ -1,6 +1,8 @@
 import java.net.Socket;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,10 +27,20 @@ public class IOServer extends Thread{
 	
 	private Socket tcpClient;
 	
-    BufferedWriter bw;
+	private int raSend;
+	private int rbSend;
+	
+	private int raReceive;
+	private int rbReceive;
+
+	BufferedWriter bw;
     BufferedReader br;
     OutputStream socketoutstr;
     InputStream socketinstr;
+    
+    DataInputStream inFromClient;
+    DataOutputStream outToClient;
+    
     InputStreamReader isr;
     OutputStreamWriter osr;
     
@@ -54,7 +66,7 @@ public class IOServer extends Thread{
 
 			
 			tcpClient = waitForClient();
-			
+			System.out.println("Client Connected");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
@@ -72,7 +84,12 @@ public class IOServer extends Thread{
 	protected int getServerPort() {
 		return serverPort;
 	}
-
+	   /**
+		 * @return the tcpClient
+		 */
+		protected Socket getTcpClient() {
+			return tcpClient;
+		}
 	/**
 	 * @param serverPort the serverPort to set
 	 */
@@ -101,26 +118,27 @@ public class IOServer extends Thread{
 			try {
 				if(!tcpClient.isOutputShutdown()) 
 				{
-					  int a = ctr.getMemory().get_MemoryDIRECT(0x05);
-					  int b = ctr.getMemory().get_MemoryDIRECT(0x06);
+
 					
-					  this.sendMessage("Test Message");
+					  this.sendMessage(raSend+":"+rbSend);
 					  
-					  
-				      socketinstr = tcpClient.getInputStream(); 
+				      socketinstr = tcpClient.getInputStream();
 				      isr = new InputStreamReader( socketinstr ); 
-				      
 				      br = new BufferedReader( isr ); 
 				      anfrage = br.readLine();
+				      String[] receive = anfrage.split(":");
+				      this.raReceive = Integer.parseInt(receive[0]);
+				      this.rbReceive = Integer.parseInt(receive[1]);
 				      System.out.println("From Client: "+anfrage);
+
 				}
-		          sleep(400);
-		        }
-		        catch(InterruptedException e) {
-		        } catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
+				  			
+		        sleep(20);
+		     }
+		     catch(InterruptedException | IOException e) {
+		    	 System.out.println("Error: "+e.getMessage());
+		     }
 		}    
 	}
 	
@@ -137,9 +155,24 @@ public class IOServer extends Thread{
 		      bw.flush(); 
 		      
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}   
+	}
+
+	protected void setPortA(int ra) {
+		this.raSend = ra;
+	}
+
+	protected void setPortB(int rb) {
+		this.rbSend = rb;
+	}
+	protected int getPortA() 
+	{
+		return this.raReceive;
+	}
+	protected int getPortB() 
+	{
+		return this.rbReceive;
 	}
 	
 	

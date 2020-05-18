@@ -29,13 +29,10 @@ public class Controller {
 	private Timer tmr0;
 	/// Interrupt object to check interrupt flags and if needed set pc to 0004
 	private Interrupt isr;
-<<<<<<< HEAD
 	/// Object of the Watchdog.
 	private Watchdog wtd;
-=======
 	/// EEPROM Memory instance to save data into txt file
 	private EEProm eeprom;
->>>>>>> feature/eeprom
 	
 	private boolean processorRunning = false;
 	/// Displaying if the code is compiled.
@@ -1590,8 +1587,19 @@ public class Controller {
 		gui.setTrisB(trisB);
 
 		// read value from ports and save to memory
-		int ra = gui.getPortA();
-		int rb = gui.getPortB();
+		int ra;
+		int rb;
+		
+		if(this.server.getTcpClient() != null && this.server.getTcpClient().isConnected()) 
+		{
+			ra = this.server.getPortA();
+			rb = this.server.getPortB();
+		}else 
+		{
+			ra = gui.getPortA();
+			rb = gui.getPortB();
+		}
+
 		for(int i = 0; i < 8; i++) {
 			if((trisA & 1) == 1) {
 				this.memory.set_SRAMDIRECT(0x05, i, ra & 1);
@@ -1607,6 +1615,9 @@ public class Controller {
 		// update Port register from Memory
 		gui.setPortA(this.memory.get_MemoryDIRECT(0x05));
 		gui.setPortB(this.memory.get_MemoryDIRECT(0x06));
+		
+		this.server.setPortA(this.memory.get_MemoryDIRECT(0x05));
+		this.server.setPortB(this.memory.get_MemoryDIRECT(0x06));
 	}
 	
 	/**
