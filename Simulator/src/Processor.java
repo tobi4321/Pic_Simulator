@@ -55,7 +55,7 @@ public class Processor extends Thread{
         			ctr.executeCommand(codeLine);	// Normal Execute
     			}
     			// check eeprom state machine
-    			ctr.getEeprom().checkStates(codeLine);
+    			ctr.getEeprom().checkStates(ctr.getMemory().get_MemoryDIRECT(0x89));
     			
     			// Before the command execute, the watchdog is updated
     			ctr.getWatchdog().update(ctr.getOperationalTime());
@@ -111,28 +111,16 @@ public class Processor extends Thread{
     			// check if eeprom write is active
     			if(ctr.getWriteActive()) 
     			{
-    				for(int i = 0; i < 1000; i++) 
+    				if( (ctr.getOperationalTime() - ctr.getEeprom().getWriteStartTime()) >= 1.0 ) 
     				{
-    					sleep((long) ((4.0/ctr.getFrequency())*slowDownTime));
-    	    			
-    					// Before the command execute, the watchdog is updated
-    	    			ctr.getWatchdog().update(ctr.getOperationalTime());
-    	    			
-    	    			// TODO: is needed in write cycle??
-    	    			// update all analog IO 
-    	    			ctr.refreshIO();
-    	    			// update 7 segment display 
-    	    			ctr.update7Segment();
-    	    			
-    	    			
-    	    			// add the cycle time to operationalTime and update the panel
-    	    			ctr.countCycleTime(ctr.getFrequency());
-    	    			ctr.updateOperationalTime();
-    					
+
+    					// reset eecon bits
+        				ctr.getMemory().set_SRAMDIRECT(0x88, 1, 0);
+        				ctr.getMemory().set_SRAMDIRECT(0x88, 4, 1);
+        				// deactivate write
+        				ctr.setWriteActive(false);
     				}
-    				ctr.getMemory().set_SRAMDIRECT(0x88, 1, 0);
-    				ctr.getMemory().set_SRAMDIRECT(0x88, 4, 1);
-    				ctr.setWriteActive(false);
+
     			}
     			
     			if (this.debugging) {
