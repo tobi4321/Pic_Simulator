@@ -48,11 +48,11 @@ public class Processor extends Thread{
     			// If the last command was 2 cycle long then execute a NOP first.
     			ctr.clearHighlights();
     			if(ctr.isNopCycle()) {
-        			ctr.executeCommand(NOP);		// NOP
+        			ctr.getCommands().executeCommand(NOP);		// NOP
         			ctr.setNopCycle(false);
         			ctr.getMemory().set_PROGRAMMCOUNTER(ctr.getMemory().get_PROGRAMMCOUNTER() - 1);
     			}else {	
-        			ctr.executeCommand(codeLine);	// Normal Execute
+        			ctr.getCommands().executeCommand(codeLine);	// Normal Execute
     			}
     			// check eeprom state machine
     			ctr.getEeprom().checkStates(ctr.getMemory().get_MemoryDIRECT(0x89));
