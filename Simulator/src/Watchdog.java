@@ -23,7 +23,7 @@ public class Watchdog {
 	}
 	
 	public void update(double timeNow) {
-		if(ctr.getMemory().get_WDTE() == 1 && timeNow - this.timeStamp >= 18.0) {
+		if(ctr.getMemory().get_WDTE() == 1 && (timeNow - this.timeStamp) >= 18.0) {
 			incrementWatchDog();
 			this.timeStamp = this.ctr.getOperationalTime();
 		}
@@ -34,8 +34,7 @@ public class Watchdog {
 		System.out.println(this.preScaler);
 		this.preScaler++;
 		int preScalerActive = ctr.getMemory().get_MemoryDIRECT(0x81, 3);
-		if((preScalerActive == 1) && this.preScaler >= ( Math.pow(2.0, ctr.getPrescaler())) 
-			|| preScalerActive == 0) 
+		if((preScalerActive == 1) && this.preScaler >= ( Math.pow(2.0, ctr.getPrescaler())) || preScalerActive == 0) 
 		{
 			System.out.println("Watchdog time-out occured at time: " + this.ctr.getOperationalTime());
 			this.ctr.getMemory().set_TO(0);

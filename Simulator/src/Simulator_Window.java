@@ -10,6 +10,9 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -23,6 +26,8 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -1155,13 +1160,39 @@ public class Simulator_Window {
 			    JPanel myPanel = new JPanel();
 			    myPanel.add(new JLabel("IP:"));
 			    myPanel.add(ipAdress);
+			    
+			    
+			    Icon icon = new ImageIcon("src/clipboard.jpg");
+			    JButton copyAdress = new JButton(icon);
+			    copyAdress.addActionListener(new ActionListener() {
+			    	public void actionPerformed(ActionEvent arg0) 
+			    	{
+			    		StringSelection selection = new StringSelection(ipAdress.getText());
+			    		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+			    		clipboard.setContents(selection, selection);
+			    	}
+			    });
+			    myPanel.add(copyAdress);
+			    
 			    myPanel.add(Box.createHorizontalStrut(15)); // a spacer
 			    myPanel.add(new JLabel("Port:"));
 			    myPanel.add(port);
 			    
+			    JButton copyPort = new JButton(icon);
+			    copyPort.addActionListener(new ActionListener() {
+			    	public void actionPerformed(ActionEvent arg0) 
+			    	{
+			    		StringSelection selection = new StringSelection(port.getText());
+			    		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+			    		clipboard.setContents(selection, selection);
+			    	}
+			    });
+			    
+			    myPanel.add(copyPort);
+			    
 			    int result = JOptionPane.showConfirmDialog(null, myPanel,
-			            "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
-			        if (result == JOptionPane.OK_OPTION) {
+			            "Connect the server with this values", JOptionPane.CLOSED_OPTION);
+			        if (result == JOptionPane.CLOSED_OPTION) {
 			          System.out.println("Port value: " + port.getText());
 			        }
 			}
