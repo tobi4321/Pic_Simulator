@@ -286,6 +286,35 @@ public class Memory extends Thread{
 				if (fileaddress == 0x01 && this.get_Memory(0x81, 3) == 0) {
 					ctr.getTimer().setPreScaler(0);
 				}
+				// Redirect write on PortA to Data Latch
+				else if(fileaddress == 0x05) 
+				{
+					if(value == 1) 
+					{
+						this.dataLatchA = this.dataLatchA | (value << bit);
+					}else 
+					{
+						int bitmask = 0xff;
+						bitmask = bitmask ^ (0x01 << bit);
+						this.dataLatchA = this.dataLatchA & bitmask;
+					}
+
+				}
+				// Redirect write on PortA to Data Latch
+				else if(fileaddress == 0x06) 
+				{
+					if(value == 1) 
+					{
+						this.dataLatchB = this.dataLatchB | (value << bit);
+					}else 
+					{
+						int bitmask = 0xff;
+						bitmask = bitmask ^ (0x01 << bit);
+						this.dataLatchB = this.dataLatchB & bitmask;
+					}
+					
+				}
+				
 				set_SRAMDIRECT(fileaddress, bit, value);
 			}else if((dataMemory[3][5] == 1) && (fileaddress < 128)) 
 			{
@@ -326,30 +355,6 @@ public class Memory extends Thread{
 			System.out.println("EEProm read: "+eepromValue);
 			this.set_SRAMDIRECT(0x08,eepromValue);
 
-		}else if(fileaddress == 0x05) 
-		{
-			if(value == 1) 
-			{
-				this.dataLatchA = this.dataLatchA | (value << bit);
-			}else 
-			{
-				int bitmask = 0xff;
-				bitmask = bitmask ^ (0x01 << bit);
-				this.dataLatchA = this.dataLatchA & bitmask;
-			}
-
-		}else if(fileaddress == 0x06) 
-		{
-			if(value == 1) 
-			{
-				this.dataLatchB = this.dataLatchB | (value << bit);
-			}else 
-			{
-				int bitmask = 0xff;
-				bitmask = bitmask ^ (0x01 << bit);
-				this.dataLatchB = this.dataLatchB & bitmask;
-			}
-			
 		}
 	}
 	

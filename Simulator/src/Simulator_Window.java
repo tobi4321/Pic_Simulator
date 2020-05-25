@@ -81,17 +81,11 @@ public class Simulator_Window {
 	private JComboBox<String> comboBox_File;
 	private JComboBox<String> comboBox_SubFile;
 	// member for port a
-	private JLabel lbl_ra_tris7;
-	private JLabel lbl_ra_tris6;
-	private JLabel lbl_ra_tris5;
 	private JLabel lbl_ra_tris4;
 	private JLabel lbl_ra_tris3;
 	private JLabel lbl_ra_tris2;
 	private JLabel lbl_ra_tris1;
 	private JLabel lbl_ra_tris0;
-	private JRadioButton rbtn_ra_7;
-	private JRadioButton rbtn_ra_6;
-	private JRadioButton rbtn_ra_5;
 	private JRadioButton rbtn_ra_4;
 	private JRadioButton rbtn_ra_3;
 	private JRadioButton rbtn_ra_2;
@@ -550,18 +544,6 @@ public class Simulator_Window {
 		lblPortA.setBounds(115, 53, 46, 32);
 		panel_RA.add(lblPortA);
 		
-		JLabel lbl_ra7 = new JLabel("7");
-		lbl_ra7.setBounds(171, 10, 14, 14);
-		panel_RA.add(lbl_ra7);
-		
-		JLabel lbl_ra6 = new JLabel("6");
-		lbl_ra6.setBounds(195, 10, 14, 14);
-		panel_RA.add(lbl_ra6);
-		
-		JLabel lbl_ra5 = new JLabel("5");
-		lbl_ra5.setBounds(219, 10, 14, 14);
-		panel_RA.add(lbl_ra5);
-		
 		JLabel lbl_ra4 = new JLabel("4");
 		lbl_ra4.setBounds(243, 10, 14, 14);
 		panel_RA.add(lbl_ra4);
@@ -581,24 +563,6 @@ public class Simulator_Window {
 		JLabel lbl_ra0 = new JLabel("0");
 		lbl_ra0.setBounds(339, 10, 14, 14);
 		panel_RA.add(lbl_ra0);
-		
-		lbl_ra_tris7 = new JLabel("I");
-		lbl_ra_tris7.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_ra_tris7.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris7.setBounds(171, 35, 14, 14);
-		panel_RA.add(lbl_ra_tris7);
-		
-		lbl_ra_tris6 = new JLabel("I");
-		lbl_ra_tris6.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_ra_tris6.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris6.setBounds(195, 35, 14, 14);
-		panel_RA.add(lbl_ra_tris6);
-		
-		lbl_ra_tris5 = new JLabel("I");
-		lbl_ra_tris5.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_ra_tris5.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lbl_ra_tris5.setBounds(219, 35, 14, 14);
-		panel_RA.add(lbl_ra_tris5);
 		
 		lbl_ra_tris4 = new JLabel("I");
 		lbl_ra_tris4.setHorizontalAlignment(SwingConstants.CENTER);
@@ -629,18 +593,6 @@ public class Simulator_Window {
 		lbl_ra_tris0.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lbl_ra_tris0.setBounds(339, 35, 14, 14);
 		panel_RA.add(lbl_ra_tris0);
-		
-		rbtn_ra_7 = new JRadioButton("");
-		rbtn_ra_7.setBounds(167, 53, 21, 23);
-		panel_RA.add(rbtn_ra_7);
-		
-		rbtn_ra_6 = new JRadioButton("");
-		rbtn_ra_6.setBounds(188, 53, 21, 23);
-		panel_RA.add(rbtn_ra_6);
-		
-		rbtn_ra_5 = new JRadioButton("");
-		rbtn_ra_5.setBounds(212, 53, 21, 23);
-		panel_RA.add(rbtn_ra_5);
 		
 		rbtn_ra_4 = new JRadioButton("");
 		rbtn_ra_4.setBounds(236, 53, 21, 23);
@@ -1248,18 +1200,10 @@ public class Simulator_Window {
 	  protected int getPortA() 
 	  {
 		  int ra = 0;
-		  if(this.rbtn_ra_7.isSelected()) 
-		  {
-			  ra = ra + 0x80;
-		  }
-		  if(this.rbtn_ra_6.isSelected()) 
-		  {
-			  ra = ra + 0x40;
-		  }
-		  if(this.rbtn_ra_5.isSelected()) 
-		  {
-			  ra = ra + 0x20;
-		  }
+		  
+		  ra = ra + 0x00; // Read as zero
+		  ra = ra + 0x00; // Read as zero
+		  ra = ra + 0x00; // Read as zero
 		  if(this.rbtn_ra_4.isSelected()) 
 		  {
 			  ra = ra + 0x10;
@@ -1284,27 +1228,6 @@ public class Simulator_Window {
 	  }
 	  protected void setPortA(int ra) 
 	  {
-		  if((ra & 0x80)>> 7  == 1 ) 
-		  {
-			  this.rbtn_ra_7.setSelected(true);
-		  }else 
-		  {
-			  this.rbtn_ra_7.setSelected(false);
-		  }
-		  if((ra & 0x40)>> 6 == 1 ) 
-		  {
-			  this.rbtn_ra_6.setSelected(true);
-		  }else 
-		  {
-			  this.rbtn_ra_6.setSelected(false);
-		  }
-		  if((ra & 0x20)>> 5 == 1 ) 
-		  {
-			  this.rbtn_ra_5.setSelected(true);
-		  }else 
-		  {
-			  this.rbtn_ra_5.setSelected(false);
-		  }
 		  if((ra & 0x10)>> 4 == 1  ) 
 		  {
 			  this.rbtn_ra_4.setSelected(true);
@@ -1448,33 +1371,6 @@ public class Simulator_Window {
 	  }
 	  protected void setTrisA(int tris) 
 	  {
-		  if((tris & 0x80)>> 7  == 1) 
-		  {
-			  lbl_ra_tris7.setText("I");
-			  this.rbtn_ra_7.setEnabled(true);
-		  }else 
-		  {
-			  lbl_ra_tris7.setText("O");
-			  this.rbtn_ra_7.setEnabled(false);
-		  }
-		  if((tris & 0x40)>> 6 == 1) 
-		  {
-			  lbl_ra_tris6.setText("I");
-			  this.rbtn_ra_6.setEnabled(true);
-		  }else 
-		  {
-			  lbl_ra_tris6.setText("O");
-			  this.rbtn_ra_6.setEnabled(false);
-		  }
-		  if((tris & 0x20)>> 5 == 1) 
-		  {
-			  lbl_ra_tris5.setText("I");
-			  this.rbtn_ra_5.setEnabled(true);
-		  }else 
-		  {
-			  lbl_ra_tris5.setText("O");
-			  this.rbtn_ra_5.setEnabled(false);
-		  }
 		  if((tris & 0x10)>> 4 == 1) 
 		  {
 			  lbl_ra_tris4.setText("I");
