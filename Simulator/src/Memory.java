@@ -29,6 +29,9 @@ public class Memory extends Thread{
 	/// the stack is used to store the pushed adresses by a call command
 	protected Stack<Integer> stack = new Stack<Integer>();
 	
+	private int dataLatchA = 0;
+	private int dataLatchB = 0;
+	
 	// set Methods for BANK 0 
 	
 	public Memory(Controller pCtr) {
@@ -323,6 +326,30 @@ public class Memory extends Thread{
 			System.out.println("EEProm read: "+eepromValue);
 			this.set_SRAMDIRECT(0x08,eepromValue);
 
+		}else if(fileaddress == 0x05) 
+		{
+			if(value == 1) 
+			{
+				this.dataLatchA = this.dataLatchA | (value << bit);
+			}else 
+			{
+				int bitmask = 0xff;
+				bitmask = bitmask ^ (0x01 << bit);
+				this.dataLatchA = this.dataLatchA & bitmask;
+			}
+
+		}else if(fileaddress == 0x06) 
+		{
+			if(value == 1) 
+			{
+				this.dataLatchB = this.dataLatchB | (value << bit);
+			}else 
+			{
+				int bitmask = 0xff;
+				bitmask = bitmask ^ (0x01 << bit);
+				this.dataLatchB = this.dataLatchB & bitmask;
+			}
+			
 		}
 	}
 	
@@ -543,6 +570,38 @@ public class Memory extends Thread{
 	 */
 	protected void setProgramMemory(int[] programMemory) {
 		this.programMemory = programMemory;
+	}
+
+
+	/**
+	 * @return the dataLatchA
+	 */
+	public int getDataLatchA() {
+		return dataLatchA;
+	}
+
+
+	/**
+	 * @param dataLatchA the dataLatchA to set
+	 */
+	public void setDataLatchA(int dataLatchA) {
+		this.dataLatchA = dataLatchA;
+	}
+
+
+	/**
+	 * @return the dataLatchB
+	 */
+	public int getDataLatchB() {
+		return dataLatchB;
+	}
+
+
+	/**
+	 * @param dataLatchB the dataLatchB to set
+	 */
+	public void setDataLatchB(int dataLatchB) {
+		this.dataLatchB = dataLatchB;
 	}
 	
 }

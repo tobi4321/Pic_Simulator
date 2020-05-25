@@ -726,6 +726,9 @@ public class Controller {
 		// set the Tris register from Memory
 		getGui().setTrisA(trisA);
 		getGui().setTrisB(trisB);
+		
+		int dataLatchA = this.memory.getDataLatchA();
+		int dataLatchB = this.memory.getDataLatchB();
 
 		// read value from ports and save to memory
 		int ra;
@@ -742,12 +745,24 @@ public class Controller {
 		}
 
 		for(int i = 0; i < 8; i++) {
+			// tris = 1 -> eingang 
 			if((trisA & 1) == 1) {
 				this.memory.set_SRAMDIRECT(0x05, i, ra & 1);
+			}else 
+			{
+				this.memory.set_SRAMDIRECT(0x05, i, dataLatchA & 1);
 			}
+			
 			if((trisB & 1) == 1) {
 				this.memory.set_SRAMDIRECT(0x06, i, rb & 1);
+			}else 
+			{
+				this.memory.set_SRAMDIRECT(0x06, i, dataLatchB & 1);
 			}
+			
+			dataLatchA = dataLatchA >> 1;
+			dataLatchB = dataLatchB >> 1;
+			
 			trisA = trisA >> 1;
     		trisB = trisB >> 1;
 			ra 	  = ra >> 1;
