@@ -10,21 +10,19 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 /// class ErrorDialog
 /**
-*  
-*  An Error Window
-* 
+*  This class is used to display error windows with variable title and text.
 * **/
 public class ErrorDialog extends JDialog {
 
-	/**
-	 * 
-	 */
+	/// 
 	private static final long serialVersionUID = 1L;
-
+	/// The content panel of the error window.
 	private final JPanel contentPanel = new JPanel();
-
+	/// The title of the error window.
 	protected JLabel lbl_ErrorTitle;
+	/// The text displayed in the error window.
 	protected JLabel lbl_ErrorText;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -39,7 +37,7 @@ public class ErrorDialog extends JDialog {
 	}
 
 	/**
-	 * Create the dialog.
+	 * The Method to create and display the error window.
 	 */
 	public ErrorDialog() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

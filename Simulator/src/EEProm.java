@@ -3,17 +3,25 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+/// class EEProm
+/**
+*  This class is used to check if a valid EEPROM Write access sequence is executed.
+*  Furthermore this class reads and writes to the eeprom.txt file which represents the EEPROM memory.
+* **/
 public class EEProm {
-	
+	/// The object of the main controller.
 	private Controller ctr;
-	
+	/// The eeprom data loaded from the eeprom.txt file.
 	private String[] data = new String[64];
-	
+	/// The state of the write sequence state machine.
 	private static int state = 0;
-	
+	/// A timestamp of the write.
 	private double writeStartTime;
 	
+	/**
+	 * The constructor. Setting the Controller object and loading the eeprom memory from the txt file.
+	 * @param pCtr The Controller object to set.
+	 */
 	public EEProm(Controller pCtr) 
 	{
 		ctr = pCtr; 
@@ -24,7 +32,10 @@ public class EEProm {
 		}
 	}
 	
-	
+	/**
+	 * Method to check the state of the state machine.
+	 * @param eeprom2 The value of the eeprom data register.
+	 */
 	protected void checkStates(int eeprom2) 
 	{
 		if(state == 0 && eeprom2  == 0x55) 
@@ -67,22 +78,34 @@ public class EEProm {
 						state = 0;
 					}
 				}
-
 			}
 		}
 	}
 	
-	
-	protected void setData(int value,int adress) 
+	/**
+	 * Method to set one value in the data array and therefore in the eeprom memory.
+	 * @param value The value to set.
+	 * @param adress The address to set.
+	 */
+	protected void setData(int value,int address) 
 	{
-		data[adress] = Integer.toHexString(value);
+		data[address] = Integer.toHexString(value);
 		this.writeFile();
 	}
-	protected int getData(int adress) 
+	
+	/**
+	 * Method to get one value from the data array (the eeprom memory).
+	 * @param address The Address to read the value from.
+	 * @return The value read.
+	 */
+	protected int getData(int address) 
 	{
-		return Integer.parseInt(data[adress], 16);
+		return Integer.parseInt(data[address], 16);
 	}
 	
+	/**
+	 * Method to load the eeprom.txt file into the data array.
+	 */
 	private void loadFromFile() throws IOException 
 	{
 		FileReader fr;
@@ -100,9 +123,11 @@ public class EEProm {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	    
-	    
 	}
+	
+	/**
+	 * Method to write the data array into the eeprom.txt file.
+	 */
 	private void writeFile() 
 	{
 		PrintWriter pw;
@@ -121,9 +146,9 @@ public class EEProm {
 		}
 	}
 
-
 	/**
-	 * @return the writeStartTime
+	 * Getter to get the writeStartTime variable.
+	 * @return The writeStartTime.
 	 */
 	public double getWriteStartTime() {
 		return this.writeStartTime;
