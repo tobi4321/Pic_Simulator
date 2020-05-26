@@ -91,8 +91,7 @@ Geschützte Methoden</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Ausführliche Beschreibung</h2>
 <div class="textblock"><p>class <a class="el" href="class_interrupt.html" title="class Interrupt">Interrupt</a> </p>
-<p>This class is a basic implementation of the interrupt functionality</p>
-<p>If the interrupt is enabled, this class checks the interrupt IO pins and jumps to the specific adress 0x04 </p>
+<p>This class is a basic implementation of the interrupt functionality. If the interrupt is enabled, this class checks the interrupt IO pins and jumps to the specific adress 0x04. </p>
 </div><h2 class="groupheader">Beschreibung der Konstruktoren und Destruktoren</h2>
 <a id="ac2d11ae02d547f6c2726670ad82ce63f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac2d11ae02d547f6c2726670ad82ce63f">&#9670;&nbsp;</a></span>Interrupt()</h2>
@@ -109,6 +108,12 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The constructor, setting the <a class="el" href="class_controller.html" title="class Controller">Controller</a> object. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pCtr</td><td>The controller object to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -127,7 +132,7 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>execution if a interrupt occured saving the current pc jumping to pc 0x04 clear GIE bit </p>
+<p>If interrupts are enabled and an interrupt occurred the current program counter is saved, set to 0x04 and the GIE bit is cleared. </p>
 
 </div>
 </div>
@@ -145,7 +150,7 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>checking all triggers for a interrupt </p>
+<p>Method to check all triggers for a interrupt. </p>
 
 </div>
 </div>
@@ -171,7 +176,7 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>check if interrupt on port rb occured </p>
+<p>Checking if an interrupt on port rb occurred. </p>
 
 </div>
 </div>
@@ -198,9 +203,9 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>check the port rb and set the edge type </p><dl class="params"><dt>Parameter</dt><dd>
+<p>Check the port rb and set the edge type. </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">rb</td><td></td></tr>
+    <tr><td class="paramname">rb</td><td>The value ob the port B. </td></tr>
   </table>
   </dd>
 </dl>

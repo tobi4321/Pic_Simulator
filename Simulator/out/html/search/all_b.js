@@ -41,7 +41,7 @@ var searchData=
   ['setcommands_154',['setCommands',['../class_controller.html#a7f8d32cce4feb0385f999cb23633c2c6',1,'Controller']]],
   ['setcontinuedebug_155',['setContinueDebug',['../class_processor.html#ab426745bc5b8495c5339f5a05dae0676',1,'Processor']]],
   ['setcontrolportselect_156',['setControlPortSelect',['../class_controller.html#a49356c84a72bb318869ce0f05b562efe',1,'Controller']]],
-  ['setdata_157',['setData',['../class_e_e_prom.html#a7471da6a865c73b79c217e9b2f87c6cb',1,'EEProm.setData()'],['../class_simulator___window.html#a65ead59e924a91f46300d91eaa773249',1,'Simulator_Window.SetData()']]],
+  ['setdata_157',['setData',['../class_e_e_prom.html#a6bb58133bbd7eb9ff5c258ab31c7c38f',1,'EEProm.setData()'],['../class_simulator___window.html#a65ead59e924a91f46300d91eaa773249',1,'Simulator_Window.SetData()']]],
   ['setdatalatcha_158',['setDataLatchA',['../class_memory.html#a41a3b91611ad972cd3c490a20e8c8917',1,'Memory']]],
   ['setdatalatchb_159',['setDataLatchB',['../class_memory.html#a86c0bfa1d8e8e14e73758dd2b24a4961',1,'Memory']]],
   ['setdataportselect_160',['setDataPortSelect',['../class_controller.html#a5bf03e1833fa56649a3cbc058513e1f7',1,'Controller']]],

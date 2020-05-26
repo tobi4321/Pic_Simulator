@@ -1,35 +1,27 @@
 /// class MnemonicParser
 /**
- *  This class is used to parse mnemonic code into binary assembler code
- * 
- * 
+ *  This class is used to parse mnemonic code into binary assembler code.
  * */
 public class MnemonicParser {
-	
-	
-	/// obejct of main Controller
+	/// The object of the main Controller class.
 	private Controller ctr;
 	
-	
-	/// constructor 
 	/**
 	 * The constructor is used to set the parameter given by Controller class with creation to the local Controller object
 	 *  @param pCtr temporary object of Controller
-	 * 
 	 * */
 	public MnemonicParser(Controller pCtr) 
 	{
 		ctr = pCtr;
 	}
 	
-
 	/**
-	 *  function to parse a line of mnemonic assembler code into binary code
-	 * @param c the line to parse
-	 * @param line to display the line where an error occured
-	 * @return the binary string of c
+	 * Method to parse a line of mnemonic assembler code into binary code.
+	 * @param c The line to parse.
+	 * @param line The line number to display the line where an error occurred.
+	 * @return The binary string of the input parameter c.
 	 * */
-	public String fromMnemToHex(String c,int line)
+	public String fromMnemToHex(String c, int line)
 	{	
 		String proceed = "";
 		if(c.contains(";") == true )
@@ -40,7 +32,6 @@ public class MnemonicParser {
 			proceed = c;
 		}
 		c.replaceAll("\r", "");
-		
 		
 		String wordList[] = new String[4];
 		wordList[0] = "";
@@ -78,7 +69,6 @@ public class MnemonicParser {
 		System.out.println("Word[1]: "+wordList[1]);
 		System.out.println("Word[2]: "+wordList[2]);
 		System.out.println("Word[3]: "+wordList[3]);
-		
 
 		String hexCode = "";
 		String b;
@@ -278,7 +268,6 @@ public class MnemonicParser {
 					System.out.println("Error in Line "+line+" while assembling to Bin-Code");
 			}
 		
-		
 		bin = bin.replaceAll("\\r", "");
 		hexCode = hexCode.replaceAll("\\r", "");
 		if(hexCode.length() < 14) 
@@ -296,10 +285,11 @@ public class MnemonicParser {
 	
 	
 	/**
-	 * *This function converts a hex string into a binary string with the underlaying function hexToBinary
-	 * *deletion of 0x or h or H is needed for convertion
-	 * @param in the string to be converted
-	 * @return the binary string result of converted hex string 
+	 * This function converts a hexadecimal string into a binary string with the underlying function hexToBinary.
+	 * Deletion of 0x or h or H is needed for conversion.
+	 * @param in The string to be converted.
+	 * @return the The binary string result of the converted hex string.
+	 * @see hexToBinary
 	 */
 	private String setBinaryForToHex(String in) 
 	{
@@ -317,9 +307,9 @@ public class MnemonicParser {
 	}
 	
 	/**
-	 * * Converter from hex to bin string
-	 * @param hex
-	 * @return
+	 * Method to convert from a hexadecimal to a binary string.
+	 * @param hex The hexadecimal string.
+	 * @return The binary string.
 	 */
 	public String hexToBinary(String hex) {
 	    if(hex.equals("    ")) 
@@ -331,6 +321,5 @@ public class MnemonicParser {
 		    String bin = Integer.toBinaryString(i);
 		    return bin;
 	    }
-
 	}
 }

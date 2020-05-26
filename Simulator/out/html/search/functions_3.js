@@ -9,7 +9,7 @@ var searchData=
   ['getbreakpointlist_267',['getBreakPointList',['../class_controller.html#aeded377d56c08423248a9cc0d1df4f70',1,'Controller']]],
   ['getcommands_268',['getCommands',['../class_controller.html#a48e327b6941f9f1d343b6480258b63f8',1,'Controller']]],
   ['getcontrolportselect_269',['getControlPortSelect',['../class_controller.html#aeef35953de155e1eb620ba3354274dc4',1,'Controller']]],
-  ['getdata_270',['getData',['../class_e_e_prom.html#ae27e436232f32e9fa68dba0dfebebc7d',1,'EEProm.getData()'],['../class_simulator___window.html#aade57e6a147c9a0344586089828a5dec',1,'Simulator_Window.getData()']]],
+  ['getdata_270',['getData',['../class_e_e_prom.html#a02af7c71c45a796f8f554eba5a5d5ecc',1,'EEProm.getData()'],['../class_simulator___window.html#aade57e6a147c9a0344586089828a5dec',1,'Simulator_Window.getData()']]],
   ['getdatalatcha_271',['getDataLatchA',['../class_memory.html#a02f585c611ce743ea05e09ebce9cb537',1,'Memory']]],
   ['getdatalatchb_272',['getDataLatchB',['../class_memory.html#a565e0da9e0f646c5d78726c1e0d14b1f',1,'Memory']]],
   ['getdataportselect_273',['getDataPortSelect',['../class_controller.html#ab3301d5efb34aec4187e57fb71b80c08',1,'Controller']]],

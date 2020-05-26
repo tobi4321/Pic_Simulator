@@ -111,7 +111,7 @@ Geschützte Methoden</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Ausführliche Beschreibung</h2>
 <div class="textblock"><p>class <a class="el" href="class_i_o_server.html" title="class IOServer">IOServer</a> </p>
-<p>used to connect simulator to a outsourced software with hardware communication </p>
+<p>This class is used to connect the simulator to an out sourced software with hardware communication. </p>
 </div><h2 class="groupheader">Beschreibung der Konstruktoren und Destruktoren</h2>
 <a id="ad94b6e5629e3be5ce53234cab7a7860b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad94b6e5629e3be5ce53234cab7a7860b">&#9670;&nbsp;</a></span>IOServer()</h2>
@@ -128,6 +128,12 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The constructor setting the <a class="el" href="class_controller.html" title="class Controller">Controller</a> object, creating a new server socket on a free port and setting the port variable. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pCtr</td><td>the <a class="el" href="class_controller.html" title="class Controller">Controller</a> object to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -154,6 +160,7 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The Getter to get raReceive. </p><dl class="section return"><dt>Rückgabe</dt><dd>raReceive. </dd></dl>
 
 </div>
 </div>
@@ -179,6 +186,7 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The Getter to get rbReceive. </p><dl class="section return"><dt>Rückgabe</dt><dd>rbReceive. </dd></dl>
 
 </div>
 </div>
@@ -204,7 +212,7 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Rückgabe</dt><dd>the serverPort </dd></dl>
+<p>Getter to access the serverPort. </p><dl class="section return"><dt>Rückgabe</dt><dd>The serverPort. </dd></dl>
 
 </div>
 </div>
@@ -230,7 +238,7 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Rückgabe</dt><dd>the tcpClient </dd></dl>
+<p>Getter to access the tcpClient. </p><dl class="section return"><dt>Rückgabe</dt><dd>The tcpClient. </dd></dl>
 
 </div>
 </div>
@@ -248,6 +256,7 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The main method of the thread. As long as an client is connected, the value of port a and port b are exchanged. </p>
 
 </div>
 </div>
@@ -266,6 +275,12 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to send a message to the client. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pMessage</td><td>The string to send. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -292,6 +307,12 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The Setter to set the value of raSend. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ra</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -318,6 +339,12 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The Setter to set the value of rbSend. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rb</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -344,9 +371,9 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameter</dt><dd>
+<p>The Setter to set the server port variable. </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">serverPort</td><td>the serverPort to set </td></tr>
+    <tr><td class="paramname">serverPort</td><td>The serverPort to set. </td></tr>
   </table>
   </dd>
 </dl>
@@ -375,6 +402,7 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to start the server. When started the server will wait for a client to connect. </p><dl class="section see"><dt>Siehe auch</dt><dd><a class="el" href="class_i_o_server.html#afdc8088567d843e023c756db2a137408">waitForClient</a> </dd></dl>
 
 </div>
 </div>
@@ -400,6 +428,7 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Wait until a client has connected. </p><dl class="section return"><dt>Rückgabe</dt><dd>The client socket. </dd></dl>
 
 </div>
 </div>

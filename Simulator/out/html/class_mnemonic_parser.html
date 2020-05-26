@@ -75,7 +75,6 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Öffentliche Methoden</h2></td></tr>
 <tr class="memitem:aa7d95c1b1af66d828df1e488fb729e42"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mnemonic_parser.html#aa7d95c1b1af66d828df1e488fb729e42">MnemonicParser</a> (<a class="el" href="class_controller.html">Controller</a> pCtr)</td></tr>
-<tr class="memdesc:aa7d95c1b1af66d828df1e488fb729e42"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor  <a href="class_mnemonic_parser.html#aa7d95c1b1af66d828df1e488fb729e42">Mehr ...</a><br /></td></tr>
 <tr class="separator:aa7d95c1b1af66d828df1e488fb729e42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5a910b2b68fe642e7925bb6777d1f54"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mnemonic_parser.html#ab5a910b2b68fe642e7925bb6777d1f54">fromMnemToHex</a> (String c, int line)</td></tr>
 <tr class="separator:ab5a910b2b68fe642e7925bb6777d1f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -84,7 +83,7 @@ $(function() {
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Ausführliche Beschreibung</h2>
 <div class="textblock"><p>class <a class="el" href="class_mnemonic_parser.html" title="class MnemonicParser">MnemonicParser</a> </p>
-<p>This class is used to parse mnemonic code into binary assembler code </p>
+<p>This class is used to parse mnemonic code into binary assembler code. </p>
 </div><h2 class="groupheader">Beschreibung der Konstruktoren und Destruktoren</h2>
 <a id="aa7d95c1b1af66d828df1e488fb729e42"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa7d95c1b1af66d828df1e488fb729e42">&#9670;&nbsp;</a></span>MnemonicParser()</h2>
@@ -101,8 +100,6 @@ $(function() {
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>constructor </p>
 <p>The constructor is used to set the parameter given by <a class="el" href="class_controller.html" title="class Controller">Controller</a> class with creation to the local <a class="el" href="class_controller.html" title="class Controller">Controller</a> object </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
     <tr><td class="paramname">pCtr</td><td>temporary object of <a class="el" href="class_controller.html" title="class Controller">Controller</a> </td></tr>
@@ -138,14 +135,14 @@ $(function() {
         </tr>
       </table>
 </div><div class="memdoc">
-<p>function to parse a line of mnemonic assembler code into binary code </p><dl class="params"><dt>Parameter</dt><dd>
+<p>Method to parse a line of mnemonic assembler code into binary code. </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">c</td><td>the line to parse </td></tr>
-    <tr><td class="paramname">line</td><td>to display the line where an error occured </td></tr>
+    <tr><td class="paramname">c</td><td>The line to parse. </td></tr>
+    <tr><td class="paramname">line</td><td>The line number to display the line where an error occurred. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Rückgabe</dt><dd>the binary string of c </dd></dl>
+<dl class="section return"><dt>Rückgabe</dt><dd>The binary string of the input parameter c. </dd></dl>
 
 </div>
 </div>
@@ -164,16 +161,13 @@ $(function() {
         </tr>
       </table>
 </div><div class="memdoc">
-<ul>
-<li>Converter from hex to bin string <dl class="params"><dt>Parameter</dt><dd>
+<p>Method to convert from a hexadecimal to a binary string. </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">hex</td><td></td></tr>
+    <tr><td class="paramname">hex</td><td>The hexadecimal string. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Rückgabe</dt><dd></dd></dl>
-</li>
-</ul>
+<dl class="section return"><dt>Rückgabe</dt><dd>The binary string. </dd></dl>
 
 </div>
 </div>

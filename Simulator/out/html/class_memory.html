@@ -189,15 +189,15 @@ Geschützte Attribute</h2></td></tr>
 <tr class="memitem:ac1592bbc8c88ec4209db663d5577af47"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#ac1592bbc8c88ec4209db663d5577af47">programmcounter</a> = 0</td></tr>
 <tr class="separator:ac1592bbc8c88ec4209db663d5577af47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a207439b226c2324ca3b612775b3e1170"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#a207439b226c2324ca3b612775b3e1170">w_register</a> = new int[8]</td></tr>
-<tr class="memdesc:a207439b226c2324ca3b612775b3e1170"><td class="mdescLeft">&#160;</td><td class="mdescRight">w_register storage for operations  <a href="class_memory.html#a207439b226c2324ca3b612775b3e1170">Mehr ...</a><br /></td></tr>
+<tr class="memdesc:a207439b226c2324ca3b612775b3e1170"><td class="mdescLeft">&#160;</td><td class="mdescRight">w_register storage for operations.  <a href="class_memory.html#a207439b226c2324ca3b612775b3e1170">Mehr ...</a><br /></td></tr>
 <tr class="separator:a207439b226c2324ca3b612775b3e1170"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1802ca5810162cce2c89686f06d86b64"><td class="memItemLeft" align="right" valign="top">Stack&lt; Integer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#a1802ca5810162cce2c89686f06d86b64">stack</a> = new Stack&lt;Integer&gt;()</td></tr>
-<tr class="memdesc:a1802ca5810162cce2c89686f06d86b64"><td class="mdescLeft">&#160;</td><td class="mdescRight">the stack is used to store the pushed adresses by a call command  <a href="class_memory.html#a1802ca5810162cce2c89686f06d86b64">Mehr ...</a><br /></td></tr>
+<tr class="memdesc:a1802ca5810162cce2c89686f06d86b64"><td class="mdescLeft">&#160;</td><td class="mdescRight">The stack is used to store the pushed addresses by a call command.  <a href="class_memory.html#a1802ca5810162cce2c89686f06d86b64">Mehr ...</a><br /></td></tr>
 <tr class="separator:a1802ca5810162cce2c89686f06d86b64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Ausführliche Beschreibung</h2>
 <div class="textblock"><p>class <a class="el" href="class_memory.html" title="class Memory">Memory</a> </p>
-<p>This class is the basic implementation of the controller memory There a various variables for w_register, carry flag or the stack </p>
+<p>This class is the basic implementation of the controller memory There a various variables for w_register, carry flag or the stack. For often used variables and special variables there are special function to call directly. </p>
 </div><h2 class="groupheader">Beschreibung der Konstruktoren und Destruktoren</h2>
 <a id="a1b0e8310f9088bd6b81a40e7cabc29b8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1b0e8310f9088bd6b81a40e7cabc29b8">&#9670;&nbsp;</a></span>Memory()</h2>
@@ -214,6 +214,12 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The constructor, initializing the memory with the correct values and setting the <a class="el" href="class_controller.html" title="class Controller">Controller</a> object. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pCtr</td><td>The <a class="el" href="class_controller.html" title="class Controller">Controller</a> object to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -232,9 +238,7 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<ul>
-<li>used to clear the programMemory reset value is ff </li>
-</ul>
+<p>Used to clear the programMemory. The reset value is 255. </p>
 
 </div>
 </div>
@@ -260,6 +264,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to get the carry-flag from the SRAM. </p><dl class="section return"><dt>Rückgabe</dt><dd>The value of the carry-flag. </dd></dl>
 
 </div>
 </div>
@@ -286,6 +291,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to get the value of a register from the SRAM. The RP0 bit decides if the value is written to bank 0 or 1. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileaddress</td><td>The fileaddress to get the value from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Rückgabe</dt><dd>The value of the register. </dd></dl>
 
 </div>
 </div>
@@ -322,6 +334,14 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to get the value of a bit from the SRAM. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileaddress</td><td>The fileaddress to get the value from. </td></tr>
+    <tr><td class="paramname">bit</td><td>The specific bit. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Rückgabe</dt><dd>The value of the bit. </dd></dl>
 
 </div>
 </div>
@@ -348,6 +368,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to get the value of a register from the SRAM directly, the RP0 bit has no impact. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileaddress</td><td>The fileaddress to get the value from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Rückgabe</dt><dd>The value of the register. </dd></dl>
 
 </div>
 </div>
@@ -384,6 +411,14 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to get the value of a bit from a register from the SRAM. The RP0 bit decides if the value is written to bank 0 or 1. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileaddress</td><td>The fileaddress to get the value from. </td></tr>
+    <tr><td class="paramname">bit</td><td>The bit to get the value from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Rückgabe</dt><dd>The value of the bit. </dd></dl>
 
 </div>
 </div>
@@ -409,6 +444,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The Getter of the program counter. </p><dl class="section return"><dt>Rückgabe</dt><dd>The value of the program counter. </dd></dl>
 
 </div>
 </div>
@@ -434,6 +470,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to get the WDTE bit. </p><dl class="section return"><dt>Rückgabe</dt><dd>The value of the WDTE bit. </dd></dl>
 
 </div>
 </div>
@@ -459,6 +496,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The getter of the W register. </p><dl class="section return"><dt>Rückgabe</dt><dd>The value of the complete w register </dd></dl>
 
 </div>
 </div>
@@ -485,16 +523,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<ul>
-<li>function to get ther specific bit of w register <dl class="params"><dt>Parameter</dt><dd>
+<p>Method to get the specific bit of the w register </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">bit</td><td>bit index </td></tr>
+    <tr><td class="paramname">bit</td><td>The index to get. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Rückgabe</dt><dd>value of the w register specific bit </dd></dl>
-</li>
-</ul>
+<dl class="section return"><dt>Rückgabe</dt><dd>value The value of the w register position. </dd></dl>
 
 </div>
 </div>
@@ -512,7 +547,7 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Rückgabe</dt><dd>the dataLatchA </dd></dl>
+<p>The getter for the dataLatchA. </p><dl class="section return"><dt>Rückgabe</dt><dd>The dataLatchA. </dd></dl>
 
 </div>
 </div>
@@ -530,7 +565,7 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Rückgabe</dt><dd>the dataLatchB </dd></dl>
+<p>The getter for the dataLatchB. </p><dl class="section return"><dt>Rückgabe</dt><dd>The dataLatchB. </dd></dl>
 
 </div>
 </div>
@@ -556,7 +591,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Rückgabe</dt><dd>the programMemory </dd></dl>
+<p>The getter for the programMemory variable. </p><dl class="section return"><dt>Rückgabe</dt><dd>The programMemory. </dd></dl>
 
 </div>
 </div>
@@ -582,10 +617,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<ul>
-<li>used to pop the needed programm counter from stack <dl class="section return"><dt>Rückgabe</dt><dd>is the popped adress </dd></dl>
-</li>
-</ul>
+<p>Used to pop the needed program counter from the stack. </p><dl class="section return"><dt>Rückgabe</dt><dd>The popped address. </dd></dl>
 
 </div>
 </div>
@@ -612,15 +644,12 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<ul>
-<li>used to push the current programmcounter+1 on the stack <dl class="params"><dt>Parameter</dt><dd>
+<p>Used to push the current program counter + 1 on the stack. </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">adr</td><td>is the adress to push </td></tr>
+    <tr><td class="paramname">adr</td><td>Is the address to push. </td></tr>
   </table>
   </dd>
 </dl>
-</li>
-</ul>
 
 </div>
 </div>
@@ -638,6 +667,7 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>A thread method to cyclic update the memory displayed on the <a class="el" href="class_simulator___window.html" title="class Simulator_Window">Simulator_Window</a>. </p>
 
 </div>
 </div>
@@ -664,6 +694,12 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the carry-flag in the SRAM. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -682,6 +718,12 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to set the DC-flag in the SRAM. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dc</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -718,6 +760,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the EEADR. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -754,6 +803,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the EECON 1. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -790,6 +846,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the EECON 2. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -826,6 +889,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the EEDATA. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -862,6 +932,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the FSR. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -888,6 +965,12 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the GIE bit. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -924,6 +1007,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the INDF. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -960,6 +1050,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set INTCON. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -996,6 +1093,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the option registry. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1032,6 +1136,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the PCL. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1068,6 +1179,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set PCLATH. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1094,6 +1212,12 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the PD bit. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1130,6 +1254,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set port A. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1166,6 +1297,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set port B. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1192,6 +1330,12 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Setter for the program counter. All values smaller than 0 will be replaced with 0. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">counter</td><td>The value of the program counter. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1234,6 +1378,14 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set a bit in the SRAM. The RP0 bit decides if the value is written to bank 0 or 1. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileaddress</td><td>The address where the value should be written. </td></tr>
+    <tr><td class="paramname">bit</td><td>The bit in the address where the value should be written. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to write. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1270,6 +1422,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set a value (0x1) in the SRAM. The RP0 bit decides if the value is written to bank 0 or 1. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileaddress</td><td>The address where the value should be written. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to write. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1312,6 +1471,14 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set a bit in the SRAM directly, so the RP0 bit has no impact. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileaddress</td><td>The address where the value should be written. </td></tr>
+    <tr><td class="paramname">bit</td><td>The bit in the address where the value should be written. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to write. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1348,6 +1515,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set a value in the SRAM directly, so the RP0 bit has no impact. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileaddress</td><td>The address where the value should be written. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to write. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1384,6 +1558,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the Status registry. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1420,6 +1601,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the TMR0. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1446,6 +1634,12 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the TO bit. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1482,6 +1676,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set tris A. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1518,6 +1719,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set tris B. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The bit to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1554,6 +1762,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The setter of the w_register array variable to set a single bit. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit</td><td>The position in the array to set. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1580,6 +1795,12 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The setter of the w_register array variable to set the complete value. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1598,6 +1819,12 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to set the zero-flag in the SRAM. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">z</td><td>The value to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1616,9 +1843,9 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameter</dt><dd>
+<p>The setter for the dataLatchA. </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">dataLatchA</td><td>the dataLatchA to set </td></tr>
+    <tr><td class="paramname">dataLatchA</td><td>The dataLatchA to set. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1640,9 +1867,9 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameter</dt><dd>
+<p>The setter for the dataLatchB. </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">dataLatchB</td><td>the dataLatchB to set </td></tr>
+    <tr><td class="paramname">dataLatchB</td><td>The dataLatchB to set. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1672,9 +1899,9 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameter</dt><dd>
+<p>The setter for the programMemory variable. </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">programMemory</td><td>the programMemory to set </td></tr>
+    <tr><td class="paramname">programMemory</td><td>The programMemory to set. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1701,7 +1928,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>counter on which line the processor is default is 0 to indicate a reset </p>
+<p>The counter on which line the processor is. Default is 0 to indicate a reset. </p>
 
 </div>
 </div>
@@ -1725,7 +1952,7 @@ Geschützte Attribute</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>the stack is used to store the pushed adresses by a call command </p>
+<p>The stack is used to store the pushed addresses by a call command. </p>
 
 </div>
 </div>
@@ -1749,7 +1976,7 @@ Geschützte Attribute</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>w_register storage for operations </p>
+<p>w_register storage for operations. </p>
 
 </div>
 </div>

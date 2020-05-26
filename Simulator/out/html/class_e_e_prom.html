@@ -69,6 +69,9 @@ $(function() {
 <div class="title">EEProm Klassenreferenz</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>class <a class="el" href="class_e_e_prom.html" title="class EEProm">EEProm</a>  
+ <a href="class_e_e_prom.html#details">Mehr ...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Öffentliche Methoden</h2></td></tr>
@@ -81,12 +84,15 @@ $(function() {
 Geschützte Methoden</h2></td></tr>
 <tr class="memitem:a0f7681111d78892b6421fd7590daaa84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_e_prom.html#a0f7681111d78892b6421fd7590daaa84">checkStates</a> (int eeprom2)</td></tr>
 <tr class="separator:a0f7681111d78892b6421fd7590daaa84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7471da6a865c73b79c217e9b2f87c6cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_e_prom.html#a7471da6a865c73b79c217e9b2f87c6cb">setData</a> (int value, int adress)</td></tr>
-<tr class="separator:a7471da6a865c73b79c217e9b2f87c6cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae27e436232f32e9fa68dba0dfebebc7d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_e_prom.html#ae27e436232f32e9fa68dba0dfebebc7d">getData</a> (int adress)</td></tr>
-<tr class="separator:ae27e436232f32e9fa68dba0dfebebc7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bb58133bbd7eb9ff5c258ab31c7c38f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_e_prom.html#a6bb58133bbd7eb9ff5c258ab31c7c38f">setData</a> (int value, int address)</td></tr>
+<tr class="separator:a6bb58133bbd7eb9ff5c258ab31c7c38f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02af7c71c45a796f8f554eba5a5d5ecc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_e_e_prom.html#a02af7c71c45a796f8f554eba5a5d5ecc">getData</a> (int address)</td></tr>
+<tr class="separator:a02af7c71c45a796f8f554eba5a5d5ecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Beschreibung der Konstruktoren und Destruktoren</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Ausführliche Beschreibung</h2>
+<div class="textblock"><p>class <a class="el" href="class_e_e_prom.html" title="class EEProm">EEProm</a> </p>
+<p>This class is used to check if a valid EEPROM Write access sequence is executed. Furthermore this class reads and writes to the <a class="el" href="eeprom_8txt.html">eeprom.txt</a> file which represents the EEPROM memory. </p>
+</div><h2 class="groupheader">Beschreibung der Konstruktoren und Destruktoren</h2>
 <a id="aeba4c99412b4cc2e16fd55e8dc0c9506"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeba4c99412b4cc2e16fd55e8dc0c9506">&#9670;&nbsp;</a></span>EEProm()</h2>
 
@@ -102,6 +108,12 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The constructor. Setting the <a class="el" href="class_controller.html" title="class Controller">Controller</a> object and loading the eeprom memory from the txt file. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pCtr</td><td>The <a class="el" href="class_controller.html" title="class Controller">Controller</a> object to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -129,11 +141,17 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to check the state of the state machine. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eeprom2</td><td>The value of the eeprom data register. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a id="ae27e436232f32e9fa68dba0dfebebc7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae27e436232f32e9fa68dba0dfebebc7d">&#9670;&nbsp;</a></span>getData()</h2>
+<a id="a02af7c71c45a796f8f554eba5a5d5ecc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02af7c71c45a796f8f554eba5a5d5ecc">&#9670;&nbsp;</a></span>getData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -145,7 +163,7 @@ Geschützte Methoden</h2></td></tr>
           <td class="memname">int EEProm.getData </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>adress</em></td><td>)</td>
+          <td class="paramname"><em>address</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -155,6 +173,13 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to get one value from the data array (the eeprom memory). </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>The Address to read the value from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Rückgabe</dt><dd>The value read. </dd></dl>
 
 </div>
 </div>
@@ -172,12 +197,12 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Rückgabe</dt><dd>the writeStartTime </dd></dl>
+<p>Getter to get the writeStartTime variable. </p><dl class="section return"><dt>Rückgabe</dt><dd>The writeStartTime. </dd></dl>
 
 </div>
 </div>
-<a id="a7471da6a865c73b79c217e9b2f87c6cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7471da6a865c73b79c217e9b2f87c6cb">&#9670;&nbsp;</a></span>setData()</h2>
+<a id="a6bb58133bbd7eb9ff5c258ab31c7c38f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bb58133bbd7eb9ff5c258ab31c7c38f">&#9670;&nbsp;</a></span>setData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -195,7 +220,7 @@ Geschützte Methoden</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>adress</em>&#160;</td>
+          <td class="paramname"><em>address</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -209,6 +234,13 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set one value in the data array and therefore in the eeprom memory. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to set. </td></tr>
+    <tr><td class="paramname">adress</td><td>The address to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
