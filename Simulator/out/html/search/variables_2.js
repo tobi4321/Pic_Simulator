@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['equ_282',['equ',['../class_controller.html#adddfc5147f74f36bf223ed7085cf6089',1,'Controller']]]
+  ['programmcounter_433',['programmcounter',['../class_memory.html#ac1592bbc8c88ec4209db663d5577af47',1,'Memory']]]
 ];

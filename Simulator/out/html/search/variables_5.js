@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['jumpers_285',['jumpers',['../class_controller.html#a0ce4412d01e5e0e9b2a5bbe47889a57e',1,'Controller']]]
+  ['w_5fregister_436',['w_register',['../class_memory.html#a207439b226c2324ca3b612775b3e1170',1,'Memory']]]
 ];

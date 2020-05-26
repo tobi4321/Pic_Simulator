@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['updatefrequency_271',['updateFrequency',['../class_controller.html#ad5804b7397a75da8ba103f8184703575',1,'Controller']]],
-  ['updatememorytable_272',['updateMemoryTable',['../class_controller.html#adf8e0c138ab800bb09a4eb6a87931cea',1,'Controller']]],
-  ['updatespecialregtable_273',['updateSpecialRegTable',['../class_controller.html#a264c9a7b4a918e3a7a955430a237437f',1,'Controller']]]
+  ['t0cki_417',['T0CKI',['../class_controller.html#a671de5ffb1467fde2cdc6aada10e0c4b',1,'Controller']]],
+  ['timer_418',['Timer',['../class_timer.html#a68f5233b2df5fc6585192413a5226402',1,'Timer']]]
 ];

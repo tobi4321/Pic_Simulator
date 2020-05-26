@@ -1,8 +1,15 @@
-
+/// class Commands
+/**
+*  This class contains all command excecutable by the micro processor.
+*  The main function "executeCommand" selects the method which is called.
+* **/
 public class Commands {
-	
+	/// An object of the controller.
 	private Controller ctr;
-	
+	/**
+	 * The constructor.
+	 * @param pCtr the object of the controller class.
+	 */
 	public Commands(Controller pCtr) 
 	{
 		ctr = pCtr;
@@ -10,7 +17,7 @@ public class Commands {
 	
 	/**
 	 * This method selects the command which must be executed
-	 * @param command the command to execute as a String
+	 * @param line The command as int.
 	 * **/
 	public void executeCommand(int line) 
 	{
@@ -19,12 +26,11 @@ public class Commands {
 		int payload 	= line 			& 0x00FF;
 		if (precommand == 0) {		// Byte Oriented File Register Operations
 			int d = payload >> 7;
-			int f = payload & 0b01111111;
+			int f = payload & 0x7F;
 			// Check for indirect adressing
 			if (f == 0x00 || f == 0x80) {
 				f = ctr.getMemory().get_MemoryDIRECT(0x04);
 			}
-			
 			
 			switch(command) {
 			case 0b0111:
@@ -164,15 +170,11 @@ public class Commands {
 		
 	}
 	
-	//
-	// BYTE-ORIENTED FILE REGISTER OPERATIONS
-	//
-	
 	/**
 	 * This method executes the ADDWF command.
 	 * Add the contents of the W register with register f. If d is 0 the result is stored in the W register. 
-	 * @param d If the String d is 0 the result is stored in the W register
-	 * @param f The file register location as String
+	 * @param d If the String d is 0 the result is stored in the W register.
+	 * @param f The file register location as String.
 	 * **/
 	private void addwf(int d, int f) 
 	{
@@ -202,10 +204,10 @@ public class Commands {
 	
 	/**
 	 * This method executes the ANDWF command.
-	 * AND the W register with register 'f'. 
-	 * If 'd' is 0 the result is stored in the W register. If 'd' is 1 the result is stored back in register 'f'.
-	 * @param d If the String d is 0 the result is stored in the W register
-	 * @param f The file register location as String
+	 * AND the W register with register f. 
+	 * If d is 0 the result is stored in the W register. If d is 1 the result is stored back in register f.
+	 * @param d If the String d is 0 the result is stored in the W register.
+	 * @param f The file register location as String.
 	 * **/
 	private void andwf(int d, int f) 
 	{
@@ -229,7 +231,7 @@ public class Commands {
 	/**
 	 * This method executes the CLRF command.
 	 * The contents of register f are cleared and the Z bit is set.
-	 * @param f The file register location as String
+	 * @param f The file register location as String.
 	 * **/
 	private void clrf(int f) 
 	{
@@ -259,10 +261,7 @@ public class Commands {
 	 * **/
 	private void comf(int d, int f) 
 	{
-		int in = ctr.getMemory().get_Memory(f);
-		
-		// write in to w reg???????????????????????
-		
+		int in = ctr.getMemory().get_Memory(f);		
 		int out = 255 - in;
 		
 		ctr.checkZeroFlag(out);
@@ -322,7 +321,6 @@ public class Commands {
 			in--;
 			if(in == 0) 
 			{
-				//this.memory.programmcounter++;
 				ctr.getMemory().set_PROGRAMMCOUNTER(ctr.getMemory().get_PROGRAMMCOUNTER() + 1);
 				ctr.setNopCycle(true);
 			}
@@ -408,7 +406,6 @@ public class Commands {
 		
 		int result = w_in | f_in;
 
-		// Check not zeroflag
 		ctr.checkZeroFlag(result);
 		
 		if(d == 0)
@@ -444,7 +441,7 @@ public class Commands {
 	
 	/**
 	 * This method executes the MOVWF command.
-	 * Move data from W register to register 'f'.
+	 * Move data from W register to register f.
 	 * @param f The file register location as String
 	 * **/
 	private void movwf(int f) 
@@ -521,8 +518,8 @@ public class Commands {
 	
 	/**
 	 * This method executes the SUBWF command.
-	 * Subtract (2s complement method) W register from register 'f'. 
-	 * If 'd' is 0 the result is stored in the W register. If 'd' is 1 the result is stored back in register 'f'.
+	 * Subtract (2s complement method) W register from register f. 
+	 * If d is 0 the result is stored in the W register. If d is 1 the result is stored back in register f.
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
@@ -563,8 +560,8 @@ public class Commands {
 	
 	/**
 	 * This method executes the SWAPF command.
-	 * The upper and lower nibbles of register 'f' are exchanged. 
-	 * If 'd' is 0 the result is placed in W register. If 'd' is 1 the result is placed in register 'f'.
+	 * The upper and lower nibbles of register f are exchanged. 
+	 * If d is 0 the result is placed in W register. If d is 1 the result is placed in register f.
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
@@ -584,8 +581,8 @@ public class Commands {
 	
 	/**
 	 * This method executes the XORWF command.
-	 * Exclusive OR the contents of the W register with register 'f'. 
-	 * If 'd' is 0 the result is stored in the W register. If 'd' is 1 the result is stored back in register 'f'.
+	 * Exclusive OR the contents of the W register with register f. 
+	 * If d is 0 the result is stored in the W register. If d is 1 the result is stored back in register f.
 	 * @param d If the String d is 0 the result is stored in the W register
 	 * @param f The file register location as String
 	 * **/
@@ -699,7 +696,7 @@ public class Commands {
 	
 	/**
 	 * This method executes the ANDLW command.
-	 * The contents of W register are ANDed with the eight bit literal 'k'. 
+	 * The contents of W register are ANDed with the eight bit literal k. 
 	 * The result is placed in the W register.
 	 * @param k The Literal as String.
 	 * **/
@@ -736,7 +733,7 @@ public class Commands {
 	
 	/**
 	 * This method executes the GOTO command.
-	 * Sets the {@link programmCounter} to the new position 'k'.
+	 * Sets the {@link programmCounter} to the new position k.
 	 * The function goto is a basic java function, therefore _goto is used.
 	 * @param k the position as String
 	 * **/
@@ -748,7 +745,7 @@ public class Commands {
 	
 	/**
 	 * This method executes the IORLW command.
-	 * The contents of the W register is ORed with the eight bit literal 'k'. 
+	 * The contents of the W register is ORed with the eight bit literal k. 
 	 * The result is placed in the W register.
 	 * @param k the position as String
 	 * **/
@@ -764,7 +761,7 @@ public class Commands {
 	
 	/**
 	 * This method executes the IORLW command.
-	 * The literal 'l' is loaded to the W register.
+	 * The literal l is loaded to the W register.
 	 * @param l the literal as String
 	 * **/
 	private void movlw(int k) 
