@@ -107,7 +107,7 @@ Geschützte Methoden</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Ausführliche Beschreibung</h2>
 <div class="textblock"><p>class <a class="el" href="class_processor.html" title="class Processor">Processor</a> </p>
-<p>This class is the main computing unit. if the thread is started, the programm walks through the program memory. if there is a command to execute it will be executed and the Counter arrow is set to the next one </p>
+<p>This class is the main computing unit. If the thread is started, the program walks through the program memory. If there is a command to execute it will be executed and the counter arrow is set to the next one. </p>
 </div><h2 class="groupheader">Beschreibung der Konstruktoren und Destruktoren</h2>
 <a id="aae4537948a90ba70d82b1cc6ecbcc22b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aae4537948a90ba70d82b1cc6ecbcc22b">&#9670;&nbsp;</a></span>Processor()</h2>
@@ -134,6 +134,13 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The constructor setting the <a class="el" href="class_controller.html" title="class Controller">Controller</a> object and debugging variable. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pC</td><td>The <a class="el" href="class_controller.html" title="class Controller">Controller</a> object. </td></tr>
+    <tr><td class="paramname">pDebugging</td><td>The debugging boolean. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -152,6 +159,7 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to set the boolean to continue the debugging process to the next step. </p>
 
 </div>
 </div>
@@ -177,7 +185,7 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Rückgabe</dt><dd>the continueDebug </dd></dl>
+<p>The Getter for the continueDebug variable. </p><dl class="section return"><dt>Rückgabe</dt><dd>The continueDebug. </dd></dl>
 
 </div>
 </div>
@@ -203,7 +211,7 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Rückgabe</dt><dd>the debugging </dd></dl>
+<p>The Getter for the debugging variable. </p><dl class="section return"><dt>Rückgabe</dt><dd>The debugging. </dd></dl>
 
 </div>
 </div>
@@ -221,6 +229,7 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The Getter for the isInSleep variable. </p><dl class="section return"><dt>Rückgabe</dt><dd>The isInSleep. </dd></dl>
 
 </div>
 </div>
@@ -238,6 +247,7 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The main <a class="el" href="class_processor.html" title="class Processor">Processor</a> thread method. First the operational time is set to 0. Then the program counter is set to 0 and incremented until it hits the program length. The program counter is set in the PCL and the tables in the <a class="el" href="class_simulator___window.html" title="class Simulator_Window">Simulator_Window</a> is updated. The command is loaded from the active position and executed, except the active cycle is a NOP. Then EEPROM state and the watchdog are updated. The <a class="el" href="class_simulator___window.html" title="class Simulator_Window">Simulator_Window</a> is updated again and all interrupts are checked. If the processor is in sleep only cycle time, watchdog and interrupts are updated. If the eeprom write is active the processor is paused for 1ms operational time. </p>
 
 </div>
 </div>
@@ -264,9 +274,9 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameter</dt><dd>
+<p>The Setter for the continueDebug variable. </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">continueDebug</td><td>the continueDebug to set </td></tr>
+    <tr><td class="paramname">continueDebug</td><td>The continueDebug to set. </td></tr>
   </table>
   </dd>
 </dl>
@@ -296,9 +306,9 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameter</dt><dd>
+<p>The Setter for the debugging variable. </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">debugging</td><td>the debugging to set </td></tr>
+    <tr><td class="paramname">debugging</td><td>The debugging to set. </td></tr>
   </table>
   </dd>
 </dl>
@@ -320,6 +330,12 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The Setter for the isInSleep variable. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">isInSleep</td><td>The isInSleep to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -337,6 +353,7 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to stop the processor thread and set the program counter to the maximum. </p>
 
 </div>
 </div>

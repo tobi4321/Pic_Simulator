@@ -63,7 +63,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Öffentliche Methoden</a> &#124;
-<a href="#pub-attribs">Öffentliche Attribute</a> &#124;
 <a href="#pro-methods">Geschützte Methoden</a> &#124;
 <a href="class_watchdog-members.html">Aufstellung aller Elemente</a>  </div>
   <div class="headertitle">
@@ -81,19 +80,14 @@ $(function() {
 <tr class="memitem:ab3e7860f4d74bfd72ca36d152bb8144b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_watchdog.html#ab3e7860f4d74bfd72ca36d152bb8144b">update</a> (double timeNow)</td></tr>
 <tr class="separator:ab3e7860f4d74bfd72ca36d152bb8144b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Öffentliche Attribute</h2></td></tr>
-<tr class="memitem:ad3ed99928b6f453d392284bac0f398be"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_watchdog.html#ad3ed99928b6f453d392284bac0f398be">exit</a> = false</td></tr>
-<tr class="separator:ad3ed99928b6f453d392284bac0f398be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Geschützte Methoden</h2></td></tr>
 <tr class="memitem:a46575646b12971e80546e14ac9843f0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_watchdog.html#a46575646b12971e80546e14ac9843f0e">incrementWatchDog</a> ()</td></tr>
 <tr class="separator:a46575646b12971e80546e14ac9843f0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bc9528cf42bc74486fa9b60f5df661f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_watchdog.html#a3bc9528cf42bc74486fa9b60f5df661f">setPreScaler</a> (int preScaler)</td></tr>
-<tr class="separator:a3bc9528cf42bc74486fa9b60f5df661f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb9872be99e1a5f8057b423c8e5c10ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_watchdog.html#acb9872be99e1a5f8057b423c8e5c10ba">reset</a> ()</td></tr>
 <tr class="separator:acb9872be99e1a5f8057b423c8e5c10ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bc9528cf42bc74486fa9b60f5df661f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_watchdog.html#a3bc9528cf42bc74486fa9b60f5df661f">setPreScaler</a> (int preScaler)</td></tr>
+<tr class="separator:a3bc9528cf42bc74486fa9b60f5df661f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Ausführliche Beschreibung</h2>
 <div class="textblock"><p>class <a class="el" href="class_watchdog.html" title="class Watchdog">Watchdog</a> </p>
@@ -116,6 +110,12 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The constructor. Assigning the <a class="el" href="class_controller.html" title="class Controller">Controller</a> object and setting an initial time stamp. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pCtr</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -142,6 +142,7 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to check if an watchdog timeout (considering the prescaler) happened. If the prescaler is not assigned to the watchdog or the prescaler variable is full, the TO bit and status register is cleared and the processor is waked up or reset. </p>
 
 </div>
 </div>
@@ -167,6 +168,7 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to reset the watchdog. The timestamp is set to the actual operational time and the prescaler is set to 0. </p>
 
 </div>
 </div>
@@ -193,6 +195,12 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The Setter for the preScaler variable. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">preScaler</td><td>The preScaler to set. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -211,21 +219,12 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Dokumentation der Datenelemente</h2>
-<a id="ad3ed99928b6f453d392284bac0f398be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3ed99928b6f453d392284bac0f398be">&#9670;&nbsp;</a></span>exit</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">boolean Watchdog.exit = false</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Method to check if a 18ms operational time timeout occurred. If so, the timestamp variable is reset and the watchdog incremented. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timeNow</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

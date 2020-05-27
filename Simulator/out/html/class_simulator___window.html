@@ -160,7 +160,7 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Create the application. </p>
+<p>The constructor, creating the <a class="el" href="class_controller.html" title="class Controller">Controller</a>, initializing the <a class="el" href="class_memory.html" title="class Memory">Memory</a> and starting the <a class="el" href="class_memory.html" title="class Memory">Memory</a> update thread. Create the application. </p>
 
 </div>
 </div>
@@ -190,6 +190,14 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to get data from a cell from the memory table. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>The row of the cell. </td></tr>
+    <tr><td class="paramname">col</td><td>The column of the cell. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Rückgabe</dt><dd>The value of the cell. </dd></dl>
 
 </div>
 </div>
@@ -215,6 +223,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to get the value of the port A button on the gui. </p><dl class="section return"><dt>Rückgabe</dt><dd>The value of port A. </dd></dl>
 
 </div>
 </div>
@@ -240,6 +249,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to get the value of the port B button on the gui. </p><dl class="section return"><dt>Rückgabe</dt><dd>The value of port B. </dd></dl>
 
 </div>
 </div>
@@ -265,7 +275,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Getter for 7 Segment Panel </p><dl class="section return"><dt>Rückgabe</dt><dd>reference to <a class="el" href="class_seven_segment_panel.html" title="class MyPanel">SevenSegmentPanel</a> object </dd></dl>
+<p>Getter for 7 Segment Panel. </p><dl class="section return"><dt>Rückgabe</dt><dd>Reference to <a class="el" href="class_seven_segment_panel.html" title="class MyPanel">SevenSegmentPanel</a> object. </dd></dl>
 
 </div>
 </div>
@@ -291,7 +301,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Getter for access to Code Table </p><dl class="section return"><dt>Rückgabe</dt><dd>reference to object of code table </dd></dl>
+<p>Getter for access to code view table. </p><dl class="section return"><dt>Rückgabe</dt><dd>Reference to object of code table. </dd></dl>
 
 </div>
 </div>
@@ -317,7 +327,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Getter for access to <a class="el" href="class_memory.html" title="class Memory">Memory</a> Table </p><dl class="section return"><dt>Rückgabe</dt><dd>reference to code table </dd></dl>
+<p>Getter for access to the memory table. </p><dl class="section return"><dt>Rückgabe</dt><dd>Reference to code table. </dd></dl>
 
 </div>
 </div>
@@ -343,7 +353,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Getter for access to Special Register Table </p><dl class="section return"><dt>Rückgabe</dt><dd>reference to special register table </dd></dl>
+<p>Getter for access to the special register table. </p><dl class="section return"><dt>Rückgabe</dt><dd>Reference to special register table. </dd></dl>
 
 </div>
 </div>
@@ -369,7 +379,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Getter for access to TableModel of code table </p><dl class="section return"><dt>Rückgabe</dt><dd>reference to code table model </dd></dl>
+<p>Getter for access to the TableModel of the code table. </p><dl class="section return"><dt>Rückgabe</dt><dd>Reference to code table model. </dd></dl>
 
 </div>
 </div>
@@ -395,7 +405,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Getter for access to TableModel of <a class="el" href="class_memory.html" title="class Memory">Memory</a> Table </p><dl class="section return"><dt>Rückgabe</dt><dd>reference to memory table model </dd></dl>
+<p>Getter for access to the TableModel of the memory table. </p><dl class="section return"><dt>Rückgabe</dt><dd>Reference to memory table model. </dd></dl>
 
 </div>
 </div>
@@ -421,7 +431,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Getter for access to TableModel of Special Register Table </p><dl class="section return"><dt>Rückgabe</dt><dd>reference to special reg table model </dd></dl>
+<p>Getter for access to the TableModel of the special register table. </p><dl class="section return"><dt>Rückgabe</dt><dd>Reference to special register table model. </dd></dl>
 
 </div>
 </div>
@@ -447,7 +457,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Getter for access to TableModel of Stack Table </p><dl class="section return"><dt>Rückgabe</dt><dd>reference to stack table model </dd></dl>
+<p>Getter for access to the TableModel of the stack table. </p><dl class="section return"><dt>Rückgabe</dt><dd>Reference to stack table model. </dd></dl>
 
 </div>
 </div>
@@ -484,6 +494,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to highlight a cell in the memory table. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The row of the cell. </td></tr>
+    <tr><td class="paramname">y</td><td>The column of the cell. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -510,6 +527,12 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to highlight a row in the code view table. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>The row to highlight. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -536,7 +559,7 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Launch the application. </p>
+<p>The main function of the program. Launching the application and creating the GUI. </p>
 
 </div>
 </div>
@@ -554,6 +577,7 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to open the help data. </p>
 
 </div>
 </div>
@@ -590,6 +614,13 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to remove a highlight from a cell of the memory table. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The row of the cell. </td></tr>
+    <tr><td class="paramname">y</td><td>The column of the cell. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -624,6 +655,14 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to input data in the memory table. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obj</td><td>The object to set. </td></tr>
+    <tr><td class="paramname">row_index</td><td>The row of the cell. </td></tr>
+    <tr><td class="paramname">col_index</td><td>The column of the cell. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -650,6 +689,12 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the radio buttons on the gui for port A. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ra</td><td>The value of port A. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -676,6 +721,12 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the radio buttons on the gui for port B. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ra</td><td>The value of port B. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -716,6 +767,15 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to set the value of the 4 digits of the 7-Segment display. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c1</td><td>The value of the first digit. </td></tr>
+    <tr><td class="paramname">c2</td><td>The value of the second digit. </td></tr>
+    <tr><td class="paramname">c3</td><td>The value of the third digit. </td></tr>
+    <tr><td class="paramname">c4</td><td>The value of the fourth digit. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -750,6 +810,14 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to get the data of a cell from the special register table. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obj</td><td>The table object. </td></tr>
+    <tr><td class="paramname">row_index</td><td>The row of the cell. </td></tr>
+    <tr><td class="paramname">col_index</td><td>The column of the cell. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -784,6 +852,14 @@ Geschützte Attribute</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Method to set the value of a cell from the stack table. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obj</td><td>The table object. </td></tr>
+    <tr><td class="paramname">row_index</td><td>The row of the cell. </td></tr>
+    <tr><td class="paramname">col_index</td><td>The column of the cell. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -810,6 +886,12 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the labels for tris A, displaying if the bits of port A are inputs or outputs. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tris</td><td>The value of tris A. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -836,6 +918,12 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Method to set the labels for tris B, displaying if the bits of port B are inputs or outputs. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tris</td><td>The value of tris B. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -862,9 +950,9 @@ Geschützte Attribute</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>update function for operational time </p><dl class="params"><dt>Parameter</dt><dd>
+<p>Method to update the operational time on the GUI. </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">opTime</td><td>time to display </td></tr>
+    <tr><td class="paramname">opTime</td><td>Operational time to display. </td></tr>
   </table>
   </dd>
 </dl>
