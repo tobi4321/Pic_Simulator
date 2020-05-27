@@ -93,7 +93,7 @@ Geschützte Methoden</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Ausführliche Beschreibung</h2>
 <div class="textblock"><p>class <a class="el" href="class_mnemonic_view.html" title="class MnemonicView">MnemonicView</a> </p>
-<p>The Viewer to Display and edit Mnemonic Text </p>
+<p>This class is used to Display and edit Mnemonic Text. </p>
 </div><h2 class="groupheader">Beschreibung der Konstruktoren und Destruktoren</h2>
 <a id="a528719ef3e432a70f77b80765491b614"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a528719ef3e432a70f77b80765491b614">&#9670;&nbsp;</a></span>MnemonicView()</h2>
@@ -110,7 +110,13 @@ Geschützte Methoden</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Create the frame. </p>
+<p>The constructor assigns the <a class="el" href="class_controller.html" title="class Controller">Controller</a> object to the local ctr variable. Then creates a frame and inputs the text. The buttons load and save use methods from the <a class="el" href="class_controller.html" title="class Controller">Controller</a> class. </p><dl class="params"><dt>Parameter</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pCtr</td><td>the <a class="el" href="class_controller.html" title="class Controller">Controller</a> object to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>Siehe auch</dt><dd><a class="el" href="class_controller.html" title="class Controller">Controller</a> </dd></dl>
 
 </div>
 </div>
@@ -137,7 +143,7 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Rückgabe</dt><dd>the txtArea_mnemonic </dd></dl>
+<p>The getter to access the txtArea_mnemonic JTextArea. </p><dl class="section return"><dt>Rückgabe</dt><dd>The txtArea_mnemonic. </dd></dl>
 
 </div>
 </div>
@@ -164,9 +170,9 @@ Geschützte Methoden</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameter</dt><dd>
+<p>The setter to set the txtArea_mnemonic JTextArea. </p><dl class="params"><dt>Parameter</dt><dd>
   <table class="params">
-    <tr><td class="paramname">txtArea_mnemonic</td><td>the txtArea_mnemonic to set </td></tr>
+    <tr><td class="paramname">txtArea_mnemonic</td><td>The txtArea_mnemonic to set. </td></tr>
   </table>
   </dd>
 </dl>
