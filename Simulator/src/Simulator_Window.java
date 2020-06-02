@@ -74,7 +74,6 @@ public class Simulator_Window {
 	private DefaultTableModel tbl_stack;
 	private JTable table_Memory;
 	private JTable table_special_regs;
-	protected JRadioButton rdbtn_sleep;
 	// members to input values into register memory
 	private JTextField txtField_input;
 	private JButton btn_InputRegister;
@@ -115,6 +114,10 @@ public class Simulator_Window {
 	private JLabel lblOperationalTime;
 	private JTable table_Stack;
 	
+	// member for wdte sleep and mclr
+	private JToggleButton tglbtnSleeping;
+	
+
 	/**
 	 * The main function of the program. 
 	 * Launching the application and creating the GUI.
@@ -449,7 +452,6 @@ public class Simulator_Window {
 		verticalIO.setMaximumSize(new Dimension(400, 800));
 		upperArea.add(verticalIO);
 		
-		
 		JPanel panel_IO = new JPanel();
 		panel_IO.setAlignmentX(0.0f);
 		panel_IO.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -457,7 +459,7 @@ public class Simulator_Window {
 		verticalIO.add(panel_IO);
 		GridBagLayout gbl_panel_IO = new GridBagLayout();
 		gbl_panel_IO.columnWidths = new int[] {130};
-		gbl_panel_IO.rowHeights = new int[] {30, 30, 30, 90, 90, 180, 140, 140, 100};
+		gbl_panel_IO.rowHeights = new int[] {30, 30, 30, 90, 90, 180, 30, 100};
 		gbl_panel_IO.columnWeights = new double[]{1.0};
 		gbl_panel_IO.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, 0.0};
 		panel_IO.setLayout(gbl_panel_IO);
@@ -945,13 +947,61 @@ public class Simulator_Window {
 		gbc_btnZurcksetzen.gridy = 0;
 		panel_Time.add(btnZurcksetzen, gbc_btnZurcksetzen);
 		
-		rdbtn_sleep = new JRadioButton("Is in sleep");
-		rdbtn_sleep.setEnabled(false);
-		GridBagConstraints gbc_rdbtnNewRadioButton = new GridBagConstraints();
-		gbc_rdbtnNewRadioButton.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnNewRadioButton.gridx = 0;
-		gbc_rdbtnNewRadioButton.gridy = 6;
-		panel_IO.add(rdbtn_sleep, gbc_rdbtnNewRadioButton);
+		JPanel panel_WDTSleep = new JPanel();
+		GridBagConstraints gbc_panel_WDTSleep = new GridBagConstraints();
+		gbc_panel_WDTSleep.fill = GridBagConstraints.BOTH;
+		gbc_panel_WDTSleep.gridx = 0;
+		gbc_panel_WDTSleep.gridy = 6;
+		panel_IO.add(panel_WDTSleep, gbc_panel_WDTSleep);
+		panel_WDTSleep.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JToggleButton tglbtnMclr = new JToggleButton("MCLR");
+		tglbtnMclr.addActionListener(new ActionListener() {
+	         @Override
+	         public void actionPerformed(ActionEvent e) {
+	            if(((JToggleButton)e.getSource()).isSelected()) 
+	            {
+	            	ctr.setMCLR(true);
+	            }else 
+	            {
+	            	ctr.setMCLR(false);
+	            }
+	         }
+	      });
+		panel_WDTSleep.add(tglbtnMclr);
+		
+		JToggleButton tglbtnWatchdogEnable = new JToggleButton("Watchdog Enable");
+		tglbtnWatchdogEnable.addActionListener(new ActionListener() {
+	         @Override
+	         public void actionPerformed(ActionEvent e) {
+	            if(((JToggleButton)e.getSource()).isSelected()) 
+	            {
+	            	ctr.setWDTE(true);
+	            }else 
+	            {
+	            	ctr.setWDTE(false);
+	            }
+	         }
+	      });
+		panel_WDTSleep.add(tglbtnWatchdogEnable);
+
+		
+		tglbtnSleeping = new JToggleButton("Sleeping");
+		tglbtnSleeping.addActionListener(new ActionListener() {
+	         @Override
+	         public void actionPerformed(ActionEvent e) {
+	            if(((JToggleButton)e.getSource()).isSelected()) 
+	            {
+	            	ctr.setSleeping(true);
+	            }else 
+	            {
+	            	ctr.setSleeping(false);
+	            }
+	         }
+	      });
+		panel_WDTSleep.add(tglbtnSleeping);
+		
+		
 		frmMicrocontrollerSimulator.getContentPane().setLayout(new BoxLayout(frmMicrocontrollerSimulator.getContentPane(), BoxLayout.X_AXIS));
 
 		
@@ -1688,4 +1738,11 @@ public class Simulator_Window {
 	  {
 		  this.lblOperationalTime.setText(opTime+"ms");
 	  }
+		/**
+		 * Returns the reference to toggle button sleeping
+		 * @return the tglbtnSleeping
+		 */
+		protected JToggleButton getTglbtnSleeping() {
+			return tglbtnSleeping;
+		}
 }

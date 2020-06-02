@@ -728,6 +728,17 @@ public class Commands {
 	private void clrwdt() 
 	{
 		// TODO: CLRWDT implementieren
+		if(this.ctr.getWDTE()) 
+		{
+			this.ctr.getWatchdog().reset();
+			// setting TO and PD Bits
+			this.ctr.getMemory().set_SRAMDIRECT(0x03, 3, 1);
+			this.ctr.getMemory().set_SRAMDIRECT(0x03, 4, 1);
+		}else 
+		{
+			// watchdog is not enabled
+			//What to do?
+		}
 	}
 	
 	/**
@@ -815,7 +826,8 @@ public class Commands {
 		ctr.getWatchdog().reset();
 		
 		ctr.getProcessor().setInSleep(true);
-		ctr.getGui().rdbtn_sleep.setSelected(true);
+		ctr.setSleeping(true);
+		ctr.getGui().getTglbtnSleeping().setSelected(true);
 	}
 	
 	/**

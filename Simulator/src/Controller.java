@@ -71,6 +71,12 @@ public class Controller {
 	private int controlPortSelect = 0;
 	/// Indicating the data port for the 7 Segment display. 0 indicates port a. 1 indicates port b
 	private int dataPortSelect = 1;
+	/// master clear (reset) variable
+	private boolean mclr = false;
+	/// sleep variable to activate sleep mode
+	private boolean sleep = false;
+	/// bool to indicate wheter watchdog is enabled or not
+	private boolean wdte;
 	
 	/**
 	*  The Constructor, creating a new instances of all other classes except for the {@link Simulator_Window}.
@@ -964,7 +970,8 @@ public class Controller {
 	protected void wakeUpSleep() 
 	{
 		this.proc.setInSleep(false);
-		this.getGui().rdbtn_sleep.setSelected(false);
+		this.sleep = false;
+		this.getGui().getTglbtnSleeping().setSelected(false);
 	}
 	
 	/**
@@ -1305,5 +1312,30 @@ public class Controller {
 	 */
 	public void setCommands(Commands commands) {
 		this.commands = commands;
+	}
+	/**
+	 * Setter to set the MCLR variable
+	 * @param b
+	 */
+	public void setMCLR(boolean b) {
+		this.mclr = b;
+	}
+	/**
+	 * Setter to set the sleep variable
+	 * @param b
+	 */
+	public void setSleeping(boolean b) {
+		this.sleep = b;
+	}
+	/**
+	 * Setter to set the wdte variable
+	 * @param b
+	 */
+	public void setWDTE(boolean b) {
+		this.wdte = b;
+	}
+
+	public boolean getWDTE() {
+		return this.wdte;
 	}
 }
