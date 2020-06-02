@@ -18,13 +18,9 @@ public class ErrorDialog extends JDialog {
 
 	/// 
 	private static final long serialVersionUID = 1L;
-<<<<<<< HEAD
-	/// The content panel of the error window.
-=======
 
+	/// The content panel of the error window.
 	private static ErrorDialog dialog;
-	
->>>>>>> feature/errorDialog
 	private final JPanel contentPanel = new JPanel();
 	/// The title of the error window.
 	protected JLabel lbl_ErrorTitle;
