@@ -166,6 +166,7 @@ public class Commands {
 		}
 		else {
 			System.out.println("There is no command for the inserted string: " + line);
+			ctr.showError("Unknown Command", "The Command with the following number is unknown: "+line+" \r Please check the compiled file.");
 		}
 		
 	}
@@ -642,7 +643,6 @@ public class Commands {
 		int in = ctr.getMemory().get_Memory(f, b);
 		if(in == 0) 
 		{
-			//this.memory.programmcounter++;
 			this.ctr.getMemory().set_PROGRAMMCOUNTER(this.ctr.getMemory().get_PROGRAMMCOUNTER() + 1);
 			ctr.setNopCycle(true);
 		}
@@ -660,7 +660,6 @@ public class Commands {
 		int in = ctr.getMemory().get_Memory(f, b);
 		if(in == 1) 
 		{
-			//this.memory.programmcounter++;
 			this.ctr.getMemory().set_PROGRAMMCOUNTER(this.ctr.getMemory().get_PROGRAMMCOUNTER() + 1);
 			ctr.setNopCycle(true);
 		}

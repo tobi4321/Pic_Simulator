@@ -8,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 /// class ErrorDialog
 /**
 *  This class is used to display error windows with variable title and text.
@@ -16,7 +18,13 @@ public class ErrorDialog extends JDialog {
 
 	/// 
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
 	/// The content panel of the error window.
+=======
+
+	private static ErrorDialog dialog;
+	
+>>>>>>> feature/errorDialog
 	private final JPanel contentPanel = new JPanel();
 	/// The title of the error window.
 	protected JLabel lbl_ErrorTitle;
@@ -28,7 +36,7 @@ public class ErrorDialog extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			ErrorDialog dialog = new ErrorDialog();
+			 dialog = new ErrorDialog();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -65,6 +73,11 @@ public class ErrorDialog extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				
@@ -72,6 +85,11 @@ public class ErrorDialog extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

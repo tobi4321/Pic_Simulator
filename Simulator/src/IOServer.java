@@ -109,7 +109,7 @@ public class IOServer extends Thread{
 				this.startServer();
 			}
 			try {
-				if(!tcpClient.isOutputShutdown()) 
+				if(tcpClient.isConnected() && !tcpClient.isOutputShutdown() ) 
 				{
 					  this.sendMessage(raSend+":"+rbSend);
 					  

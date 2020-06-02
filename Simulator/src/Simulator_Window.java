@@ -215,10 +215,17 @@ public class Simulator_Window {
 			public void actionPerformed(ActionEvent arg0) {
 				String input = txtField_input.getText();
 				
-				int fileNumber = Integer.parseInt(comboBox_File.getSelectedItem().toString(), 16);
-				int subFileNumber = Integer.parseInt(comboBox_SubFile.getSelectedItem().toString(),16);
-				System.out.println("Input: "+input+" into "+(fileNumber+subFileNumber));
-				ctr.getMemory().set_SRAMDIRECT((fileNumber+subFileNumber), Integer.parseInt(input));
+				if(input.matches(".*\\d.*")) 
+				{
+					int fileNumber = Integer.parseInt(comboBox_File.getSelectedItem().toString(), 16);
+					int subFileNumber = Integer.parseInt(comboBox_SubFile.getSelectedItem().toString(),16);
+					System.out.println("Input: "+input+" into "+(fileNumber+subFileNumber));
+					ctr.getMemory().set_SRAMDIRECT((fileNumber+subFileNumber), Integer.parseInt(input));
+				}else 
+				{
+					ctr.showError("Input Error", "The Text you have inserted is not a valid number");
+				}
+
 			}
 		});
 		btn_InputRegister.setFont(new Font("Tahoma", Font.PLAIN, 16));

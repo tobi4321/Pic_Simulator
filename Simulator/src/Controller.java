@@ -173,10 +173,12 @@ public class Controller {
 	 */
 	protected void setBreakPoint(int row) 
 	{
+		boolean found = false;
 		for(int i = 0; i < programCounterList.length; i++) 
 		{
 			if(programCounterList[i]-1 == row) 
 			{
+				found = true;
 				if(breakPointList[i] == false) 
 				{
 					breakPointList[i] = true;
@@ -187,6 +189,10 @@ public class Controller {
 					this.getGui().getTblCodeModel().setValueAt(" ", row, 0);
 				}
 			}
+		}
+		if(!found) 
+		{
+			this.showError("Breakpoint Error", "The selected line is not a executable line");
 		}
 	}
 	
