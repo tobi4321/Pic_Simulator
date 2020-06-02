@@ -80,10 +80,11 @@ public class Processor extends Thread{
     			clkout = true;
     			
     			// Update timer
-    			ctr.getTimer().updateSources(ctr.getMemory().get_Memory(0x05, 4), clkout);
+    			ctr.getTimer().updateSources(ctr.getMemory().get_MemoryDIRECT(0x05, 4), clkout);
     			ctr.getTimer().checkTMRIncrement();
     			// Update interrupt
-    			ctr.getInterrupt().updateSources(ctr.getMemory().get_Memory(0x06));
+    			
+    			ctr.getInterrupt().updateSources(ctr.getMemory().get_MemoryDIRECT(0x06));
     			ctr.getInterrupt().checkRBISR();
     			
     			// check all interrupt flags
