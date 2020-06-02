@@ -116,7 +116,7 @@ public class IOServer extends Thread{
 			}
 
 			try {
-				if(!tcpClient.isOutputShutdown()) 
+				if(tcpClient.isConnected() && !tcpClient.isOutputShutdown() ) 
 				{
 
 					
