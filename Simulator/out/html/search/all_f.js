@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['updatefrequency_151',['updateFrequency',['../class_controller.html#ad5804b7397a75da8ba103f8184703575',1,'Controller']]],
-  ['updatememorytable_152',['updateMemoryTable',['../class_controller.html#adf8e0c138ab800bb09a4eb6a87931cea',1,'Controller']]],
-  ['updatespecialregtable_153',['updateSpecialRegTable',['../class_controller.html#a264c9a7b4a918e3a7a955430a237437f',1,'Controller']]]
+  ['w_5fregister_206',['w_register',['../class_memory.html#a207439b226c2324ca3b612775b3e1170',1,'Memory']]],
+  ['waitforclient_207',['waitForClient',['../class_i_o_server.html#afdc8088567d843e023c756db2a137408',1,'IOServer']]],
+  ['wakeupsleep_208',['wakeUpSleep',['../class_controller.html#a9fba89fe9360232fee9319f05fc20365',1,'Controller']]],
+  ['watchdog_209',['Watchdog',['../class_watchdog.html',1,'Watchdog'],['../class_watchdog.html#a1cf02c581dc8e3ff267ac30b0ff4fdb2',1,'Watchdog.Watchdog()']]],
+  ['watchdog_2ejava_210',['Watchdog.java',['../_watchdog_8java.html',1,'']]]
 ];

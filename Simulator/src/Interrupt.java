@@ -1,34 +1,37 @@
 /// class Interrupt
 /**
- * This class is a basic implementation of the interrupt functionality
- * 
- * If the interrupt is enabled, this class checks the interrupt IO pins and jumps to the specific adress 0x04 
- * 
- * 
- * 
+ * This class is a basic implementation of the interrupt functionality.
+ * If the interrupt is enabled, this class checks the interrupt IO pins and jumps to the specific adress 0x04.
  * */
 public class Interrupt{
-
+	/// The object of the main Controller class.
 	private Controller ctr;
-	
+	/// The value of the rb0 pin.
 	private int rb0;
-	
+	/// The value of the rb4 pin.
 	private int rb4;
+	/// The value of the rb5 pin.
 	private int rb5;
+	/// The value of the rb6 pin.
 	private int rb6;
+	/// The value of the rb7 pin.
 	private int rb7;
-	
+	///	Displaying if and edge was detected and what an edge. 0 means no edge. 1 means positive edge. 2 means negative edge.
 	private int rb0Edge;
-	
+	/// Displaying if a change on the rb ports occurred.
 	private boolean rbChanged; 
 	
+	/**
+	 * The constructor, setting the Controller object.
+	 * @param pCtr The controller object to set.
+	 */
 	public Interrupt(Controller pCtr) 
 	{
 		this.ctr = pCtr;
 	}
 
 	/**
-	 *  checking all triggers for a interrupt
+	 *  Method to check all triggers for a interrupt.
 	 */
 	public boolean checkInterruptFlags() {
     	   // check T0IF and T0IE
@@ -60,10 +63,7 @@ public class Interrupt{
 	}
 	
 	/**
-	 * execution if a interrupt occured
-	 * saving the current pc
-	 * jumping to pc 0x04
-	 * clear GIE bit
+	 * If interrupts are enabled and an interrupt occurred the current program counter is saved, set to 0x04 and the GIE bit is cleared.
 	 */
 	public void checkInterrupt() 
 	{
@@ -80,7 +80,7 @@ public class Interrupt{
 	}
 	
 	/**
-	 * check if interrupt on port rb occured
+	 * Checking if an interrupt on port rb occurred.
 	 */
 	protected void checkRBISR() 
 	{
@@ -99,7 +99,6 @@ public class Interrupt{
 			}
 		}
 		
-		
 		if(this.rbChanged) 
 		{
 			ctr.getMemory().set_SRAM(0x0b, 0, 1);
@@ -108,8 +107,8 @@ public class Interrupt{
 	}
 	
 	/**
-	 * check the port rb and set the edge type
-	 * @param rb
+	 * Check the port rb and set the edge type.
+	 * @param rb The value ob the port B.
 	 */
 	protected void updateSources(int rb) 
 	{
@@ -145,5 +144,4 @@ public class Interrupt{
 			this.rb7 = (rb & 0x80);
 		}
 	}
-
 }

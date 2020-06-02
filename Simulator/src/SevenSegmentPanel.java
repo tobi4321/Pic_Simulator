@@ -6,8 +6,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 /// class MyPanel
 /**
-*  
-*  The Panel to display the 7-segment Display.
+*  This class is used to show the 7-Segment display in the main Simulator_Window.
 *     a
 *    ---
 * f | g | b 
@@ -52,12 +51,19 @@ public class SevenSegmentPanel extends JPanel{
     private final static int verticalHeight = 40;
     private final static int verticalWidth = 5;
     
-    
-    
+    /**
+     * The Constructor.
+     */
 	public SevenSegmentPanel() 
 	{
         
     }
+	
+	/**
+	 * Method to set the 7-Segment display to react to the correct data Port.
+	 * @param controlPort The control Port.
+	 * @param dataPort The data Port.
+	 */
 	public void set7Segment(int controlPort, int dataPort) 
 	{
 		if((controlPort & 0x01) == 0x01) 
@@ -79,6 +85,13 @@ public class SevenSegmentPanel extends JPanel{
 		this.setChars(this.First, this.Second, this.Third, this.Fourth);
 	}
     
+	/**
+	 * Setting the characters of the 4 digits.
+	 * @param c1 The first character.
+	 * @param c2 The second character.
+	 * @param c3 The third character.
+	 * @param c4 The fourth character.
+	 */
     public void setChars(int c1,int c2, int c3, int c4) 
     {
     	this.First = c1;
@@ -88,6 +101,12 @@ public class SevenSegmentPanel extends JPanel{
     	
     	repaint();
     }
+    
+    /**
+     * Method to paint the first character.
+     * @param g The graphics object.
+     * @param Char The character to paint.
+     */
     public void paintFirst(Graphics g,int Char) 
     {   
     	g.setColor(Color.red);
@@ -125,6 +144,11 @@ public class SevenSegmentPanel extends JPanel{
     	}
     }
     
+    /**
+     * Method to paint the second character.
+     * @param g The graphics object.
+     * @param Char The character to paint.
+     */
     public void paintSecond(Graphics g,int Char) 
     {
     	g.setColor(Color.red);
@@ -162,6 +186,11 @@ public class SevenSegmentPanel extends JPanel{
     	}  	
     }
     
+    /**
+     * Method to paint the third character.
+     * @param g The graphics object.
+     * @param Char The character to paint.
+     */
     public void paintThird(Graphics g,int Char) 
     {
     	g.setColor(Color.red);
@@ -199,6 +228,11 @@ public class SevenSegmentPanel extends JPanel{
     	}   	
     }
     
+    /**
+     * Method to paint the fourth character.
+     * @param g The graphics object.
+     * @param Char The character to paint.
+     */
     public void paintFourth(Graphics g,int Char) 
     {
     	g.setColor(Color.red);
@@ -236,11 +270,16 @@ public class SevenSegmentPanel extends JPanel{
     	}   	
     }
     
-
+    /**
+     * Method to get the size.
+     */
     public Dimension getPreferredSize() {
         return new Dimension(310,105);
     }
     
+    /**
+     * Method to paint the complete 7-Segment display.
+     */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);       
         
@@ -293,7 +332,4 @@ public class SevenSegmentPanel extends JPanel{
         paintThird(g,this.Third);
         paintFourth(g,this.Fourth);
     }  
-	
-
-
 }

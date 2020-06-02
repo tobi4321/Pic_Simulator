@@ -16,30 +16,28 @@ import java.io.File;
 import java.awt.event.ActionEvent;
 /// class MnemonicView
 /**
-*  
-*  The Viewer to Display and edit Mnemonic Text
-* 
+*  This class is used to Display and edit Mnemonic Text.
 * **/
 public class MnemonicView extends JFrame {
 
-	/**
-	 * 
-	 */
+	///
 	private static final long serialVersionUID = 1L;
-
+	/// The main window.
 	private JPanel contentPane;
-
+	/// The object of the main Controller class.
 	private Controller ctr;
-	
+	/// The text area.
 	private JTextArea txtArea_mnemonic;
 
 	/**
-	 * Create the frame.
+	 * The constructor assigns the Controller object to the local ctr variable.
+	 * Then creates a frame and inputs the text.
+	 * The buttons load and save use methods from the Controller class.
+	 * @param pCtr the Controller object to set.
+	 * @see Controller
 	 */
 	public MnemonicView(Controller pCtr) {
-		
 		ctr = pCtr;
-		
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 587, 757);
@@ -89,7 +87,6 @@ public class MnemonicView extends JFrame {
 			        } else {
 			            System.out.println("Open command cancelled by user.");
 			        }
-
 			}
 		});
 		mnFile.add(btnLoadSrcFile);
@@ -109,8 +106,6 @@ public class MnemonicView extends JFrame {
 				    fileToSave = fc_save.getSelectedFile();
 				    
 				    ctr.saveSRCFile(fileToSave);
-				    
-				    //ctr.saveSRCFile(fileToSave);
 				    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
 				}
 			}
@@ -119,13 +114,15 @@ public class MnemonicView extends JFrame {
 	}
 	
 	/**
-	 * @return the txtArea_mnemonic
+	 * The getter to access the txtArea_mnemonic JTextArea.
+	 * @return The txtArea_mnemonic.
 	 */
 	protected JTextArea getTxtArea_mnemonic() {
 		return txtArea_mnemonic;
 	}
 	/**
-	 * @param txtArea_mnemonic the txtArea_mnemonic to set
+	 * The setter to set the txtArea_mnemonic JTextArea.
+	 * @param txtArea_mnemonic The txtArea_mnemonic to set.
 	 */
 	protected void setTxtArea_mnemonic(JTextArea txtArea_mnemonic) {
 		this.txtArea_mnemonic = txtArea_mnemonic;

@@ -17,36 +17,31 @@
  * */
 public class Timer {
 	
-	/// bi directional assozication to controller object
+	/// The object of the main Controller class.
 	private Controller ctr;
-	
 	/// ra0/clkout variables
 	private int ra0;
+	/// Displays the clock out.
 	private boolean clkout;
-	
-	/**
-	 *  0 = no edge
-	 *  1 = pos edge
-	 *  2 neg edge
-	 */
+	/// Displays the edge of port A. 0 = no edge, 1 = pos edge, 2 neg edge.
 	private int raEdge;
-	
-	/**
-	 * counting increments for comparison with prescaler value
-	 */
+	/// Counting increments for comparison with prescaler value.
 	private int preScaler;
 	
-
-
+	/**
+	 * The constructor, setting the object of the Controller class.
+	 * @param pCtr The Controller object.
+	 */
 	public Timer(Controller pCtr) 
 	{
 		this.ctr = pCtr;
 	}
 	
-	
+	/**
+	 * Method to check if a timer increment is needed.
+	 */
 	protected void checkTMRIncrement() 
 	{
-		
 		// if T0CS is 1 source is RA4 otherwise clkout
 		if(ctr.getMemory().get_Memory(0x81, 5) == 1) 
 		{
@@ -67,15 +62,16 @@ public class Timer {
 		}else 
 		{
 			// check clkout
-			
+
 			if(this.clkout) 
 			{
 				incrementTMR();
 			}
 		}
 	}
+	
 	/**
-	 *  increments the timer register and checks if a interrupt occured
+	 *  Method to increment the timer register and checks if a interrupt occurred.
 	 */
 	private void incrementTMR() 
 	{
@@ -91,7 +87,6 @@ public class Timer {
 				
 				ctr.getMemory().set_SRAM(0x0b, 2, 1);
 				ctr.getMemory().set_ZEROFLAG(1);
-
 			}else 
 			{
 				in++;
@@ -101,11 +96,10 @@ public class Timer {
 		}
 	}
 	
-	
 	/**
-	 * updates the timer sources and checks if ra has raised a edge
-	 * @param pRA input for RA4
-	 * @param pCLKOUT input for CLKOUT
+	 * Updates the timer sources and checks if port A has a raising or falling edge.
+	 * @param pRA Input for RA4.
+	 * @param pCLKOUT Input for CLKOUT.
 	 */
 	protected void updateSources(int pRA,boolean pCLKOUT) 
 	{
@@ -129,15 +123,16 @@ public class Timer {
 	}
 	
 	/**
-	 * @return the preScaler
+	 * The Getter for the preScaler variable.
+	 * @return The preScaler.
 	 */
 	protected int getPreScaler() {
 		return preScaler;
 	}
 
-
 	/**
-	 * @param preScaler the preScaler to set
+	 * The Setter for the preScaler variable.
+	 * @param preScaler The preScaler to set.
 	 */
 	protected void setPreScaler(int preScaler) {
 		this.preScaler = preScaler;

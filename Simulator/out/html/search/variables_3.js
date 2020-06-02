@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['frequency_283',['frequency',['../class_controller.html#a1772f966fbf1cc915e9e7def244cfeb5',1,'Controller']]]
+  ['stack_433',['stack',['../class_memory.html#a1802ca5810162cce2c89686f06d86b64',1,'Memory']]]
 ];

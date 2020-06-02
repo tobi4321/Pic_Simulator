@@ -6,58 +6,46 @@ import javax.swing.table.TableColumn;
 /**
 *  This class is the heart of this Simulator.
 *  It is the connection between all classes. Each interaction by a user on the GUI is executed in the controller class.
-*  Here are objects of processor, memory, timer, interrupt and watchdog
+*  Here are objects of processor, memory, timer, interrupt and watchdog.
 * **/
 public class Controller {
 	
-	/// Object of main gui.
+	/// The object of main gui class, displaying the main simulator window.
 	private Simulator_Window gui;
-	/// Object of mnemonic editor gui.
+	/// The object of the mnemonic editor gui class, used to display the code in mnemonic form, edit, load and save it.
 	private MnemonicView mnemonicWindow;
-	/// Object of a error dialog.
+	/// The object of the error dialog class, used to display error windows.
 	private ErrorDialog errorView;
-	/// Object of io server.
+	/// The object of the IO server class, used to connect an IO controller.
 	private IOServer server;
-	
-	/// Processor object used to work each code step
+	/// The object of the processor class, used to work each code step.
 	private Processor proc;
-	/// memory object used to store the data of microprocessor
+	/// The object of the memory class, used to store the data of the microprocessor.
 	private Memory memory;
-	/// Parser Object to parse Mnemonic Code into Binary Code
+	/// The object of the mnemonic parser class, used to parse mnemonic code to binary code.
 	private MnemonicParser parser;
-	/// class for commands
+	/// The object of the command class, holding all commands executable by the microprocessor and deciding which one is called.
 	private Commands commands;
-	/// Timer object to check timer pin and do timer operations
+	/// The object of the timer, used to check timer pin and do timer operations.
 	private Timer tmr0;
-	/// Interrupt object to check interrupt flags and if needed set pc to 0004
+	/// The object of the interrupt class, used to check interrupt flags and set the program counter to 0004 if needed.
 	private Interrupt isr;
-	/// Object of the Watchdog.
+	/// Object of the watchdog class, controlling the watchdog and executing sleep or reset if needed.
 	private Watchdog wtd;
-	/// EEPROM Memory instance to save data into txt file
+	/// Object of the EEPROM class, used to save data into and load from a txt file.
 	private EEProm eeprom;
 	
+	/// Displaying if the processor is running.
 	private boolean processorRunning = false;
 	/// Displaying if the code is compiled.
 	private boolean isCompiled = false;
 	/// The data model to initialize the data table.
 	private String[][] tableData = new String[32][9];
-	
-	private int[][] tableHighlight = new int[32][9];
-	/// An array holding the jumper line number and the mnemonic code.
-	/**
-	 * The jumpers are holding the mnemonic code line with an ':' and the program counter appended.
-	 * They are listed starting at 0.
-	 */
+	/// An array holding the jumper line number and the mnemonic code. The jumpers are holding the mnemonic code line with an ':' and the program counter appended. Starting at 0.
 	private String[] jumpers = new String[512];
-
-
-	/// Amount of jumper marks in the code.
+	/// The amount of jumper marks in the code.
 	private int jumpersCount = 0;
-	
-	/// An array holding the EQUs.
-	/**
-	 * One entry holds the "original" before the EQU, followed by an ':' appended with the value after the EQU.
-	 */
+	/// An array holding the EQUs. One entry holds the "original" before the EQU, followed by an ':' appended with the value after the EQU.
 	private String[] equ = new String[256];
 	/// Amount of EQUs in the code.
 	private int equCount = 0;
@@ -65,50 +53,28 @@ public class Controller {
 	private String[] mnemonicLines;
 	/// A list of the program counter as key with the dedicated code line as value
 	private int[] programCounterList = new int[1024];
-
-	/// A list of breakpoints
+	/// A list of the breakpoints.
 	private boolean[] breakPointList = new boolean[1024];
-	
-
-	/// The length of the compiled code
+	/// The line length of the compiled code.
 	private int codeLength = 0;
-	/// The Quartz frequency 
+	/// The Quartz frequency saved as kHz.
 	private int frequency = 500;
-
-
-	/// Signals that the next cycle is a nop
+	/// Displaying if the next cycle is a nop cycle, provoked by a multy cycle instruction.
 	private boolean isNopCycle = false;
-	
-	/// 
+	/// Signals if the EEPROM write is active.
 	private boolean writeActive = false;
-	
-	/// time since simulator program started
+	/// The time since the simulator program is started.
 	private double operationalTime = 0.0;
-	
-
-
-	/// Bool to indicate if 7 segment is actiavted or not
+	/// Displaying if the 7 segment display is active or not.
 	private boolean sevenSegmentActive = false;
-
-
-	/// Bool to indicate the controlPort for 7Seg
-	/**
-	 *  1 indicates port b
-	 *  0 indicates port a
-	 */
+	/// Indicating the control port for the 7 Segment display. 1 indicates port b. 0 indicates port a
 	private int controlPortSelect = 0;
-
-
-	/// Bool to indicate the dataPort for 7Seg
-	/**
-	 *  0 indicates port a
-	 *  1 indicates port b
-	 */
+	/// Indicating the data port for the 7 Segment display. 0 indicates port a. 1 indicates port b
 	private int dataPortSelect = 1;
 	
 	/**
-	*  The Constructor, creating a new Memory and MnemonicParser.
-	*  @param pGui Is an Object of {@link Simulator_Window}
+	*  The Constructor, creating a new instances of all other classes except for the {@link Simulator_Window}.
+	*  @param pGui Is an Object of {@link Simulator_Window}.
 	* **/
 	public Controller(Simulator_Window pGui) 
 	{
@@ -124,8 +90,7 @@ public class Controller {
 	}
 	
 	/**
-	*  Method to initialize the Memory.
-	*  
+	*  Method to initialize the memory and the labels of all tables.
 	* **/
 	public void inizializeMemory() 
 	{
@@ -153,8 +118,9 @@ public class Controller {
 			this.getGui().getTblStackModel().addRow(new Object[] {i,""});
 		}
 	}
+	
 	/**
-	 * Starts a thread to cyclic update the memory table.
+	 * Starts a thread from Memory to cyclic update the memory table.
 	 */
 	public void startMemoryUpdateThread() {
 		memory.start();
@@ -162,23 +128,23 @@ public class Controller {
 	
 	/**
 	*  Method to input a value into a specific cell of the memory table.
-	*  @param value is an String which is put in the cell
-	*  @param x is an integer referencing to the column
-	*  @param y is an integer referencing to the row + 1, because the first row are the labels.
+	*  @param value Is a String which is put in the cell.
+	*  @param x Is an integer referencing to the column.
+	*  @param y Is an integer referencing to the row + 1, because the first row are the labels.
 	* **/
 	protected void updateMemoryTable(String value, int x, int y) 
 	{
 		while (value.length() < 2) {
 			value = "0" + value;
 		}
-		getGui().SetData(value, x, y+1);
+		getGui().SetData(value, x, y + 1);
 	}
 	
 	/**
 	 * Method to input a value into a specific cell of the special register table.
-	 * @param value is an String which is put in the cell
-	 * @param x is an integer referencing to the column
-	 * @param y is an integer referencing to the row
+	 * @param value Is a String which is put in the cell.
+	 * @param x Is an integer referencing to the column.
+	 * @param y Is an integer referencing to the row.
 	 */
 	protected void updateSpecialRegTable(String value, int x, int y) 
 	{
@@ -190,14 +156,21 @@ public class Controller {
 		}
 		getGui().setSpecialData(value, x, y);
 	}
+	
 	/**
-	 * Method to update the stack panel with the data in memory variable stack 
+	 * Method to update the stack panel with the data in the Memory variable stack.
+	 * @param value The string value to fill in.
+	 * @param y The stack position as an int.
 	 */
 	protected void updateStackPanel(String value, int y) 
 	{
 		getGui().setStackData(value, y, 1);
 	}
 	
+	/**
+	 * Method which is called when a break point is set in the table.
+	 * @param row The row to set the breakpoint in.
+	 */
 	protected void setBreakPoint(int row) 
 	{
 		for(int i = 0; i < programCounterList.length; i++) 
@@ -235,8 +208,8 @@ public class Controller {
 	
 	/**
 	*  Method to create a new {@link ErrorDialog} with variable title and text and display it.
-	*  @param title is a String and the title of the dialog
-	*  @param text is a String and the text of the dialog
+	*  @param title Is a String and the title of the dialog.
+	*  @param text Is a String and the text of the dialog.
 	* **/
 	public void showError(String title,String text) 
 	{
@@ -245,10 +218,11 @@ public class Controller {
 		errorView.lbl_ErrorTitle.setText(title);
 		errorView.lbl_ErrorText.setText(text);
 	}
+	
 	/**
-	 * this method will update the seven segment panel 
-	 * there are a control input and a data input needed
-	 * these inputs can be choosen (Port a and Port b)
+	 * This method will update the seven segment panel.
+	 * There is a control input and a data input needed.
+	 * These inputs can be chosen (Port a and Port b).
 	 */
 	protected void update7Segment() 
 	{
@@ -279,10 +253,10 @@ public class Controller {
 	protected void updateOperationalTime() 
 	{
 		getGui().updateOperationalTime(this.operationalTime);
-		//System.out.println("Operation time: " + this.operationalTime);
 	}
+	
 	/**
-	 * add the cycle time to the operationalTime and round to 3 decimal digits
+	 * Method to add the cycle time to the operationalTime and round to 6 decimal digits.
 	 */
 	protected void countCycleTime(int frequency) 
 	{
@@ -290,6 +264,7 @@ public class Controller {
 	    this.operationalTime = this.operationalTime + (4.0/(frequency));
 	    this.operationalTime = Math.round(this.operationalTime * d) / d;
 	}
+	
 	/**
 	*  Method to load the program code from the code view table.
 	*  If labels are found in the 5th column they are added.
@@ -356,7 +331,8 @@ public class Controller {
 	}
 	
 	/**
-	*  Method to stop the Simulation. The active processor thread will be stopped via {@link stopThread}.
+	*  Method to continue to the next line of code while debugging. If the processor is not running, an error window is displayed.
+	*  @see showError
 	* **/
 	public void continueDebugStep() {
 		if (processorRunning) {
@@ -364,11 +340,10 @@ public class Controller {
 		}else {
 			this.showError("Next Step Degubber", "Debugger is not running. Please start debugging before continuing to the next line.");
 		}
-		
 	}
 
 	/**
-	 * Method to check if there are any jump marks in the uncompiled code. 
+	 * Method to check if there are any jump marks in the not compiled code. 
 	 * Found marks are added to jumpers list with "'label'+':'+'codeline'".
 	 * @param pCode is a String array which holds the program code
 	 * @return the given program code
@@ -390,8 +365,8 @@ public class Controller {
 	
 	/**
 	 * Method to search the EQU marks in the uncompiled code.
-	 * @param pCode is a String array which holds the program code
-	 * @return the given program code
+	 * @param pCode Is a String array which holds the program code.
+	 * @return The given program code.
 	 * **/
 	public String[] searchEQUMarks(String[] pCode) {
 		// iterate over the uncompiled code
@@ -429,7 +404,7 @@ public class Controller {
 	 * Method to get the EQU value.
 	 * When no matching EQU is found an empty string will be returned.
 	 * @param equName is the name of the EQU as a String.
-	 * @return The EQU equivilant as a String.
+	 * @return The EQU equivalent as a String.
 	 * **/
 	public String getEQUValue(String equName) 
 	{
@@ -448,8 +423,6 @@ public class Controller {
 		}
 		return out;
 	}
-	
-
 	
 	/**
 	 * Method to set the 4 values of the 7-Segment display.
@@ -528,7 +501,7 @@ public class Controller {
 	/**
 	 * Method to save the mnemonic code of the opened editor.
 	 * If the code is not compiled, {@link compileCode} will be called.
-	 * @param text is the File to be loaded.
+	 * @param text Is the File to be loaded.
 	 * **/
 	public void saveMnemonicCode(String text) {
 		String[] splittedMnemonic = text.replaceAll("\\r", "").split("\\n");
@@ -544,22 +517,12 @@ public class Controller {
 	 * **/
 	public void setCodeViewCounter(int newC) 
 	{
-		// first column is used for breakpoints
-		/*
-		 *  for(int i = 0; i < this.gui.tbl_code.getRowCount(); i++) {
-			this.gui.tbl_code.setValueAt(" ", i, 0);
-			}
-			this.gui.tbl_code.setValueAt("->", newC-1, 0);
-		 * 
-		 * 
-		 * */
-
 		this.getGui().highlightRow(newC - 1);
 	}
 	
 	/**
-	 * Method to get get the amount of jumpers.
-	 * @return The number of jump marks as integer
+	 * Method to get get the amount of jumper marks.
+	 * @return The number of jump marks as an integer.
 	 * **/
 	protected int getJumpersCount() 
 	{
@@ -567,8 +530,8 @@ public class Controller {
 	}
 	
 	/**
-	 * Method to compile the code
-	 * needs to be reworked
+	 * Method to compile the code.
+	 * @deprecated Needs to be reworked.
 	 * **/
 	public void compileCode() {
 		// local program counter variable 
@@ -654,7 +617,7 @@ public class Controller {
 	}
 	
 	/**
-	 * Method to set the column width of the code view table
+	 * Method to set the column width of the code view table.
 	 * **/
 	public void setColumnWidth() 
 	{
@@ -680,15 +643,10 @@ public class Controller {
 		getGui().getTblSpecialModel().setColumnIdentifiers(new Object[]{"Register", "Hex-Wert", "Bin-Wert"});
 	}
 
-
-
-
 	/**
-	 * Method to close the Window of the Mnemonic editor.
+	 * Method to close the Window of the Mnemonic editor. Disposes the MnemonicView object.
 	 * **/
-
 	public void closeMnemonicWindow() {
-
 		this.mnemonicWindow.dispose();
 	}
 	
@@ -717,8 +675,8 @@ public class Controller {
 	
 	/**
 	 * Method to refresh the Analog IOs.
-	 * The selected Port of the analog output is read and written to the digital output.
-	 * The analog input is read and written to the selected Port.
+	 * All pins selected as output are overwritten from the data latch memory.
+	 * All pins selected as inputs are writing to the Memory.
 	 * **/
 	public void refreshIO() {
 		int trisA = this.memory.get_MemoryDIRECT(0x85);
@@ -777,7 +735,7 @@ public class Controller {
 	}
 	
 	/**
-	 * Method to update the selected quarz frequency.
+	 * Method to update the selected quartz frequency.
 	 * @param selectedItem The selected Item from the drop down menu.
 	 * **/
 	public void updateFrequency(String selectedItem) {
@@ -868,11 +826,10 @@ public class Controller {
 
 			e.printStackTrace();
 		}
-		
 	}
 	
 	/**
-	 * Method to save the current code to a selected or new lst file.
+	 * Method to save the current code to a selected or new LST file.
 	 * @param fileToSave The File to save.
 	 * **/
 	public void saveLSTFile(File fileToSave) {
@@ -929,6 +886,11 @@ public class Controller {
 		      e.printStackTrace();
 		    }
 	}
+	
+	/**
+	 * Method which sets the zero flag, depending on the input. If the input is 0 the zero flag is set to 1, otherwise to 0.
+	 * @param z The input to check.
+	 */
 	protected void checkZeroFlag(int z) 
 	{
 		if(z == 0) 
@@ -940,6 +902,12 @@ public class Controller {
 		}
 
 	}
+	
+	/**
+	 * Method which sets the DC flag depending on the input. If the lower 4 bits of both input numbers are larger than 15 the DC flag is set to 1, otherwise to 0.
+	 * @param in_1 The first input number as int.
+	 * @param in_2 The second input number as int.
+	 */
 	protected void checkDCFlag(int in_1, int in_2) 
 	{
 		if (((in_1 & 0x0F) + (in_2 & 0x0F)) > 0x0F) {
@@ -949,95 +917,53 @@ public class Controller {
 			this.memory.set_DCFLAG(0);
 		}
 	}
+	
+	/**
+	 * @deprecated
+	 */
 	protected int T0CKI() 
 	{
 		return this.memory.get_MemoryDIRECT(5, 4);
 	}
+	
+	/**
+	 * Method to get the prescaler value from the Memory.
+	 * @return The prescaler value
+	 */
 	protected int getPrescaler() 
 	{
 		return (this.memory.get_Memory(0x81) & 0x07);
 	}
+	
+	/**
+	 * Method to remove all highlights in the memory view table.
+	 */
 	protected void clearHighlights() {
 		this.getGui().getTableMemory().clearSelection();
 	}
+	
+	/**
+	 * Method to highlight a specific cell in the memory view table.
+	 * @param x The row of the cell.
+	 * @param y The column of the cell.
+	 */
 	protected void highlightCell(int x, int y)
 	{
 		this.getGui().highlightCell(x, y);
 	}
+	
+	/**
+	 * Wakes the processor up from sleeping state.
+	 */
 	protected void wakeUpSleep() 
 	{
-		// TODO: Wake Up Implementieren
 		this.proc.setInSleep(false);
 		this.getGui().rdbtn_sleep.setSelected(false);
 	}
+	
 	/**
-	 * Getter for access to Processor Object
-	 * @return reference to proc
+	 * Method to reset the processor Memory.
 	 */
-	protected Processor getProcessor() 
-	{
-		return proc;
-	}
-	/**
-	 * Getter for access to Memory Object
-	 * @return reference to memory
-	 */
-	protected Memory getMemory() 
-	{
-		return memory;
-	}
-	/**
-	 * @return the eeprom
-	 */
-	protected EEProm getEeprom() {
-		return eeprom;
-	}
-
-	/**
-	 * Getter for access to Watchdog Object
-	 * @return reference to watchdog
-	 */
-	protected Watchdog getWatchdog() 
-	{
-		return wtd;
-	}
-	/**
-	 * Getter for access to Timer Object
-	 * @return reference to tmr0
-	 */
-	protected Timer getTimer() 
-	{
-		return tmr0;
-	}
-	/**
-	 * @return the gui
-	 */
-	public Simulator_Window getGui() {
-		return gui;
-	}
-
-	/**
-	 * @param gui the gui to set
-	 */
-	public void setGui(Simulator_Window gui) {
-		this.gui = gui;
-	}
-
-	/**
-	 * Getter for access to Interrupt Object
-	 * @return reference to isr;
-	 */
-	protected Interrupt getInterrupt() 
-	{
-		return isr;
-	}
-	/**
-	 * @return the processorRunning
-	 */
-	protected boolean isProcessorRunning() {
-		return processorRunning;
-	}
-
 	protected void reset() {
 		System.out.println("reset funktion");
 		// TODO: Reset implementieren
@@ -1048,8 +974,6 @@ public class Controller {
 		this.memory.set_SRAMDIRECT(0x02, 0);
 		this.memory.set_SRAMDIRECT(0x82, 0);
 		
-		// Status Register
-		// TODO: PD und TO Bit
 		// RP0
 		this.memory.set_SRAMDIRECT(0x03, 5, 0);
 		this.memory.set_SRAMDIRECT(0x83, 5, 0);
@@ -1101,192 +1025,279 @@ public class Controller {
 		this.memory.set_SRAMDIRECT(0x88, 1, 0);
 		// WREN
 		this.memory.set_SRAMDIRECT(0x88, 2, 0);
-		// TODO: WRERR
 		// EEIF
 		this.memory.set_SRAMDIRECT(0x88, 4, 0);
 	}
+	
 	/**
+	 * Getter to access the Processor Object.
+	 * @return Reference to proc.
+	 */
+	protected Processor getProcessor() 
+	{
+		return proc;
+	}
+	/**
+	 * Getter to access the Memory Object.
+	 * @return Reference to memory.
+	 */
+	protected Memory getMemory() 
+	{
+		return memory;
+	}
+	
+	/**
+	 * Getter to access the EEPROM Object
+	 * @return Reference to eeprom.
+	 */
+	protected EEProm getEeprom() {
+		return eeprom;
+	}
+
+	/**
+	 * Getter for access to Watchdog Object
+	 * @return Reference to watchdog.
+	 */
+	protected Watchdog getWatchdog() 
+	{
+		return wtd;
+	}
+	
+	/**
+	 * Getter for access to the Timer Object.
+	 * @return Reference to tmr0
+	 */
+	protected Timer getTimer() 
+	{
+		return tmr0;
+	}
+	
+	/**
+	 * Getter for access to the Simulator_Window Object.
+	 * @return Reference to gui.
+	 */
+	public Simulator_Window getGui() {
+		return gui;
+	}
+
+	/**
+	 * Setter to set the Simulator_Window.
+	 * @param gui The gui to set.
+	 */
+	public void setGui(Simulator_Window gui) {
+		this.gui = gui;
+	}
+
+	/**
+	 * Getter to access the Interrupt Object.
+	 * @return Reference to isr.
+	 */
+	protected Interrupt getInterrupt() 
+	{
+		return isr;
+	}
+	
+	/**
+	 * Getter to access the processorRunning Variable.
+	 * @return The processorRunning variable.
+	 */
+	protected boolean isProcessorRunning() {
+		return processorRunning;
+	}
+	
+	/**
+	 * Setter to set the processorRunning Object.
 	 * @param processorRunning the processorRunning to set
 	 */
 	protected void setProcessorRunning(boolean processorRunning) {
 		this.processorRunning = processorRunning;
 	}
-
+	
 	/**
-	 * @return the tableHighlight
-	 */
-	public int[][] getTableHighlight() {
-		return tableHighlight;
-	}
-
-	/**
-	 * @param tableHighlight the tableHighlight to set
-	 */
-	public void setTableHighlight(int[][] tableHighlight) {
-		this.tableHighlight = tableHighlight;
-	}
-	/**
-	 * @return the jumpers
+	 * Getter to access the jumpers variable.
+	 * @return The jumpers.
 	 */
 	protected String[] getJumpers() {
 		return jumpers;
 	}
 
 	/**
-	 * @param jumpers the jumpers to set
+	 * Setter to set the jumpers variable.
+	 * @param jumpers The jumpers to set.
 	 */
 	protected void setJumpers(String[] jumpers) {
 		this.jumpers = jumpers;
 	}
+	
 	/**
-	 * @return the programCounterList
+	 * Getter to access the programCounterList Variable.
+	 * @return The programCounterList.
 	 */
 	protected int[] getProgramCounterList() {
 		return programCounterList;
 	}
 
 	/**
-	 * @param programCounterList the programCounterList to set
+	 * Setter to set the programCounterList variable.
+	 * @param programCounterList The programCounterList to set.
 	 */
 	protected void setProgramCounterList(int[] programCounterList) {
 		this.programCounterList = programCounterList;
 	}
 	/**
-	 * @return the breakPointList
+	 * Getter to get the breakPointList variable.
+	 * @return The breakPointList.
 	 */
 	protected boolean[] getBreakPointList() {
 		return breakPointList;
 	}
 
 	/**
-	 * @param breakPointList the breakPointList to set
+	 * Setter to set the breakPointList variable.
+	 * @param breakPointList The breakPointList to set.
 	 */
 	protected void setBreakPointList(boolean[] breakPointList) {
 		this.breakPointList = breakPointList;
 	}
 	/**
-	 * @return the frequency
+	 * Getter to get the frequency.
+	 * @return The frequency.
 	 */
 	protected int getFrequency() {
 		return frequency;
 	}
 
 	/**
-	 * @param frequency the frequency to set
+	 * Setter to set the frequency.
+	 * @param frequency The frequency to set.
 	 */
 	protected void setFrequency(int frequency) {
 		this.frequency = frequency;
 	}
 
 	/**
-	 * @return the isNopCycle
+	 * Getter to access the isNopCycle variable.
+	 * @return The isNopCycle.
 	 */
 	public boolean isNopCycle() {
 		return isNopCycle;
 	}
 
 	/**
-	 * @param isNopCycle the isNopCycle to set
+	 * Setter to set the isNopCycle variable.
+	 * @param isNopCycle The isNopCycle to set.
 	 */
 	public void setNopCycle(boolean isNopCycle) {
 		this.isNopCycle = isNopCycle;
 	}
 	
 	/**
-	 * @return the operationalTime
+	 * Getter to get the operationalTime variable.
+	 * @return The operationalTime.
 	 */
 	protected double getOperationalTime() {
 		return operationalTime;
 	}
 
 	/**
-	 * @param operationalTime the operationalTime to set
+	 * Setter to set the operationalTime variable.
+	 * @param operationalTime The operationalTime to set.
 	 */
 	protected void setOperationalTime(double operationalTime) {
 		this.operationalTime = operationalTime;
 	}
 	/**
-	 * @return the sevenSegmentActive
+	 * Getter to access the sevenSegmentActive variable.
+	 * @return the sevenSegmentActive.
 	 */
 	protected boolean isSevenSegmentActive() {
 		return sevenSegmentActive;
 	}
 
 	/**
-	 * @param sevenSegmentActive the sevenSegmentActive to set
+	 * Setter to set the sevenSegmentActive variable.
+	 * @param sevenSegmentActive The sevenSegmentActive to set.
 	 */
 	protected void setSevenSegmentActive(boolean sevenSegmentActive) {
 		this.sevenSegmentActive = sevenSegmentActive;
 	}
 	
 	/**
-	 * @return the controlPortSelect
+	 * Getter to get the controlPortSelect variable.
+	 * @return The controlPortSelect.
 	 */
 	protected int getControlPortSelect() {
 		return controlPortSelect;
 	}
 
 	/**
-	 * @param controlPortSelect the controlPortSelect to set
+	 * Setter so set the controlPortSelect variable.
+	 * @param controlPortSelect The controlPortSelect to set.
 	 */
 	protected void setControlPortSelect(int controlPortSelect) {
 		this.controlPortSelect = controlPortSelect;
 	}
 	/**
-	 * @return the dataPortSelect
+	 * Getter to get the dataPortSelect variable.
+	 * @return The dataPortSelect.
 	 */
 	protected int getDataPortSelect() {
 		return dataPortSelect;
 	}
 
 	/**
-	 * @param dataPortSelect the dataPortSelect to set
+	 * Setter to set the dataPortSelect variable.
+	 * @param dataPortSelect The dataPortSelect to set.
 	 */
 	protected void setDataPortSelect(int dataPortSelect) {
 		this.dataPortSelect = dataPortSelect;
 	}
 
 	/**
-	 * @return the server
+	 * Getter to get the IOServer object.
+	 * @return The server.
 	 */
 	protected IOServer getServer() {
 		return server;
 	}
 
 	/**
-	 * @param server the server to set
+	 * Setter to set the server object.
+	 * @param server The server to set.
 	 */
 	protected void setServer(IOServer server) {
 		this.server = server;
 	}
 
 	/**
-	 * @return the writeActive
+	 * The Getter to get the writeActive variable.
+	 * @return The writeActive.
 	 */
 	public boolean getWriteActive() {
 		return writeActive;
 	}
 
 	/**
-	 * @param writeActive the writeActive to set
+	 * Setter to set the writeActive variable.
+	 * @param writeActive The writeActive to set.
 	 */
 	public void setWriteActive(boolean writeActive) {
 		this.writeActive = writeActive;
 	}
 
 	/**
-	 * @return the commands
+	 * Getter to get the Commands object.
+	 * @return The commands.
 	 */
 	public Commands getCommands() {
 		return commands;
 	}
 
 	/**
+	 * Setter to set the commands object.
 	 * @param commands the commands to set
 	 */
 	public void setCommands(Commands commands) {
 		this.commands = commands;
 	}
-	
-	
 }

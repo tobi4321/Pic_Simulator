@@ -1,22 +1,6 @@
 var searchData=
 [
-  ['rb_5fio_5fin_5f1_72',['rb_io_in_1',['../class_simulator___window.html#a7dfcaace7422b6df08940f441e750b4d',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f2_73',['rb_io_in_2',['../class_simulator___window.html#a2aee667a84014f371319c74dc76b2dc1',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f3_74',['rb_io_in_3',['../class_simulator___window.html#ab1e873a9d09cb18fdcf1e279333d9df5',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f4_75',['rb_io_in_4',['../class_simulator___window.html#a176f12c0150ca71e6d30a27777fac7d6',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f5_76',['rb_io_in_5',['../class_simulator___window.html#a2fdcf14e902f61703b0d2c7773a5a7d2',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f6_77',['rb_io_in_6',['../class_simulator___window.html#a0d3f75ede6d81af8438f53779a65f964',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f7_78',['rb_io_in_7',['../class_simulator___window.html#a54d188f28d892327c75142a1ae7b38fd',1,'Simulator_Window']]],
-  ['rb_5fio_5fin_5f8_79',['rb_io_in_8',['../class_simulator___window.html#a9dfa858dabcc12b1aadde5c4ec4fc048',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f1_80',['rb_io_out_1',['../class_simulator___window.html#aee8004e0e8b34d7ba5a5df7809a822cf',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f2_81',['rb_io_out_2',['../class_simulator___window.html#a23105f768052adc0b02acb7a71dbf2b6',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f3_82',['rb_io_out_3',['../class_simulator___window.html#a9c6be8bc9b86e0b76b52e6633260f12d',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f4_83',['rb_io_out_4',['../class_simulator___window.html#a589700e004da5a3bca1bd4d7975c2064',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f5_84',['rb_io_out_5',['../class_simulator___window.html#aea5fd83fe692f2d90394d53d480db25b',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f6_85',['rb_io_out_6',['../class_simulator___window.html#a56b98bf6a75dcbb5c1181b28fa887be4',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f7_86',['rb_io_out_7',['../class_simulator___window.html#ade47c1ce289c6454abebdb57ae62fdf2',1,'Simulator_Window']]],
-  ['rb_5fio_5fout_5f8_87',['rb_io_out_8',['../class_simulator___window.html#a30177317b8bf595f945179533a78d929',1,'Simulator_Window']]],
-  ['readmessage_88',['readMessage',['../class_i_o_server.html#ab19356b118e054ddc3026199c4d66ee5',1,'IOServer']]],
-  ['refreshio_89',['refreshIO',['../class_controller.html#a3b871358010afaff305ff1a33b5af670',1,'Controller']]],
-  ['run_90',['run',['../class_interrupt.html#aeba16251087485c2a1563ad6fc5eee4c',1,'Interrupt.run()'],['../class_memory.html#a76c6256f00e2260c704fda1cbd39f63e',1,'Memory.run()'],['../class_processor.html#a4bac02fe87ccfd72af7666ffe6f8ea9a',1,'Processor.run()']]]
+  ['t0cki_194',['T0CKI',['../class_controller.html#a671de5ffb1467fde2cdc6aada10e0c4b',1,'Controller']]],
+  ['timer_195',['Timer',['../class_timer.html',1,'Timer'],['../class_timer.html#a68f5233b2df5fc6585192413a5226402',1,'Timer.Timer()']]],
+  ['timer_2ejava_196',['Timer.java',['../_timer_8java.html',1,'']]]
 ];

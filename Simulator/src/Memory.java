@@ -1,39 +1,36 @@
 import java.util.Stack;
 /// class Memory
 /**
- *  This class is the basic implementation of the controller memory
- *  There a various variables for w_register, carry flag or the stack
- * 
+ * This class is the basic implementation of the controller memory
+ * There a various variables for w_register, carry flag or the stack.
+ * For often used variables and special variables there are special function to call directly. 
  * **/
 public class Memory extends Thread{
-	
+	/// The object of the main Controller class.
 	private Controller ctr;
-	
-	/// this memory will store the data memory
-	/// 00 to 7F is the first bank
-	/// 80 to FF is the second bank
+	/// This memory will store the data memory.
+	/// 00 to 7F is the first bank.
+	/// 80 to FF is the second bank.
 	private int[][] dataMemory = new int[256][8];
-	
-	/// this is the storage for the program code
-	/// 0000 is the reset and 0004 is the interrupt value
+	/// This is the storage for the program code.
+	/// 0000 is the reset and 0004 is the interrupt value.
 	private int[] programMemory = new int[1024];
-	
-
-	/// counter on which line the processor is
-	/// default is 0 to indicate a reset
+	/// The counter on which line the processor is.
+	/// Default is 0 to indicate a reset.
 	protected int programmcounter = 0;
-	
-	/// w_register storage for operations
+	/// w_register storage for operations.
 	protected int[] w_register = new int[8];
-	
-	/// the stack is used to store the pushed adresses by a call command
+	/// The stack is used to store the pushed addresses by a call command.
 	protected Stack<Integer> stack = new Stack<Integer>();
-	
+	/// The temporary store of the port A values.
 	private int dataLatchA = 0;
+	/// The temporary store of the port B values.
 	private int dataLatchB = 0;
 	
-	// set Methods for BANK 0 
-	
+	/**
+	 * The constructor, initializing the memory with the correct values  and setting the Controller object.
+	 * @param pCtr The Controller object to set.
+	 */
 	public Memory(Controller pCtr) {
 		this.ctr = pCtr;
 		
@@ -70,10 +67,11 @@ public class Memory extends Thread{
 		this.dataMemory[129][6] = 1;
 		//RBPU
 		this.dataMemory[129][7] = 1;	
-		
 	}
-
 	
+	/**
+	 * A thread method to cyclic update the memory displayed on the Simulator_Window. 
+	 */
 	public void run() {
 		while(true) 
 		{
@@ -125,7 +123,6 @@ public class Memory extends Thread{
 				ctr.updateStackPanel(Integer.toHexString(this.stack.get(i)), i);
 			}
 			
-			
 	    	try {
 				sleep(200);
 			} catch (InterruptedException e) {
@@ -134,113 +131,210 @@ public class Memory extends Thread{
 		}
     }
 	
+	/**
+	 * Method to set the INDF.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_INDF(int bit, int value) 
 	{
 		set_SRAM(0,bit,value);
 		// eventuell Bereich aus Bank 1 hier rein
-
 	}
 	
+	/**
+	 * Method to set the TMR0.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_TMR0(int bit, int value) 
 	{
 		set_SRAM(1,bit,value);
 	}
 	
+	/**
+	 * Method to set the PCL.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_PCL(int bit, int value) 
 	{
 		set_SRAM(2,bit,value);
 	}
 	
+	/**
+	 * Method to set the Status registry.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_STATUS(int bit, int value) 
 	{
 		set_SRAM(3,bit,value);
 	}
 	
+	/**
+	 * Method to set the FSR.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_FSR(int bit, int value) 
 	{
 		set_SRAM(4,bit,value);
 	}
 	
+	/**
+	 * Method to set port A.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_PORTA(int bit, int value) 
 	{
 		set_SRAM(5,bit,value);
 	}
 	
+	/**
+	 * Method to set port B.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_PORTB(int bit, int value) 
 	{
 		set_SRAM(6,bit,value);
 	}
 	
+	/**
+	 * Method to set the EEDATA.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_EEDATA(int bit, int value) 
 	{
 		set_SRAM(8,bit,value);
 	}
 	
+	/**
+	 * Method to set the EEADR.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_EEADR(int bit, int value) 
 	{
 		set_SRAM(9,bit,value);
 	}
 	
+	/**
+	 * Method to set PCLATH.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_PCLATH(int bit, int value) 
 	{
 		set_SRAM(10,bit,value);
 	}
 	
+	/**
+	 * Method to set INTCON.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_INTCON(int bit, int value) 
 	{
 		set_SRAM(11,bit,value);
 	}
-	
-	
-	//Here are the set Methods for BANK 1 Memory
-	
+
+	/**
+	 * Method to set the option registry.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_OPTION_REG(int bit, int value) 
 	{
 		set_SRAM(129,bit,value);
 	}
 	
+	/**
+	 * Method to set tris A.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_TRISA(int bit, int value) 
 	{
 		set_SRAM(133,bit,value);
 	}
 	
+	/**
+	 * Method to set tris B.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_TRISB(int bit, int value) 
 	{
 		set_SRAM(134,bit,value);
 	}
 	
+	/**
+	 * Method to set the EECON 1.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_EECON1(int bit, int value) 
 	{
 		set_SRAM(136,bit,value);
 	}
 	
+	/**
+	 * Method to set the EECON 2.
+	 * @param bit The bit to set.
+	 * @param value The value to set.
+	 */
 	protected void set_EECON2(int bit, int value) 
 	{
 		set_SRAM(137,bit,value);
 	}
 	
+	/**
+	 * Method to set the GIE bit.
+	 * @param value The value to set.
+	 */
 	protected void set_GIE(int value)
 	{
 		set_SRAMDIRECT(0x0B, 7, value);
 	}
 	
+	/**
+	 * Method to set the PD bit.
+	 * @param value The value to set.
+	 */
 	protected void set_PD(int value)
 	{
 		set_SRAMDIRECT(0x03, 3, value);
 	}
-	
+	/**
+	 * Method to set the TO bit.
+	 * @param value The value to set.
+	 */
 	protected void set_TO(int value)
 	{
 		set_SRAMDIRECT(0x03, 4, value);
 	}
 	
+	/**
+	 * Method to get the WDTE bit.
+	 * @return The value of the WDTE bit.
+	 */
 	protected int get_WDTE()
 	{
 		// TODO: Implement WDTE
 		return 1;
 	}
 	
-	//set General Purpose registers SRAM
+	/**
+	 * Method to set a bit in the SRAM. 
+	 * The RP0 bit decides if the value is written to bank 0 or 1.
+	 * @param fileaddress The address where the value should be written.
+	 * @param bit The bit in the address where the value should be written.
+	 * @param value The value to write.
+	 */
 	protected void set_SRAM(int fileaddress, int bit, int value) 
 	{
 		switch(fileaddress) 
@@ -329,6 +423,12 @@ public class Memory extends Thread{
 		
 	}
 	
+	/**
+	 * Method to set a value (0x1) in the SRAM. 
+	 * The RP0 bit decides if the value is written to bank 0 or 1.
+	 * @param fileaddress The address where the value should be written.
+	 * @param value The value to write.
+	 */
 	protected void set_SRAM(int fileaddress, int value) 
 	{
 		String c = Integer.toBinaryString(value);
@@ -342,6 +442,12 @@ public class Memory extends Thread{
 		}
 	}
 	
+	/**
+	 * Method to set a bit in the SRAM directly, so the RP0 bit has no impact.
+	 * @param fileaddress The address where the value should be written.
+	 * @param bit The bit in the address where the value should be written.
+	 * @param value The value to write.
+	 */
 	protected void set_SRAMDIRECT(int fileaddress, int bit, int value) 
 	{
 		highlightCell(fileaddress, bit, value);
@@ -358,6 +464,11 @@ public class Memory extends Thread{
 		}
 	}
 	
+	/**
+	 * Method to set a value in the SRAM directly, so the RP0 bit has no impact.
+	 * @param fileaddress The address where the value should be written.
+	 * @param value The value to write.
+	 */
 	protected void set_SRAMDIRECT(int fileaddress, int value) 
 	{
 		String c = Integer.toBinaryString(value);
@@ -371,6 +482,12 @@ public class Memory extends Thread{
 		}
 	}
 	
+	/**
+	 * Method to highlight the written cell in the code view table in the Simulator_Window.
+	 * @param fileaddress The fileaddress of the written value.
+	 * @param bit The bit of the written value.
+	 * @param value The value which is written, to compare if it changed.
+	 */
 	private void highlightCell(int fileaddress, int bit, int value) 
 	{
 		if(value != dataMemory[fileaddress][bit]) {
@@ -378,24 +495,48 @@ public class Memory extends Thread{
 		}
 	}
 	
+	/**
+	 * Method to set the zero-flag in the SRAM.
+	 * @param z The value to set.
+	 */
 	public void set_ZEROFLAG(int z) {
 
 		set_SRAM(3,2,z);
 	}
+	
+	/**
+	 * Method to set the DC-flag in the SRAM.
+	 * @param dc The value to set.
+	 */
 	public void set_DCFLAG(int dc) 
 	{
 		set_SRAM(3,1,dc);
 	}
+	
+	/**
+	 * Method to set the carry-flag in the SRAM.
+	 * @param c The value to set.
+	 */
 	protected void set_CARRYFLAG(int c) 
 	{
 		set_SRAMDIRECT(3,0,c);
 	}
 	
+	/**
+	 * Method to get the carry-flag from the SRAM.
+	 * @return The value of the carry-flag.
+	 */
 	protected int get_CARRYFLAG() 
 	{
 		return this.dataMemory[3][0];
 	}
 	
+	/**
+	 * Method to get the value of a bit from the SRAM.
+	 * @param fileaddress The fileaddress to get the value from.
+	 * @param bit The specific bit.
+	 * @return The value of the bit.
+	 */
 	protected int get_Memory(int fileaddress, int bit) 
 	{
 		if(dataMemory[3][5] == 0) 
@@ -410,6 +551,12 @@ public class Memory extends Thread{
 		}
 	}
 	
+	/**
+	 * Method to get the value of a register from the SRAM.
+	 * The RP0 bit decides if the value is written to bank 0 or 1.
+	 * @param fileaddress The fileaddress to get the value from.
+	 * @return The value of the register.
+	 */
 	protected int get_Memory(int fileaddress) 
 	{
 		String c = "";
@@ -425,16 +572,27 @@ public class Memory extends Thread{
 			{
 				c = c+ dataMemory[fileaddress][7-i];
 			}
-			
 		}
 		return Integer.parseInt(c,2);
 	}
 	
+	/**
+	 * Method to get the value of a bit from a register from the SRAM.
+	 * The RP0 bit decides if the value is written to bank 0 or 1.
+	 * @param fileaddress The fileaddress to get the value from.
+	 * @param bit The bit to get the value from.
+	 * @return The value of the bit.
+	 */
 	protected int get_MemoryDIRECT(int fileaddress, int bit) 
 	{
 		return dataMemory[fileaddress][bit];
 	}
 	
+	/**
+	 * Method to get the value of a register from the SRAM directly, the RP0 bit has no impact.
+	 * @param fileaddress The fileaddress to get the value from.
+	 * @return The value of the register.
+	 */
 	protected int get_MemoryDIRECT(int fileaddress) 
 	{
 		String c = "";
@@ -444,48 +602,43 @@ public class Memory extends Thread{
 		}
 		return Integer.parseInt(c,2);
 	}
-	
-	// Getter and Setter for programmcounter
+
+	/**
+	 * Setter for the program counter.
+	 * All values smaller than 0 will be replaced with 0.
+	 * @param counter The value of the program counter.
+	 */
 	protected void set_PROGRAMMCOUNTER(int counter) 
 	{
-		//this.set_SRAMDIRECT(0x02, counter&0xFF);
 		if (counter < 0) {
 			counter = 0;
 		}
 		programmcounter = counter;
-		/*
-		String bin = Integer.toBinaryString(counter);
-		while(bin.length() < 13) 
-		{
-			bin = "0" + bin;
-		}
-		for(int i = 0; i< bin.length(); i++) 
-		{
-			if(i < 5) 
-			{
-				// setting pc lath
-				this.set_SRAM(10, 7-i,Integer.parseInt(""+bin.charAt(i)));
-			}else 
-			{
-				// setting pc low
-				this.set_SRAM(2, 7-i,Integer.parseInt(""+bin.charAt(i)));
-			}
-
-		}
-		 */
 	}
 	
+	/**
+	 * The Getter of the program counter.
+	 * @return The value of the program counter.
+	 */
 	protected int get_PROGRAMMCOUNTER() 
 	{
 		return programmcounter;
 	}
 	
-	// Getter and Setter for w-register
+	/**
+	 * The setter of the w_register array variable to set a single bit.
+	 * @param bit The position in the array to set.
+	 * @param value The value to set.
+	 */
 	protected void set_WREGISTER(int bit, int value) 
 	{
 		w_register[bit] = value;
 	}
 	
+	/**
+	 * The setter of the w_register array variable to set the complete value.
+	 * @param value The value to set.
+	 */
 	protected void set_WREGISTER(int value) 
 	{
 		String c = Integer.toBinaryString(value);
@@ -499,17 +652,20 @@ public class Memory extends Thread{
 		}
 	}
 	
-	
 	/**
-	 * * function to get ther specific bit of w register
-	 * @param bit bit index
-	 * @return value of the w register specific bit
+	 * Method to get the specific bit of the w register
+	 * @param bit The index to get.
+	 * @return value The value of the w register position.
 	 */
 	protected int get_WREGISTER(int bit) 
 	{
 		return w_register[bit];
 	}
 	
+	/**
+	 * The getter of the W register.
+	 * @return The value of the complete w register
+	 */
 	protected int get_WREGISTER() 
 	{
 		String c = "";
@@ -519,8 +675,12 @@ public class Memory extends Thread{
 		}
 		return Integer.parseInt(c,2);
 	}
-
 	
+	/**
+	 * Method to convert the input array to a hexadecimal value.
+	 * @param in The input array.
+	 * @return The hexadecimal value.
+	 */
 	private String tohexValue(int[] in) 
 	{
 		String out = "";
@@ -534,8 +694,8 @@ public class Memory extends Thread{
 	}
 	
 	/**
-	 * * used to push the current programmcounter+1 on the stack
-	 * @param adr is the adress to push
+	 * Used to push the current program counter + 1 on the stack.
+	 * @param adr Is the address to push.
 	 */
 	protected void pushToStack(int adr) 
 	{
@@ -543,8 +703,8 @@ public class Memory extends Thread{
 	}
 	
 	/**
-	 * * used to pop the needed programm counter from stack
-	 * @return is the popped adress
+	 * Used to pop the needed program counter from the stack.
+	 * @return The popped address.
 	 */
 	protected int popFromStack() 
 	{
@@ -552,8 +712,8 @@ public class Memory extends Thread{
 	}
 
 	/**
-	 * * used to clear the programMemory
-	 *   reset value is ff
+	 * Used to clear the programMemory.
+	 * The reset value is 255.
 	 */
 	public void clearProgMem() {
 		for(int i = 0; i< this.programMemory.length; i++) 
@@ -563,50 +723,50 @@ public class Memory extends Thread{
 	}
 	
 	/**
-	 * @return the programMemory
+	 * The getter for the programMemory variable.
+	 * @return The programMemory.
 	 */
 	protected int[] getProgramMemory() {
 		return programMemory;
 	}
 
-
 	/**
-	 * @param programMemory the programMemory to set
+	 * The setter for the programMemory variable.
+	 * @param programMemory The programMemory to set.
 	 */
 	protected void setProgramMemory(int[] programMemory) {
 		this.programMemory = programMemory;
 	}
 
-
 	/**
-	 * @return the dataLatchA
+	 * The getter for the dataLatchA.
+	 * @return The dataLatchA.
 	 */
 	public int getDataLatchA() {
 		return dataLatchA;
 	}
 
-
 	/**
-	 * @param dataLatchA the dataLatchA to set
+	 * The setter for the dataLatchA.
+	 * @param dataLatchA The dataLatchA to set.
 	 */
 	public void setDataLatchA(int dataLatchA) {
 		this.dataLatchA = dataLatchA;
 	}
 
-
 	/**
-	 * @return the dataLatchB
+	 * The getter for the dataLatchB.
+	 * @return The dataLatchB.
 	 */
 	public int getDataLatchB() {
 		return dataLatchB;
 	}
 
-
 	/**
-	 * @param dataLatchB the dataLatchB to set
+	 * The setter for the dataLatchB.
+	 * @param dataLatchB The dataLatchB to set.
 	 */
 	public void setDataLatchB(int dataLatchB) {
 		this.dataLatchB = dataLatchB;
 	}
-	
 }

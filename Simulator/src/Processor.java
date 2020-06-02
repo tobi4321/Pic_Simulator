@@ -1,32 +1,49 @@
 /// class Processor
 /**
  * This class is the main computing unit.
- * if the thread is started, the programm walks through the program memory.
- * if there is a command to execute it will be executed and the Counter arrow is set to the next one
- * 
- * 
+ * If the thread is started, the program walks through the program memory.
+ * If there is a command to execute it will be executed and the counter arrow is set to the next one.
  * */
 
 public class Processor extends Thread{
-	
+	/// The object of the main Controller class.
 	private Controller ctr;
+	/// Displaying if the processor thread should exit.
 	private Boolean exit = false;
+	/// Displaying if the processor should run in debugging mode.
 	private boolean debugging = false;
+	/// Displaying if the processor is in sleep mode.
 	private boolean isInSleep = false;
-
+	/// Displaying if the next step should be executed when the processor is in debug mode.
 	private boolean continueDebug = false;
+	/// The multiplicator to slow down the simulation speed.
 	private long slowDownTime = 1000;
-
-
+	/// Signals the clock output signal.
 	private boolean clkout = false;
+	/// command number for the NOP command
 	private static final int NOP = 0;
 	
+	/**
+	 * The constructor setting the Controller object and debugging variable.
+	 * @param pC The Controller object.
+	 * @param pDebugging The debugging boolean.
+	 */
 	public Processor(Controller pC, boolean pDebugging) 
 	{
 		this.ctr = pC;
 		this.debugging = pDebugging;
 	}
 	
+	/**
+	 * The main Processor thread method.
+	 * First the operational time is set to 0.
+	 * Then the program counter is set to 0 and incremented until it hits the program length.
+	 * The program counter is set in the PCL and the tables in the Simulator_Window is updated.
+	 * The command is loaded from the active position and executed, except the active cycle is a NOP.
+	 * Then EEPROM state and the watchdog are updated. The Simulator_Window is updated again and all interrupts are checked.
+	 * If the processor is in sleep only cycle time, watchdog and interrupts are updated.
+	 * If the eeprom write is active the processor is paused for 1ms operational time.
+	 */
     public void run() {
     	while (!exit) {  
     		try {
@@ -146,9 +163,17 @@ public class Processor extends Thread{
     	}
     	System.out.println("Thread stopped");
     }
+    
+    /**
+     * Method to set the boolean to continue the debugging process to the next step.
+     */
     public void continueDebugStep() {
     	this.continueDebug = true;
     }
+    
+    /**
+     * Method to stop the processor thread and set the program counter to the maximum.
+     */
     public void stopThread() 
     {
     	this.exit = true;
@@ -156,36 +181,49 @@ public class Processor extends Thread{
     }
     
 	/**
-	 * @return the debugging
+	 * The Getter for the debugging variable.
+	 * @return The debugging.
 	 */
 	protected boolean isDebugging() {
 		return debugging;
 	}
 
 	/**
-	 * @param debugging the debugging to set
+	 * The Setter for the debugging variable.
+	 * @param debugging The debugging to set.
 	 */
 	protected void setDebugging(boolean debugging) {
 		this.debugging = debugging;
 	}
+	
 	/**
-	 * @return the continueDebug
+	 * The Getter for the continueDebug variable.
+	 * @return The continueDebug.
 	 */
 	protected boolean isContinueDebug() {
 		return continueDebug;
 	}
 
 	/**
-	 * @param continueDebug the continueDebug to set
+	 * The Setter for the continueDebug variable.
+	 * @param continueDebug The continueDebug to set.
 	 */
 	protected void setContinueDebug(boolean continueDebug) {
 		this.continueDebug = continueDebug;
 	}
 	
+	/**
+	 * The Getter for the isInSleep variable.
+	 * @return The isInSleep.
+	 */
 	public boolean isInSleep() {
 		return isInSleep;
 	}
 
+	/**
+	 * The Setter for the isInSleep variable.
+	 * @param isInSleep The isInSleep to set.
+	 */
 	public void setInSleep(boolean isInSleep) {
 		this.isInSleep = isInSleep;
 	}

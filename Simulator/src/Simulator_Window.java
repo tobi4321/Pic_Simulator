@@ -111,12 +111,13 @@ public class Simulator_Window {
 	
 	// member to set the Quarz Frequency
 	private JComboBox<String> comboBox_quarzFrequency;
-
 	// label for displaying the cycle time since program start
 	private JLabel lblOperationalTime;
 	private JTable table_Stack;
+	
 	/**
-	 * Launch the application.
+	 * The main function of the program. 
+	 * Launching the application and creating the GUI.
 	 */
 	public static void main(String[] args) {
 		try {
@@ -148,6 +149,7 @@ public class Simulator_Window {
 	}
 
 	/**
+	 * The constructor, creating the Controller, initializing the Memory and starting the Memory update thread.
 	 * Create the application.
 	 */
 	public Simulator_Window() {
@@ -1164,29 +1166,69 @@ public class Simulator_Window {
 		
 
 	}
+	
+	/**
+	 * Method to input data in the memory table.
+	 * @param obj The object to set.
+	 * @param row_index The row of the cell.
+	 * @param col_index The column of the cell.
+	 */
 	  public void SetData(Object obj, int row_index, int col_index){
 		  table_Memory.getModel().setValueAt(obj,row_index,col_index);
 		  table_Memory.setModel(tbl_memory);
 		  frmMicrocontrollerSimulator.repaint();
 	  }
+	  
+	  /**
+	   * Method to get data from a cell from the memory table.
+	   * @param row The row of the cell.
+	   * @param col The column of the cell.
+	   * @return The value of the cell.
+	   */
 	  public String getData(int row, int col) 
 	  {
 		  String out =  (String) table_Memory.getModel().getValueAt(row, col);
 		  return out;
 	  }
+	  
+	  /**
+	   * Method to set the value of the 4 digits of the 7-Segment display.
+	   * @param c1 The value of the first digit.
+	   * @param c2 The value of the second digit.
+	   * @param c3 The value of the third digit.
+	   * @param c4 The value of the fourth digit.
+	   */
 	  public void setSegment(int c1, int c2, int c3, int c4) 
 	  {
 		  this.panel_segmentCanvas.setChars(c1,c2,c3,c4);
 		  this.panel_segmentCanvas.repaint();
 	  }
+	  
+	  /**
+	   * Method to get the data of a cell from the special register table.
+	   * @param obj The table object.
+	   * @param row_index The row of the cell.
+	   * @param col_index The column of the cell.
+	   */
 	  public void setSpecialData(Object obj,int row_index,int col_index) 
 	  {
 		  table_special_regs.getModel().setValueAt(obj, row_index, col_index);
 	  }
+	  
+	  /**
+	   * Method to set the value of a cell from the stack table.
+	   * @param obj The table object.
+	   * @param row_index The row of the cell.
+	   * @param col_index The column of the cell.
+	   */
 	  public void setStackData(Object obj,int row_index,int col_index) 
 	  {
 		  table_Stack.getModel().setValueAt(obj, row_index, col_index);
 	  }
+	  
+	  /**
+	   * Method to open the help data.
+	   */
 	  public void openHelp() {
 
 			try {
@@ -1197,6 +1239,11 @@ public class Simulator_Window {
 				ctr.showError("File Open Error", e.getMessage());
 			} 
 	  }
+	  
+	  /**
+	   * Method to get the value of the port A button on the gui.
+	   * @return The value of port A.
+	   */
 	  protected int getPortA() 
 	  {
 		  int ra = 0;
@@ -1226,6 +1273,11 @@ public class Simulator_Window {
 		  }
 		  return ra;
 	  }
+	  
+	  /**
+	   * Method to set the radio buttons on the gui for port A.
+	   * @param ra The value of port A.
+	   */
 	  protected void setPortA(int ra) 
 	  {
 		  if((ra & 0x10)>> 4 == 1  ) 
@@ -1264,6 +1316,11 @@ public class Simulator_Window {
 			  this.rbtn_ra_0.setSelected(false);
 		  }
 	  }
+	  
+	  /**
+	   * Method to get the value of the port B button on the gui.
+	   * @return The value of port B.
+	   */
 	  protected int getPortB() 
 	  {
 		  int rb = 0;
@@ -1302,6 +1359,11 @@ public class Simulator_Window {
 		  }
 		  return rb;
 	  }
+	  
+	  /**
+	   * Method to set the radio buttons on the gui for port B.
+	   * @param ra The value of port B.
+	   */
 	  protected void setPortB(int rb) 
 	  {
 		  if((rb & 0x80)>> 7  == 1) 
@@ -1369,6 +1431,11 @@ public class Simulator_Window {
 			  this.rbtn_rb_0.setSelected(false);
 		  }
 	  }
+	  
+	  /**
+	   * Method to set the labels for tris A, displaying if the bits of port A are inputs or outputs.
+	   * @param tris The value of tris A.
+	   */
 	  protected void setTrisA(int tris) 
 	  {
 		  if((tris & 0x10)>> 4 == 1) 
@@ -1417,6 +1484,11 @@ public class Simulator_Window {
 			  this.rbtn_ra_0.setEnabled(false);
 		  }
 	  }
+	  
+	  /**
+	   * Method to set the labels for tris B, displaying if the bits of port B are inputs or outputs.
+	   * @param tris The value of tris B.
+	   */
 	  protected void setTrisB(int tris) 
 	  {
 		  if((tris & 0x80)  >> 7 == 1) 
@@ -1492,12 +1564,22 @@ public class Simulator_Window {
 			  this.rbtn_rb_0.setEnabled(false);
 		  }
 	  }
+	  
+	  /**
+	   * Method to highlight a row in the code view table.
+	   * @param row The row to highlight.
+	   */
 	  protected void highlightRow(int row) 
 	  {
 		  table_Code.removeRowSelectionInterval(0, this.table_Code.getRowCount() - 1);
 		  table_Code.addRowSelectionInterval(row, row);
 	  }
 	  
+	  /**
+	   * Method to highlight a cell in the memory table.
+	   * @param x The row of the cell.
+	   * @param y The column of the cell.
+	   */
 	  protected void highlightCell(int x, int y) 
 	  {
 		  try {
@@ -1507,78 +1589,93 @@ public class Simulator_Window {
 			  // Exception occures in the initialization and can therefore be ignored.
 		  }
 	  }
+	  
+	  /**
+	   * Method to remove a highlight from a cell of the memory table.
+	   * @param x The row of the cell.
+	   * @param y The column of the cell.
+	   */
 	  protected void removeHighlightCell(int x, int y) 
 	  {
 		  table_Memory.removeRowSelectionInterval(x, x);
 		  table_Memory.removeColumnSelectionInterval(y, y);
 	  }
+	  
 	  /**
-	   * Getter for 7 Segment Panel
-	   * @return reference to SevenSegmentPanel object
+	   * Getter for 7 Segment Panel.
+	   * @return Reference to SevenSegmentPanel object.
 	   */
 	  protected SevenSegmentPanel getSevenSegmentPanel() 
 	  {
 		  return panel_segmentCanvas;
 	  }
+	  
 	  /**
-	   * Getter for access to  Code Table
-	   * @return reference to object of code table
+	   * Getter for access to  code view table.
+	   * @return Reference to object of code table.
 	   */
 	  protected JTable getTableCode() 
 	  {
 		  return table_Code;
 	  }
+	  
 	  /**
-	   * Getter for access to TableModel of code table
-	   * @return reference to code table model
+	   * Getter for access to the TableModel of the code table.
+	   * @return Reference to code table model.
 	   */
 	  protected DefaultTableModel getTblCodeModel() 
 	  {
 		  return tbl_code;
 	  }
+	  
 	  /**
-	   * Getter for access to TableModel of Memory Table
-	   * @return reference to memory table model
+	   * Getter for access to the TableModel of the memory table.
+	   * @return Reference to memory table model.
 	   */
 	  protected DefaultTableModel getTblMemoryModel() 
 	  {
 		  return tbl_memory;
 	  }
+	  
 	  /**
-	   * Getter for access to TableModel of Special Register Table
-	   * @return reference to special reg table model
+	   * Getter for access to the TableModel of the special register table.
+	   * @return Reference to special register table model.
 	   */
 	  protected DefaultTableModel getTblSpecialModel() 
 	  {
 		  return tbl_special;
 	  }
+	  
 	  /**
-	   * Getter for access to TableModel of Stack Table
-	   * @return reference to stack table model
+	   * Getter for access to the TableModel of the stack table.
+	   * @return Reference to stack table model.
 	   */
 	  protected DefaultTableModel getTblStackModel() 
 	  {
 		  return tbl_stack;
 	  }
+	  
 	  /**
-	   * Getter for access to Memory Table
-	   * @return reference to code table
+	   * Getter for access to the memory table.
+	   * @return Reference to code table.
 	   */
 	  protected JTable getTableMemory() 
 	  {
 		  return table_Memory;
 	  }
+	  
 	  /**
-	   * Getter for access to Special Register Table
-	   * @return reference to special register table
+	   * Getter for access to the special register table.
+	   * @return Reference to special register table.
 	   */
 	  protected JTable getTableSpecialReg() 
 	  {
 		  return table_special_regs;
 	  }
+	  
 	  /**
-	   * update function for operational time
-	   * @param opTime time to display
+	   * Method to update the operational time on the GUI.
+	   * @param opTime Operational time to display.
 	   */
 	  protected void updateOperationalTime(double opTime) 
 	  {
