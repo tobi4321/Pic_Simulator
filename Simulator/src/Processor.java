@@ -61,6 +61,12 @@ public class Processor extends Thread{
     			// get the command of the current line as an int
     			int codeLine = ctr.getMemory().getProgramMemory()[ctr.getMemory().programmcounter];
 
+    			// checking if this pc has a breakpoint and activating the debugger
+    			if(ctr.getBreakPointList()[ctr.getMemory().programmcounter]) 
+    			{
+    				this.debugging = true;
+    				this.continueDebug = false;
+    			}
     			
     			// If the last command was 2 cycle long then execute a NOP first.
     			ctr.clearHighlights();
@@ -76,13 +82,6 @@ public class Processor extends Thread{
     			
     			// Before the command execute, the watchdog is updated
     			ctr.getWatchdog().update(ctr.getOperationalTime());
-    			// checking if this pc has a breakpoint and activating the debugger
-
-				if(ctr.getBreakPointList()[ctr.getMemory().programmcounter]) 
-    			{
-    				this.debugging = true;
-    				this.continueDebug = false;
-    			}
 
     			// update all analog IO 
     			ctr.refreshIO();
@@ -153,10 +152,8 @@ public class Processor extends Thread{
     			if(ctr.getMemory().programmcounter >= ctr.getMemory().getProgramMemory().length) 
                 {
                 	stopThread();
-                }
-    			
+                }	
     		}
-
     		}
     		catch(InterruptedException e) {
     		}
