@@ -77,7 +77,8 @@ public class Controller {
 	private boolean sleep = false;
 	/// bool to indicate wheter watchdog is enabled or not
 	private boolean wdte;
-	
+	/// the speed of the simulation
+	private int simulationSpeed;
 	/**
 	*  The Constructor, creating a new instances of all other classes except for the {@link Simulator_Window}.
 	*  @param pGui Is an Object of {@link Simulator_Window}.
@@ -1337,5 +1338,13 @@ public class Controller {
 
 	public boolean getWDTE() {
 		return this.wdte;
+	}
+	
+	public void setSimulationSpeed(int value) {
+		this.simulationSpeed = value;
+	}
+	
+	public int getSimulationSpeed() {
+		return this.simulationSpeed;
 	}
 }

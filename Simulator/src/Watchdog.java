@@ -30,7 +30,7 @@ public class Watchdog {
 	 * @param timeNow
 	 */
 	public void update(double timeNow) {
-		if(ctr.getMemory().get_WDTE() == 1 && (timeNow - this.timeStamp) >= 18.0) {
+		if(ctr.getWDTE() && (timeNow - this.timeStamp) >= 18.0) {
 			incrementWatchDog();
 			this.timeStamp = this.ctr.getOperationalTime();
 		}

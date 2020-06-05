@@ -110,7 +110,7 @@ public class Processor extends Thread{
     			
     			while(this.isInSleep) {
     				// Update run time
-    				sleep((long) ((4.0/ctr.getFrequency())*slowDownTime));
+    				sleep((long) ctr.getSimulationSpeed());
     				ctr.countCycleTime(ctr.getFrequency());
 
     				ctr.getWatchdog().update(ctr.getOperationalTime());
@@ -146,7 +146,7 @@ public class Processor extends Thread{
     				}
     				continueDebug = false;
     			}else {
-    				sleep((long) ((4.0/ctr.getFrequency())*slowDownTime));
+    				sleep((long) ctr.getSimulationSpeed());
     			}
 
     			if(ctr.getMemory().programmcounter >= ctr.getMemory().getProgramMemory().length) 

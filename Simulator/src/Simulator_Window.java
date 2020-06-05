@@ -47,6 +47,8 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -54,6 +56,7 @@ import javax.swing.JToggleButton;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.Cursor;
+import javax.swing.JSlider;
 /// class Simulator_Window
 /**
 *  Grafical user interface for Pic Simualtor.
@@ -523,6 +526,33 @@ public class Simulator_Window {
 		btnReset.setBackground(new Color(255, 0, 0));
 		btnReset.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_Control.add(btnReset);
+		
+		JPanel panel_Slider = new JPanel();
+		panel_Slider.setBorder(new LineBorder(new Color(0, 0, 0)));
+		GridBagConstraints gbc_panel_Slider = new GridBagConstraints();
+		gbc_panel_Slider.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_Slider.fill = GridBagConstraints.BOTH;
+		gbc_panel_Slider.gridx = 0;
+		gbc_panel_Slider.gridy = 7;
+		panel_IO.add(panel_Slider, gbc_panel_Slider);
+		
+		JLabel lblNewLabel = new JLabel("Simulation speed:");
+		panel_Slider.add(lblNewLabel);
+		
+		JSlider slider = new JSlider();
+		slider.setValue(100);
+		slider.setMaximum(1000);
+		slider.setMinimum(10);
+		slider.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				ctr.setSimulationSpeed(slider.getValue());
+				
+			}
+		});
+		panel_Slider.add(slider);
+		panel_Slider.setToolTipText("The speed of the simulation. A higher value will run the simulation faster.");
 		
 		JPanel panel_RA = new JPanel();
 		panel_RA.setOpaque(false);
