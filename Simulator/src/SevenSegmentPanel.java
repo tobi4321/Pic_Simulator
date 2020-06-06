@@ -69,18 +69,26 @@ public class SevenSegmentPanel extends JPanel{
 		if((controlPort & 0x01) == 0x01) 
 		{
 	    	this.First = dataPort;
+		}else {
+			this.First = 0;
 		}
 		if((controlPort & 0x02) == 0x02) 
 		{
 			this.Second = dataPort;
+		}else {
+			this.Second = 0;
 		}
 		if((controlPort & 0x04) == 0x04) 
 		{
 			this.Third = dataPort;
+		}else {
+			this.Third = 0;
 		}
 		if((controlPort & 0x08) == 0x08) 
 		{
 			this.Fourth = dataPort;
+		}else {
+			this.Fourth = 0;
 		}
 		this.setChars(this.First, this.Second, this.Third, this.Fourth);
 	}

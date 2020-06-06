@@ -260,6 +260,8 @@ public class Controller {
 			}
 			System.out.println("set7Segment: "+controlPort+" data: "+dataPort);
 			this.getGui().getSevenSegmentPanel().set7Segment(controlPort, dataPort);
+		}else {
+			this.getGui().getSevenSegmentPanel().set7Segment(0, 0);
 		}
 	}
 	// used to update the operationTime panel in gui
