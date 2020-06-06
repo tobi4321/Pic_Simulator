@@ -338,9 +338,11 @@ public class Controller {
 	*  Method to stop the Simulation. The active processor thread will be stopped via {@link stopThread}.
 	* **/
 	public void stopSimu() {
-		System.out.println("Simulation stopped...");
-		this.processorRunning = false;
-		proc.stopThread();
+		if(processorRunning) {
+			System.out.println("Simulation stopped...");
+			this.processorRunning = false;
+			proc.stopThread();
+		}
 	}
 	
 	/**
@@ -450,12 +452,15 @@ public class Controller {
 	}
 	
 	/**
-	 * Method to load a file.
+	 * Method to load a LST file.
 	 * The code table and program counter list will be cleared.
 	 * @param pFile is the File to be loaded.
 	 * **/
 	public void loadFile(File pFile) throws IOException 
 	{
+		stopSimu();
+		clearBreakPointList();
+		
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(pFile));
@@ -687,6 +692,15 @@ public class Controller {
 	}
 	
 	/**
+	 * Method to delete all breakpoints.
+	 */
+	private void clearBreakPointList() 
+	{
+		for(int i = 0; i < breakPointList.length; i++) {
+			breakPointList[i] = false;
+		}
+	}
+	/**
 	 * Method to refresh the Analog IOs.
 	 * All pins selected as output are overwritten from the data latch memory.
 	 * All pins selected as inputs are writing to the Memory.
@@ -898,6 +912,15 @@ public class Controller {
 		      System.out.println("An error occurred.");
 		      e.printStackTrace();
 		    }
+	}
+	/**
+	 * Method which is executed when the reset button on the gui in pressed.
+	 * Will stop the processor and reinitialize the memory.
+	 */
+	protected void resetButton() {
+		stopSimu();
+		// TODO: neuen Memory anlegen?
+		inizializeMemory();
 	}
 	
 	/**

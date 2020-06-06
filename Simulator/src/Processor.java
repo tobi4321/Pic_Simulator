@@ -153,6 +153,9 @@ public class Processor extends Thread{
                 {
                 	stopThread();
                 }	
+    			if(exit) {
+    				break;
+    			}
     		}
     		}
     		catch(InterruptedException e) {
@@ -174,7 +177,7 @@ public class Processor extends Thread{
     public void stopThread() 
     {
     	this.exit = true;
-    	ctr.getMemory().programmcounter = 65536;
+    	//ctr.getMemory().programmcounter = 65536;
     }
     
 	/**

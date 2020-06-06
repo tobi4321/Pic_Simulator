@@ -524,6 +524,11 @@ public class Simulator_Window {
 		JButton btnReset = new JButton("Reset");
 		btnReset.setForeground(Color.BLACK);
 		btnReset.setBackground(new Color(255, 0, 0));
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctr.resetButton();
+			}
+		});
 		btnReset.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel_Control.add(btnReset);
 		
