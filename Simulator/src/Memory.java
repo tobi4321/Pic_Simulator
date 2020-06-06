@@ -21,7 +21,9 @@ public class Memory extends Thread{
 	/// w_register storage for operations.
 	protected int[] w_register = new int[8];
 	/// The stack is used to store the pushed addresses by a call command.
-	protected Stack<Integer> stack = new Stack<Integer>();
+	protected int[] intStack = new int[8];
+	/// The size of the stack.
+	private int stackSize = 0;
 	/// The temporary store of the port A values.
 	private int dataLatchA = 0;
 	/// The temporary store of the port B values.
@@ -124,9 +126,9 @@ public class Memory extends Thread{
 			{
 				ctr.updateStackPanel("", i);
 			}
-			for(int i = 0; i < this.stack.size(); i++) 
+			for(int i = 0; i < this.stackSize; i++) 
 			{
-				ctr.updateStackPanel(Integer.toHexString(this.stack.get(i)), i);
+				ctr.updateStackPanel(Integer.toHexString(this.intStack[i]), i);
 			}
 			
 	    	try {
@@ -705,7 +707,14 @@ public class Memory extends Thread{
 	 */
 	protected void pushToStack(int adr) 
 	{
-		this.stack.push(adr);
+		int saveLast = intStack[7];
+		for(int i = 7; i > 0; i--) {
+			intStack[i] = intStack[i - 1];
+		}
+		intStack[0] = adr;
+		if(this.stackSize < 8) {
+			this.stackSize += 1;
+		}
 	}
 	
 	/**
@@ -714,9 +723,23 @@ public class Memory extends Thread{
 	 */
 	protected int popFromStack() 
 	{
-		return this.stack.pop();
+		this.stackSize -= 1;
+		int retVal = intStack[0];
+		for(int i = 0; i < 7; i++) {
+			intStack[i] = intStack[i + 1];
+		}
+		return retVal;
 	}
 
+	/**
+	 * Method to clear the stack.
+	 */
+	protected void clearStack() {
+		this.stackSize = 0;
+		for (int i = 0; i < 8; i++) {
+			intStack[i] = 0;
+		}
+	}
 	/**
 	 * Used to clear the programMemory.
 	 * The reset value is 255.

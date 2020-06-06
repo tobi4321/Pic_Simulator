@@ -930,6 +930,7 @@ public class Controller {
 		}
 		this.setOperationalTime(0.0);
 		this.updateOperationalTime();
+		this.memory.clearStack();
 	}
 	
 	/**
