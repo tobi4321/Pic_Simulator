@@ -33,7 +33,13 @@ public class Memory extends Thread{
 	 */
 	public Memory(Controller pCtr) {
 		this.ctr = pCtr;
-		
+		InitMemoryPowerOn();
+	}
+	
+	/**
+	 * Method to initialize the correct memory values on power on
+	 */
+	public void InitMemoryPowerOn() {
 		// initialization of memory
 		// correct start values in memory
 		// needed ...
@@ -66,7 +72,7 @@ public class Memory extends Thread{
 		//INTEDG
 		this.dataMemory[129][6] = 1;
 		//RBPU
-		this.dataMemory[129][7] = 1;	
+		this.dataMemory[129][7] = 1;
 	}
 	
 	/**

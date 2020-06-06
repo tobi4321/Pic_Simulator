@@ -71,14 +71,10 @@ public class Controller {
 	private int controlPortSelect = 0;
 	/// Indicating the data port for the 7 Segment display. 0 indicates port a. 1 indicates port b
 	private int dataPortSelect = 1;
-	/// master clear (reset) variable
-	private boolean mclr = false;
-	/// sleep variable to activate sleep mode
-	private boolean sleep = false;
 	/// bool to indicate wheter watchdog is enabled or not
 	private boolean wdte;
 	/// the speed of the simulation
-	private int simulationSpeed;
+	private int simulationSpeed = 100;
 	/**
 	*  The Constructor, creating a new instances of all other classes except for the {@link Simulator_Window}.
 	*  @param pGui Is an Object of {@link Simulator_Window}.
@@ -921,8 +917,19 @@ public class Controller {
 	 */
 	protected void resetButton() {
 		stopSimu();
-		// TODO: neuen Memory anlegen?
-		inizializeMemory();
+		memory.InitMemoryPowerOn();
+		clearHighlights();
+		this.gui.clearRowHiglights();
+		while(proc.getRunning()) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		this.setOperationalTime(0.0);
+		this.updateOperationalTime();
 	}
 	
 	/**
@@ -996,17 +1003,16 @@ public class Controller {
 	protected void wakeUpSleep() 
 	{
 		this.proc.setInSleep(false);
-		this.sleep = false;
 		this.getGui().getTglbtnSleeping().setSelected(false);
 	}
 	
 	/**
-	 * Method to reset the processor Memory.
+	 * Method to reset the processor.
 	 */
 	protected void reset() {
 		System.out.println("reset funktion");
-		// TODO: Reset implementieren
 		
+		wakeUpSleep();
 		this.memory.programmcounter = 0;
 		
 		// PCL
@@ -1340,18 +1346,23 @@ public class Controller {
 		this.commands = commands;
 	}
 	/**
-	 * Setter to set the MCLR variable
+	 * Method to execute when the master clear (reset) button is pressed.
 	 * @param b
 	 */
-	public void setMCLR(boolean b) {
-		this.mclr = b;
-	}
-	/**
-	 * Setter to set the sleep variable
-	 * @param b
-	 */
-	public void setSleeping(boolean b) {
-		this.sleep = b;
+	public void MCLRClick() {
+		boolean sleeping = false;
+		if(proc.isInSleep()) {
+			sleeping = true;
+		}
+		reset();
+		if(sleeping) {
+			
+			this.memory.set_SRAMDIRECT(0x03, 3, 0);
+			this.memory.set_SRAMDIRECT(0x83, 3, 0);
+			
+			this.memory.set_SRAMDIRECT(0x03, 4, 1);
+			this.memory.set_SRAMDIRECT(0x83, 4, 1);
+		}
 	}
 	/**
 	 * Setter to set the wdte variable

@@ -826,7 +826,6 @@ public class Commands {
 		ctr.getWatchdog().reset();
 		
 		ctr.getProcessor().setInSleep(true);
-		ctr.setSleeping(true);
 		ctr.getGui().getTglbtnSleeping().setSelected(true);
 	}
 	

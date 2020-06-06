@@ -48,13 +48,13 @@ public class Watchdog {
 		if((preScalerActive == 1) && this.preScaler >= ( Math.pow(2.0, ctr.getPrescaler())) || preScalerActive == 0) 
 		{
 			System.out.println("Watchdog time-out occured at time: " + this.ctr.getOperationalTime());
-			this.ctr.getMemory().set_TO(0);
-			this.ctr.getMemory().set_SRAMDIRECT(0x03, 0);
-			
+			this.ctr.getMemory().set_TO(0);			
 			if(this.ctr.getProcessor().isInSleep()) {
 				this.ctr.wakeUpSleep();
+				this.ctr.getMemory().set_PD(0);
 			}else {
 				this.ctr.reset();
+				this.ctr.getMemory().set_PD(1);
 			}
 			this.preScaler = 0;
 		}

@@ -20,6 +20,8 @@ public class Processor extends Thread{
 	private long slowDownTime = 1000;
 	/// Signals the clock output signal.
 	private boolean clkout = false;
+	/// Signals if the processor is running.
+	private boolean isRunning = false;
 	/// command number for the NOP command
 	private static final int NOP = 0;
 	
@@ -48,6 +50,7 @@ public class Processor extends Thread{
     	while (!exit) {  
     		try {
     		this.ctr.setOperationalTime(0.0);
+    		this.isRunning = true;
     		for(ctr.getMemory().programmcounter = 0; ctr.getMemory().programmcounter < ctr.getMemory().getProgramMemory().length; ctr.getMemory().programmcounter++) 
     		{
     			// Write Programmcounter in PCL
@@ -109,8 +112,7 @@ public class Processor extends Thread{
     			clkout = false;
     			
     			while(this.isInSleep) {
-    				// Update run time
-    				sleep((long) ctr.getSimulationSpeed());
+    				
     				ctr.countCycleTime(ctr.getFrequency());
 
     				ctr.getWatchdog().update(ctr.getOperationalTime());
@@ -123,6 +125,11 @@ public class Processor extends Thread{
     					ctr.wakeUpSleep();
     				}
     				//TODO: Wake up when EEPROM write complete
+    				if(exit) {
+        				break;
+        			}
+    				// Update run time
+    				sleep((long) ctr.getSimulationSpeed());
     			}
     			
     			// check if eeprom write is active
@@ -130,16 +137,18 @@ public class Processor extends Thread{
     			{
     				if( (ctr.getOperationalTime() - ctr.getEeprom().getWriteStartTime()) >= 1.0 ) 
     				{
-
     					// reset eecon bits
         				ctr.getMemory().set_SRAMDIRECT(0x88, 1, 0);
         				ctr.getMemory().set_SRAMDIRECT(0x88, 4, 1);
         				// deactivate write
         				ctr.setWriteActive(false);
+        				
     				}
 
     			}
-    			
+    			if(exit) {
+    				break;
+    			}
     			if (this.debugging) {
     				while(!continueDebug) {
     					sleep(100);
@@ -153,14 +162,12 @@ public class Processor extends Thread{
                 {
                 	stopThread();
                 }	
-    			if(exit) {
-    				break;
-    			}
     		}
     		}
     		catch(InterruptedException e) {
     		}
     	}
+    	this.isRunning = false;
     	System.out.println("Thread stopped");
     }
     
@@ -226,5 +233,13 @@ public class Processor extends Thread{
 	 */
 	public void setInSleep(boolean isInSleep) {
 		this.isInSleep = isInSleep;
+	}
+	
+	/**
+	 * Method to get the state of the processor.
+	 * @return The isRunning.
+	 */
+	public boolean getRunning() {
+		return this.isRunning;
 	}
 }

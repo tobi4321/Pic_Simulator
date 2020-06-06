@@ -118,7 +118,7 @@ public class Simulator_Window {
 	private JTable table_Stack;
 	
 	// member for wdte sleep and mclr
-	private JToggleButton tglbtnSleeping;
+	private JRadioButton tglbtnSleeping;
 	
 
 	/**
@@ -545,14 +545,14 @@ public class Simulator_Window {
 		panel_Slider.add(lblNewLabel);
 		
 		JSlider slider = new JSlider();
-		slider.setValue(100);
+		slider.setValue(500);
 		slider.setMaximum(1000);
-		slider.setMinimum(10);
+		slider.setMinimum(1);
 		slider.addChangeListener(new ChangeListener() {
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				ctr.setSimulationSpeed(slider.getValue());
+				ctr.setSimulationSpeed(slider.getValue() / 50);
 				
 			}
 		});
@@ -990,17 +990,11 @@ public class Simulator_Window {
 		panel_IO.add(panel_WDTSleep, gbc_panel_WDTSleep);
 		panel_WDTSleep.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JToggleButton tglbtnMclr = new JToggleButton("MCLR");
+		JButton tglbtnMclr = new JButton("MCLR");
 		tglbtnMclr.addActionListener(new ActionListener() {
 	         @Override
 	         public void actionPerformed(ActionEvent e) {
-	            if(((JToggleButton)e.getSource()).isSelected()) 
-	            {
-	            	ctr.setMCLR(true);
-	            }else 
-	            {
-	            	ctr.setMCLR(false);
-	            }
+	            ctr.MCLRClick();
 	         }
 	      });
 		panel_WDTSleep.add(tglbtnMclr);
@@ -1021,19 +1015,8 @@ public class Simulator_Window {
 		panel_WDTSleep.add(tglbtnWatchdogEnable);
 
 		
-		tglbtnSleeping = new JToggleButton("Sleeping");
-		tglbtnSleeping.addActionListener(new ActionListener() {
-	         @Override
-	         public void actionPerformed(ActionEvent e) {
-	            if(((JToggleButton)e.getSource()).isSelected()) 
-	            {
-	            	ctr.setSleeping(true);
-	            }else 
-	            {
-	            	ctr.setSleeping(false);
-	            }
-	         }
-	      });
+		tglbtnSleeping = new JRadioButton("Sleeping");
+		tglbtnSleeping.setEnabled(false);
 		panel_WDTSleep.add(tglbtnSleeping);
 		
 		
@@ -1657,6 +1640,12 @@ public class Simulator_Window {
 		  }
 	  }
 	  
+	  /**
+	   * Method to clear the highlight of the active row from the code view table.
+	   */
+	  protected void clearRowHiglights() {
+		  table_Code.removeRowSelectionInterval(0, this.table_Code.getRowCount() - 1);
+	  }
 	  /**
 	   * Method to highlight a row in the code view table.
 	   * @param row The row to highlight.
