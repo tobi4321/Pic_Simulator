@@ -47,12 +47,13 @@ public class Processor extends Thread{
 	 * If the eeprom write is active the processor is paused for 1ms operational time.
 	 */
     public void run() {
-    	while (!exit) {  
+    	this.ctr.setOperationalTime(0.0);
+		this.isRunning = true;
+		this.ctr.getMemory().set_PROGRAMMCOUNTER(0);
+    	
+		while (!exit) {  
     		try {
-    		this.ctr.setOperationalTime(0.0);
-    		this.isRunning = true;
-    		for(ctr.getMemory().programmcounter = 0; ctr.getMemory().programmcounter < ctr.getMemory().getProgramMemory().length; ctr.getMemory().programmcounter++) 
-    		{
+
     			// Write Programmcounter in PCL
     			ctr.getMemory().set_SRAMDIRECT(0x02, ctr.getMemory().programmcounter & 0xFF);
     			// Set the marker in the gui to the active code line
@@ -157,13 +158,9 @@ public class Processor extends Thread{
     			}else {
     				sleep((long) ctr.getSimulationSpeed());
     			}
-
-    			if(ctr.getMemory().programmcounter >= ctr.getMemory().getProgramMemory().length) 
-                {
-                	stopThread();
-                }	
+	
     		}
-    		}
+    		
     		catch(InterruptedException e) {
     		}
     	}

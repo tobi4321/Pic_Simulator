@@ -446,6 +446,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, f_in);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -457,6 +458,7 @@ public class Commands {
 	{
 		int in = ctr.getMemory().get_WREGISTER();
 		ctr.getMemory().set_SRAM(f, in);
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -466,6 +468,7 @@ public class Commands {
 	private void nop() 
 	{
 		// do nothing
+		this.ctr.incPC();
 	}
 	
 	/**

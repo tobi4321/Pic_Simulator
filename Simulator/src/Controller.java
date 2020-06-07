@@ -474,6 +474,7 @@ public class Controller {
     	// initialisieren der grafischen Elemente
 		clearCodeTable();
 		clearProgramCounterList();
+		clearProgramMemory();
 
     	// einlesen der einzelnen Zeilen inklusive equ und labels
 		while ((st = br.readLine()) != null) { 
@@ -514,6 +515,13 @@ public class Controller {
 		this.isCompiled = true;
 	}
 	
+	private void clearProgramMemory() {
+		for(int i = 0; i < this.getMemory().getProgramMemory().length; i++) 
+		{
+			this.getMemory().getProgramMemory()[i] = 0xff;
+		}
+	}
+
 	/**
 	 * Method to save the mnemonic code of the opened editor.
 	 * If the code is not compiled, {@link compileCode} will be called.
