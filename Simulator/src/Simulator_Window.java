@@ -1060,6 +1060,7 @@ public class Simulator_Window {
 		menuBar.add(file_menu);
 		
 		JButton btnLoadFile = new JButton("Load LST File");
+		btnLoadFile.setMaximumSize(new Dimension(110, 23));
 		btnLoadFile.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnLoadFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1088,6 +1089,7 @@ public class Simulator_Window {
 		file_menu.add(btnLoadFile);
 		
 		JButton btnSaveFile = new JButton("Save LST File");
+		btnSaveFile.setMaximumSize(new Dimension(110, 23));
 		btnSaveFile.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnSaveFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1116,6 +1118,8 @@ public class Simulator_Window {
 		
 		
 		JButton btnStopSimulation = new JButton("Stop Simulation");
+		btnStopSimulation.setMaximumSize(new Dimension(125, 23));
+		btnStopSimulation.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnStopSimulation.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnStopSimulation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1124,6 +1128,7 @@ public class Simulator_Window {
 		});
 		
 		JButton btnStartSimulation = new JButton("Start Simulation");
+		btnStartSimulation.setMaximumSize(new Dimension(125, 23));
 		btnStartSimulation.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnStartSimulation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1135,11 +1140,14 @@ public class Simulator_Window {
 		
 		
 		debug_menu = new JMenu("Debug");
+		debug_menu.setHorizontalTextPosition(SwingConstants.CENTER);
+		debug_menu.setHorizontalAlignment(SwingConstants.CENTER);
 		debug_menu.setMnemonic(KeyEvent.VK_A);
 		debug_menu.getAccessibleContext().setAccessibleDescription("Compile and Debug");
 		menuBar.add(debug_menu);
 		
 		JButton btnCompile = new JButton("Compile");
+		btnCompile.setMaximumSize(new Dimension(140, 23));
 		btnCompile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ctr.compileCode();
@@ -1149,6 +1157,7 @@ public class Simulator_Window {
 		debug_menu.add(btnCompile);
 		
 		JButton btnDebuggerStarten = new JButton("Debugger starten");
+		btnDebuggerStarten.setMaximumSize(new Dimension(140, 23));
 		btnDebuggerStarten.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnDebuggerStarten.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1158,6 +1167,7 @@ public class Simulator_Window {
 		debug_menu.add(btnDebuggerStarten);
 		
 		JButton btnDebuggerStoppen = new JButton("Debugger stoppen");
+		btnDebuggerStoppen.setMaximumSize(new Dimension(140, 23));
 		btnDebuggerStoppen.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnDebuggerStoppen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1167,6 +1177,7 @@ public class Simulator_Window {
 		debug_menu.add(btnDebuggerStoppen);
 		
 		JButton btnNext_1 = new JButton("Next");
+		btnNext_1.setMaximumSize(new Dimension(140, 23));
 		btnNext_1.setSize(new Dimension(121, 23));
 		btnNext_1.setMinimumSize(new Dimension(121, 23));
 		btnNext_1.setPreferredSize(new Dimension(121, 23));
@@ -1182,6 +1193,7 @@ public class Simulator_Window {
 		menuBar.add(mnSimulator);
 		
 		JButton btnOpenMnemonic = new JButton("Open Mnemonic");
+		btnOpenMnemonic.setMaximumSize(new Dimension(115, 23));
 		btnOpenMnemonic.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ctr.openMnemonicView();
@@ -1190,6 +1202,7 @@ public class Simulator_Window {
 		mnSimulator.add(btnOpenMnemonic);
 		
 		JButton btnIoServer = new JButton("IO Server");
+		btnIoServer.setMaximumSize(new Dimension(115, 23));
 		btnIoServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			    JLabel ipAdress = new JLabel();
@@ -1247,9 +1260,21 @@ public class Simulator_Window {
 		mnSimulator.add(btnIoServer);
 		
 		JButton btnInfo = new JButton("Info");
+		btnInfo.setMaximumSize(new Dimension(115, 23));
+		btnInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Desktop.getDesktop().open(new File("src/Dokumentation_PIC_Simulator.pdf"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		mnSimulator.add(btnInfo);
 		
 		JButton btnHelp = new JButton("Help");
+		btnHelp.setMaximumSize(new Dimension(115, 23));
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				openHelp();
