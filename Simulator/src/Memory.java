@@ -1,4 +1,4 @@
-import java.util.Stack;
+
 /// class Memory
 /**
  * This class is the basic implementation of the controller memory
@@ -707,7 +707,6 @@ public class Memory extends Thread{
 	 */
 	protected void pushToStack(int adr) 
 	{
-		int saveLast = intStack[7];
 		for(int i = 7; i > 0; i--) {
 			intStack[i] = intStack[i - 1];
 		}

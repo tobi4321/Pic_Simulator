@@ -15,8 +15,6 @@ import java.net.ServerSocket;
  * This class is used to connect the simulator to an out sourced software with hardware communication.
  */
 public class IOServer extends Thread{
-	/// The object of the main Controller class.
-	private Controller ctr;
 	/// The server port.
 	private int serverPort;
 	/// The socket object for the server.
@@ -54,9 +52,8 @@ public class IOServer extends Thread{
      * The constructor setting the Controller object, creating a new server socket on a free port and setting the port variable.
      * @param pCtr the Controller object to set.
      */
-	public IOServer(Controller pCtr) 
+	public IOServer() 
 	{
-		this.ctr = pCtr;
 		try {
 			tcpServer = new ServerSocket(0);
 		} catch (IOException e) {

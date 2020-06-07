@@ -18,8 +18,6 @@ public class Processor extends Thread{
 	private boolean isInSleep = false;
 	/// Displaying if the next step should be executed when the processor is in debug mode.
 	private boolean continueDebug = false;
-	/// The multiplicator to slow down the simulation speed.
-	private long slowDownTime = 1000;
 	/// Signals the clock output signal.
 	private boolean clkout = false;
 	/// Signals if the processor is running.

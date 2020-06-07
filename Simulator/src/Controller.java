@@ -88,7 +88,7 @@ public class Controller {
 		parser = new MnemonicParser(this);
 		tmr0 = new Timer(this);
 		isr = new Interrupt(this);
-		server = new IOServer(this);
+		server = new IOServer();
 		eeprom = new EEProm(this);
 		wtd = new Watchdog(this);
 		setCommands(new Commands(this));

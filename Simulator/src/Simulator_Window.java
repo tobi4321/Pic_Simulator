@@ -9,7 +9,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -19,12 +18,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
@@ -36,6 +37,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -184,11 +186,10 @@ public class Simulator_Window {
 	private void initialize() throws UnsupportedEncodingException {
 		
 
-        URL url = Simulator_Window.class.getResource("/resources/pic.png");
-        String path = URLDecoder.decode(url.getPath(), "UTF-8");
+        InputStream url = Simulator_Window.class.getResourceAsStream("/resources/pic.png");
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File(path));
+		    img = ImageIO.read(url);
 		} catch (IOException e) {
 		}
 		
@@ -1158,7 +1159,7 @@ public class Simulator_Window {
 		btnCompile.setMaximumSize(new Dimension(140, 23));
 		btnCompile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctr.compileCode();
+				//ctr.compileCode();
 			}
 		});
 		btnCompile.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -1229,8 +1230,16 @@ public class Simulator_Window {
 			    myPanel.add(new JLabel("IP:"));
 			    myPanel.add(ipAdress);
 			    
-			    
-			    Icon icon = new ImageIcon("src/clipboard.jpg");
+			    InputStream url = Simulator_Window.class.getResourceAsStream("/resources/clipboard.jpg");
+			    BufferedImage img = null;
+			    try 
+			    {
+			    	img = ImageIO.read(url);
+			    }catch(Exception e) 
+			    {
+			    	
+			    }
+			    ImageIcon icon = new ImageIcon(img);
 			    JButton copyAdress = new JButton(icon);
 			    copyAdress.addActionListener(new ActionListener() {
 			    	public void actionPerformed(ActionEvent arg0) 
@@ -1271,11 +1280,23 @@ public class Simulator_Window {
 		btnInfo.setMaximumSize(new Dimension(115, 23));
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+		        InputStream url = Simulator_Window.class.getResourceAsStream("/resources/pic.png");
+				BufferedImage img = null;
 				try {
-					Desktop.getDesktop().open(new File("src/Dokumentation_PIC_Simulator.pdf"));
+				    img = ImageIO.read(url);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				}
+				Icon icon = new ImageIcon(img);
+				final JComponent[] inputs = new JComponent[] {
+				        new JLabel("                       PicSimulator666                      \n"),
+				        new JLabel("This Software was developed by Toni Einecker & Tobias Bühler\n"),
+				        new JLabel("                        Copyright 2020                      ")
+				};
+				int result = JOptionPane.showConfirmDialog(null, inputs, "Info", JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE,icon);
+				if (result == JOptionPane.OK_OPTION) {
+
+				} else {
+				    System.out.println("User canceled / closed the dialog, result = " + result);
 				}
 			}
 		});
@@ -1285,7 +1306,21 @@ public class Simulator_Window {
 		btnHelp.setMaximumSize(new Dimension(115, 23));
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				openHelp();
+				try {
+					InputStream url = Simulator_Window.class.getResourceAsStream("/resources/Dokumentation_PIC_Simulator.pdf");
+					Path path = Files.createTempFile("doku", ".pdf");
+					try (FileOutputStream out = new FileOutputStream(path.toFile())) {
+				        byte[] buffer = new byte[1024]; 
+				        int len; 
+				        while ((len = url.read(buffer)) != -1) { 
+				            out.write(buffer, 0, len); 
+				        }
+				    } catch (Exception e) {
+				    }
+					Desktop.getDesktop().open(path.toFile());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		mnSimulator.add(btnHelp);
