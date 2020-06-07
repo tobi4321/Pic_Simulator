@@ -10,12 +10,14 @@ var searchData=
   ['clearcodetable_7',['clearCodeTable',['../class_controller.html#a0912c98c4184b55f3b4350c83b1e2628',1,'Controller']]],
   ['clearhighlights_8',['clearHighlights',['../class_controller.html#a01a0be377d316e307c4cd7367f0ffb82',1,'Controller']]],
   ['clearprogmem_9',['clearProgMem',['../class_memory.html#a6a2f47cccbe80d3fcfc4465468ae96e6',1,'Memory']]],
-  ['closemnemonicwindow_10',['closeMnemonicWindow',['../class_controller.html#a2d5953f2ec782d0db0c15275f64aec44',1,'Controller']]],
-  ['commands_11',['Commands',['../class_commands.html',1,'Commands'],['../class_commands.html#aea299b058d7fee9790bf876667db785d',1,'Commands.Commands()']]],
-  ['commands_2ejava_12',['Commands.java',['../_commands_8java.html',1,'']]],
-  ['compilecode_13',['compileCode',['../class_controller.html#a7552ba10b2d88701e8b1ca7dc9057542',1,'Controller']]],
-  ['continuedebugstep_14',['continueDebugStep',['../class_controller.html#a0b1e4ec3dec1fea11f64946682362c4f',1,'Controller.continueDebugStep()'],['../class_processor.html#ae99d40bd94f6f111978e6a401bbb25ed',1,'Processor.continueDebugStep()']]],
-  ['controller_15',['Controller',['../class_controller.html',1,'Controller'],['../class_controller.html#a122bc55365bbb92c03428a43f5b88fd1',1,'Controller.Controller()']]],
-  ['controller_2ejava_16',['Controller.java',['../_controller_8java.html',1,'']]],
-  ['countcycletime_17',['countCycleTime',['../class_controller.html#afbc687487d836b27d89eaab25acece84',1,'Controller']]]
+  ['clearrowhiglights_10',['clearRowHiglights',['../class_simulator___window.html#a0efb242f0be263ea684f878b207fec86',1,'Simulator_Window']]],
+  ['clearstack_11',['clearStack',['../class_memory.html#a1bae3cca26597dbc2140f0e8ddd1ed38',1,'Memory']]],
+  ['closemnemonicwindow_12',['closeMnemonicWindow',['../class_controller.html#a2d5953f2ec782d0db0c15275f64aec44',1,'Controller']]],
+  ['commands_13',['Commands',['../class_commands.html',1,'Commands'],['../class_commands.html#aea299b058d7fee9790bf876667db785d',1,'Commands.Commands()']]],
+  ['commands_2ejava_14',['Commands.java',['../_commands_8java.html',1,'']]],
+  ['compilecode_15',['compileCode',['../class_controller.html#a7552ba10b2d88701e8b1ca7dc9057542',1,'Controller']]],
+  ['continuedebugstep_16',['continueDebugStep',['../class_controller.html#a0b1e4ec3dec1fea11f64946682362c4f',1,'Controller.continueDebugStep()'],['../class_processor.html#ae99d40bd94f6f111978e6a401bbb25ed',1,'Processor.continueDebugStep()']]],
+  ['controller_17',['Controller',['../class_controller.html',1,'Controller'],['../class_controller.html#a122bc55365bbb92c03428a43f5b88fd1',1,'Controller.Controller()']]],
+  ['controller_2ejava_18',['Controller.java',['../_controller_8java.html',1,'']]],
+  ['countcycletime_19',['countCycleTime',['../class_controller.html#afbc687487d836b27d89eaab25acece84',1,'Controller']]]
 ];
