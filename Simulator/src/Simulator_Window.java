@@ -9,6 +9,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -16,11 +17,13 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -119,7 +122,10 @@ public class Simulator_Window {
 	
 	// member for wdte sleep and mclr
 	private JRadioButton tglbtnSleeping;
+	private JToggleButton tglbtnMclr;
 	
+
+
 
 	/**
 	 * The main function of the program. 
@@ -171,15 +177,23 @@ public class Simulator_Window {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initialize() {
 		
+		BufferedImage img = null;
+		try {
+		    img = ImageIO.read(new File("src/pic.png"));
+		} catch (IOException e) {
+		}
+		
 		frmMicrocontrollerSimulator = new JFrame();
-		frmMicrocontrollerSimulator.getContentPane().setMaximumSize(new Dimension(1300, 800));
-		frmMicrocontrollerSimulator.setMaximumSize(new Dimension(1300, 800));
-		frmMicrocontrollerSimulator.setTitle("MicroController Simulator");
-		frmMicrocontrollerSimulator.setBounds(100, 100, 1550, 920);
+		frmMicrocontrollerSimulator.setResizable(false);
+		frmMicrocontrollerSimulator.setMaximumSize(new Dimension(1300, 730));
+		frmMicrocontrollerSimulator.setTitle("PicSimulator 666");
+		frmMicrocontrollerSimulator.setIconImage(img);
+		frmMicrocontrollerSimulator.setBounds(100, 100, 1551, 864);
 		frmMicrocontrollerSimulator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		
 		Box verticalBox = Box.createVerticalBox();
+		verticalBox.setAlignmentY(0.0f);
 		verticalBox.setBorder(UIManager.getBorder("InternalFrame.border"));
 		frmMicrocontrollerSimulator.getContentPane().add(verticalBox);
 		
@@ -190,26 +204,28 @@ public class Simulator_Window {
 		
 		Box verticalMemoryView = Box.createVerticalBox();
 		verticalMemoryView.setAlignmentY(1.0f);
-		verticalMemoryView.setMinimumSize(new Dimension(320, 800));
-		verticalMemoryView.setPreferredSize(new Dimension(320, 800));
+		verticalMemoryView.setMinimumSize(new Dimension(320, 750));
+		verticalMemoryView.setPreferredSize(new Dimension(320, 750));
 		verticalMemoryView.setMaximumSize(new Dimension(320, 800));
 		upperArea.add(verticalMemoryView);
 		
 		JPanel panel_MemoryView = new JPanel();
+		panel_MemoryView.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panel_MemoryView.setAlignmentY(Component.TOP_ALIGNMENT);
 		verticalMemoryView.add(panel_MemoryView);
 		GridBagLayout gbl_panel_MemoryView = new GridBagLayout();
 		gbl_panel_MemoryView.columnWidths = new int[] {150};
-		gbl_panel_MemoryView.rowHeights = new int[] {40, 450, 130, 180};
+		gbl_panel_MemoryView.rowHeights = new int[] {40, 430, 130, 180};
 		gbl_panel_MemoryView.columnWeights = new double[]{0.0};
-		gbl_panel_MemoryView.rowWeights = new double[]{0.0, 0.0, 0.0};
+		gbl_panel_MemoryView.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 		panel_MemoryView.setLayout(gbl_panel_MemoryView);
 		
 		JPanel inputPanel = new JPanel();
 		inputPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		inputPanel.setMinimumSize(new Dimension(140, 40));
 		GridBagConstraints gbc_inputPanel = new GridBagConstraints();
+		gbc_inputPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_inputPanel.fill = GridBagConstraints.BOTH;
-		gbc_inputPanel.insets = new Insets(0, 0, 0, 5);
 		gbc_inputPanel.gridx = 0;
 		gbc_inputPanel.gridy = 0;
 		panel_MemoryView.add(inputPanel, gbc_inputPanel);
@@ -259,21 +275,13 @@ public class Simulator_Window {
 		JPanel panel_Memeory = new JPanel();
 		panel_Memeory.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_panel_Memeory = new GridBagConstraints();
-		gbc_panel_Memeory.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_Memeory.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_Memeory.gridx = 0;
 		gbc_panel_Memeory.gridy = 1;
 		panel_MemoryView.add(panel_Memeory, gbc_panel_Memeory);
-		panel_Memeory.setPreferredSize(new Dimension(310, 700));
-		panel_Memeory.setMinimumSize(new Dimension(310, 500));
-		panel_Memeory.setMaximumSize(new Dimension(310, 700));
+		panel_Memeory.setMinimumSize(new Dimension(310, 430));
+		panel_Memeory.setMaximumSize(new Dimension(310, 430));
 		panel_Memeory.setLayout(new BorderLayout(0, 0));
-		
-
-	
-		
-		JLabel lblMemoryView = new JLabel("Memory View");
-		panel_Memeory.add(lblMemoryView, BorderLayout.NORTH);
-		lblMemoryView.setFont(new Font("Tahoma", Font.BOLD, 15));
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(320, 700));
 		scrollPane.setMaximumSize(new Dimension(320, 700));
@@ -303,6 +311,7 @@ public class Simulator_Window {
 				
 		JPanel panel_specialreg = new JPanel();
 		GridBagConstraints gbc_panel_specialreg = new GridBagConstraints();
+		gbc_panel_specialreg.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_specialreg.gridx = 0;
 		gbc_panel_specialreg.gridy = 2;
 		panel_MemoryView.add(panel_specialreg, gbc_panel_specialreg);
@@ -341,11 +350,13 @@ public class Simulator_Window {
 		tbl_stack.setColumnIdentifiers(new Object[] {"Nr","Adresse"});
 		
 		table_Stack = new JTable();
-		table_Stack.setBounds(90, 0, 120, 129);
-		table_Stack.setFont(new Font("Tahoma", Font.BOLD, 12));
+		table_Stack.setBounds(51, 28, 200, 140);
+		table_Stack.setFont(new Font("Tahoma", Font.BOLD, 14));
 		table_Stack.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table_Stack.setEnabled(false);
 		table_Stack.setModel(tbl_stack);
+		table_Stack.getColumnModel().getColumn(0).setMinWidth(100);
+		table_Stack.getColumnModel().getColumn(1).setMinWidth(100);
 		
 		TableColumn stackCol0 = null;
 		stackCol0 = table_Stack.getColumnModel().getColumn(0);
@@ -359,7 +370,7 @@ public class Simulator_Window {
 
 		
 		JLabel lbl_stack = new JLabel("Stack");
-		lbl_stack.setBounds(5, 5, 42, 19);
+		lbl_stack.setBounds(122, 0, 42, 19);
 		lbl_stack.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_stack.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 		lbl_stack.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -398,14 +409,6 @@ public class Simulator_Window {
 		panel_Code.setMaximumSize(new Dimension(32767, 800));
 		verticalCodeViewer.add(panel_Code);
 		panel_Code.setLayout(new BorderLayout(0, 0));
-		
-		JLabel lblCodeViewer = new JLabel("Code Viewer");
-		lblCodeViewer.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCodeViewer.setVerticalTextPosition(SwingConstants.TOP);
-		lblCodeViewer.setVerticalAlignment(SwingConstants.TOP);
-		lblCodeViewer.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel_Code.add(lblCodeViewer, BorderLayout.NORTH);
-		lblCodeViewer.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setPreferredSize(new Dimension(2, 600));
@@ -449,8 +452,6 @@ public class Simulator_Window {
 		scrollPane_3.setViewportView(table_Code);
 		
 		Box verticalIO = Box.createVerticalBox();
-		verticalIO.setMinimumSize(new Dimension(350, 800));
-		verticalIO.setPreferredSize(new Dimension(380, 800));
 		verticalIO.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		verticalIO.setMaximumSize(new Dimension(400, 800));
 		upperArea.add(verticalIO);
@@ -462,7 +463,7 @@ public class Simulator_Window {
 		verticalIO.add(panel_IO);
 		GridBagLayout gbl_panel_IO = new GridBagLayout();
 		gbl_panel_IO.columnWidths = new int[] {130};
-		gbl_panel_IO.rowHeights = new int[] {30, 30, 30, 90, 90, 180, 30, 100};
+		gbl_panel_IO.rowHeights = new int[] {30, 30, 30, 90, 90, 180, 30, 30, 250};
 		gbl_panel_IO.columnWeights = new double[]{1.0};
 		gbl_panel_IO.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, 0.0};
 		panel_IO.setLayout(gbl_panel_IO);
@@ -920,10 +921,8 @@ public class Simulator_Window {
 			public void actionPerformed(ActionEvent e) {
 				AbstractButton abstractButton = (AbstractButton) e.getSource();
 		          ButtonModel buttonModel = abstractButton.getModel();
-		          //boolean armed = buttonModel.isArmed();
-		          //boolean pressed = buttonModel.isPressed();
 		          boolean selected = buttonModel.isSelected();  
-				System.out.println("7-Segment: "+selected);
+
 				if(selected) 
 		          {
 		        	  ctr.setSevenSegmentActive(true);
@@ -990,11 +989,17 @@ public class Simulator_Window {
 		panel_IO.add(panel_WDTSleep, gbc_panel_WDTSleep);
 		panel_WDTSleep.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JButton tglbtnMclr = new JButton("MCLR");
+		tglbtnMclr = new JToggleButton("MCLR");
 		tglbtnMclr.addActionListener(new ActionListener() {
 	         @Override
 	         public void actionPerformed(ActionEvent e) {
-	            ctr.MCLRClick();
+		            if(((JToggleButton)e.getSource()).isSelected()) 
+		            {
+			        	 ctr.setMclr(true);
+		            }else 
+		            {
+			        	 ctr.setMclr(false);
+		            }
 	         }
 	      });
 		panel_WDTSleep.add(tglbtnMclr);
@@ -1769,4 +1774,11 @@ public class Simulator_Window {
 		protected JToggleButton getTglbtnSleeping() {
 			return tglbtnSleeping;
 		}
+		/**
+		 * @return the tglbtnMclr
+		 */
+		protected JToggleButton getTglbtnMclr() {
+			return tglbtnMclr;
+		}
+
 }

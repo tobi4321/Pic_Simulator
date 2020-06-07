@@ -31,6 +31,10 @@ public class IOServer extends Thread{
 	private int raReceive;
 	/// The received value of port B from the client.
 	private int rbReceive;
+	/// value of mclr to send to the client
+	private int mclrSend;
+	/// received value of mclr from client
+	private int mclrReceived;
 
 	BufferedWriter bw;
     BufferedReader br;
@@ -111,7 +115,7 @@ public class IOServer extends Thread{
 			try {
 				if(tcpClient.isConnected() && !tcpClient.isOutputShutdown() ) 
 				{
-					  this.sendMessage(raSend+":"+rbSend);
+					  this.sendMessage(raSend+":"+rbSend+":"+mclrSend);
 					  
 				      socketinstr = tcpClient.getInputStream();
 				      isr = new InputStreamReader( socketinstr ); 
@@ -120,12 +124,19 @@ public class IOServer extends Thread{
 				      String[] receive = anfrage.split(":");
 				      this.raReceive = Integer.parseInt(receive[0]);
 				      this.rbReceive = Integer.parseInt(receive[1]);
+				      this.mclrReceived = Integer.parseInt(receive[2]);
 				      System.out.println("From Client: "+anfrage);
 				}		
 		        sleep(20);
 		     }
 		     catch(InterruptedException | IOException e) {
 		    	 System.out.println("Error: "+e.getMessage());
+		    	 try {
+					tcpClient.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 		     }
 		}    
 	}
@@ -205,5 +216,20 @@ public class IOServer extends Thread{
 	protected int getPortB() 
 	{
 		return this.rbReceive;
+	}
+	protected void setMCLR(boolean mclr) 
+	{
+		if(mclr) 
+		{
+			this.mclrSend = 1;
+		}else 
+		{
+			this.mclrSend = 0;
+		}
+
+	}
+	protected int getMCLR() 
+	{
+		return this.mclrReceived;
 	}
 }

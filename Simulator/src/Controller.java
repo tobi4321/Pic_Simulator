@@ -73,6 +73,8 @@ public class Controller {
 	private int dataPortSelect = 1;
 	/// bool to indicate wheter watchdog is enabled or not
 	private boolean wdte;
+	/// bool to indicate the master clear value mclr
+	private boolean mclr;
 	/// the speed of the simulation
 	private int simulationSpeed = 100;
 	/**
@@ -254,7 +256,6 @@ public class Controller {
 			{
 				dataPort = this.memory.get_MemoryDIRECT(0x06);
 			}
-			System.out.println("set7Segment: "+controlPort+" data: "+dataPort);
 			this.getGui().getSevenSegmentPanel().set7Segment(controlPort, dataPort);
 		}else {
 			this.getGui().getSevenSegmentPanel().set7Segment(0, 0);
@@ -714,6 +715,9 @@ public class Controller {
 	public void refreshIO() {
 		int trisA = this.memory.get_MemoryDIRECT(0x85);
 		int trisB = this.memory.get_MemoryDIRECT(0x86);
+		
+
+		
 		// set the Tris register from Memory
 		getGui().setTrisA(trisA);
 		getGui().setTrisB(trisB);
@@ -729,10 +733,29 @@ public class Controller {
 		{
 			ra = this.server.getPortA();
 			rb = this.server.getPortB();
+			
+			if (this.server.getMCLR() == 1) 
+			{
+				this.mclr =  true;
+				this.gui.getTglbtnMclr().setSelected(true);
+			} 
+			else 
+			{ 
+				this.mclr =  false;
+				this.gui.getTglbtnMclr().setSelected(false);
+			}
 		}else 
 		{
 			ra = getGui().getPortA();
 			rb = getGui().getPortB();
+			
+			if(this.gui.getTglbtnMclr().isSelected()) 
+			{
+				this.mclr = true;
+			}else 
+			{
+				this.mclr = false;
+			}
 		}
 
 		for(int i = 0; i < 8; i++) {
@@ -765,6 +788,12 @@ public class Controller {
 		
 		this.server.setPortA(this.memory.get_MemoryDIRECT(0x05));
 		this.server.setPortB(this.memory.get_MemoryDIRECT(0x06));
+		this.server.setMCLR(this.mclr);
+		
+		if(this.mclr) 
+		{
+			this.MCLRClick();
+		}
 	}
 	
 	/**
@@ -1395,5 +1424,19 @@ public class Controller {
 	protected void incPC() 
 	{
 		this.getMemory().set_PROGRAMMCOUNTER(this.getMemory().get_PROGRAMMCOUNTER()+1);
+	}
+
+	/**
+	 * @return the mclr
+	 */
+	protected boolean isMclr() {
+		return mclr;
+	}
+
+	/**
+	 * @param mclr the mclr to set
+	 */
+	protected void setMclr(boolean mclr) {
+		this.mclr = mclr;
 	}
 }
