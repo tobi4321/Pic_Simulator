@@ -84,6 +84,8 @@ Klassendiagramm für Memory:</div>
 Öffentliche Methoden</h2></td></tr>
 <tr class="memitem:a1b0e8310f9088bd6b81a40e7cabc29b8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#a1b0e8310f9088bd6b81a40e7cabc29b8">Memory</a> (<a class="el" href="class_controller.html">Controller</a> pCtr)</td></tr>
 <tr class="separator:a1b0e8310f9088bd6b81a40e7cabc29b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5630bf7255c89101d9c92b35ef42db11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#a5630bf7255c89101d9c92b35ef42db11">InitMemoryPowerOn</a> ()</td></tr>
+<tr class="separator:a5630bf7255c89101d9c92b35ef42db11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76c6256f00e2260c704fda1cbd39f63e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#a76c6256f00e2260c704fda1cbd39f63e">run</a> ()</td></tr>
 <tr class="separator:a76c6256f00e2260c704fda1cbd39f63e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a841598845bda4f901bb9e20ef99f1301"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#a841598845bda4f901bb9e20ef99f1301">set_ZEROFLAG</a> (int z)</td></tr>
@@ -179,6 +181,8 @@ Geschützte Methoden</h2></td></tr>
 <tr class="separator:ac06ea3301688520c72652472d9056ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67a4f69099a9ed1e4e517a34ebb20cd5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#a67a4f69099a9ed1e4e517a34ebb20cd5">popFromStack</a> ()</td></tr>
 <tr class="separator:a67a4f69099a9ed1e4e517a34ebb20cd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bae3cca26597dbc2140f0e8ddd1ed38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#a1bae3cca26597dbc2140f0e8ddd1ed38">clearStack</a> ()</td></tr>
+<tr class="separator:a1bae3cca26597dbc2140f0e8ddd1ed38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c97e680a677e3e16ecd5e64201ac0e5"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#a4c97e680a677e3e16ecd5e64201ac0e5">getProgramMemory</a> ()</td></tr>
 <tr class="separator:a4c97e680a677e3e16ecd5e64201ac0e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae12efc70894b3e79a74cf60f570c233e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#ae12efc70894b3e79a74cf60f570c233e">setProgramMemory</a> (int[] programMemory)</td></tr>
@@ -191,9 +195,9 @@ Geschützte Attribute</h2></td></tr>
 <tr class="memitem:a207439b226c2324ca3b612775b3e1170"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#a207439b226c2324ca3b612775b3e1170">w_register</a> = new int[8]</td></tr>
 <tr class="memdesc:a207439b226c2324ca3b612775b3e1170"><td class="mdescLeft">&#160;</td><td class="mdescRight">w_register storage for operations.  <a href="class_memory.html#a207439b226c2324ca3b612775b3e1170">Mehr ...</a><br /></td></tr>
 <tr class="separator:a207439b226c2324ca3b612775b3e1170"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1802ca5810162cce2c89686f06d86b64"><td class="memItemLeft" align="right" valign="top">Stack&lt; Integer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#a1802ca5810162cce2c89686f06d86b64">stack</a> = new Stack&lt;Integer&gt;()</td></tr>
-<tr class="memdesc:a1802ca5810162cce2c89686f06d86b64"><td class="mdescLeft">&#160;</td><td class="mdescRight">The stack is used to store the pushed addresses by a call command.  <a href="class_memory.html#a1802ca5810162cce2c89686f06d86b64">Mehr ...</a><br /></td></tr>
-<tr class="separator:a1802ca5810162cce2c89686f06d86b64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa767b68956eefdd15ef77931a055027d"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory.html#aa767b68956eefdd15ef77931a055027d">intStack</a> = new int[8]</td></tr>
+<tr class="memdesc:aa767b68956eefdd15ef77931a055027d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The stack is used to store the pushed addresses by a call command.  <a href="class_memory.html#aa767b68956eefdd15ef77931a055027d">Mehr ...</a><br /></td></tr>
+<tr class="separator:aa767b68956eefdd15ef77931a055027d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Ausführliche Beschreibung</h2>
 <div class="textblock"><p>class <a class="el" href="class_memory.html" title="class Memory">Memory</a> </p>
@@ -239,6 +243,32 @@ Geschützte Attribute</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Used to clear the programMemory. The reset value is 255. </p>
+
+</div>
+</div>
+<a id="a1bae3cca26597dbc2140f0e8ddd1ed38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1bae3cca26597dbc2140f0e8ddd1ed38">&#9670;&nbsp;</a></span>clearStack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Memory.clearStack </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Method to clear the stack. </p>
 
 </div>
 </div>
@@ -592,6 +622,24 @@ Geschützte Attribute</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>The getter for the programMemory variable. </p><dl class="section return"><dt>Rückgabe</dt><dd>The programMemory. </dd></dl>
+
+</div>
+</div>
+<a id="a5630bf7255c89101d9c92b35ef42db11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5630bf7255c89101d9c92b35ef42db11">&#9670;&nbsp;</a></span>InitMemoryPowerOn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Memory.InitMemoryPowerOn </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Method to initialize the correct memory values on power on </p>
 
 </div>
 </div>
@@ -1909,6 +1957,30 @@ Geschützte Attribute</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Dokumentation der Datenelemente</h2>
+<a id="aa767b68956eefdd15ef77931a055027d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa767b68956eefdd15ef77931a055027d">&#9670;&nbsp;</a></span>intStack</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int [] Memory.intStack = new int[8]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The stack is used to store the pushed addresses by a call command. </p>
+
+</div>
+</div>
 <a id="ac1592bbc8c88ec4209db663d5577af47"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac1592bbc8c88ec4209db663d5577af47">&#9670;&nbsp;</a></span>programmcounter</h2>
 
@@ -1929,30 +2001,6 @@ Geschützte Attribute</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>The counter on which line the processor is. Default is 0 to indicate a reset. </p>
-
-</div>
-</div>
-<a id="a1802ca5810162cce2c89686f06d86b64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1802ca5810162cce2c89686f06d86b64">&#9670;&nbsp;</a></span>stack</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Stack&lt;Integer&gt; Memory.stack = new Stack&lt;Integer&gt;()</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The stack is used to store the pushed addresses by a call command. </p>
 
 </div>
 </div>

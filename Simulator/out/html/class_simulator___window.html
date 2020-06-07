@@ -65,7 +65,6 @@ $(function() {
 <a href="#pub-methods">Öffentliche Methoden</a> &#124;
 <a href="#pub-static-methods">Öffentliche, statische Methoden</a> &#124;
 <a href="#pro-methods">Geschützte Methoden</a> &#124;
-<a href="#pro-attribs">Geschützte Attribute</a> &#124;
 <a href="class_simulator___window-members.html">Aufstellung aller Elemente</a>  </div>
   <div class="headertitle">
 <div class="title">Simulator_Window Klassenreferenz</div>  </div>
@@ -111,6 +110,8 @@ Geschützte Methoden</h2></td></tr>
 <tr class="separator:ab1ddd55dfe496ada643b7949793f39c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0437bce7544255f8b72d7bd33c9c1bc9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simulator___window.html#a0437bce7544255f8b72d7bd33c9c1bc9">setTrisB</a> (int tris)</td></tr>
 <tr class="separator:a0437bce7544255f8b72d7bd33c9c1bc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0efb242f0be263ea684f878b207fec86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simulator___window.html#a0efb242f0be263ea684f878b207fec86">clearRowHiglights</a> ()</td></tr>
+<tr class="separator:a0efb242f0be263ea684f878b207fec86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe5109474b80c8787c2c0c14369ab68e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simulator___window.html#abe5109474b80c8787c2c0c14369ab68e">highlightRow</a> (int row)</td></tr>
 <tr class="separator:abe5109474b80c8787c2c0c14369ab68e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1919fb195b9277b20c1ad63cb36239b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simulator___window.html#a1919fb195b9277b20c1ad63cb36239b7">highlightCell</a> (int x, int y)</td></tr>
@@ -135,11 +136,10 @@ Geschützte Methoden</h2></td></tr>
 <tr class="separator:a6174165288e41e6939e4576cbabe8688"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5f17e6e8cf365397f5d50a3a3636e83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simulator___window.html#aa5f17e6e8cf365397f5d50a3a3636e83">updateOperationalTime</a> (double opTime)</td></tr>
 <tr class="separator:aa5f17e6e8cf365397f5d50a3a3636e83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Geschützte Attribute</h2></td></tr>
-<tr class="memitem:a708c48971c3af47e57ab0137a30e54f2"><td class="memItemLeft" align="right" valign="top">JRadioButton&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simulator___window.html#a708c48971c3af47e57ab0137a30e54f2">rdbtn_sleep</a></td></tr>
-<tr class="separator:a708c48971c3af47e57ab0137a30e54f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf9a3ed78e75257e5d8be03474d6f3a6"><td class="memItemLeft" align="right" valign="top">JToggleButton&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simulator___window.html#adf9a3ed78e75257e5d8be03474d6f3a6">getTglbtnSleeping</a> ()</td></tr>
+<tr class="separator:adf9a3ed78e75257e5d8be03474d6f3a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0f6c4f17827e27640bcdc5bc013a6ab"><td class="memItemLeft" align="right" valign="top">JToggleButton&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simulator___window.html#ad0f6c4f17827e27640bcdc5bc013a6ab">getTglbtnMclr</a> ()</td></tr>
+<tr class="separator:ad0f6c4f17827e27640bcdc5bc013a6ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Ausführliche Beschreibung</h2>
 <div class="textblock"><p>class <a class="el" href="class_simulator___window.html" title="class Simulator_Window">Simulator_Window</a> </p>
@@ -165,6 +165,32 @@ Geschützte Attribute</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Dokumentation der Elementfunktionen</h2>
+<a id="a0efb242f0be263ea684f878b207fec86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0efb242f0be263ea684f878b207fec86">&#9670;&nbsp;</a></span>clearRowHiglights()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Simulator_Window.clearRowHiglights </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Method to clear the highlight of the active row from the code view table. </p>
+
+</div>
+</div>
 <a id="aade57e6a147c9a0344586089828a5dec"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aade57e6a147c9a0344586089828a5dec">&#9670;&nbsp;</a></span>getData()</h2>
 
@@ -458,6 +484,58 @@ Geschützte Attribute</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Getter for access to the TableModel of the stack table. </p><dl class="section return"><dt>Rückgabe</dt><dd>Reference to stack table model. </dd></dl>
+
+</div>
+</div>
+<a id="ad0f6c4f17827e27640bcdc5bc013a6ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0f6c4f17827e27640bcdc5bc013a6ab">&#9670;&nbsp;</a></span>getTglbtnMclr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">JToggleButton Simulator_Window.getTglbtnMclr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Rückgabe</dt><dd>the tglbtnMclr </dd></dl>
+
+</div>
+</div>
+<a id="adf9a3ed78e75257e5d8be03474d6f3a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf9a3ed78e75257e5d8be03474d6f3a6">&#9670;&nbsp;</a></span>getTglbtnSleeping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">JToggleButton Simulator_Window.getTglbtnSleeping </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the reference to toggle button sleeping </p><dl class="section return"><dt>Rückgabe</dt><dd>the tglbtnSleeping </dd></dl>
 
 </div>
 </div>
@@ -956,29 +1034,6 @@ Geschützte Attribute</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<h2 class="groupheader">Dokumentation der Datenelemente</h2>
-<a id="a708c48971c3af47e57ab0137a30e54f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a708c48971c3af47e57ab0137a30e54f2">&#9670;&nbsp;</a></span>rdbtn_sleep</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">JRadioButton Simulator_Window.rdbtn_sleep</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>
