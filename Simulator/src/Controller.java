@@ -1338,4 +1338,9 @@ public class Controller {
 	public boolean getWDTE() {
 		return this.wdte;
 	}
+	
+	protected void incPC() 
+	{
+		this.getMemory().set_PROGRAMMCOUNTER(this.getMemory().get_PROGRAMMCOUNTER()+1);
+	}
 }
