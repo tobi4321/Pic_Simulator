@@ -3,6 +3,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
 /// class EEProm
 /**
 *  This class is used to check if a valid EEPROM Write access sequence is executed.
@@ -35,8 +38,9 @@ public class EEProm {
 	/**
 	 * Method to check the state of the state machine.
 	 * @param eeprom2 The value of the eeprom data register.
+	 * @throws UnsupportedEncodingException 
 	 */
-	protected void checkStates(int eeprom2) 
+	protected void checkStates(int eeprom2) throws UnsupportedEncodingException 
 	{
 		if(state == 0 && eeprom2  == 0x55) 
 		{
@@ -86,8 +90,9 @@ public class EEProm {
 	 * Method to set one value in the data array and therefore in the eeprom memory.
 	 * @param value The value to set.
 	 * @param adress The address to set.
+	 * @throws UnsupportedEncodingException 
 	 */
-	protected void setData(int value,int address) 
+	protected void setData(int value,int address) throws UnsupportedEncodingException 
 	{
 		data[address] = Integer.toHexString(value);
 		this.writeFile();
@@ -108,10 +113,12 @@ public class EEProm {
 	 */
 	private void loadFromFile() throws IOException 
 	{
+		URL url = Simulator_Window.class.getResource("/resources/eeprom.txt");
+		String path = URLDecoder.decode(url.getPath(), "UTF-8");
 		FileReader fr;
 		BufferedReader br;
 		try {
-			fr = new FileReader("src/eeprom.txt");
+			fr = new FileReader(path);
 			br = new BufferedReader(fr);
 			
 			for(int i=0; i< 0x40; i++) 
@@ -127,13 +134,16 @@ public class EEProm {
 	
 	/**
 	 * Method to write the data array into the eeprom.txt file.
+	 * @throws UnsupportedEncodingException 
 	 */
-	private void writeFile() 
+	private void writeFile() throws UnsupportedEncodingException 
 	{
+		URL url = Simulator_Window.class.getResource("/resources/eeprom.txt");
+		String path = URLDecoder.decode(url.getPath(), "UTF-8");
 		PrintWriter pw;
 		String out = "";
 		try {
-			pw = new PrintWriter("src/eeprom.txt");
+			pw = new PrintWriter(path);
 			for(int i=0; i< 0x40; i++) 
 			{
 				out = out + data[i] + '\n';

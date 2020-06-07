@@ -1,3 +1,5 @@
+import java.io.UnsupportedEncodingException;
+
 /// class Processor
 /**
  * This class is the main computing unit.
@@ -82,7 +84,12 @@ public class Processor extends Thread{
         			ctr.getCommands().executeCommand(codeLine);	// Normal Execute
     			}
     			// check eeprom state machine
-    			ctr.getEeprom().checkStates(ctr.getMemory().get_MemoryDIRECT(0x89));
+    			try {
+					ctr.getEeprom().checkStates(ctr.getMemory().get_MemoryDIRECT(0x89));
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     			
     			// Before the command execute, the watchdog is updated
     			ctr.getWatchdog().update(ctr.getOperationalTime());

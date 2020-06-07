@@ -20,7 +20,10 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.net.UnknownHostException;
 
 import javax.imageio.ImageIO;
@@ -164,8 +167,9 @@ public class Simulator_Window {
 	/**
 	 * The constructor, creating the Controller, initializing the Memory and starting the Memory update thread.
 	 * Create the application.
+	 * @throws UnsupportedEncodingException 
 	 */
-	public Simulator_Window() {
+	public Simulator_Window() throws UnsupportedEncodingException {
 		ctr = new Controller(this);
 		initialize();
 		ctr.inizializeMemory();
@@ -174,13 +178,17 @@ public class Simulator_Window {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws UnsupportedEncodingException 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void initialize() {
+	private void initialize() throws UnsupportedEncodingException {
 		
+
+        URL url = Simulator_Window.class.getResource("/resources/pic.png");
+        String path = URLDecoder.decode(url.getPath(), "UTF-8");
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("src/pic.png"));
+		    img = ImageIO.read(new File(path));
 		} catch (IOException e) {
 		}
 		
