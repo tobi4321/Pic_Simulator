@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -21,12 +22,33 @@ public class EEProm {
 	/// A timestamp of the write.
 	private double writeStartTime;
 	
+	private String filePath;
+	
 	/**
 	 * The constructor. Setting the Controller object and loading the eeprom memory from the txt file.
 	 * @param pCtr The Controller object to set.
 	 */
 	public EEProm(Controller pCtr) 
 	{
+		filePath = System.getProperty("user.dir") + "/eeprom.txt";
+		try {
+			filePath = URLDecoder.decode(filePath, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
+		File f = new File(filePath);
+		if(!f.exists()) {
+			try {
+				f.createNewFile();
+				for (int i = 0; i < 64; i++) {
+					this.data[i] = "00";
+				}
+				this.writeFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		ctr = pCtr; 
 		try {
 			loadFromFile();
@@ -113,12 +135,10 @@ public class EEProm {
 	 */
 	private void loadFromFile() throws IOException 
 	{
-		URL url = Simulator_Window.class.getResource("/resources/eeprom.txt");
-		String path = URLDecoder.decode(url.getPath(), "UTF-8");
 		FileReader fr;
 		BufferedReader br;
 		try {
-			fr = new FileReader(path);
+			fr = new FileReader(filePath);
 			br = new BufferedReader(fr);
 			
 			for(int i=0; i< 0x40; i++) 
@@ -138,12 +158,10 @@ public class EEProm {
 	 */
 	private void writeFile() throws UnsupportedEncodingException 
 	{
-		URL url = Simulator_Window.class.getResource("/resources/eeprom.txt");
-		String path = URLDecoder.decode(url.getPath(), "UTF-8");
 		PrintWriter pw;
 		String out = "";
 		try {
-			pw = new PrintWriter(path);
+			pw = new PrintWriter(filePath);
 			for(int i=0; i< 0x40; i++) 
 			{
 				out = out + data[i] + '\n';
