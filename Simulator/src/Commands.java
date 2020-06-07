@@ -201,6 +201,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f,result);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -227,6 +228,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, result);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -241,6 +243,7 @@ public class Commands {
 		{
 			ctr.checkZeroFlag(0);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -251,6 +254,7 @@ public class Commands {
 	{
 		ctr.getMemory().set_WREGISTER(0);
 		ctr.checkZeroFlag(0);
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -274,6 +278,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, out);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -302,6 +307,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, in);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -322,7 +328,7 @@ public class Commands {
 			in--;
 			if(in == 0) 
 			{
-				ctr.getMemory().set_PROGRAMMCOUNTER(ctr.getMemory().get_PROGRAMMCOUNTER() + 1);
+				this.ctr.incPC();
 				ctr.setNopCycle(true);
 			}
 		}
@@ -333,7 +339,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, in);
 		}
-		
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -362,6 +368,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, in);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -378,8 +385,7 @@ public class Commands {
 		if(in == 255) 
 		{
 			in = 0;
-			//this.memory.programmcounter++;
-			ctr.getMemory().set_PROGRAMMCOUNTER(ctr.getMemory().get_PROGRAMMCOUNTER() + 1);
+			this.ctr.incPC();
 			ctr.setNopCycle(true);
 		}else {
 			in++;
@@ -391,6 +397,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, in);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -416,6 +423,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, result);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -486,6 +494,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, result);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -515,6 +524,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, result);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -557,6 +567,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, result);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -578,6 +589,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, result);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -603,6 +615,7 @@ public class Commands {
 		{
 			ctr.getMemory().set_SRAM(f, result);
 		}
+		this.ctr.incPC();
 	}
 	
 	//
@@ -618,6 +631,7 @@ public class Commands {
 	private void bcf(int b, int f) 
 	{
 		ctr.getMemory().set_SRAM(f, b, 0);
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -629,6 +643,7 @@ public class Commands {
 	private void bsf(int b, int f) 
 	{
 		ctr.getMemory().set_SRAM(f, b, 1);
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -643,9 +658,10 @@ public class Commands {
 		int in = ctr.getMemory().get_Memory(f, b);
 		if(in == 0) 
 		{
-			this.ctr.getMemory().set_PROGRAMMCOUNTER(this.ctr.getMemory().get_PROGRAMMCOUNTER() + 1);
+			this.ctr.incPC();
 			ctr.setNopCycle(true);
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -660,9 +676,10 @@ public class Commands {
 		int in = ctr.getMemory().get_Memory(f, b);
 		if(in == 1) 
 		{
-			this.ctr.getMemory().set_PROGRAMMCOUNTER(this.ctr.getMemory().get_PROGRAMMCOUNTER() + 1);
+			this.ctr.incPC();
 			ctr.setNopCycle(true);
 		}
+		this.ctr.incPC();
 	}
 	
 	//
@@ -691,6 +708,8 @@ public class Commands {
 		ctr.checkDCFlag(in, k);
 		
 		ctr.getMemory().set_WREGISTER(in + k);
+		
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -707,6 +726,7 @@ public class Commands {
 		ctr.checkZeroFlag(result);
 		
 		ctr.getMemory().set_WREGISTER(result);
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -716,8 +736,8 @@ public class Commands {
 	 * **/
 	private void call(int k) 
 	{
-		ctr.getMemory().pushToStack(this.ctr.getMemory().programmcounter);
-		this.ctr.getMemory().programmcounter = k-1;
+		ctr.getMemory().pushToStack(this.ctr.getMemory().programmcounter+1);
+		this.ctr.getMemory().programmcounter = k;
 		ctr.setNopCycle(true);
 	}
 	
@@ -739,6 +759,7 @@ public class Commands {
 			// watchdog is not enabled
 			//What to do?
 		}
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -749,7 +770,7 @@ public class Commands {
 	 * **/
 	private void _goto(int k) 
 	{
-		this.ctr.getMemory().programmcounter = k-1;
+		this.ctr.getMemory().programmcounter = k;
 		ctr.setNopCycle(true);
 	}
 	
@@ -767,6 +788,7 @@ public class Commands {
 		ctr.checkZeroFlag(result);
 
 		ctr.getMemory().set_WREGISTER(result);
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -777,6 +799,7 @@ public class Commands {
 	private void movlw(int k) 
 	{
 		ctr.getMemory().set_WREGISTER(k);
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -827,6 +850,9 @@ public class Commands {
 		
 		ctr.getProcessor().setInSleep(true);
 		ctr.getGui().getTglbtnSleeping().setSelected(true);
+		
+		//TODO: inc pc if sleep?
+		//		this.ctr.incPC();
 	}
 	
 	/**
@@ -851,6 +877,7 @@ public class Commands {
 		ctr.checkZeroFlag(result);
 		ctr.checkDCFlag(w_in, k);
 		ctr.getMemory().set_WREGISTER(result);
+		this.ctr.incPC();
 	}
 	
 	/**
@@ -867,6 +894,7 @@ public class Commands {
 		ctr.checkZeroFlag(result);
 
 		ctr.getMemory().set_WREGISTER(result);
+		this.ctr.incPC();
 	}
 	
 	//

@@ -1384,4 +1384,8 @@ public class Controller {
 	public int getSimulationSpeed() {
 		return this.simulationSpeed;
 	}
+	protected void incPC() 
+	{
+		this.getMemory().set_PROGRAMMCOUNTER(this.getMemory().get_PROGRAMMCOUNTER()+1);
+	}
 }
