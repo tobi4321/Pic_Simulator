@@ -123,7 +123,8 @@ public class Simulator_Window {
 	// member for wdte sleep and mclr
 	private JRadioButton tglbtnSleeping;
 	private JToggleButton tglbtnMclr;
-	
+	private JTextField sliderText;
+	private JSlider slider;
 
 
 
@@ -545,20 +546,32 @@ public class Simulator_Window {
 		JLabel lblNewLabel = new JLabel("Simulation speed:");
 		panel_Slider.add(lblNewLabel);
 		
-		JSlider slider = new JSlider();
+		slider = new JSlider();
 		slider.setValue(500);
-		slider.setMaximum(1000);
+		slider.setMaximum(999);
 		slider.setMinimum(1);
 		slider.addChangeListener(new ChangeListener() {
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				ctr.setSimulationSpeed(slider.getValue() / 50);
-				
+				sliderText.setText("" + slider.getValue());
+				ctr.setSimulationSpeed(1000 - slider.getValue());
 			}
 		});
 		panel_Slider.add(slider);
 		panel_Slider.setToolTipText("The speed of the simulation. A higher value will run the simulation faster.");
+		
+		sliderText = new JTextField();
+		sliderText.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				slider.setValue(Integer.parseInt(sliderText.getText()));
+				ctr.setSimulationSpeed(1000 - slider.getValue());
+			}
+		});
+		panel_Slider.add(sliderText);
+		sliderText.setColumns(10);
 		
 		JPanel panel_RA = new JPanel();
 		panel_RA.setOpaque(false);
@@ -1767,18 +1780,31 @@ public class Simulator_Window {
 	  {
 		  this.lblOperationalTime.setText(opTime+"ms");
 	  }
-		/**
-		 * Returns the reference to toggle button sleeping
-		 * @return the tglbtnSleeping
-		 */
-		protected JToggleButton getTglbtnSleeping() {
-			return tglbtnSleeping;
-		}
-		/**
-		 * @return the tglbtnMclr
-		 */
-		protected JToggleButton getTglbtnMclr() {
-			return tglbtnMclr;
-		}
-
+	/**
+	 * Returns the reference to toggle button sleeping
+	 * @return the tglbtnSleeping
+	 */
+	protected JToggleButton getTglbtnSleeping() {
+		return tglbtnSleeping;
+	}
+	/**
+	 * @return the tglbtnMclr
+	 */
+	protected JToggleButton getTglbtnMclr() {
+		return tglbtnMclr;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	protected JTextField getSliderText() {
+		return this.sliderText;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	protected JSlider getSlider() {
+		return this.slider;
+	}
 }

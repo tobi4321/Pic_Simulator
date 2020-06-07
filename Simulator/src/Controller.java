@@ -122,6 +122,9 @@ public class Controller {
 		{
 			this.getGui().getTblStackModel().addRow(new Object[] {i,""});
 		}
+		
+		this.getGui().getSlider().setValue(500);
+		this.getGui().getSliderText().setText("" + 500);
 	}
 	
 	/**
