@@ -1,0 +1,225 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}Deprecated List}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Hierarchical Index}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Class Hierarchy}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Class Index}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Class List}{5}{section.3.1}%
+\contentsline {chapter}{\numberline {4}File Index}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}File List}{7}{section.4.1}%
+\contentsline {chapter}{\numberline {5}Class Documentation}{9}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Controller Class Reference}{9}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Detailed Description}{10}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Constructor \& Destructor Documentation}{10}{subsection.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.2.1}Controller()}{11}{subsubsection.5.1.2.1}%
+\contentsline {subsection}{\numberline {5.1.3}Member Function Documentation}{11}{subsection.5.1.3}%
+\contentsline {subsubsection}{\numberline {5.1.3.1}clearCodeTable()}{11}{subsubsection.5.1.3.1}%
+\contentsline {subsubsection}{\numberline {5.1.3.2}closeMnemonicWindow()}{11}{subsubsection.5.1.3.2}%
+\contentsline {subsubsection}{\numberline {5.1.3.3}compileCode()}{11}{subsubsection.5.1.3.3}%
+\contentsline {subsubsection}{\numberline {5.1.3.4}executeCommand()}{11}{subsubsection.5.1.3.4}%
+\contentsline {subsubsection}{\numberline {5.1.3.5}getEQUValue()}{12}{subsubsection.5.1.3.5}%
+\contentsline {subsubsection}{\numberline {5.1.3.6}getIOAnalog\_IN()}{12}{subsubsection.5.1.3.6}%
+\contentsline {subsubsection}{\numberline {5.1.3.7}getIOAnalog\_OUT()}{12}{subsubsection.5.1.3.7}%
+\contentsline {subsubsection}{\numberline {5.1.3.8}getJumpersCount()}{12}{subsubsection.5.1.3.8}%
+\contentsline {subsubsection}{\numberline {5.1.3.9}inizializeMemory()}{13}{subsubsection.5.1.3.9}%
+\contentsline {subsubsection}{\numberline {5.1.3.10}inizializeTables()}{13}{subsubsection.5.1.3.10}%
+\contentsline {subsubsection}{\numberline {5.1.3.11}loadFile()}{13}{subsubsection.5.1.3.11}%
+\contentsline {subsubsection}{\numberline {5.1.3.12}loadMnemonicFromTable()}{13}{subsubsection.5.1.3.12}%
+\contentsline {subsubsection}{\numberline {5.1.3.13}loadSRCFile()}{13}{subsubsection.5.1.3.13}%
+\contentsline {subsubsection}{\numberline {5.1.3.14}openMnemonicView()}{14}{subsubsection.5.1.3.14}%
+\contentsline {subsubsection}{\numberline {5.1.3.15}outputToConsole()}{14}{subsubsection.5.1.3.15}%
+\contentsline {subsubsection}{\numberline {5.1.3.16}refreshIO()}{14}{subsubsection.5.1.3.16}%
+\contentsline {subsubsection}{\numberline {5.1.3.17}saveLSTFile()}{14}{subsubsection.5.1.3.17}%
+\contentsline {subsubsection}{\numberline {5.1.3.18}saveMnemonicCode()}{14}{subsubsection.5.1.3.18}%
+\contentsline {subsubsection}{\numberline {5.1.3.19}saveSRCFile()}{15}{subsubsection.5.1.3.19}%
+\contentsline {subsubsection}{\numberline {5.1.3.20}searchEQUMarks()}{15}{subsubsection.5.1.3.20}%
+\contentsline {subsubsection}{\numberline {5.1.3.21}searchJumperMarks()}{15}{subsubsection.5.1.3.21}%
+\contentsline {subsubsection}{\numberline {5.1.3.22}setCodeViewAdress()}{16}{subsubsection.5.1.3.22}%
+\contentsline {subsubsection}{\numberline {5.1.3.23}setCodeViewCounter()}{16}{subsubsection.5.1.3.23}%
+\contentsline {subsubsection}{\numberline {5.1.3.24}setCodeViewLabel()}{16}{subsubsection.5.1.3.24}%
+\contentsline {subsubsection}{\numberline {5.1.3.25}setColumnWidth()}{17}{subsubsection.5.1.3.25}%
+\contentsline {subsubsection}{\numberline {5.1.3.26}setIOAnalog\_IN()}{17}{subsubsection.5.1.3.26}%
+\contentsline {subsubsection}{\numberline {5.1.3.27}setIOAnalog\_OUT()}{17}{subsubsection.5.1.3.27}%
+\contentsline {subsubsection}{\numberline {5.1.3.28}setSegment()}{17}{subsubsection.5.1.3.28}%
+\contentsline {subsubsection}{\numberline {5.1.3.29}setTextActive()}{18}{subsubsection.5.1.3.29}%
+\contentsline {subsubsection}{\numberline {5.1.3.30}showError()}{18}{subsubsection.5.1.3.30}%
+\contentsline {subsubsection}{\numberline {5.1.3.31}startMemoryUpdateThread()}{18}{subsubsection.5.1.3.31}%
+\contentsline {subsubsection}{\numberline {5.1.3.32}startSimu()}{18}{subsubsection.5.1.3.32}%
+\contentsline {subsubsection}{\numberline {5.1.3.33}stopSimu()}{19}{subsubsection.5.1.3.33}%
+\contentsline {subsubsection}{\numberline {5.1.3.34}updateFrequency()}{19}{subsubsection.5.1.3.34}%
+\contentsline {subsubsection}{\numberline {5.1.3.35}updateMemoryTable()}{19}{subsubsection.5.1.3.35}%
+\contentsline {subsubsection}{\numberline {5.1.3.36}updateSpecialRegTable()}{19}{subsubsection.5.1.3.36}%
+\contentsline {subsection}{\numberline {5.1.4}Member Data Documentation}{20}{subsection.5.1.4}%
+\contentsline {subsubsection}{\numberline {5.1.4.1}code}{20}{subsubsection.5.1.4.1}%
+\contentsline {subsubsection}{\numberline {5.1.4.2}codeLength}{20}{subsubsection.5.1.4.2}%
+\contentsline {subsubsection}{\numberline {5.1.4.3}equ}{20}{subsubsection.5.1.4.3}%
+\contentsline {subsubsection}{\numberline {5.1.4.4}frequency}{20}{subsubsection.5.1.4.4}%
+\contentsline {subsubsection}{\numberline {5.1.4.5}isCompiled}{20}{subsubsection.5.1.4.5}%
+\contentsline {subsubsection}{\numberline {5.1.4.6}jumpers}{21}{subsubsection.5.1.4.6}%
+\contentsline {subsubsection}{\numberline {5.1.4.7}memory}{21}{subsubsection.5.1.4.7}%
+\contentsline {subsubsection}{\numberline {5.1.4.8}mnemonicLines}{21}{subsubsection.5.1.4.8}%
+\contentsline {subsubsection}{\numberline {5.1.4.9}parser}{21}{subsubsection.5.1.4.9}%
+\contentsline {subsubsection}{\numberline {5.1.4.10}proc}{21}{subsubsection.5.1.4.10}%
+\contentsline {subsubsection}{\numberline {5.1.4.11}programCounterList}{21}{subsubsection.5.1.4.11}%
+\contentsline {subsubsection}{\numberline {5.1.4.12}programmCounter}{22}{subsubsection.5.1.4.12}%
+\contentsline {subsubsection}{\numberline {5.1.4.13}tableData}{22}{subsubsection.5.1.4.13}%
+\contentsline {section}{\numberline {5.2}Error\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dialog Class Reference}{22}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Detailed Description}{22}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Constructor \& Destructor Documentation}{23}{subsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.2.1}ErrorDialog()}{23}{subsubsection.5.2.2.1}%
+\contentsline {subsection}{\numberline {5.2.3}Member Function Documentation}{23}{subsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.3.1}main()}{23}{subsubsection.5.2.3.1}%
+\contentsline {subsection}{\numberline {5.2.4}Member Data Documentation}{23}{subsection.5.2.4}%
+\contentsline {subsubsection}{\numberline {5.2.4.1}lbl\_ErrorText}{23}{subsubsection.5.2.4.1}%
+\contentsline {subsubsection}{\numberline {5.2.4.2}lbl\_ErrorTitle}{23}{subsubsection.5.2.4.2}%
+\contentsline {section}{\numberline {5.3}Interrupt Class Reference}{24}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Detailed Description}{24}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Constructor \& Destructor Documentation}{24}{subsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.2.1}Interrupt()}{24}{subsubsection.5.3.2.1}%
+\contentsline {subsection}{\numberline {5.3.3}Member Function Documentation}{24}{subsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.3.1}run()}{24}{subsubsection.5.3.3.1}%
+\contentsline {section}{\numberline {5.4}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Server Class Reference}{25}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Detailed Description}{25}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Constructor \& Destructor Documentation}{25}{subsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {5.4.2.1}IOServer()}{25}{subsubsection.5.4.2.1}%
+\contentsline {subsection}{\numberline {5.4.3}Member Function Documentation}{25}{subsection.5.4.3}%
+\contentsline {subsubsection}{\numberline {5.4.3.1}readMessage()}{26}{subsubsection.5.4.3.1}%
+\contentsline {subsubsection}{\numberline {5.4.3.2}sendMessage()}{26}{subsubsection.5.4.3.2}%
+\contentsline {subsubsection}{\numberline {5.4.3.3}startServer()}{26}{subsubsection.5.4.3.3}%
+\contentsline {subsubsection}{\numberline {5.4.3.4}waitForClient()}{26}{subsubsection.5.4.3.4}%
+\contentsline {subsection}{\numberline {5.4.4}Member Data Documentation}{26}{subsection.5.4.4}%
+\contentsline {subsubsection}{\numberline {5.4.4.1}serverPort}{26}{subsubsection.5.4.4.1}%
+\contentsline {section}{\numberline {5.5}Memory Class Reference}{26}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Detailed Description}{28}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Constructor \& Destructor Documentation}{28}{subsection.5.5.2}%
+\contentsline {subsubsection}{\numberline {5.5.2.1}Memory()}{28}{subsubsection.5.5.2.1}%
+\contentsline {subsection}{\numberline {5.5.3}Member Function Documentation}{28}{subsection.5.5.3}%
+\contentsline {subsubsection}{\numberline {5.5.3.1}clearProgMem()}{28}{subsubsection.5.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.5.3.2}get\_CARRYFLAG()}{28}{subsubsection.5.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.5.3.3}get\_Memory()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{28}{subsubsection.5.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.5.3.4}get\_Memory()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{29}{subsubsection.5.5.3.4}%
+\contentsline {subsubsection}{\numberline {5.5.3.5}get\_PROGRAMMCOUNTER()}{29}{subsubsection.5.5.3.5}%
+\contentsline {subsubsection}{\numberline {5.5.3.6}get\_WREGISTER()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{29}{subsubsection.5.5.3.6}%
+\contentsline {subsubsection}{\numberline {5.5.3.7}get\_WREGISTER()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{29}{subsubsection.5.5.3.7}%
+\contentsline {subsubsection}{\numberline {5.5.3.8}popFromStack()}{29}{subsubsection.5.5.3.8}%
+\contentsline {subsubsection}{\numberline {5.5.3.9}pushToStack()}{30}{subsubsection.5.5.3.9}%
+\contentsline {subsubsection}{\numberline {5.5.3.10}run()}{30}{subsubsection.5.5.3.10}%
+\contentsline {subsubsection}{\numberline {5.5.3.11}set\_CARRYFLAG()}{30}{subsubsection.5.5.3.11}%
+\contentsline {subsubsection}{\numberline {5.5.3.12}set\_EEADR()}{30}{subsubsection.5.5.3.12}%
+\contentsline {subsubsection}{\numberline {5.5.3.13}set\_EECON1()}{30}{subsubsection.5.5.3.13}%
+\contentsline {subsubsection}{\numberline {5.5.3.14}set\_EECON2()}{30}{subsubsection.5.5.3.14}%
+\contentsline {subsubsection}{\numberline {5.5.3.15}set\_EEDATA()}{31}{subsubsection.5.5.3.15}%
+\contentsline {subsubsection}{\numberline {5.5.3.16}set\_FSR()}{31}{subsubsection.5.5.3.16}%
+\contentsline {subsubsection}{\numberline {5.5.3.17}set\_INDF()}{31}{subsubsection.5.5.3.17}%
+\contentsline {subsubsection}{\numberline {5.5.3.18}set\_INTCON()}{31}{subsubsection.5.5.3.18}%
+\contentsline {subsubsection}{\numberline {5.5.3.19}set\_OPTION\_REG()}{31}{subsubsection.5.5.3.19}%
+\contentsline {subsubsection}{\numberline {5.5.3.20}set\_PCL()}{31}{subsubsection.5.5.3.20}%
+\contentsline {subsubsection}{\numberline {5.5.3.21}set\_PCLATH()}{32}{subsubsection.5.5.3.21}%
+\contentsline {subsubsection}{\numberline {5.5.3.22}set\_PORTA()}{32}{subsubsection.5.5.3.22}%
+\contentsline {subsubsection}{\numberline {5.5.3.23}set\_PORTB()}{32}{subsubsection.5.5.3.23}%
+\contentsline {subsubsection}{\numberline {5.5.3.24}set\_PROGRAMMCOUNTER()}{32}{subsubsection.5.5.3.24}%
+\contentsline {subsubsection}{\numberline {5.5.3.25}set\_SRAM()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{32}{subsubsection.5.5.3.25}%
+\contentsline {subsubsection}{\numberline {5.5.3.26}set\_SRAM()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{32}{subsubsection.5.5.3.26}%
+\contentsline {subsubsection}{\numberline {5.5.3.27}set\_STATUS()}{33}{subsubsection.5.5.3.27}%
+\contentsline {subsubsection}{\numberline {5.5.3.28}set\_TMR0()}{33}{subsubsection.5.5.3.28}%
+\contentsline {subsubsection}{\numberline {5.5.3.29}set\_TRISA()}{33}{subsubsection.5.5.3.29}%
+\contentsline {subsubsection}{\numberline {5.5.3.30}set\_TRISB()}{33}{subsubsection.5.5.3.30}%
+\contentsline {subsubsection}{\numberline {5.5.3.31}set\_WREGISTER()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{33}{subsubsection.5.5.3.31}%
+\contentsline {subsubsection}{\numberline {5.5.3.32}set\_WREGISTER()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{33}{subsubsection.5.5.3.32}%
+\contentsline {subsection}{\numberline {5.5.4}Member Data Documentation}{33}{subsection.5.5.4}%
+\contentsline {subsubsection}{\numberline {5.5.4.1}dataMemory}{34}{subsubsection.5.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.5.4.2}programmcounter}{34}{subsubsection.5.5.4.2}%
+\contentsline {subsubsection}{\numberline {5.5.4.3}programMemory}{34}{subsubsection.5.5.4.3}%
+\contentsline {subsubsection}{\numberline {5.5.4.4}stack}{34}{subsubsection.5.5.4.4}%
+\contentsline {subsubsection}{\numberline {5.5.4.5}w\_register}{34}{subsubsection.5.5.4.5}%
+\contentsline {section}{\numberline {5.6}Mnemonic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Parser Class Reference}{34}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Detailed Description}{35}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Constructor \& Destructor Documentation}{35}{subsection.5.6.2}%
+\contentsline {subsubsection}{\numberline {5.6.2.1}MnemonicParser()}{35}{subsubsection.5.6.2.1}%
+\contentsline {subsection}{\numberline {5.6.3}Member Function Documentation}{35}{subsection.5.6.3}%
+\contentsline {subsubsection}{\numberline {5.6.3.1}fromMnemToHex()}{35}{subsubsection.5.6.3.1}%
+\contentsline {subsubsection}{\numberline {5.6.3.2}hexToBinary()}{36}{subsubsection.5.6.3.2}%
+\contentsline {section}{\numberline {5.7}Mnemonic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}View Class Reference}{36}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}Detailed Description}{36}{subsection.5.7.1}%
+\contentsline {subsection}{\numberline {5.7.2}Constructor \& Destructor Documentation}{37}{subsection.5.7.2}%
+\contentsline {subsubsection}{\numberline {5.7.2.1}MnemonicView()}{37}{subsubsection.5.7.2.1}%
+\contentsline {subsection}{\numberline {5.7.3}Member Data Documentation}{37}{subsection.5.7.3}%
+\contentsline {subsubsection}{\numberline {5.7.3.1}txtArea\_mnemonic}{37}{subsubsection.5.7.3.1}%
+\contentsline {section}{\numberline {5.8}My\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Panel Class Reference}{37}{section.5.8}%
+\contentsline {subsection}{\numberline {5.8.1}Detailed Description}{38}{subsection.5.8.1}%
+\contentsline {subsection}{\numberline {5.8.2}Constructor \& Destructor Documentation}{38}{subsection.5.8.2}%
+\contentsline {subsubsection}{\numberline {5.8.2.1}MyPanel()}{38}{subsubsection.5.8.2.1}%
+\contentsline {subsection}{\numberline {5.8.3}Member Function Documentation}{38}{subsection.5.8.3}%
+\contentsline {subsubsection}{\numberline {5.8.3.1}getPreferredSize()}{38}{subsubsection.5.8.3.1}%
+\contentsline {subsubsection}{\numberline {5.8.3.2}paintComponent()}{38}{subsubsection.5.8.3.2}%
+\contentsline {subsubsection}{\numberline {5.8.3.3}paintFirst()}{38}{subsubsection.5.8.3.3}%
+\contentsline {subsubsection}{\numberline {5.8.3.4}paintFourth()}{39}{subsubsection.5.8.3.4}%
+\contentsline {subsubsection}{\numberline {5.8.3.5}paintSecond()}{39}{subsubsection.5.8.3.5}%
+\contentsline {subsubsection}{\numberline {5.8.3.6}paintThird()}{39}{subsubsection.5.8.3.6}%
+\contentsline {subsubsection}{\numberline {5.8.3.7}setChars()}{39}{subsubsection.5.8.3.7}%
+\contentsline {section}{\numberline {5.9}Processor Class Reference}{39}{section.5.9}%
+\contentsline {subsection}{\numberline {5.9.1}Detailed Description}{40}{subsection.5.9.1}%
+\contentsline {subsection}{\numberline {5.9.2}Constructor \& Destructor Documentation}{40}{subsection.5.9.2}%
+\contentsline {subsubsection}{\numberline {5.9.2.1}Processor()}{40}{subsubsection.5.9.2.1}%
+\contentsline {subsection}{\numberline {5.9.3}Member Function Documentation}{40}{subsection.5.9.3}%
+\contentsline {subsubsection}{\numberline {5.9.3.1}run()}{40}{subsubsection.5.9.3.1}%
+\contentsline {subsubsection}{\numberline {5.9.3.2}stopThread()}{40}{subsubsection.5.9.3.2}%
+\contentsline {section}{\numberline {5.10}Simulator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Window Class Reference}{40}{section.5.10}%
+\contentsline {subsection}{\numberline {5.10.1}Detailed Description}{41}{subsection.5.10.1}%
+\contentsline {subsection}{\numberline {5.10.2}Constructor \& Destructor Documentation}{42}{subsection.5.10.2}%
+\contentsline {subsubsection}{\numberline {5.10.2.1}Simulator\_Window()}{42}{subsubsection.5.10.2.1}%
+\contentsline {subsection}{\numberline {5.10.3}Member Function Documentation}{42}{subsection.5.10.3}%
+\contentsline {subsubsection}{\numberline {5.10.3.1}getData()}{42}{subsubsection.5.10.3.1}%
+\contentsline {subsubsection}{\numberline {5.10.3.2}main()}{42}{subsubsection.5.10.3.2}%
+\contentsline {subsubsection}{\numberline {5.10.3.3}openHelp()}{42}{subsubsection.5.10.3.3}%
+\contentsline {subsubsection}{\numberline {5.10.3.4}SetData()}{42}{subsubsection.5.10.3.4}%
+\contentsline {subsubsection}{\numberline {5.10.3.5}setSegment()}{43}{subsubsection.5.10.3.5}%
+\contentsline {subsubsection}{\numberline {5.10.3.6}setSpecialData()}{43}{subsubsection.5.10.3.6}%
+\contentsline {subsection}{\numberline {5.10.4}Member Data Documentation}{43}{subsection.5.10.4}%
+\contentsline {subsubsection}{\numberline {5.10.4.1}comboBox\_AnalogIn\_PortSelector}{43}{subsubsection.5.10.4.1}%
+\contentsline {subsubsection}{\numberline {5.10.4.2}comboBox\_AnalogOUT\_PortSelector}{43}{subsubsection.5.10.4.2}%
+\contentsline {subsubsection}{\numberline {5.10.4.3}comboBox\_quarzFrequency}{43}{subsubsection.5.10.4.3}%
+\contentsline {subsubsection}{\numberline {5.10.4.4}dataModel}{43}{subsubsection.5.10.4.4}%
+\contentsline {subsubsection}{\numberline {5.10.4.5}panel\_segmentCanvas}{44}{subsubsection.5.10.4.5}%
+\contentsline {subsubsection}{\numberline {5.10.4.6}rb\_io\_in\_1}{44}{subsubsection.5.10.4.6}%
+\contentsline {subsubsection}{\numberline {5.10.4.7}rb\_io\_in\_2}{44}{subsubsection.5.10.4.7}%
+\contentsline {subsubsection}{\numberline {5.10.4.8}rb\_io\_in\_3}{44}{subsubsection.5.10.4.8}%
+\contentsline {subsubsection}{\numberline {5.10.4.9}rb\_io\_in\_4}{44}{subsubsection.5.10.4.9}%
+\contentsline {subsubsection}{\numberline {5.10.4.10}rb\_io\_in\_5}{44}{subsubsection.5.10.4.10}%
+\contentsline {subsubsection}{\numberline {5.10.4.11}rb\_io\_in\_6}{44}{subsubsection.5.10.4.11}%
+\contentsline {subsubsection}{\numberline {5.10.4.12}rb\_io\_in\_7}{44}{subsubsection.5.10.4.12}%
+\contentsline {subsubsection}{\numberline {5.10.4.13}rb\_io\_in\_8}{45}{subsubsection.5.10.4.13}%
+\contentsline {subsubsection}{\numberline {5.10.4.14}rb\_io\_out\_1}{45}{subsubsection.5.10.4.14}%
+\contentsline {subsubsection}{\numberline {5.10.4.15}rb\_io\_out\_2}{45}{subsubsection.5.10.4.15}%
+\contentsline {subsubsection}{\numberline {5.10.4.16}rb\_io\_out\_3}{45}{subsubsection.5.10.4.16}%
+\contentsline {subsubsection}{\numberline {5.10.4.17}rb\_io\_out\_4}{45}{subsubsection.5.10.4.17}%
+\contentsline {subsubsection}{\numberline {5.10.4.18}rb\_io\_out\_5}{45}{subsubsection.5.10.4.18}%
+\contentsline {subsubsection}{\numberline {5.10.4.19}rb\_io\_out\_6}{45}{subsubsection.5.10.4.19}%
+\contentsline {subsubsection}{\numberline {5.10.4.20}rb\_io\_out\_7}{45}{subsubsection.5.10.4.20}%
+\contentsline {subsubsection}{\numberline {5.10.4.21}rb\_io\_out\_8}{46}{subsubsection.5.10.4.21}%
+\contentsline {subsubsection}{\numberline {5.10.4.22}table\_Code}{46}{subsubsection.5.10.4.22}%
+\contentsline {subsubsection}{\numberline {5.10.4.23}table\_Memory}{46}{subsubsection.5.10.4.23}%
+\contentsline {subsubsection}{\numberline {5.10.4.24}table\_special\_regs}{46}{subsubsection.5.10.4.24}%
+\contentsline {subsubsection}{\numberline {5.10.4.25}tbl\_code}{46}{subsubsection.5.10.4.25}%
+\contentsline {subsubsection}{\numberline {5.10.4.26}tbl\_memory}{46}{subsubsection.5.10.4.26}%
+\contentsline {subsubsection}{\numberline {5.10.4.27}tbl\_pcl}{46}{subsubsection.5.10.4.27}%
+\contentsline {subsubsection}{\numberline {5.10.4.28}tbl\_special}{46}{subsubsection.5.10.4.28}%
+\contentsline {subsubsection}{\numberline {5.10.4.29}tbl\_status}{47}{subsubsection.5.10.4.29}%
+\contentsline {subsubsection}{\numberline {5.10.4.30}txtArea\_Console}{47}{subsubsection.5.10.4.30}%
+\contentsline {section}{\numberline {5.11}Timer Class Reference}{47}{section.5.11}%
+\contentsline {subsection}{\numberline {5.11.1}Detailed Description}{47}{subsection.5.11.1}%
+\contentsline {section}{\numberline {5.12}Watchdog Class Reference}{47}{section.5.12}%
+\contentsline {subsection}{\numberline {5.12.1}Detailed Description}{47}{subsection.5.12.1}%
+\contentsline {chapter}{\numberline {6}File Documentation}{49}{chapter.6}%
+\contentsline {section}{\numberline {6.1}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coding/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller.java File Reference}{49}{section.6.1}%
+\contentsline {section}{\numberline {6.2}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coding/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Error\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dialog.java File Reference}{49}{section.6.2}%
+\contentsline {section}{\numberline {6.3}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coding/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Interrupt.java File Reference}{49}{section.6.3}%
+\contentsline {section}{\numberline {6.4}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coding/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Server.java File Reference}{49}{section.6.4}%
+\contentsline {section}{\numberline {6.5}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coding/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Memory.java File Reference}{50}{section.6.5}%
+\contentsline {section}{\numberline {6.6}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coding/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Mnemonic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Parser.java File Reference}{50}{section.6.6}%
+\contentsline {section}{\numberline {6.7}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coding/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Mnemonic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}View.java File Reference}{50}{section.6.7}%
+\contentsline {section}{\numberline {6.8}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coding/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}My\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Panel.java File Reference}{50}{section.6.8}%
+\contentsline {section}{\numberline {6.9}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coding/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Processor.java File Reference}{50}{section.6.9}%
+\contentsline {section}{\numberline {6.10}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coding/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Window.java File Reference}{51}{section.6.10}%
+\contentsline {section}{\numberline {6.11}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coding/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Timer.java File Reference}{51}{section.6.11}%
+\contentsline {section}{\numberline {6.12}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coding/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Simulator/src/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Watchdog.java File Reference}{51}{section.6.12}%
+\contentsline {chapter}{Index}{53}{section*.42}%

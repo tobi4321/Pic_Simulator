@@ -1,0 +1,511 @@
+\begin{theindex}
+
+  \item {clearCodeTable}
+    \subitem {Controller}, \hyperpage{11}
+  \item {clearProgMem}
+    \subitem {Memory}, \hyperpage{28}
+  \item {closeMnemonicWindow}
+    \subitem {Controller}, \hyperpage{11}
+  \item {code}
+    \subitem {Controller}, \hyperpage{20}
+  \item {codeLength}
+    \subitem {Controller}, \hyperpage{20}
+  \item {comboBox\_AnalogIn\_PortSelector}
+    \subitem {Simulator\_Window}, \hyperpage{43}
+  \item {comboBox\_AnalogOUT\_PortSelector}
+    \subitem {Simulator\_Window}, \hyperpage{43}
+  \item {comboBox\_quarzFrequency}
+    \subitem {Simulator\_Window}, \hyperpage{43}
+  \item {compileCode}
+    \subitem {Controller}, \hyperpage{11}
+  \item {Controller}, \hyperpage{9}
+    \subitem {clearCodeTable}, \hyperpage{11}
+    \subitem {closeMnemonicWindow}, \hyperpage{11}
+    \subitem {code}, \hyperpage{20}
+    \subitem {codeLength}, \hyperpage{20}
+    \subitem {compileCode}, \hyperpage{11}
+    \subitem {Controller}, \hyperpage{10}
+    \subitem {equ}, \hyperpage{20}
+    \subitem {executeCommand}, \hyperpage{11}
+    \subitem {frequency}, \hyperpage{20}
+    \subitem {getEQUValue}, \hyperpage{11}
+    \subitem {getIOAnalog\_IN}, \hyperpage{12}
+    \subitem {getIOAnalog\_OUT}, \hyperpage{12}
+    \subitem {getJumpersCount}, \hyperpage{12}
+    \subitem {inizializeMemory}, \hyperpage{12}
+    \subitem {inizializeTables}, \hyperpage{13}
+    \subitem {isCompiled}, \hyperpage{20}
+    \subitem {jumpers}, \hyperpage{20}
+    \subitem {loadFile}, \hyperpage{13}
+    \subitem {loadMnemonicFromTable}, \hyperpage{13}
+    \subitem {loadSRCFile}, \hyperpage{13}
+    \subitem {memory}, \hyperpage{21}
+    \subitem {mnemonicLines}, \hyperpage{21}
+    \subitem {openMnemonicView}, \hyperpage{13}
+    \subitem {outputToConsole}, \hyperpage{14}
+    \subitem {parser}, \hyperpage{21}
+    \subitem {proc}, \hyperpage{21}
+    \subitem {programCounterList}, \hyperpage{21}
+    \subitem {programmCounter}, \hyperpage{21}
+    \subitem {refreshIO}, \hyperpage{14}
+    \subitem {saveLSTFile}, \hyperpage{14}
+    \subitem {saveMnemonicCode}, \hyperpage{14}
+    \subitem {saveSRCFile}, \hyperpage{15}
+    \subitem {searchEQUMarks}, \hyperpage{15}
+    \subitem {searchJumperMarks}, \hyperpage{15}
+    \subitem {setCodeViewAdress}, \hyperpage{16}
+    \subitem {setCodeViewCounter}, \hyperpage{16}
+    \subitem {setCodeViewLabel}, \hyperpage{16}
+    \subitem {setColumnWidth}, \hyperpage{16}
+    \subitem {setIOAnalog\_IN}, \hyperpage{17}
+    \subitem {setIOAnalog\_OUT}, \hyperpage{17}
+    \subitem {setSegment}, \hyperpage{17}
+    \subitem {setTextActive}, \hyperpage{18}
+    \subitem {showError}, \hyperpage{18}
+    \subitem {startMemoryUpdateThread}, \hyperpage{18}
+    \subitem {startSimu}, \hyperpage{18}
+    \subitem {stopSimu}, \hyperpage{18}
+    \subitem {tableData}, \hyperpage{22}
+    \subitem {updateFrequency}, \hyperpage{19}
+    \subitem {updateMemoryTable}, \hyperpage{19}
+    \subitem {updateSpecialRegTable}, \hyperpage{19}
+
+  \indexspace
+
+  \item {dataMemory}
+    \subitem {Memory}, \hyperpage{33}
+  \item {dataModel}
+    \subitem {Simulator\_Window}, \hyperpage{43}
+
+  \indexspace
+
+  \item {equ}
+    \subitem {Controller}, \hyperpage{20}
+  \item {ErrorDialog}, \hyperpage{22}
+    \subitem {ErrorDialog}, \hyperpage{23}
+    \subitem {lbl\_ErrorText}, \hyperpage{23}
+    \subitem {lbl\_ErrorTitle}, \hyperpage{23}
+    \subitem {main}, \hyperpage{23}
+  \item {executeCommand}
+    \subitem {Controller}, \hyperpage{11}
+
+  \indexspace
+
+  \item {F:/Coding/DH/Pic\_Simulator/Simulator/src/Controller.java}, 
+		\hyperpage{49}
+  \item {F:/Coding/DH/Pic\_Simulator/Simulator/src/ErrorDialog.java}, 
+		\hyperpage{49}
+  \item {F:/Coding/DH/Pic\_Simulator/Simulator/src/Interrupt.java}, 
+		\hyperpage{49}
+  \item {F:/Coding/DH/Pic\_Simulator/Simulator/src/IOServer.java}, 
+		\hyperpage{49}
+  \item {F:/Coding/DH/Pic\_Simulator/Simulator/src/Memory.java}, 
+		\hyperpage{50}
+  \item {F:/Coding/DH/Pic\_Simulator/Simulator/src/MnemonicParser.java}, 
+		\hyperpage{50}
+  \item {F:/Coding/DH/Pic\_Simulator/Simulator/src/MnemonicView.java}, 
+		\hyperpage{50}
+  \item {F:/Coding/DH/Pic\_Simulator/Simulator/src/MyPanel.java}, 
+		\hyperpage{50}
+  \item {F:/Coding/DH/Pic\_Simulator/Simulator/src/Processor.java}, 
+		\hyperpage{50}
+  \item {F:/Coding/DH/Pic\_Simulator/Simulator/src/Simulator\_Window.java}, 
+		\hyperpage{51}
+  \item {F:/Coding/DH/Pic\_Simulator/Simulator/src/Timer.java}, 
+		\hyperpage{51}
+  \item {F:/Coding/DH/Pic\_Simulator/Simulator/src/Watchdog.java}, 
+		\hyperpage{51}
+  \item {frequency}
+    \subitem {Controller}, \hyperpage{20}
+  \item {fromMnemToHex}
+    \subitem {MnemonicParser}, \hyperpage{35}
+
+  \indexspace
+
+  \item {get\_CARRYFLAG}
+    \subitem {Memory}, \hyperpage{28}
+  \item {get\_Memory}
+    \subitem {Memory}, \hyperpage{28}
+  \item {get\_PROGRAMMCOUNTER}
+    \subitem {Memory}, \hyperpage{29}
+  \item {get\_WREGISTER}
+    \subitem {Memory}, \hyperpage{29}
+  \item {getData}
+    \subitem {Simulator\_Window}, \hyperpage{42}
+  \item {getEQUValue}
+    \subitem {Controller}, \hyperpage{11}
+  \item {getIOAnalog\_IN}
+    \subitem {Controller}, \hyperpage{12}
+  \item {getIOAnalog\_OUT}
+    \subitem {Controller}, \hyperpage{12}
+  \item {getJumpersCount}
+    \subitem {Controller}, \hyperpage{12}
+  \item {getPreferredSize}
+    \subitem {MyPanel}, \hyperpage{38}
+
+  \indexspace
+
+  \item {hexToBinary}
+    \subitem {MnemonicParser}, \hyperpage{35}
+
+  \indexspace
+
+  \item {inizializeMemory}
+    \subitem {Controller}, \hyperpage{12}
+  \item {inizializeTables}
+    \subitem {Controller}, \hyperpage{13}
+  \item {Interrupt}, \hyperpage{24}
+    \subitem {Interrupt}, \hyperpage{24}
+    \subitem {run}, \hyperpage{24}
+  \item {IOServer}, \hyperpage{25}
+    \subitem {IOServer}, \hyperpage{25}
+    \subitem {readMessage}, \hyperpage{25}
+    \subitem {sendMessage}, \hyperpage{26}
+    \subitem {serverPort}, \hyperpage{26}
+    \subitem {startServer}, \hyperpage{26}
+    \subitem {waitForClient}, \hyperpage{26}
+  \item {isCompiled}
+    \subitem {Controller}, \hyperpage{20}
+
+  \indexspace
+
+  \item {jumpers}
+    \subitem {Controller}, \hyperpage{20}
+
+  \indexspace
+
+  \item {lbl\_ErrorText}
+    \subitem {ErrorDialog}, \hyperpage{23}
+  \item {lbl\_ErrorTitle}
+    \subitem {ErrorDialog}, \hyperpage{23}
+  \item {loadFile}
+    \subitem {Controller}, \hyperpage{13}
+  \item {loadMnemonicFromTable}
+    \subitem {Controller}, \hyperpage{13}
+  \item {loadSRCFile}
+    \subitem {Controller}, \hyperpage{13}
+
+  \indexspace
+
+  \item {main}
+    \subitem {ErrorDialog}, \hyperpage{23}
+    \subitem {Simulator\_Window}, \hyperpage{42}
+  \item {Memory}, \hyperpage{26}
+    \subitem {clearProgMem}, \hyperpage{28}
+    \subitem {dataMemory}, \hyperpage{33}
+    \subitem {get\_CARRYFLAG}, \hyperpage{28}
+    \subitem {get\_Memory}, \hyperpage{28}
+    \subitem {get\_PROGRAMMCOUNTER}, \hyperpage{29}
+    \subitem {get\_WREGISTER}, \hyperpage{29}
+    \subitem {Memory}, \hyperpage{28}
+    \subitem {popFromStack}, \hyperpage{29}
+    \subitem {programmcounter}, \hyperpage{34}
+    \subitem {programMemory}, \hyperpage{34}
+    \subitem {pushToStack}, \hyperpage{29}
+    \subitem {run}, \hyperpage{30}
+    \subitem {set\_CARRYFLAG}, \hyperpage{30}
+    \subitem {set\_EEADR}, \hyperpage{30}
+    \subitem {set\_EECON1}, \hyperpage{30}
+    \subitem {set\_EECON2}, \hyperpage{30}
+    \subitem {set\_EEDATA}, \hyperpage{30}
+    \subitem {set\_FSR}, \hyperpage{31}
+    \subitem {set\_INDF}, \hyperpage{31}
+    \subitem {set\_INTCON}, \hyperpage{31}
+    \subitem {set\_OPTION\_REG}, \hyperpage{31}
+    \subitem {set\_PCL}, \hyperpage{31}
+    \subitem {set\_PCLATH}, \hyperpage{31}
+    \subitem {set\_PORTA}, \hyperpage{32}
+    \subitem {set\_PORTB}, \hyperpage{32}
+    \subitem {set\_PROGRAMMCOUNTER}, \hyperpage{32}
+    \subitem {set\_SRAM}, \hyperpage{32}
+    \subitem {set\_STATUS}, \hyperpage{32}
+    \subitem {set\_TMR0}, \hyperpage{33}
+    \subitem {set\_TRISA}, \hyperpage{33}
+    \subitem {set\_TRISB}, \hyperpage{33}
+    \subitem {set\_WREGISTER}, \hyperpage{33}
+    \subitem {stack}, \hyperpage{34}
+    \subitem {w\_register}, \hyperpage{34}
+  \item {memory}
+    \subitem {Controller}, \hyperpage{21}
+  \item {mnemonicLines}
+    \subitem {Controller}, \hyperpage{21}
+  \item {MnemonicParser}, \hyperpage{34}
+    \subitem {fromMnemToHex}, \hyperpage{35}
+    \subitem {hexToBinary}, \hyperpage{35}
+    \subitem {MnemonicParser}, \hyperpage{35}
+  \item {MnemonicView}, \hyperpage{36}
+    \subitem {MnemonicView}, \hyperpage{37}
+    \subitem {txtArea\_mnemonic}, \hyperpage{37}
+  \item {MyPanel}, \hyperpage{37}
+    \subitem {getPreferredSize}, \hyperpage{38}
+    \subitem {MyPanel}, \hyperpage{38}
+    \subitem {paintComponent}, \hyperpage{38}
+    \subitem {paintFirst}, \hyperpage{38}
+    \subitem {paintFourth}, \hyperpage{38}
+    \subitem {paintSecond}, \hyperpage{39}
+    \subitem {paintThird}, \hyperpage{39}
+    \subitem {setChars}, \hyperpage{39}
+
+  \indexspace
+
+  \item {openHelp}
+    \subitem {Simulator\_Window}, \hyperpage{42}
+  \item {openMnemonicView}
+    \subitem {Controller}, \hyperpage{13}
+  \item {outputToConsole}
+    \subitem {Controller}, \hyperpage{14}
+
+  \indexspace
+
+  \item {paintComponent}
+    \subitem {MyPanel}, \hyperpage{38}
+  \item {paintFirst}
+    \subitem {MyPanel}, \hyperpage{38}
+  \item {paintFourth}
+    \subitem {MyPanel}, \hyperpage{38}
+  \item {paintSecond}
+    \subitem {MyPanel}, \hyperpage{39}
+  \item {paintThird}
+    \subitem {MyPanel}, \hyperpage{39}
+  \item {panel\_segmentCanvas}
+    \subitem {Simulator\_Window}, \hyperpage{43}
+  \item {parser}
+    \subitem {Controller}, \hyperpage{21}
+  \item {popFromStack}
+    \subitem {Memory}, \hyperpage{29}
+  \item {proc}
+    \subitem {Controller}, \hyperpage{21}
+  \item {Processor}, \hyperpage{39}
+    \subitem {Processor}, \hyperpage{40}
+    \subitem {run}, \hyperpage{40}
+    \subitem {stopThread}, \hyperpage{40}
+  \item {programCounterList}
+    \subitem {Controller}, \hyperpage{21}
+  \item {programmCounter}
+    \subitem {Controller}, \hyperpage{21}
+  \item {programmcounter}
+    \subitem {Memory}, \hyperpage{34}
+  \item {programMemory}
+    \subitem {Memory}, \hyperpage{34}
+  \item {pushToStack}
+    \subitem {Memory}, \hyperpage{29}
+
+  \indexspace
+
+  \item {rb\_io\_in\_1}
+    \subitem {Simulator\_Window}, \hyperpage{44}
+  \item {rb\_io\_in\_2}
+    \subitem {Simulator\_Window}, \hyperpage{44}
+  \item {rb\_io\_in\_3}
+    \subitem {Simulator\_Window}, \hyperpage{44}
+  \item {rb\_io\_in\_4}
+    \subitem {Simulator\_Window}, \hyperpage{44}
+  \item {rb\_io\_in\_5}
+    \subitem {Simulator\_Window}, \hyperpage{44}
+  \item {rb\_io\_in\_6}
+    \subitem {Simulator\_Window}, \hyperpage{44}
+  \item {rb\_io\_in\_7}
+    \subitem {Simulator\_Window}, \hyperpage{44}
+  \item {rb\_io\_in\_8}
+    \subitem {Simulator\_Window}, \hyperpage{44}
+  \item {rb\_io\_out\_1}
+    \subitem {Simulator\_Window}, \hyperpage{45}
+  \item {rb\_io\_out\_2}
+    \subitem {Simulator\_Window}, \hyperpage{45}
+  \item {rb\_io\_out\_3}
+    \subitem {Simulator\_Window}, \hyperpage{45}
+  \item {rb\_io\_out\_4}
+    \subitem {Simulator\_Window}, \hyperpage{45}
+  \item {rb\_io\_out\_5}
+    \subitem {Simulator\_Window}, \hyperpage{45}
+  \item {rb\_io\_out\_6}
+    \subitem {Simulator\_Window}, \hyperpage{45}
+  \item {rb\_io\_out\_7}
+    \subitem {Simulator\_Window}, \hyperpage{45}
+  \item {rb\_io\_out\_8}
+    \subitem {Simulator\_Window}, \hyperpage{45}
+  \item {readMessage}
+    \subitem {IOServer}, \hyperpage{25}
+  \item {refreshIO}
+    \subitem {Controller}, \hyperpage{14}
+  \item {run}
+    \subitem {Interrupt}, \hyperpage{24}
+    \subitem {Memory}, \hyperpage{30}
+    \subitem {Processor}, \hyperpage{40}
+
+  \indexspace
+
+  \item {saveLSTFile}
+    \subitem {Controller}, \hyperpage{14}
+  \item {saveMnemonicCode}
+    \subitem {Controller}, \hyperpage{14}
+  \item {saveSRCFile}
+    \subitem {Controller}, \hyperpage{15}
+  \item {searchEQUMarks}
+    \subitem {Controller}, \hyperpage{15}
+  \item {searchJumperMarks}
+    \subitem {Controller}, \hyperpage{15}
+  \item {sendMessage}
+    \subitem {IOServer}, \hyperpage{26}
+  \item {serverPort}
+    \subitem {IOServer}, \hyperpage{26}
+  \item {set\_CARRYFLAG}
+    \subitem {Memory}, \hyperpage{30}
+  \item {set\_EEADR}
+    \subitem {Memory}, \hyperpage{30}
+  \item {set\_EECON1}
+    \subitem {Memory}, \hyperpage{30}
+  \item {set\_EECON2}
+    \subitem {Memory}, \hyperpage{30}
+  \item {set\_EEDATA}
+    \subitem {Memory}, \hyperpage{30}
+  \item {set\_FSR}
+    \subitem {Memory}, \hyperpage{31}
+  \item {set\_INDF}
+    \subitem {Memory}, \hyperpage{31}
+  \item {set\_INTCON}
+    \subitem {Memory}, \hyperpage{31}
+  \item {set\_OPTION\_REG}
+    \subitem {Memory}, \hyperpage{31}
+  \item {set\_PCL}
+    \subitem {Memory}, \hyperpage{31}
+  \item {set\_PCLATH}
+    \subitem {Memory}, \hyperpage{31}
+  \item {set\_PORTA}
+    \subitem {Memory}, \hyperpage{32}
+  \item {set\_PORTB}
+    \subitem {Memory}, \hyperpage{32}
+  \item {set\_PROGRAMMCOUNTER}
+    \subitem {Memory}, \hyperpage{32}
+  \item {set\_SRAM}
+    \subitem {Memory}, \hyperpage{32}
+  \item {set\_STATUS}
+    \subitem {Memory}, \hyperpage{32}
+  \item {set\_TMR0}
+    \subitem {Memory}, \hyperpage{33}
+  \item {set\_TRISA}
+    \subitem {Memory}, \hyperpage{33}
+  \item {set\_TRISB}
+    \subitem {Memory}, \hyperpage{33}
+  \item {set\_WREGISTER}
+    \subitem {Memory}, \hyperpage{33}
+  \item {setChars}
+    \subitem {MyPanel}, \hyperpage{39}
+  \item {setCodeViewAdress}
+    \subitem {Controller}, \hyperpage{16}
+  \item {setCodeViewCounter}
+    \subitem {Controller}, \hyperpage{16}
+  \item {setCodeViewLabel}
+    \subitem {Controller}, \hyperpage{16}
+  \item {setColumnWidth}
+    \subitem {Controller}, \hyperpage{16}
+  \item {SetData}
+    \subitem {Simulator\_Window}, \hyperpage{42}
+  \item {setIOAnalog\_IN}
+    \subitem {Controller}, \hyperpage{17}
+  \item {setIOAnalog\_OUT}
+    \subitem {Controller}, \hyperpage{17}
+  \item {setSegment}
+    \subitem {Controller}, \hyperpage{17}
+    \subitem {Simulator\_Window}, \hyperpage{42}
+  \item {setSpecialData}
+    \subitem {Simulator\_Window}, \hyperpage{43}
+  \item {setTextActive}
+    \subitem {Controller}, \hyperpage{18}
+  \item {showError}
+    \subitem {Controller}, \hyperpage{18}
+  \item {Simulator\_Window}, \hyperpage{40}
+    \subitem {comboBox\_AnalogIn\_PortSelector}, \hyperpage{43}
+    \subitem {comboBox\_AnalogOUT\_PortSelector}, \hyperpage{43}
+    \subitem {comboBox\_quarzFrequency}, \hyperpage{43}
+    \subitem {dataModel}, \hyperpage{43}
+    \subitem {getData}, \hyperpage{42}
+    \subitem {main}, \hyperpage{42}
+    \subitem {openHelp}, \hyperpage{42}
+    \subitem {panel\_segmentCanvas}, \hyperpage{43}
+    \subitem {rb\_io\_in\_1}, \hyperpage{44}
+    \subitem {rb\_io\_in\_2}, \hyperpage{44}
+    \subitem {rb\_io\_in\_3}, \hyperpage{44}
+    \subitem {rb\_io\_in\_4}, \hyperpage{44}
+    \subitem {rb\_io\_in\_5}, \hyperpage{44}
+    \subitem {rb\_io\_in\_6}, \hyperpage{44}
+    \subitem {rb\_io\_in\_7}, \hyperpage{44}
+    \subitem {rb\_io\_in\_8}, \hyperpage{44}
+    \subitem {rb\_io\_out\_1}, \hyperpage{45}
+    \subitem {rb\_io\_out\_2}, \hyperpage{45}
+    \subitem {rb\_io\_out\_3}, \hyperpage{45}
+    \subitem {rb\_io\_out\_4}, \hyperpage{45}
+    \subitem {rb\_io\_out\_5}, \hyperpage{45}
+    \subitem {rb\_io\_out\_6}, \hyperpage{45}
+    \subitem {rb\_io\_out\_7}, \hyperpage{45}
+    \subitem {rb\_io\_out\_8}, \hyperpage{45}
+    \subitem {SetData}, \hyperpage{42}
+    \subitem {setSegment}, \hyperpage{42}
+    \subitem {setSpecialData}, \hyperpage{43}
+    \subitem {Simulator\_Window}, \hyperpage{42}
+    \subitem {table\_Code}, \hyperpage{46}
+    \subitem {table\_Memory}, \hyperpage{46}
+    \subitem {table\_special\_regs}, \hyperpage{46}
+    \subitem {tbl\_code}, \hyperpage{46}
+    \subitem {tbl\_memory}, \hyperpage{46}
+    \subitem {tbl\_pcl}, \hyperpage{46}
+    \subitem {tbl\_special}, \hyperpage{46}
+    \subitem {tbl\_status}, \hyperpage{46}
+    \subitem {txtArea\_Console}, \hyperpage{47}
+  \item {stack}
+    \subitem {Memory}, \hyperpage{34}
+  \item {startMemoryUpdateThread}
+    \subitem {Controller}, \hyperpage{18}
+  \item {startServer}
+    \subitem {IOServer}, \hyperpage{26}
+  \item {startSimu}
+    \subitem {Controller}, \hyperpage{18}
+  \item {stopSimu}
+    \subitem {Controller}, \hyperpage{18}
+  \item {stopThread}
+    \subitem {Processor}, \hyperpage{40}
+
+  \indexspace
+
+  \item {table\_Code}
+    \subitem {Simulator\_Window}, \hyperpage{46}
+  \item {table\_Memory}
+    \subitem {Simulator\_Window}, \hyperpage{46}
+  \item {table\_special\_regs}
+    \subitem {Simulator\_Window}, \hyperpage{46}
+  \item {tableData}
+    \subitem {Controller}, \hyperpage{22}
+  \item {tbl\_code}
+    \subitem {Simulator\_Window}, \hyperpage{46}
+  \item {tbl\_memory}
+    \subitem {Simulator\_Window}, \hyperpage{46}
+  \item {tbl\_pcl}
+    \subitem {Simulator\_Window}, \hyperpage{46}
+  \item {tbl\_special}
+    \subitem {Simulator\_Window}, \hyperpage{46}
+  \item {tbl\_status}
+    \subitem {Simulator\_Window}, \hyperpage{46}
+  \item {Timer}, \hyperpage{47}
+  \item {txtArea\_Console}
+    \subitem {Simulator\_Window}, \hyperpage{47}
+  \item {txtArea\_mnemonic}
+    \subitem {MnemonicView}, \hyperpage{37}
+
+  \indexspace
+
+  \item {updateFrequency}
+    \subitem {Controller}, \hyperpage{19}
+  \item {updateMemoryTable}
+    \subitem {Controller}, \hyperpage{19}
+  \item {updateSpecialRegTable}
+    \subitem {Controller}, \hyperpage{19}
+
+  \indexspace
+
+  \item {w\_register}
+    \subitem {Memory}, \hyperpage{34}
+  \item {waitForClient}
+    \subitem {IOServer}, \hyperpage{26}
+  \item {Watchdog}, \hyperpage{47}
+
+\end{theindex}
